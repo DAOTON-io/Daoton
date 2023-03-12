@@ -37,7 +37,8 @@ function App() {
       }))
   }}*/
     >
-      <BrowserRouter>
+      <ViewTokens></ViewTokens>
+      {/* <BrowserRouter>
         <Routes>
           <Route>
             <Route path="/view-dao" index element={<ViewDao />} />
@@ -47,7 +48,7 @@ function App() {
             <Route path="/create-contract" index element={<CreateContract />} />
           </Route>
         </Routes>
-      </BrowserRouter>
+      </BrowserRouter> */}
     </TonConnectUIProvider>
   );
 }
