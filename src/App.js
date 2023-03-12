@@ -1,7 +1,5 @@
 import { THEME, TonConnectUIProvider } from "@tonconnect/ui-react";
-import ReactDOM from "react-dom/client";
 import { BrowserRouter, Routes, Route } from "react-router-dom";
-import MenuPage from "./components/menu";
 import CreateDao from "./pages/createDao";
 import ContractList from "./pages/contractList";
 import ViewDao from "./pages/viewDAO";
@@ -27,7 +25,7 @@ function App() {
       manifestUrl="https://ton-connect.github.io/demo-dapp-with-react-ui/tonconnect-manifest.json"
       getConnectParameters={() => TonProofDemoApi.connectWalletRequest}
       uiPreferences={{ theme: THEME.DARK }}
-    /*walletsListConfiguration={{
+      /*walletsListConfiguration={{
       includeWallets: [...new Array(11)].map((_, index) => ({
           name: 'tonkeeper',
           bridgeUrl: `https://bridge${
@@ -46,14 +44,11 @@ function App() {
             <Route path="/listContracts" index element={<ContractList />} />
             <Route path="/create-dao" index element={<CreateDao />} />
             <Route path="/view-tokens" index element={<ViewTokens />} />
-
             <Route path="/create-contract" index element={<CreateContract />} />
-
           </Route>
         </Routes>
       </BrowserRouter>
     </TonConnectUIProvider>
-
   );
 }
 
