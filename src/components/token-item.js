@@ -1,6 +1,8 @@
+/* eslint-disable jsx-a11y/anchor-is-valid */
+/* eslint-disable jsx-a11y/alt-text */
 import { Grid, Box, Button } from "@mui/material";
 import { makeStyles } from "@mui/styles";
-import React, { ListItemText } from "react";
+import React from "react";
 import GoogleFontLoader from "react-google-font-loader";
 import { Card } from "reactstrap";
 import { CopyAll } from "@mui/icons-material";
