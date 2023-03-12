@@ -1,0 +1,44 @@
+() recv_internal(slice in_msg_body) impure {
+  ;;  Return if the operation message sent is empty
+  if (in_msg_body.slice_empty?()) { 
+    return (); 
+  }
+
+  ;;  Define operation, transform the message sent to an uint32 integer
+  int op = in_msg_body~load_uint(32);
+  
+
+  ;;  Get a cell from c4 register and turn it into a slice (Persistent storage)
+  slice ds = get_data().begin_parse();
+  ;;  Transform this slice into Integer 64-bit
+  int positive = ds~load_uint(64);
+  int negative = ds~load_uint(64);
+  int contract_time_of_deployment = ds~load_uint(64);
+  int proposal_detail = ds~load_uint(64);
+  
+
+  ;;  Check the seconds passed since the contract deployed
+  if (contract_time_of_deployment + 600 < now()) {
+    return (); 
+  }
+
+  ;;  Vote positive or negative
+  if (op == 1) {
+    positive += 1;
+  }
+  if (op == 0) {
+    negative += 1;
+  }
+
+  ;;  Create a Builder for the future cell, write a value to it, from Builder create Cell, Write the resulting cell to the c4 register
+  set_data(begin_cell().store_uint(positive, 64).store_uint(negative, 64).store_uint(contract_time_of_deployment, 64).store_uint(proposal_id, 64).end_cell());
+}
+
+(int, int, int, int) get_total() method_id {
+	slice ds = get_data().begin_parse();
+ 	int positive = ds~load_uint(64);
+  int negative = ds~load_uint(64);
+  int contract_time_of_deployment = ds~load_uint(64);
+  int proposal_id = ds~load_uint(64);
+	return (positive, negative, contract_time_of_deployment, proposal_id);
+}

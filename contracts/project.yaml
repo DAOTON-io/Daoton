@@ -1,0 +1,4 @@
+contract:
+  data: fift/dao.fif
+  func:
+    - func/dao.func
