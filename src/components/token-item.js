@@ -109,7 +109,13 @@ export default function TokenItem({ name, date, description, value }) {
                   }}
                 >
                   <p className={classes.description}>{description.slice(0, 16) + "..." + description.slice(-3)}</p>
-                  <Button style={{ maxWidth: "0.2rem", maxHeight: "1rem" }} endIcon={<CopyAll />}></Button>
+                  <Button
+                    style={{ maxWidth: "0.2rem", maxHeight: "1rem" }}
+                    endIcon={<CopyAll />}
+                    onClick={() => {
+                      navigator.clipboard.writeText(description);
+                    }}
+                  ></Button>
                 </Box>
                 <br />
                 <p className={classes.value}>{value}</p>
