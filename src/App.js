@@ -5,6 +5,7 @@ import ContractList from "./pages/contractList";
 import ViewDao from "./pages/viewDAO";
 import ViewTokens from "./pages/viewTokens";
 import CreateContract from "./pages/createContract";
+import GenerateToken from "./pages/generateToken";
 
 const TonProofDemoApi = {
   connectWalletRequest: {
@@ -45,6 +46,7 @@ function App() {
             <Route path="/create-dao" index element={<CreateDao />} />
             <Route path="/view-tokens" index element={<ViewTokens />} />
             <Route path="/create-contract" index element={<CreateContract />} />
+            <Route path="/generate-token" index element={<GenerateToken />} />
           </Route>
         </Routes>
       </BrowserRouter>
