@@ -1,7 +1,6 @@
+import React, { useState } from "react";
 import { Grid } from "@mui/material";
-
 import { makeStyles } from "@mui/styles";
-import React from "react";
 import { Button, Card } from "reactstrap";
 import ResponsiveAppBar from "../components/header";
 import SideMenu from "../components/sideMenu";
@@ -43,35 +42,24 @@ const useStyles = makeStyles({
 
     marginBottom: "1rem",
   },
-  select: {
-    marginTop: "0.5rem",
 
-    width: "100%",
-    fontSize: "14px",
-    fontWeight: "bold",
-    color: "white",
-    border: "none",
-    boxShadow: "0 0 10px 0 rgba(0,0,0,0.1)",
-    backgroundColor: "#2AABEE",
-    padding: "10px",
-    borderRadius: "0.5rem",
-  },
   input: {
     marginTop: "0.5rem",
     padding: "10px",
-    color: "white",
+    color: "black",
     border: "1px solid #2AABEE",
     borderRadius: "0.5rem",
     width: "120%",
-
     "&:hover": {
       border: "1px solid #2AABEE",
     },
   },
 });
+
 export default function GenerateToken() {
   const classes = useStyles();
-
+  const [data, setData] = useState({ name: "", symbol: "", decimal: 9, amount: 0, description: "" });
+  console.log(data);
   return (
     <div>
       <div
@@ -90,13 +78,11 @@ export default function GenerateToken() {
               <Card className={classes.card}>
                 <Grid container>
                   <Grid item md={12}>
-                    {" "}
                     <div
                       style={{
                         marginTop: "1rem",
                       }}
                     >
-                      {" "}
                       <Grid container display={"flex"} alignItems={"center"}>
                         <p className={classes.title}>Generate Token</p>
                       </Grid>
@@ -105,23 +91,32 @@ export default function GenerateToken() {
                           <Grid container alignItems={"center"} spacing={2}>
                             <Grid item md={3}>
                               <form className={classes.form}>
-                                <label className={classes.label} for="tokenName">
+                                <label className={classes.label} for="name">
                                   Name:
                                 </label>
                               </form>
                             </Grid>
                             <Grid item md={6}>
                               <form className={classes.form}>
-                                <input fullWidth className={classes.input} type="text" id="tokenName" name="tokenName" placeholder="Token Name.."></input>
+                                <input
+                                  fullWidth
+                                  className={classes.input}
+                                  type="text"
+                                  id="name"
+                                  name="name"
+                                  value={data.name}
+                                  placeholder="Token Name.."
+                                  onChange={(event) => {
+                                    setData({ ...data, name: event.target.value });
+                                  }}
+                                ></input>
                               </form>
                             </Grid>
                           </Grid>
                         </Grid>
                         <Grid item md={6}>
                           <Grid container alignItems={"center"} spacing={2}>
-                            {" "}
                             <Grid item md={3}>
-                              {" "}
                               <form className={classes.form}>
                                 <label className={classes.label} for="description">
                                   Description:
@@ -129,9 +124,19 @@ export default function GenerateToken() {
                               </form>
                             </Grid>
                             <Grid item md={6}>
-                              {" "}
                               <form className={classes.form}>
-                                <input fullWidth className={classes.input} type="text" id="description" name="description" placeholder="Description.."></input>
+                                <input
+                                  fullWidth
+                                  className={classes.input}
+                                  type="text"
+                                  id="description"
+                                  name="description"
+                                  placeholder="Description.."
+                                  value={data.description}
+                                  onChange={(event) => {
+                                    setData({ ...data, description: event.target.value });
+                                  }}
+                                ></input>
                               </form>
                             </Grid>
                           </Grid>
@@ -142,14 +147,25 @@ export default function GenerateToken() {
                           <Grid container alignItems={"center"} spacing={2}>
                             <Grid item md={3}>
                               <form className={classes.form}>
-                                <label className={classes.label} for="tokenSymbol">
+                                <label className={classes.label} for="symbol">
                                   Symbol:
                                 </label>
                               </form>
                             </Grid>
                             <Grid item md={6}>
                               <form className={classes.form}>
-                                <input fullWidth className={classes.input} type="text" id="tokenSymbol" name="tokenSymbol" placeholder="Token Symbol.."></input>
+                                <input
+                                  fullWidth
+                                  className={classes.input}
+                                  type="text"
+                                  id="symbol"
+                                  name="symbol"
+                                  placeholder="Token Symbol.."
+                                  value={data.symbol}
+                                  onChange={(event) => {
+                                    setData({ ...data, symbol: event.target.value });
+                                  }}
+                                ></input>
                               </form>
                             </Grid>
                           </Grid>
@@ -165,7 +181,18 @@ export default function GenerateToken() {
                             </Grid>
                             <Grid item md={6}>
                               <form className={classes.form}>
-                                <input fullWidth className={classes.input} type="text" id="amount" name="amount" placeholder="Amount.."></input>
+                                <input
+                                  fullWidth
+                                  className={classes.input}
+                                  type="text"
+                                  id="amount"
+                                  name="amount"
+                                  placeholder="Amount.."
+                                  value={data.amount}
+                                  onChange={(event) => {
+                                    setData({ ...data, amount: parseInt(event.target.value) });
+                                  }}
+                                ></input>
                               </form>
                             </Grid>
                           </Grid>
@@ -181,7 +208,18 @@ export default function GenerateToken() {
                             </Grid>
                             <Grid item md={6}>
                               <form className={classes.form}>
-                                <input fullWidth className={classes.input} type="text" id="decimal" name="decimal" placeholder="Decimal.."></input>
+                                <input
+                                  fullWidth
+                                  className={classes.input}
+                                  type="text"
+                                  id="decimal"
+                                  name="decimal"
+                                  placeholder="Decimal.."
+                                  value={data.decimal}
+                                  onChange={(event) => {
+                                    setData({ ...data, decimal: parseInt(event.target.value) });
+                                  }}
+                                ></input>
                               </form>
                             </Grid>
                           </Grid>
