@@ -1,7 +1,7 @@
 import { Grid } from "@mui/material";
 import { makeStyles } from "@mui/styles";
 import React, { Component } from "react";
-import { useHref } from "react-router-dom";
+import { useHref, useParams } from "react-router-dom";
 import { Button, Card } from "reactstrap";
 import ResponsiveAppBar from "../components/header";
 import OwnerCard from "../components/owner-card";
@@ -20,6 +20,7 @@ const useStyles = makeStyles({
 });
 export default function ContractList() {
     const classes = useStyles();
+    let {daoId} = useParams();
 
     return (
         <div>
@@ -35,13 +36,13 @@ export default function ContractList() {
                     </Grid>
                     <Grid item md={10}>
                         <ResponsiveAppBar />
-                        <OwnerCard />
+                        <OwnerCard daoId={daoId} />
                         <Grid container alignItems={"end"} spacing={2}>
                             <Grid item>
-                                <p className={classes.title}>Oylamalar</p>
+                                <p className={classes.title}>Proposals</p>
                             </Grid>
                             <Grid item>
-                                <a href="/create-contract">
+                                <a href={"/create-contract/"+daoId}>
                                     <Button
                                         style={{
                                             marginRight: "5px",
@@ -54,12 +55,12 @@ export default function ContractList() {
                                             border: "none",
                                         }}
                                     >
-                                        Yeni Oylama
+                                        Create Proposal
                                     </Button>
                                 </a>
                             </Grid>
                         </Grid>
-                        <StickyHeadTable />
+                        <StickyHeadTable daoId={daoId} />
                     </Grid>
                 </Grid>
             </div>

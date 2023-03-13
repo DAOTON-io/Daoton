@@ -4,6 +4,7 @@ import React, { Component } from "react";
 import GoogleFontLoader from "react-google-font-loader";
 import { Card } from "reactstrap";
 import ListAltIcon from '@mui/icons-material/ListAlt';
+import { json } from "react-router-dom";
 
 const useStyles = makeStyles({
     container: {
@@ -58,9 +59,11 @@ const useStyles = makeStyles({
 
 });
 
-export default function OwnerCard({ name, date, description, value }) {
+export default function OwnerCard({ daoId }) {
     const classes = useStyles();
-
+    const daoName = JSON.parse(localStorage.getItem('daos'))[daoId].name;
+    const desc = JSON.parse(localStorage.getItem('daos'))[daoId].desc;
+    console.log(JSON.parse(localStorage.getItem('daos'))[daoId])
     return (
         <div>
             <GoogleFontLoader
@@ -82,11 +85,11 @@ export default function OwnerCard({ name, date, description, value }) {
                     }}>
 
                         <Grid container alignItems={'center'} spacing={2}>
-                            <Grid item ><p className={classes.name} >DAOTON</p></Grid>
+                            <Grid item ><p className={classes.name} >{daoName}</p></Grid>
                             <Grid item >
-                                <img width={'20%'} src="logo/logo.jpeg" />
+                                <img width={'20%'} src="/logo/logo.jpeg" />
                             </Grid>
-                            <Grid item className={classes.description} >            "The TON network is designed to provide a user-friendly experience for both developers and end-users, with a focus on simplicity and ease-of-use.."
+                            <Grid item className={classes.description} >desc
                             </Grid>
 
                         </Grid>

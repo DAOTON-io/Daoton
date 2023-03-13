@@ -1,7 +1,7 @@
 import { Grid, Menu } from "@mui/material";
 
 import { makeStyles } from "@mui/styles";
-import React, { Component } from "react";
+import React, { Component, useState } from "react";
 import { useHref } from "react-router-dom";
 import { Button, Card } from "reactstrap";
 import DaoCard from "../components/dao-card";
@@ -9,6 +9,8 @@ import ResponsiveAppBar from "../components/header";
 import SideMenu from "../components/sideMenu";
 import StickyHeadTable from "../components/table";
 import ListAltIcon from "@mui/icons-material/ListAlt";
+import { useTonConnectUI } from "@tonconnect/ui-react";
+import TonWeb from "tonweb";
 
 const useStyles = makeStyles({
     container: {
@@ -63,7 +65,6 @@ const useStyles = makeStyles({
     input: {
         marginTop: "0.5rem",
         padding: "10px",
-        color: "white",
         border: "1px solid #2AABEE",
         borderRadius: "0.5rem",
         width: "120%",
@@ -75,7 +76,57 @@ const useStyles = makeStyles({
 });
 export default function CreateDao() {
     const classes = useStyles();
+    const [data, setData] = useState({ name: "", type: "1", desc: "Sample Desc", tokenContract: "address" });
+    const [tonConnectUi] = useTonConnectUI();
 
+    const createDao = async () => {
+        console.log("create dao");
+        console.log("Dao type", data.type);
+        console.log("Dao name", data.name);
+        console.log("Dao desc", data.desc);
+        console.log("Dao tokenContract", data.tokenContract);
+    
+        let code = TonWeb.boc.Cell.fromBoc('b5ee9c72c1010401004300000d12210114ff00f4a413f4bcf2c80b0102016203020019a1e9fbda89a1a67fa67fe808610040d0ed44d0d33fd33f6d21c700b39430f404309131e202c8cb3fcb3ff400c9ed54d6cfb549')[0];
+
+        let dataInit = new TonWeb.boc.Cell();
+        //init state is set_data(begin_cell().store_uint(dao_id, 64).store_uint(contract_id, 64).store_dict(dict).end_cell());
+        //dao_id = random 64 bit number
+        let dao_id = Math.floor(Math.random() * 100000000 + 1);
+        dataInit.bits.writeUint(dao_id, 64);
+        dataInit.bits.writeUint(12, 64);
+        dataInit.bits.writeUint(0,1);
+        let state_init = new TonWeb.boc.Cell();
+        state_init.bits.writeUint(6, 5);
+        state_init.refs.push(code);
+        state_init.refs.push(dataInit);
+
+
+
+
+        let state_init_boc = TonWeb.utils.bytesToBase64(await state_init.toBoc());
+        console.log(state_init_boc);
+        //  te6ccsEBBAEAUwAABRJJAgE0AQMBFP8A9KQT9LzyyAsCAGrTMAGCCGlJILmRMODQ0wMx+kAwi0ZG9nZYcCCAGMjLBVAEzxaARfoCE8tqEssfAc8WyXP7AAAQAAABhltsPJ+MirEd
+
+        let contractAddressNew = '0:' + TonWeb.utils.bytesToHex(await state_init.hash());
+        console.log(contractAddressNew);
+
+        const defaultTx2 = {
+            validUntil: Date.now() + 1000000,
+            messages: [
+                {
+                    address: contractAddressNew,
+                    amount: '69000000',
+                    stateInit: state_init_boc
+                },
+            ],
+        };
+        tonConnectUi.sendTransaction(defaultTx2).then((res) => {
+            localStorage.setItem("daos", JSON.stringify({ ...JSON.parse(localStorage.getItem("daos")), [data.name]: { name: data.name, type: data.type, desc: data.desc, tokenContract: "TokenTon", address: contractAddressNew } }));
+            console.log(res);
+            console.log(localStorage.getItem("daos"));
+        });
+        
+    }
     return (
         <div>
             <div
@@ -114,12 +165,14 @@ export default function CreateDao() {
                                                         </label>
                                                         <select
                                                             className={classes.select}
-                                                            id="country"
-                                                            name="country"
+                                                            id="type"
+                                                            name="type"
+                                                            value={data.type}
+                                                            onChange={(e) => setData({ ...data, type: e.target.value })}
                                                         >
-                                                            <option value="australia">Company</option>
-                                                            <option value="canada">Start-up</option>
-                                                            <option value="usa">Game-fi</option>
+                                                            <option value="1">Company</option>
+                                                            <option value="2">Start-up</option>
+                                                            <option value="3">Game-fi</option>
                                                         </select>
                                                     </form>
                                                 </div>
@@ -143,9 +196,11 @@ export default function CreateDao() {
                                                                     fullWidth
                                                                     className={classes.input}
                                                                     type="text"
-                                                                    id="fname"
-                                                                    name="firstname"
+                                                                    id="name"
+                                                                    name="name"
                                                                     placeholder="DAO name.."
+                                                                    value={data.name}
+                                                                    onChange={(e) => setData({ ...data, name: e.target.value })}
                                                                 ></input>
                                                             </form>
                                                         </Grid>
@@ -169,9 +224,11 @@ export default function CreateDao() {
                                                                     fullWidth
                                                                     className={classes.input}
                                                                     type="text"
-                                                                    id="fname"
-                                                                    name="firstname"
+                                                                    id="desc"
+                                                                    name="desc"
                                                                     placeholder="Description.."
+                                                                    value={data.desc}
+                                                                    onChange={(e) => setData({ ...data, desc: e.target.value })}
                                                                 ></input>
                                                             </form>
                                                         </Grid>
@@ -187,7 +244,7 @@ export default function CreateDao() {
                                                             {" "}
                                                             <form className={classes.form}>
                                                                 <label className={classes.label} for="fname">
-                                                                    Contract Adress:
+                                                                    Jetton Address:
                                                                 </label>
                                                             </form>
                                                         </Grid>
@@ -198,35 +255,11 @@ export default function CreateDao() {
                                                                     fullWidth
                                                                     className={classes.input}
                                                                     type="text"
-                                                                    id="fname"
-                                                                    name="firstname"
+                                                                    id="tokenContract"
+                                                                    name="tokenContract"
                                                                     placeholder="Adress.."
-                                                                ></input>
-                                                            </form>
-                                                        </Grid>
-                                                    </Grid>
-                                                </Grid>
-                                                <Grid item md={6}>
-                                                    <Grid container alignItems={"center"} spacing={2}>
-                                                        {" "}
-                                                        <Grid item md={3} >
-                                                            {" "}
-                                                            <form className={classes.form}>
-                                                                <label className={classes.label} for="fname">
-                                                                    Date:
-                                                                </label>
-                                                            </form>
-                                                        </Grid>
-                                                        <Grid item md={6} >
-                                                            {" "}
-                                                            <form className={classes.form}>
-                                                                <input
-                                                                    fullWidth
-                                                                    className={classes.input}
-                                                                    type="text"
-                                                                    id="fname"
-                                                                    name="firstname"
-                                                                    placeholder="Date.."
+                                                                    value={data.tokenContract}
+                                                                    onChange={(e) => setData({ ...data, tokenContract: e.target.value })}
                                                                 ></input>
                                                             </form>
                                                         </Grid>
@@ -239,6 +272,7 @@ export default function CreateDao() {
                                 </Grid>{" "}
                                 <Button
                                     className={classes.button}
+                                    onClick={createDao}
                                     style={{ backgroundColor: "#2AABEE", width: "35vh", marginTop: '2rem' }}
                                 >
                                     Create

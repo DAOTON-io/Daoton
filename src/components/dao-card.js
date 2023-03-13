@@ -62,7 +62,7 @@ const useStyles = makeStyles({
 
 });
 
-export default function DaoCard({ name, date, description, value }) {
+export default function DaoCard({ name, date, description, value, daoId }) {
     const classes = useStyles();
 
     return (
@@ -80,7 +80,7 @@ export default function DaoCard({ name, date, description, value }) {
             <div className={classes.container}>
                 <a style={{
                     textDecoration: "none",
-                }} href="/listContracts" > <Card className={classes.card} >
+                }} href={"/listContracts/"+daoId} > <Card className={classes.card} >
                         <div style={{
                             justifyContent: "center",
                             alignItems: "center",
