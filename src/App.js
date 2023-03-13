@@ -41,6 +41,8 @@ function App() {
       <BrowserRouter>
         <Routes>
           <Route>
+            {/* dummy  home page */}
+            <Route path="/" index element={<ViewDao />} />
             <Route path="/view-dao" index element={<ViewDao />} />
             <Route path="/listContracts" index element={<ContractList />} />
             <Route path="/create-dao" index element={<CreateDao />} />
