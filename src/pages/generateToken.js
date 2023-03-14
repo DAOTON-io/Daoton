@@ -4,62 +4,85 @@ import { makeStyles } from "@mui/styles";
 import { Button, Card } from "reactstrap";
 import ResponsiveAppBar from "../components/header";
 import SideMenu from "../components/sideMenu";
+import { createDeployParams } from "../lib/token-minter/deployer";
+import { useTonConnectUI, useTonAddress } from "@tonconnect/ui-react";
+import { Address, toNano, contractAddress, Cell } from "ton";
+import BigNumber from "bignumber.js";
+import { BN } from "bn.js";
 
-const useStyles = makeStyles({
-  container: {
-    padding: "1rem",
-  },
-  card: {
-    backgroundColor: "#ffffff",
-    boxShadow: "0 0 10px 0 rgba(0,0,0,0.1)",
-    color: "white",
-    padding: "20px",
-    borderRadius: "0.5rem",
-    height: "78vh",
-  },
+const ten = new BigNumber(10);
 
-  title: {
-    marginBottom: "0.5rem",
-    fontSize: "30px",
-    color: "black",
-    fontWeight: "bold",
-  },
-  form: {
-    marginTop: "1rem",
-  },
-  label: {
-    color: "#2AABEE",
-    fontSize: "14px",
-    fontWeight: "bold",
-  },
-  button: {
-    padding: "10px",
-    backgroundColor: "#2AABEE",
-    color: "white",
-    border: "none",
-    borderRadius: "0.5rem",
-    marginTop: "1rem",
+async function fetchDecimalsOffchain(url) {
+  let res = await fetch(url);
+  let obj = await res.json();
+  return obj;
+}
 
-    marginBottom: "1rem",
-  },
-
-  input: {
-    marginTop: "0.5rem",
-    padding: "10px",
-    color: "black",
-    border: "1px solid #2AABEE",
-    borderRadius: "0.5rem",
-    width: "120%",
-    "&:hover": {
-      border: "1px solid #2AABEE",
-    },
-  },
-});
+export function toDecimalsBN(num, decimals) {
+  console.log(num);
+  console.log(decimals);
+  return new BN(BigNumber(num).multipliedBy(ten.pow(decimals)).toFixed(0));
+}
 
 export default function GenerateToken() {
   const classes = useStyles();
   const [data, setData] = useState({ name: "", symbol: "", decimal: 9, amount: 0, description: "" });
-  console.log(data);
+  let address = useTonAddress();
+  const [tonConnectUi] = useTonConnectUI();
+
+  const generateToken = async () => {
+    const editedAddress = Address.parse(address);
+
+    let dc = 9;
+    if (data.offchainUri) {
+      let res = await fetchDecimalsOffchain(data.offchainUri.replace("ipfs://", "https://ipfs.io/ipfs/"));
+      dc = res.decimals;
+    }
+
+    const params = {
+      owner: editedAddress,
+      onchainMetaData: {
+        name: "ggg",
+        symbol: "12gggabc",
+        description: "dddummy",
+        decimals: parseInt(dc).toFixed(0),
+      },
+      // offchainUri: data.offchainUri,
+      amountToMint: toDecimalsBN(1000000, dc),
+    };
+
+    console.log(toDecimalsBN(1000, 8).toNumber());
+
+    const deployParams = createDeployParams(params, data.offchainUri);
+
+    const contractAddressHex = contractAddress({ workchain: 0, initialCode: deployParams.code, initialData: deployParams.data }).toString();
+
+    const state_init = new Cell();
+
+    state_init.bits.writeUint(6, 5);
+    state_init.refs.push(deployParams.code);
+    state_init.refs.push(deployParams.data);
+
+    const aa = await state_init.toBoc();
+    const bb = aa.toString("base64");
+
+    const py = await deployParams.data.toBoc();
+
+    const defaultTx2 = {
+      validUntil: Date.now() + 1000000,
+      messages: [
+        {
+          address: contractAddressHex,
+          amount: toNano(0.25).toNumber(),
+          stateInit: bb,
+          payload: py.toString("base64"),
+        },
+      ],
+    };
+
+    tonConnectUi.sendTransaction(defaultTx2);
+  };
+
   return (
     <div>
       <div
@@ -228,7 +251,7 @@ export default function GenerateToken() {
                     </div>
                   </Grid>
                 </Grid>{" "}
-                <Button className={classes.button} style={{ backgroundColor: "#2AABEE", width: "35vh", marginTop: "2rem" }}>
+                <Button className={classes.button} style={{ backgroundColor: "#2AABEE", width: "35vh", marginTop: "2rem" }} onClick={() => generateToken()}>
                   Create
                 </Button>{" "}
               </Card>
@@ -239,3 +262,53 @@ export default function GenerateToken() {
     </div>
   );
 }
+const useStyles = makeStyles({
+  container: {
+    padding: "1rem",
+  },
+  card: {
+    backgroundColor: "#ffffff",
+    boxShadow: "0 0 10px 0 rgba(0,0,0,0.1)",
+    color: "white",
+    padding: "20px",
+    borderRadius: "0.5rem",
+    height: "78vh",
+  },
+
+  title: {
+    marginBottom: "0.5rem",
+    fontSize: "30px",
+    color: "black",
+    fontWeight: "bold",
+  },
+  form: {
+    marginTop: "1rem",
+  },
+  label: {
+    color: "#2AABEE",
+    fontSize: "14px",
+    fontWeight: "bold",
+  },
+  button: {
+    padding: "10px",
+    backgroundColor: "#2AABEE",
+    color: "white",
+    border: "none",
+    borderRadius: "0.5rem",
+    marginTop: "1rem",
+
+    marginBottom: "1rem",
+  },
+
+  input: {
+    marginTop: "0.5rem",
+    padding: "10px",
+    color: "black",
+    border: "1px solid #2AABEE",
+    borderRadius: "0.5rem",
+    width: "120%",
+    "&:hover": {
+      border: "1px solid #2AABEE",
+    },
+  },
+});
