@@ -56,14 +56,13 @@ export default function GenerateToken() {
     const contractAddressHex = contractAddress({ workchain: 0, initialCode: deployParams.code, initialData: deployParams.data }).toString();
 
     const state_init = new Cell();
-
     state_init.refs.push(deployParams.code);
     state_init.refs.push(deployParams.data);
 
     const aa = await state_init.toBoc();
     const bb = aa.toString("base64");
 
-    // const py = await deployParams.data.toBoc();
+    const py = await deployParams.message.toBoc();
 
     const defaultTx2 = {
       validUntil: Date.now() + 1000000,
@@ -72,7 +71,7 @@ export default function GenerateToken() {
           address: contractAddressHex,
           amount: toNano(0.25).toNumber(),
           stateInit: bb,
-          // payload: py.toString("base64"),
+          payload: py.toString("base64"),
         },
       ],
     };
