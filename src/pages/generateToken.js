@@ -33,6 +33,8 @@ export default function GenerateToken() {
   const generateToken = async () => {
     const editedAddress = Address.parse(address);
 
+    console.log(editedAddress);
+
     let dc = data.decimal;
     if (data.offchainUri) {
       let res = await fetchDecimalsOffchain(data.offchainUri.replace("ipfs://", "https://ipfs.io/ipfs/"));
@@ -55,8 +57,10 @@ export default function GenerateToken() {
     const deployParams = createDeployParams(params, data.offchainUri);
 
     const contractAddressHex = contractAddress({ workchain: 0, initialCode: deployParams.code, initialData: deployParams.data }).toString();
+    console.log("contractAddressHex", contractAddressHex);
 
     const state_init = new Cell();
+    state_init.bits.writeUint(6, 5);
     state_init.refs.push(deployParams.code);
     state_init.refs.push(deployParams.data);
 
