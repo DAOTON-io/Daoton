@@ -1,4 +1,4 @@
-import { Grid, Box, CircularProgress } from "@mui/material";
+import { Grid, Box, CircularProgress, Card, Typography } from "@mui/material";
 import { makeStyles } from "@mui/styles";
 import React, { useEffect, useState } from "react";
 import { useTonAddress } from "@tonconnect/ui-react";
@@ -178,6 +178,32 @@ export default function ViewTokens() {
                   top: "0",
                 }}
               >
+                {tokens.length === 0 && (
+                  <Grid item md={12}>
+                    <Card
+                      style={{
+                        backgroundColor: "white",
+                        borderRadius: "1rem",
+                        padding: "30vh",
+                        marginTop: "2rem",
+                        boxShadow: "0 0 10px 0 rgba(0,0,0,0.1)",
+                        justifyContent: "center",
+                        alignItems: "center",
+                        display: "flex",
+                      }}
+                    >
+                      <Typography
+                        style={{
+                          color: "#1689c5",
+                          fontSize: "40px",
+                          fontWeight: "bold",
+                        }}
+                      >
+                        There are no Token's
+                      </Typography>
+                    </Card>
+                  </Grid>
+                )}
                 {tokens.map((column) => (
                   <Grid key={column.metadata.address} item md={3}>
                     <TokenItem
