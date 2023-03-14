@@ -1,12 +1,11 @@
 import { THEME, TonConnectUIProvider } from "@tonconnect/ui-react";
-import ReactDOM from "react-dom/client";
 import { BrowserRouter, Routes, Route } from "react-router-dom";
-import MenuPage from "./components/menu";
 import CreateDao from "./pages/createDao";
 import ContractList from "./pages/contractList";
 import ViewDao from "./pages/viewDAO";
 import ViewTokens from "./pages/viewTokens";
 import CreateContract from "./pages/createContract";
+import GenerateToken from "./pages/generateToken";
 import Vote from "./pages/vote";
 
 const TonProofDemoApi = {
@@ -28,7 +27,7 @@ function App() {
       manifestUrl="https://ton-connect.github.io/demo-dapp-with-react-ui/tonconnect-manifest.json"
       getConnectParameters={() => TonProofDemoApi.connectWalletRequest}
       uiPreferences={{ theme: THEME.DARK }}
-    /*walletsListConfiguration={{
+      /*walletsListConfiguration={{
       includeWallets: [...new Array(11)].map((_, index) => ({
           name: 'tonkeeper',
           bridgeUrl: `https://bridge${
@@ -43,10 +42,14 @@ function App() {
       <BrowserRouter>
         <Routes>
           <Route>
+            {/* dummy  home page */}
+            <Route path="/" index element={<ViewDao />} />
             <Route path="/view-dao" index element={<ViewDao />} />
             <Route path="/listContracts/:daoId" index element={<ContractList />} />
             <Route path="/create-dao" index element={<CreateDao />} />
             <Route path="/view-tokens" index element={<ViewTokens />} />
+            <Route path="/create-contract" index element={<CreateContract />} />
+            <Route path="/generate-token" index element={<GenerateToken />} />
             <Route path="/vote/:proposalId" index element={<Vote />} />
 
             <Route path="/create-contract/:daoId" index element={<CreateContract />} />
@@ -55,7 +58,6 @@ function App() {
         </Routes>
       </BrowserRouter>
     </TonConnectUIProvider>
-
   );
 }
 
