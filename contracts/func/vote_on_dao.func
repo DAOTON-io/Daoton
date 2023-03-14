@@ -1,5 +1,25 @@
-() recv_internal(slice in_msg_body) impure {
-  ;;  Return if the operation message sent is empty
+(slice, int) dict_get?(cell dict, int key_len, slice index) asm(index dict key_len) "DICTGET" "NULLSWAPIFNOT";
+
+(int, int, int) load_data() inline {
+  var ds = get_data().begin_parse();
+  return 
+    (ds~load_uint(64), ;; positive
+     ds~load_uint(64), ;; negative
+     ds~load_uint(64) ;; contract_time_of_deployment
+     );
+}
+
+() save_data(int positive, int negative, int contract_time_of_deployment) impure inline {
+  set_data(begin_cell()
+    .store_uint(positive, 64)
+    .store_uint(negative, 64)
+    .store_uint(contract_time_of_deployment, 64)
+    .end_cell());
+}
+
+
+() recv_internal(cell in_msg, slice in_msg_body) impure {
+  ;;  Ignore empty messages
   if (in_msg_body.slice_empty?()) { 
     return (); 
   }
@@ -7,15 +27,21 @@
   ;;  Define operation, transform the message sent to an uint32 integer
   int op = in_msg_body~load_uint(32);
   
-
   ;;  Get a cell from c4 register and turn it into a slice (Persistent storage)
-  slice ds = get_data().begin_parse();
-  ;;  Transform this slice into Integer 64-bit
-  int positive = ds~load_uint(64);
-  int negative = ds~load_uint(64);
-  int contract_time_of_deployment = ds~load_uint(64);
-  int proposal_detail = ds~load_uint(64);
+  var (positive, negative, contract_time_of_deployment) = load_data();
+
+  ;;  Get sender address
+  slice sender_address = cs~load_msg_addr();
   
+  var checker = ds~load_dict();
+  ;;  Check if the sender address is used before
+  (_, int flag) = checker.dict_get?(267, sender_address);
+  if flag {
+    return ();
+  }
+
+  ;;  Add to the dictionary if the address does not match
+  (key, val, flag) = d~dict_set(267, sender_address, "");
 
   ;;  Check the seconds passed since the contract deployed
   if (contract_time_of_deployment + 600 < now()) {
@@ -31,14 +57,11 @@
   }
 
   ;;  Create a Builder for the future cell, write a value to it, from Builder create Cell, Write the resulting cell to the c4 register
-  set_data(begin_cell().store_uint(positive, 64).store_uint(negative, 64).store_uint(contract_time_of_deployment, 64).store_uint(proposal_id, 64).end_cell());
+  save_data(positive, negative, contract_time_of_deployment);
 }
 
-(int, int, int, int) get_total() method_id {
-	slice ds = get_data().begin_parse();
- 	int positive = ds~load_uint(64);
-  int negative = ds~load_uint(64);
-  int contract_time_of_deployment = ds~load_uint(64);
-  int proposal_id = ds~load_uint(64);
-	return (positive, negative, contract_time_of_deployment, proposal_id);
+
+(int, int, int) get_total() method_id {
+  var (positive, negative, contract_time_of_deployment) = load_data();
+  return (positive, negative, contract_time_of_deployment);
 }
