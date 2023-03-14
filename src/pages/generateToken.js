@@ -33,7 +33,7 @@ export default function GenerateToken() {
   const generateToken = async () => {
     const editedAddress = Address.parse(address);
 
-    let dc = 9;
+    let dc = data.decimal;
     if (data.offchainUri) {
       let res = await fetchDecimalsOffchain(data.offchainUri.replace("ipfs://", "https://ipfs.io/ipfs/"));
       dc = res.decimals;
@@ -42,16 +42,14 @@ export default function GenerateToken() {
     const params = {
       owner: editedAddress,
       onchainMetaData: {
-        name: "ggg",
-        symbol: "12gggabc",
-        description: "dddummy",
+        name: data.name,
+        symbol: data.symbol,
+        description: data.description,
         decimals: parseInt(dc).toFixed(0),
       },
       // offchainUri: data.offchainUri,
-      amountToMint: toDecimalsBN(1000000, dc),
+      amountToMint: toDecimalsBN(data.amount, dc),
     };
-
-    console.log(toDecimalsBN(1000, 8).toNumber());
 
     const deployParams = createDeployParams(params, data.offchainUri);
 
@@ -59,14 +57,13 @@ export default function GenerateToken() {
 
     const state_init = new Cell();
 
-    state_init.bits.writeUint(6, 5);
     state_init.refs.push(deployParams.code);
     state_init.refs.push(deployParams.data);
 
     const aa = await state_init.toBoc();
     const bb = aa.toString("base64");
 
-    const py = await deployParams.data.toBoc();
+    // const py = await deployParams.data.toBoc();
 
     const defaultTx2 = {
       validUntil: Date.now() + 1000000,
@@ -75,7 +72,7 @@ export default function GenerateToken() {
           address: contractAddressHex,
           amount: toNano(0.25).toNumber(),
           stateInit: bb,
-          payload: py.toString("base64"),
+          // payload: py.toString("base64"),
         },
       ],
     };

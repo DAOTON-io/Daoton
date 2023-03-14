@@ -20,6 +20,8 @@ const sha256 = (str: string) => {
 };
 
 export function mintBody(owner, jettonValue, transferToJWallet, queryId) {
+  console.log("jetton", jettonValue.toNumber());
+  console.log("transferToJWallet", transferToJWallet.toNumber());
   return beginCell()
     .storeUint(21, 32)
     .storeUint(queryId, 64) // queryid
@@ -28,7 +30,7 @@ export function mintBody(owner, jettonValue, transferToJWallet, queryId) {
     .storeRef(
       // internal transfer message
       beginCell()
-        .storeUint(0x178d4519, 32)
+        .storeUint(395134233, 32)
         .storeUint(0, 64)
         .storeCoins(jettonValue)
         .storeAddress(null)
