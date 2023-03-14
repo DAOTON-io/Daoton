@@ -9,6 +9,7 @@ import { useTonConnectUI, useTonAddress } from "@tonconnect/ui-react";
 import { Address, toNano, contractAddress, Cell } from "ton";
 import BigNumber from "bignumber.js";
 import { BN } from "bn.js";
+import { useNavigate } from "react-router-dom";
 
 const ten = new BigNumber(10);
 
@@ -29,6 +30,7 @@ export default function GenerateToken() {
   const [data, setData] = useState({ name: "", symbol: "", decimal: 9, amount: 0, description: "" });
   let address = useTonAddress();
   const [tonConnectUi] = useTonConnectUI();
+  const navigate = useNavigate();
 
   const generateToken = async () => {
     const editedAddress = Address.parse(address);
@@ -76,7 +78,9 @@ export default function GenerateToken() {
       ],
     };
 
-    tonConnectUi.sendTransaction(defaultTx2);
+    tonConnectUi.sendTransaction(defaultTx2).then(() => {
+      navigate("/view-tokens");
+    });
   };
 
   return (

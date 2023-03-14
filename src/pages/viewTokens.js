@@ -103,7 +103,16 @@ export default function ViewTokens() {
   const [tokens, setTokens] = useState([]);
   const [loading, setLoading] = useState(true);
 
+  const [timer, setTimer] = useState(Date.now());
+
   let address = useTonAddress();
+
+  useEffect(() => {
+    const interval = setInterval(() => setTimer(Date.now()), 6000);
+    return () => {
+      clearInterval(interval);
+    };
+  }, []);
 
   useEffect(() => {
     const fetchData = async () => {
@@ -119,7 +128,7 @@ export default function ViewTokens() {
     };
 
     fetchData();
-  }, [address]);
+  }, [address, timer]);
 
   return (
     <div>
