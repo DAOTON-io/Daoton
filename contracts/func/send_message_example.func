@@ -17,7 +17,7 @@ int get_total() method_id {
 	
 	return total;
 }
-;;  Send message
+{- ;;  Send message
   slice cs = in_msg.begin_parse();
   int flags = cs~load_uint(4);
   slice sender_address = cs~load_msg_addr();
@@ -34,4 +34,4 @@ int get_total() method_id {
   .end_cell();
   
   ;;  Send!
-  send_raw_message(msg, 3);
+  send_raw_message(msg, 3); -}
