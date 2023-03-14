@@ -275,7 +275,7 @@ export default function GenerateToken() {
                   </Grid>
                 </Grid>{" "}
                 <Button className={classes.button} style={{ backgroundColor: "#2AABEE", width: "35vh", marginTop: "2rem" }} onClick={() => generateToken()}>
-                  Create
+                  Mint Token
                 </Button>{" "}
               </Card>
             </div>
