@@ -24,8 +24,7 @@ const useStyles = makeStyles({
 
 });
 const columns = [
-    { id: 'ID', label: 'ID', minWidth: 50 },
-    { id: 'Contract', label: 'Contract Name', minWidth: 120 },
+    { id: 'Contract', label: 'Proposal', minWidth: 120 },
     {
         id: 'DAO',
         label: 'DAO Type',
@@ -48,13 +47,6 @@ const columns = [
 
     },
     {
-        id: 'URL',
-        label: 'Published URL',
-        minWidth: 120,
-        align: 'right',
-
-    },
-    {
         id: 'Date',
         label: 'Created Date',
         minWidth: 120,
@@ -65,27 +57,21 @@ const columns = [
 
 ];
 
-function createData(ID, Contract, DAO, Adress, Token, URL, Date) {
+function createData(Contract, DAO, Adress, Token, Date) {
 
-    return { ID, Contract, DAO, Adress, Token, URL, Date };
+    return {Contract, DAO, Adress, Token, Date };
 }
 
-const rows = [
-    createData('0', 'Argedor VC DAO', '10X2847227864', '0X28747476', 'Proposal/0X34988374', '10/12/2022', '10/12/2022'),
-
-    createData('1', 'Argedor VC DAO', '10X2847227864', '0X28747476', 'Proposal/0X34988374', '10/12/2022', '10/12/2022'),
-    createData('2', 'Argedor VC DAO', '10X2847227864', '0X28747476', 'Proposal/0X34988374', '10/12/2022', '10/12/2022'),
-    createData('3', 'Argedor VC DAO', '10X2847227864', '0X28747476', 'Proposal/0X34988374', '10/12/2022', '10/12/2022'),
-    createData('4', 'Argedor VC DAO', '10X2847227864', '0X28747476', 'Proposal/0X34988374', '10/12/2022', '10/12/2022'),
-    createData('5', 'Argedor VC DAO', '10X2847227864', '0X28747476', 'Proposal/0X34988374', '10/12/2022', '10/12/2022'),
-    createData('6', 'Argedor VC DAO', '10X2847227864', '0X28747476', 'Proposal/0X34988374', '10/12/2022', '10/12/2022'),
-
-    createData('7', 'Argedor VC DAO', '10X2847227864', '0X28747476', 'Proposal/0X34988374', '10/12/2022', '10/12/2022'),
 
 
-];
-
-export default function StickyHeadTable() {
+export default function StickyHeadTable({daoId}) {
+    //get proposals from local storage and filter by daoId
+    const proposals = JSON.parse(localStorage.getItem('proposals'))
+    console.log(proposals);
+    const filteredProposals = proposals? Object.values(proposals).filter(proposal => proposal.daoId === daoId) : [];
+    console.log(filteredProposals);
+    //create rows for table from proposals array by mapping
+    const rows =filteredProposals? filteredProposals.map(proposal => createData( proposal.proposalText, proposal.daoId, proposal.proposalId, proposal.tokenAddress, proposal.date)) : [];
     const [page, setPage] = React.useState(0);
     const [rowsPerPage, setRowsPerPage] = React.useState(10);
 
@@ -138,7 +124,9 @@ export default function StickyHeadTable() {
                                                             : value}
                                                     </TableCell>
                                                 );
-                                            })}<Button className={classes.buttonEdit} > <ThumbUpIcon style={{ fontSize: '14px', marginRight: '5px' }} /> Oyla</Button>
+                                            })}
+                                            {/* go to /vote page with proposalId like: /vote/0x123456789 */}
+                                            <a href={`/vote/${row.Adress}`}><Button className={classes.buttonEdit} > <EditIcon style={{ fontSize: '14px', marginRight: '5px' }} /> Oyla</Button></a>
                                         </TableRow>
                                     );
                                 })}

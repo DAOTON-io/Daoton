@@ -2,7 +2,7 @@ import { Grid, Menu } from "@mui/material";
 
 import { makeStyles } from "@mui/styles";
 import React, { Component } from "react";
-import { useHref } from "react-router-dom";
+import { useHref, useParams } from "react-router-dom";
 import { Button, Card } from "reactstrap";
 import DaoCard from "../components/dao-card";
 import ResponsiveAppBar from "../components/header";
@@ -80,10 +80,9 @@ const useStyles = makeStyles({
 
 export default function CreateContract() {
     const classes = useStyles();
-    const [daoId, setDaoId] = React.useState("");
     const [proposalText, setProposalText] = React.useState("");
 	const [tonConnectUi] = useTonConnectUI();
-
+    const {daoId} = useParams();
     const createProposal = async () => {
         console.log("create proposal")
         console.log("Dao id:" + daoId)
@@ -125,7 +124,10 @@ export default function CreateContract() {
                 },
             ],
         };
-        tonConnectUi.sendTransaction(defaultTx2)
+        tonConnectUi.sendTransaction(defaultTx2).then((res) => {
+            localStorage.setItem('proposals',JSON.stringify({ ...JSON.parse(localStorage.getItem('proposals')), [contractAddressNew] : {daoId:daoId, proposalText: proposalText, proposalId: contractAddressNew, date: Date().split(" ")[3] + "-" + Date().split(" ")[1] + "-" + Date().split(" ")[2]}}));
+            console.log(res);
+        });
     }
     return (
         <div>
@@ -159,13 +161,15 @@ export default function CreateContract() {
                                                     DAO Id{" "}
                                                 </label>
                                                 <input
-                                                onChange={(e) => setDaoId(e.target.value)}
+                                                    value={daoId}
                                                     fullWidth
                                                     className={classes.input}
                                                     type="text"
                                                     id="daoId"
                                                     name="firstname"
                                                     placeholder="DAO name.."
+                                                    // non editable
+                                                    disabled
                                                 ></input>
                                             </form>
                                         </div>
