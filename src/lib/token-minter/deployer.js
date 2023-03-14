@@ -20,8 +20,6 @@ const sha256 = (str: string) => {
 };
 
 export function mintBody(owner, jettonValue, transferToJWallet, queryId) {
-  console.log("jetton", jettonValue.toNumber());
-  console.log("transferToJWallet", transferToJWallet.toNumber());
   return beginCell()
     .storeUint(21, 32)
     .storeUint(queryId, 64) // queryid
@@ -91,6 +89,7 @@ export function initData(owner, data, offchainUri) {
 }
 
 export const createDeployParams = (params, offchainUri) => {
+  console.log(params);
   return {
     code: mintContractHex,
     data: initData(params.owner, params.onchainMetaData, offchainUri),

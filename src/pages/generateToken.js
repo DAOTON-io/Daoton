@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import { Grid } from "@mui/material";
+import { Grid, FormControlLabel, Switch } from "@mui/material";
 import { makeStyles } from "@mui/styles";
 import { Button, Card } from "reactstrap";
 import ResponsiveAppBar from "../components/header";
@@ -20,14 +20,12 @@ async function fetchDecimalsOffchain(url) {
 }
 
 export function toDecimalsBN(num, decimals) {
-  console.log(num);
-  console.log(decimals);
   return new BN(BigNumber(num).multipliedBy(ten.pow(decimals)).toFixed(0));
 }
 
 export default function GenerateToken() {
   const classes = useStyles();
-  const [data, setData] = useState({ name: "", symbol: "", decimal: 9, amount: 0, description: "" });
+  const [data, setData] = useState({ name: "", symbol: "", decimal: 9, amount: 0, description: "", isPausable: false });
   let address = useTonAddress();
   const [tonConnectUi] = useTonConnectUI();
   const navigate = useNavigate();
@@ -48,6 +46,7 @@ export default function GenerateToken() {
         symbol: data.symbol,
         description: data.description,
         decimals: parseInt(dc).toFixed(0),
+        // isPausable: data.isPausable,
       },
       // offchainUri: data.offchainUri,
       amountToMint: toDecimalsBN(data.amount, dc),
@@ -243,6 +242,30 @@ export default function GenerateToken() {
                                     setData({ ...data, decimal: parseInt(event.target.value) });
                                   }}
                                 ></input>
+                              </form>
+                            </Grid>
+                          </Grid>
+                        </Grid>
+                        <Grid item md={6}>
+                          <Grid container alignItems={"center"} spacing={2}>
+                            <Grid item md={3}>
+                              <form className={classes.form}>
+                                <label className={classes.label} for="decimal">
+                                  Pausable Contract
+                                </label>
+                              </form>
+                            </Grid>
+                            <Grid item md={1}>
+                              <form className={classes.form}>
+                                <Switch
+                                  color="primary"
+                                  size="medium"
+                                  checked={data.isPausable}
+                                  onChange={() => {
+                                    setData({ ...data, isPausable: !data.isPausable });
+                                  }}
+                                  disabled
+                                />
                               </form>
                             </Grid>
                           </Grid>
