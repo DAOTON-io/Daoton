@@ -14,6 +14,7 @@
     .store_uint(positive, 64)
     .store_uint(negative, 64)
     .store_uint(contract_time_of_deployment, 64)
+    .store_dict(checker)
     .end_cell());
 }
 
@@ -31,6 +32,7 @@
   var (positive, negative, contract_time_of_deployment) = load_data();
 
   ;;  Get sender address
+  var cs = in_msg_cell.begin_parse();
   slice sender_address = cs~load_msg_addr();
   
   var checker = ds~load_dict();
