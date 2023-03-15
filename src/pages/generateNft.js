@@ -19,9 +19,9 @@ export default function GenerateNft() {
       const node = await create();
       const nftCollectionUri = await node.add(
         JSON.stringify({
-          name: "Daoton NFT Collection new version",
-          description: "Daoton nft collection",
-          image: "example.svg",
+          // name: "Daoton NFT Collection new version",
+          // description: "Daoton nft collection",
+          // image: "example.svg",
           external_link: "example.com",
           seller_fee_basis_points: 100,
           fee_recipient: "0xA97F337c39cccE66adfeCB2BF99C1DdC54C2D721",
@@ -41,21 +41,21 @@ export default function GenerateNft() {
           attributes: [
             {
               trait_type: "level",
-              value: 1,
+              // value: 1,
             },
           ],
-          description: "Afc was deployed.",
-          external_url: "TEST33334343",
-          image: "image.svg",
-          name: "TEST333232213",
+          // description: "Afc was deployed.",
+          external_url: "example.com",
+          // image: "image.svg",
+          // name: "TEST333232213",
         })
       );
 
       const nftCollectionUri = await node.add(
         JSON.stringify({
-          name: "Daoton NFT Collection new version",
-          description: "Daoton nft collection",
-          image: "example.svg",
+          // name: "Daoton NFT Collection new version",
+          // description: "Daoton nft collection",
+          // image: "example.svg",
           external_link: "example.com",
           seller_fee_basis_points: 100,
           fee_recipient: "0xA97F337c39cccE66adfeCB2BF99C1DdC54C2D721",
