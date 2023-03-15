@@ -1,6 +1,4 @@
 import TonWeb from "tonweb";
-import BN from "bn.js";
-import my_nft from "./my_nft.json";
 import { toNano } from "ton";
 
 const { NftCollection, NftItem, NftMarketplace, NftSale } = TonWeb.token.nft;
@@ -10,7 +8,7 @@ export default class NftMinter {
   tonConnectUi;
   walletAddress;
 
-  constructor(walletAddressParam, tonConnectUi) {
+  constructor(walletAddressParam, tonConnectUi, collectionContentUri) {
     this.walletAddress = new TonWeb.utils.Address(walletAddressParam);
     this.tonConnectUi = tonConnectUi;
 
@@ -18,8 +16,8 @@ export default class NftMinter {
       ownerAddress: this.walletAddress,
       royalty: 0.05,
       royaltyAddress: this.walletAddress,
-      collectionContentUri: "https://raw.githubusercontent.com/ton-blockchain/token-contract/main/nft/web-example/my_collection.json",
-      nftItemContentBaseUri: "https://raw.githubusercontent.com/ton-blockchain/token-contract/main/nft/web-example/",
+      collectionContentUri: collectionContentUri,
+      nftItemContentBaseUri: "https://ipfs.io/ipfs/",
       nftItemCodeHex: NftItem.codeHex,
     });
 
@@ -48,18 +46,18 @@ export default class NftMinter {
     });
   };
 
-  deployNftItem = async () => {
+  deployNftItem = async (itemContentUri) => {
     const nftCollectionAddress = await this.nftCollection.getAddress();
     const amount = toNano(0.05);
-    console.log(my_nft);
+
+    console.log(itemContentUri);
+
     const body = await this.nftCollection.createMintBody({
       amount: amount,
-      itemIndex: 5,
+      itemIndex: 6,
       itemOwnerAddress: this.walletAddress,
-      itemContentUri: "aaaaaa",
+      itemContentUri: itemContentUri,
     });
-
-    console.log(body);
 
     const bodyBoc = await body.toBoc(false);
     const bodyBase64 = TonWeb.utils.bytesToBase64(bodyBoc);
