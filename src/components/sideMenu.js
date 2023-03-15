@@ -6,7 +6,7 @@ import Divider from "@mui/material/Divider";
 import ViewHeadlineIcon from "@mui/icons-material/ViewHeadline";
 import AddCircleIcon from "@mui/icons-material/AddCircle";
 import ViewCompactAltIcon from "@mui/icons-material/ViewCompactAlt";
-import AddIcon from "@mui/icons-material/Add";
+import GridViewIcon from "@mui/icons-material/GridView";
 import CalendarMonthIcon from "@mui/icons-material/CalendarMonth";
 import AddCircleOutlineIcon from "@mui/icons-material/AddCircleOutline";
 import { Card } from "reactstrap";
@@ -159,6 +159,34 @@ export default function SideMenu() {
               </Grid>
             </Grid>
           </div>
+          <div className={classes.listItem}>
+            <p className={classes.title}>Nft</p>
+            <Grid className={classes.listItemSmall} container spacing={1}>
+              <Grid item>
+                <GridViewIcon />
+              </Grid>
+              <Grid item>
+                <Typography className={classes.item}>
+                  <a className={classes.item} href="view-nfts">
+                    View Nft's
+                  </a>
+                </Typography>
+              </Grid>
+            </Grid>
+            <Grid className={classes.listItemSmall} container spacing={1}>
+              <Grid item>
+                <AddCircleOutlineIcon />
+              </Grid>
+              <Grid item>
+                <Typography className={classes.item}>
+                  <a className={classes.item} href="generate-nft">
+                    Generate Nft
+                  </a>
+                </Typography>
+              </Grid>
+            </Grid>
+          </div>
+          <Divider className={classes.divider} />
         </Grid>
 
         {/* <List>

@@ -6,6 +6,7 @@ import ViewDao from "./pages/viewDAO";
 import ViewTokens from "./pages/viewTokens";
 import CreateContract from "./pages/createContract";
 import GenerateToken from "./pages/generateToken";
+import GenerateNft from "./pages/generateNft";
 import Vote from "./pages/vote";
 
 const TonProofDemoApi = {
@@ -53,7 +54,7 @@ function App() {
             <Route path="/vote/:proposalId" index element={<Vote />} />
 
             <Route path="/create-contract/:daoId" index element={<CreateContract />} />
-
+            <Route path="/generate-nft" index element={<GenerateNft />} />
           </Route>
         </Routes>
       </BrowserRouter>
