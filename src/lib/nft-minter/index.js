@@ -50,7 +50,7 @@ export default class NftMinter {
 
     const body = await this.nftCollection.createMintBody({
       amount: amount,
-      itemIndex: 6,
+      itemIndex: 0,
       itemOwnerAddress: this.walletAddress,
       itemContentUri: itemContentUri,
     });
