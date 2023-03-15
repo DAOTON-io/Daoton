@@ -1,23 +1,68 @@
-import * as React from 'react';
-import AppBar from '@mui/material/AppBar';
-import Box from '@mui/material/Box';
-import Toolbar from '@mui/material/Toolbar';
-import IconButton from '@mui/material/IconButton';
-import Typography from '@mui/material/Typography';
-import MenuIcon from '@mui/icons-material/Menu';
-import Container from '@mui/material/Container';
-import Avatar from '@mui/material/Avatar';
-import Button from '@mui/material/Button';
-import Tooltip from '@mui/material/Tooltip';
-import MenuItem from '@mui/material/MenuItem';
-import Menu from '@mui/icons-material/Menu';
+import * as React from "react";
+import AppBar from "@mui/material/AppBar";
+import Box from "@mui/material/Box";
+import Toolbar from "@mui/material/Toolbar";
+import IconButton from "@mui/material/IconButton";
+import Typography from "@mui/material/Typography";
+import MenuIcon from "@mui/icons-material/Menu";
+import Container from "@mui/material/Container";
+import Avatar from "@mui/material/Avatar";
+import Button from "@mui/material/Button";
+import Tooltip from "@mui/material/Tooltip";
+import MenuItem from "@mui/material/MenuItem";
+import Menu from "@mui/icons-material/Menu";
 import SearchIcon from "@mui/icons-material/Search";
 import { styled, alpha } from "@mui/material/styles";
-import InputBase from "@mui/material/InputBase";
-import Grid from '@mui/material/Grid';
-import GoogleFontLoader from "react-google-font-loader";
-import { TonConnectButton } from '@tonconnect/ui-react';
+import { makeStyles } from "@mui/styles";
 
+import InputBase from "@mui/material/InputBase";
+import Grid from "@mui/material/Grid";
+import GoogleFontLoader from "react-google-font-loader";
+import { TonConnectButton } from "@tonconnect/ui-react";
+const useStyles = makeStyles((theme) => ({
+    button: {
+        backgroundColor: "white !important",
+        paddingLeft: "0.2rem !important",
+        paddingRight: "0.2rem !important",
+        paddingTop: "0rem !important",
+        paddingBottom: "0rem !important",
+
+        textTransform: "none !important",
+        color: "black !important",
+        borderRadius: "0.3rem !important",
+        minHeight: "3rem !important",
+        marginBottom: "0.5rem !important",
+        // add breakpoint
+        [theme.breakpoints.up("xs")]: {
+            visibility: "none",
+        },
+    },
+    connect: {
+
+        // add breakpoint
+        [theme.breakpoints.up("sm")]: {
+            right: "2rem !important",
+            position: "absolute !important",
+            top: '1rem !important'
+        },
+    },
+    container: {
+
+        // add breakpoint
+        [theme.breakpoints.down("md")]: {
+            padding: "0.5rem !important",
+        },
+    },
+    visibility: {
+
+
+        [theme.breakpoints.up("sm")]: {
+            visibility: "hidden",
+            display: "none",
+
+        },
+    },
+}));
 const Search = styled("div")(({ theme }) => ({
     position: "relative",
     borderRadius: "1rem",
@@ -32,6 +77,7 @@ const Search = styled("div")(({ theme }) => ({
         marginLeft: theme.spacing(1),
         width: "auto",
     },
+    [theme.breakpoints.down("md")]: {},
 }));
 
 const SearchIconWrapper = styled("div")(({ theme }) => ({
@@ -51,12 +97,10 @@ const StyledInputBase = styled(InputBase)(({ theme }) => ({
         // vertical padding + font size from searchIcon
         paddingLeft: `calc(1em + ${theme.spacing(4)})`,
         transition: theme.transitions.create("width"),
-
-
     },
 }));
-const pages = ['Products', 'Pricing', 'Blog'];
-const settings = ['Profile', 'Account', 'Dashboard', 'Logout'];
+const pages = ["Products", "Pricing", "Blog"];
+const settings = ["Profile", "Account", "Dashboard", "Logout"];
 
 function ResponsiveAppBar() {
     const [anchorElNav, setAnchorElNav] = React.useState(null);
@@ -76,139 +120,73 @@ function ResponsiveAppBar() {
     const handleCloseUserMenu = () => {
         setAnchorElUser(null);
     };
-
+    const classes = useStyles();
     return (
-
-        <AppBar style={{
-            backgroundColor: '#2AABEE',
-            borderRadius: "0.5rem",
-            width: "80vw",
-            fontFamily: 'Signika Negative',
-
-
-        }} position="static">
+        <AppBar
+            className={classes.container}
+            style={{
+                backgroundColor: "#2AABEE",
+                borderRadius: "0.5rem",
+                fontFamily: "Signika Negative",
+            }}
+            position="static"
+        >
             <GoogleFontLoader
                 fonts={[
                     {
-                        font: 'Signika Negative',
-                        weights: [400, '400i'],
+                        font: "Signika Negative",
+                        weights: [400, "400i"],
                     },
-
                 ]}
-                subsets={['cyrillic-ext', 'greek']}
+                subsets={["cyrillic-ext", "greek"]}
             />
             <Container maxWidth="xl">
                 <Toolbar disableGutters>
-                    {/* <Typography
-                        variant="h6"
-                        noWrap
-                        component="a"
-                        href="/"
-                        sx={{
-                            mr: 2,
-                            display: { xs: 'none', md: 'flex' },
-                            fontFamily: 'monospace',
-                            fontWeight: 700,
-                            letterSpacing: '.3rem',
-                            color: 'inherit',
-                            textDecoration: 'none',
-                        }}
-                    >
-                        LOGO
-                    </Typography> */}
-
-                    <Box sx={{ flexGrow: 1, display: { xs: 'flex', md: 'none' } }}>
-                        <IconButton
-                            size="large"
-                            aria-label="account of current user"
-                            aria-controls="menu-appbar"
-                            aria-haspopup="true"
-                            onClick={handleOpenNavMenu}
-                            color="inherit"
-                        >
-                            <MenuIcon />
-                        </IconButton>
-                        <Menu
-                            id="menu-appbar"
-                            anchorEl={anchorElNav}
-                            anchorOrigin={{
-                                vertical: 'bottom',
-                                horizontal: 'left',
-                            }}
-                            keepMounted
-                            transformOrigin={{
-                                vertical: 'top',
-                                horizontal: 'left',
-                            }}
-                            open={Boolean(anchorElNav)}
-                            onClose={handleCloseNavMenu}
-                            sx={{
-                                display: { xs: 'block', md: 'none' },
-                            }}
-                        >
-                            {pages.map((page) => (
-                                <MenuItem key={page} onClick={handleCloseNavMenu}>
-                                    <Typography textAlign="center">{page}</Typography>
-                                </MenuItem>
-                            ))}
-                        </Menu>
-                    </Box>
-                    <Grid container spacing={2} alignItems="center">
-                        <Grid item  >
-                            <p style={{
-                                fontWeight: 'bold'
-                            }} >
-                                Create DAO
-                            </p>
+                    <Grid className={classes.visibility} container spacing={1} >
+                        <Grid item xs={3} >
+                            <Button className={classes.button}>
+                                <a style={{
+                                    textDecoration: "none",
+                                }} href="view-dao">View Dao</a>
+                            </Button>{" "}
                         </Grid>
-                        <Grid item>
-                            <Search>
-                                <SearchIconWrapper>
-                                    <SearchIcon />
-                                </SearchIconWrapper>
-                                <StyledInputBase
-                                    placeholder="Search..."
-                                    inputProps={{ "aria-label": "search" }}
-                                />
-                            </Search>
+                        <Grid item xs={3}>
+                            <Button className={classes.button}>
+                                <a style={{
+                                    textDecoration: "none",
+                                }} href="create-dao">Create Dao</a>
+                            </Button>{" "}
+                        </Grid>
+                        <Grid item xs={3}>
+                            <Button className={classes.button}>
+                                <a style={{
+                                    textDecoration: "none",
+                                }} href="view-tokens">View Tokens</a>
+                            </Button>{" "}
+                        </Grid>
+                        <Grid item xs={3}>
+                            <Button className={classes.button}>
+                                <a style={{
+                                    textDecoration: "none",
+                                }} href="generate-token">Generate Tokens</a>
+                            </Button>{" "}
                         </Grid>
                     </Grid>
-                    <Typography
-                        variant="h5"
-                        noWrap
-                        component="a"
-                        href=""
-                        sx={{
-                            mr: 2,
-                            display: { xs: 'flex', md: 'none' },
-                            flexGrow: 1,
-                            fontFamily: 'monospace',
-                            fontWeight: 700,
-                            letterSpacing: '.3rem',
-                            color: 'inherit',
-                            textDecoration: 'none',
-                        }}
-                    >
-                        LOGO
-                    </Typography>
 
 
-                    {/* <Box sx={{ flexGrow: 1, display: { xs: 'none', md: 'flex' } }}>
-                        {pages.map((page) => (
-                            <Button
-                                key={page}
-                                onClick={handleCloseNavMenu}
-                                sx={{ my: 2, color: 'white', display: 'block' }}
-                            >
-                                {page}
-                            </Button>
-                        ))}
-                    </Box> */}
-
-                    <Box sx={{ flexGrow: 0 }}>
-                        <TonConnectButton  > Connect </TonConnectButton>
-                    </Box>
-                </Toolbar>
+                </Toolbar><Grid container>
+                    {/* <Search>
+                        <SearchIconWrapper>
+                            <SearchIcon />
+                        </SearchIconWrapper>
+                        <StyledInputBase
+                            placeholder="Search..."
+                            inputProps={{ 'aria-label': 'search' }}
+                        />
+                    </Search> */}
+                    <Box className={classes.connect} style={{ flexGrow: 0, right: '0', marginTop: '0.5rem' }}>
+                        <TonConnectButton> Connect </TonConnectButton>
+                    </Box></Grid>
             </Container>
         </AppBar>
     );
