@@ -28,8 +28,6 @@ export default function GenerateNft() {
         })
       );
 
-      console.log("uriş", "https://ipfs.io/ipfs/" + nftCollectionUri.path);
-
       const minter = new NftMinter(address, tonConnectUi, "https://ipfs.io/ipfs/" + nftCollectionUri.path);
       await minter.deployNftCollection();
     }

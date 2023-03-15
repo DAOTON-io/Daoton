@@ -1,7 +1,7 @@
 import TonWeb from "tonweb";
 import { toNano } from "ton";
 
-const { NftCollection, NftItem, NftMarketplace, NftSale } = TonWeb.token.nft;
+const { NftCollection, NftItem } = TonWeb.token.nft;
 
 export default class NftMinter {
   nftCollection;
@@ -20,8 +20,6 @@ export default class NftMinter {
       nftItemContentBaseUri: "https://ipfs.io/ipfs/",
       nftItemCodeHex: NftItem.codeHex,
     });
-
-    console.log(this.nftCollection);
   }
 
   deployNftCollection = async () => {
@@ -49,8 +47,6 @@ export default class NftMinter {
   deployNftItem = async (itemContentUri) => {
     const nftCollectionAddress = await this.nftCollection.getAddress();
     const amount = toNano(0.05);
-
-    console.log(itemContentUri);
 
     const body = await this.nftCollection.createMintBody({
       amount: amount,
