@@ -26,7 +26,7 @@ const useStyles = makeStyles((theme) => ({
         paddingRight: "0.2rem !important",
         paddingTop: "0rem !important",
         paddingBottom: "0rem !important",
-
+        fontFamily: "Signika Negative !important",
         textTransform: "none !important",
         color: "black !important",
         borderRadius: "0.3rem !important",
@@ -146,6 +146,7 @@ function ResponsiveAppBar() {
                         <Grid item xs={3} >
                             <Button className={classes.button}>
                                 <a style={{
+                                    fontFamily: "Signika Negative",
                                     textDecoration: "none",
                                 }} href="view-dao">View Dao</a>
                             </Button>{" "}
@@ -153,6 +154,7 @@ function ResponsiveAppBar() {
                         <Grid item xs={3}>
                             <Button className={classes.button}>
                                 <a style={{
+                                    fontFamily: "Signika Negative",
                                     textDecoration: "none",
                                 }} href="create-dao">Create Dao</a>
                             </Button>{" "}
@@ -160,6 +162,7 @@ function ResponsiveAppBar() {
                         <Grid item xs={3}>
                             <Button className={classes.button}>
                                 <a style={{
+                                    fontFamily: "Signika Negative",
                                     textDecoration: "none",
                                 }} href="view-tokens">View Tokens</a>
                             </Button>{" "}
@@ -167,6 +170,7 @@ function ResponsiveAppBar() {
                         <Grid item xs={3}>
                             <Button className={classes.button}>
                                 <a style={{
+                                    fontFamily: "Signika Negative",
                                     textDecoration: "none",
                                 }} href="generate-token">Generate Tokens</a>
                             </Button>{" "}

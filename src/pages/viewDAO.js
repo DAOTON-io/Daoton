@@ -9,9 +9,12 @@ import SideMenu from "../components/sideMenu";
 import StickyHeadTable from "../components/table";
 import { isMobile } from 'react-device-detect';
 
-const useStyles = makeStyles({
+const useStyles = makeStyles((theme) => ({
     container: {
-        padding: "1rem",
+        padding: "2rem",
+        [theme.breakpoints.down("md")]: {
+            padding: "1rem",
+        }
     },
     card: {
         backgroundColor: "#2AABEE",
@@ -45,7 +48,7 @@ const useStyles = makeStyles({
     item: {
         color: "white",
     },
-});
+}));
 // const columns = [
 //     {
 //         name: "DAO",

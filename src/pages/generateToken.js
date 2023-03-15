@@ -10,9 +10,13 @@ import { Address, toNano, contractAddress, Cell } from "ton";
 import BigNumber from "bignumber.js";
 import { BN } from "bn.js";
 import { useNavigate } from "react-router-dom";
-const useStyles = makeStyles({
+import GoogleFontLoader from "react-google-font-loader";
+const useStyles = makeStyles((theme) => ({
   container: {
-    padding: "1rem",
+    padding: "2rem",
+    [theme.breakpoints.down("md")]: {
+      padding: "1rem",
+    }
   },
   card: {
     backgroundColor: "#ffffff",
@@ -20,14 +24,21 @@ const useStyles = makeStyles({
     color: "white",
     padding: "30px",
     borderRadius: "0.5rem",
-    height: "80vh",
+
+    height: "100%",
+    [theme.breakpoints.up("sm")]: {
+      width: "60%",
+      marginLeft: "40vh",
+      padding: "50px",
+
+    }
   },
 
   title: {
     marginBottom: "0.5rem",
     fontSize: "30px",
     color: "#2AABEE",
-
+    fontFamily: "Signika Negative",
     fontWeight: "bold",
   },
   form: {
@@ -37,6 +48,8 @@ const useStyles = makeStyles({
     color: "grey",
     fontSize: "14px",
     fontWeight: "bold",
+    fontFamily: "Signika Negative",
+
   },
   button: {
     padding: "10px",
@@ -44,6 +57,8 @@ const useStyles = makeStyles({
     color: "white",
     border: "none",
     borderRadius: "0.5rem",
+    fontFamily: "Signika Negative",
+
 
 
     marginBottom: "1rem",
@@ -60,7 +75,7 @@ const useStyles = makeStyles({
       border: "1px solid #2AABEE",
     },
   },
-});
+}));
 
 const ten = new BigNumber(10);
 
@@ -166,6 +181,15 @@ export default function GenerateToken() {
             <ResponsiveAppBar />{" "}
             <div style={{ marginTop: "1rem" }}>
               <Card className={classes.card}>
+                <GoogleFontLoader
+                  fonts={[
+                    {
+                      font: "Signika Negative",
+                      weights: [400, "400i"],
+                    },
+                  ]}
+                  subsets={["cyrillic-ext", "greek"]}
+                />
                 <Grid container>
                   <Grid item md={12}>
                     <div
@@ -188,7 +212,7 @@ export default function GenerateToken() {
                             </form>
                           </div>
                         </Grid>
-                        <Grid item xs={12} md={4}>
+                        <Grid item xs={12} md={8}>
                           {" "}
                           <div>
                             <form className={classes.form}>
@@ -220,12 +244,12 @@ export default function GenerateToken() {
                                 className={classes.label}
                                 for="description"
                               >
-                                Description:
+                                Description :
                               </label>
                             </form>
                           </div>
                         </Grid>
-                        <Grid item xs={12} md={4}>
+                        <Grid item xs={12} md={8}>
                           {" "}
                           <div>
                             <form className={classes.form}>
@@ -257,12 +281,12 @@ export default function GenerateToken() {
                           <div>
                             <form className={classes.form}>
                               <label className={classes.label} for="symbol">
-                                Symbol:
+                                Symbol :
                               </label>
                             </form>
                           </div>
                         </Grid>
-                        <Grid item xs={12} md={4}>
+                        <Grid item xs={12} md={8}>
                           {" "}
                           <div>
                             <form className={classes.form}>
@@ -294,12 +318,12 @@ export default function GenerateToken() {
                           <div>
                             <form className={classes.form}>
                               <label className={classes.label} for="amount">
-                                Amount
+                                Amount :
                               </label>
                             </form>
                           </div>
                         </Grid>
-                        <Grid item xs={12} md={4}>
+                        <Grid item xs={12} md={8}>
                           {" "}
                           <div>
                             <form className={classes.form}>
@@ -330,12 +354,12 @@ export default function GenerateToken() {
                           <div>
                             <form className={classes.form}>
                               <label className={classes.label} for="decimal">
-                                Decimal
+                                Decimal :
                               </label>
                             </form>
                           </div>
                         </Grid>
-                        <Grid item xs={12} md={4}>
+                        <Grid item xs={12} md={8}>
                           {" "}
                           <div>
                             <form className={classes.form}>
@@ -362,10 +386,10 @@ export default function GenerateToken() {
 
                         <Grid item md={6}>
                           <Grid container alignItems={'center'} >
-                            <Grid item md={4}>
+                            <Grid item md={8}>
                               <form className={classes.form}>
                                 <label className={classes.label} for="decimal">
-                                  Pausable Contract
+                                  Pausable Contract :
                                 </label>
                               </form>
                             </Grid>

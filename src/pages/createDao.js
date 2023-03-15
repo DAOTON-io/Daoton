@@ -14,17 +14,22 @@ import TonWeb from "tonweb";
 
 const useStyles = makeStyles((theme) => ({
     container: {
-        padding: "1rem",
+        padding: "2rem",
+        [theme.breakpoints.down("md")]: {
+            padding: "1rem",
+        }
     },
     card: {
         backgroundColor: "#ffffff",
         boxShadow: "0 0 10px 0 rgba(0,0,0,0.1)",
         color: "white",
-        padding: "30px",
+
         borderRadius: "0.5rem",
+        padding: "30px",
         height: "100%",
         [theme.breakpoints.up("sm")]: {
-
+            width: "50%", padding: "50px",
+            marginLeft: "40vh",
         }
 
     },
@@ -172,7 +177,7 @@ export default function CreateDao() {
 
                                                     </form>
                                                 </div></Grid>
-                                                <Grid item xs={12} md={4} >  <div>
+                                                <Grid item xs={12} md={8} >  <div>
                                                     <form className={classes.form}>
 
                                                         <select
@@ -200,7 +205,7 @@ export default function CreateDao() {
 
                                                     </form>
                                                 </div></Grid>
-                                                <Grid item xs={12} md={4} > <div>
+                                                <Grid item xs={12} md={8} > <div>
                                                     <form className={classes.form}>
 
                                                         <select
@@ -228,7 +233,7 @@ export default function CreateDao() {
 
                                                     </form>
                                                 </div></Grid>
-                                                <Grid item xs={12} md={4}>  <div>
+                                                <Grid item xs={12} md={8}>  <div>
                                                     <form className={classes.form}>
 
                                                         <select
@@ -256,7 +261,7 @@ export default function CreateDao() {
                                                 </div>
 
                                                 </Grid>
-                                                <Grid item xs={12} md={4}>  <div>
+                                                <Grid item xs={12} md={8}>  <div>
                                                     <form className={classes.form}>
                                                         <input
                                                             fullWidth
@@ -283,7 +288,7 @@ export default function CreateDao() {
                                                 </div>
 
                                                 </Grid>
-                                                <Grid item xs={12} md={4}>  <div>
+                                                <Grid item xs={12} md={8}>  <div>
                                                     <form className={classes.form}>
                                                         <input
                                                             fullWidth
@@ -309,7 +314,7 @@ export default function CreateDao() {
                                                 </div>
 
                                                 </Grid>
-                                                <Grid item xs={12} md={4}>  <div>
+                                                <Grid item xs={12} md={8}>  <div>
                                                     <form className={classes.form}>
                                                         <input
                                                             fullWidth
@@ -335,13 +340,18 @@ export default function CreateDao() {
                                         </div>
                                     </Grid>
                                 </Grid>{" "}
-                                <Button
+                                <div style={{
+                                    display: 'flex',
+                                    justifyContent: 'center',
+                                    alignItems: 'center',
+                                }} > <Button
                                     className={classes.button}
                                     onClick={createDao}
                                     style={{ backgroundColor: "#2AABEE", width: "35vh", marginTop: '1rem' }}
                                 >
-                                    Create
-                                </Button>{" "}
+                                        Create
+                                    </Button>{" "}</div>
+
                             </Card>
                         </div>
                     </Grid>
