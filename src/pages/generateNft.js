@@ -1,5 +1,5 @@
 import React from "react";
-import { Grid, Switch } from "@mui/material";
+import { Grid } from "@mui/material";
 import { makeStyles } from "@mui/styles";
 import { Button, Card } from "reactstrap";
 import ResponsiveAppBar from "../components/header";
@@ -51,7 +51,18 @@ export default function GenerateNft() {
         })
       );
 
-      const minter = new NftMinter(address, tonConnectUi, "https://ipfs.io/ipfs/QmNnWQ81mZYrEggPeEbceWqJcokR5hEy9d4XqVKPXRyEQt");
+      const nftCollectionUri = await node.add(
+        JSON.stringify({
+          name: "Daoton NFT Collection new version",
+          description: "Daoton nft collection",
+          image: "example.svg",
+          external_link: "example.com",
+          seller_fee_basis_points: 100,
+          fee_recipient: "0xA97F337c39cccE66adfeCB2BF99C1DdC54C2D721",
+        })
+      );
+
+      const minter = new NftMinter(address, tonConnectUi, "https://ipfs.io/ipfs/" + nftCollectionUri);
       await minter.deployNftItem(itemContent.path);
     }
   };
@@ -85,7 +96,7 @@ export default function GenerateNft() {
                   className={classes.button}
                   style={{ backgroundColor: "#2AABEE", width: "35vh", marginTop: "2rem" }}
                   onClick={() => {
-                    generateNFT();
+                    test();
                   }}
                 >
                   Mint NFT
