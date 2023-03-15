@@ -33,7 +33,7 @@ export default function GenerateNft() {
     }
   };
 
-  const generateNft1 = async () => {
+  const generateNFT = async () => {
     if (address) {
       const node = await create();
       const itemContent = await node.add(
@@ -76,7 +76,16 @@ export default function GenerateNft() {
                   className={classes.button}
                   style={{ backgroundColor: "#2AABEE", width: "35vh", marginTop: "2rem" }}
                   onClick={() => {
-                    generateNft1();
+                    generateCollection();
+                  }}
+                >
+                  Generate Collection
+                </Button>{" "}
+                <Button
+                  className={classes.button}
+                  style={{ backgroundColor: "#2AABEE", width: "35vh", marginTop: "2rem" }}
+                  onClick={() => {
+                    generateNFT();
                   }}
                 >
                   Mint NFT
