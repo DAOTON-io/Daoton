@@ -41,9 +41,9 @@ const useStyles = makeStyles((theme) => ({
 
         // add breakpoint
         [theme.breakpoints.up("sm")]: {
-            right: "2rem !important",
+            right: "3rem !important",
             position: "absolute !important",
-            top: '1rem !important'
+            top: '2rem !important'
         },
     },
     container: {

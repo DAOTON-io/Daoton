@@ -11,6 +11,7 @@ import StickyHeadTable from "../components/table";
 import ListAltIcon from "@mui/icons-material/ListAlt";
 import { useTonConnectUI } from "@tonconnect/ui-react";
 import TonWeb from "tonweb";
+import GoogleFontLoader from "react-google-font-loader";
 
 const useStyles = makeStyles((theme) => ({
     container: {
@@ -28,8 +29,8 @@ const useStyles = makeStyles((theme) => ({
         padding: "30px",
         height: "100%",
         [theme.breakpoints.up("sm")]: {
-            width: "50%", padding: "50px",
-            marginLeft: "40vh",
+            width: "70%", padding: "50px",
+
         }
 
     },
@@ -39,6 +40,7 @@ const useStyles = makeStyles((theme) => ({
         fontSize: "30px",
         color: "#2AABEE",
         fontWeight: "bold",
+        fontFamily: "Signika Negative",
     },
     form: {
         marginTop: "1rem",
@@ -47,6 +49,8 @@ const useStyles = makeStyles((theme) => ({
         color: "grey",
         fontSize: "14px",
         fontWeight: "bold",
+        fontFamily: "Signika Negative",
+
     },
     button: {
         padding: "10px",
@@ -54,13 +58,14 @@ const useStyles = makeStyles((theme) => ({
         color: "white",
         border: "none",
         borderRadius: "0.5rem",
+        fontFamily: "Signika Negative",
 
 
         marginBottom: "1rem",
     },
     select: {
 
-
+        fontFamily: "Signika Negative",
         width: "100%",
         fontSize: "14px",
         fontWeight: "bold",
@@ -152,8 +157,23 @@ export default function CreateDao() {
                     </Grid>
                     <Grid item md={10}>
                         <ResponsiveAppBar />{" "}
-                        <div style={{ marginTop: "1rem" }}>
+                        <div style={{
+                            marginTop: "1rem",
+                            justifyContent: "center",
+                            alignItems: "center",
+                            display: "flex",
+                            height: "80vh"
+                        }}>
                             <Card className={classes.card}>
+                                <GoogleFontLoader
+                                    fonts={[
+                                        {
+                                            font: "Signika Negative",
+                                            weights: [400, "400i"],
+                                        },
+                                    ]}
+                                    subsets={["cyrillic-ext", "greek"]}
+                                />
                                 <Grid container >
                                     <Grid item md={12}>
                                         {" "}

@@ -27,8 +27,8 @@ const useStyles = makeStyles((theme) => ({
 
     height: "100%",
     [theme.breakpoints.up("sm")]: {
-      width: "60%",
-      marginLeft: "40vh",
+      width: "70%",
+
       padding: "50px",
 
     }
@@ -179,7 +179,12 @@ export default function GenerateToken() {
           </Grid>
           <Grid item md={10}>
             <ResponsiveAppBar />{" "}
-            <div style={{ marginTop: "1rem" }}>
+            <div style={{
+              marginTop: "1rem", justifyContent: "center",
+              alignItems: "center",
+              display: "flex",
+              height: "80vh"
+            }}>
               <Card className={classes.card}>
                 <GoogleFontLoader
                   fonts={[
