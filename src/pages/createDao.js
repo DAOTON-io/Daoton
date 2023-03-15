@@ -85,16 +85,14 @@ export default function CreateDao() {
         console.log("Dao name", data.name);
         console.log("Dao desc", data.desc);
         console.log("Dao tokenContract", data.tokenContract);
-    
         let code = TonWeb.boc.Cell.fromBoc('b5ee9c72c1010401004300000d12210114ff00f4a413f4bcf2c80b0102016203020019a1e9fbda89a1a67fa67fe808610040d0ed44d0d33fd33f6d21c700b39430f404309131e202c8cb3fcb3ff400c9ed54d6cfb549')[0];
-
         let dataInit = new TonWeb.boc.Cell();
         //init state is set_data(begin_cell().store_uint(dao_id, 64).store_uint(contract_id, 64).store_dict(dict).end_cell());
         //dao_id = random 64 bit number
         let dao_id = Math.floor(Math.random() * 100000000 + 1);
         dataInit.bits.writeUint(dao_id, 64);
         dataInit.bits.writeUint(12, 64);
-        dataInit.bits.writeUint(0,1);
+        dataInit.bits.writeUint(0, 1);
         let state_init = new TonWeb.boc.Cell();
         state_init.bits.writeUint(6, 5);
         state_init.refs.push(code);
@@ -124,8 +122,11 @@ export default function CreateDao() {
             localStorage.setItem("daos", JSON.stringify({ ...JSON.parse(localStorage.getItem("daos")), [data.name]: { name: data.name, type: data.type, desc: data.desc, tokenContract: "TokenTon", address: contractAddressNew } }));
             console.log(res);
             console.log(localStorage.getItem("daos"));
+            window.location.href = '/view-dao';
         });
-        
+
+
+
     }
     return (
         <div>
