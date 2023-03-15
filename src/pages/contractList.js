@@ -8,19 +8,22 @@ import OwnerCard from "../components/owner-card";
 import SideMenu from "../components/sideMenu";
 import StickyHeadTable from "../components/table";
 
-const useStyles = makeStyles({
+const useStyles = makeStyles((theme) => ({
     container: {
-        padding: "1rem",
+        padding: "2rem",
+        [theme.breakpoints.down("md")]: {
+            padding: "1rem",
+        }
     },
     title: {
         fontWeight: "bold",
         fontSize: "20px",
         marginTop: "1rem",
     },
-});
+}));
 export default function ContractList() {
     const classes = useStyles();
-    let {daoId} = useParams();
+    let { daoId } = useParams();
 
     return (
         <div>
@@ -42,7 +45,7 @@ export default function ContractList() {
                                 <p className={classes.title}>Proposals</p>
                             </Grid>
                             <Grid item>
-                                <a href={"/create-contract/"+daoId}>
+                                <a href={"/create-contract/" + daoId}>
                                     <Button
                                         style={{
                                             marginRight: "5px",

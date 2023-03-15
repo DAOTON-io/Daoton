@@ -6,9 +6,12 @@ import TokenItem from "../components/token-item";
 import ResponsiveAppBar from "../components/header";
 import SideMenu from "../components/sideMenu";
 
-const useStyles = makeStyles({
+const useStyles = makeStyles((theme) => ({
   container: {
-    padding: "1rem",
+    padding: "2rem",
+    [theme.breakpoints.down("md")]: {
+      padding: "1rem",
+    }
   },
   card: {
     backgroundColor: "#2AABEE",
@@ -42,7 +45,7 @@ const useStyles = makeStyles({
   item: {
     color: "white",
   },
-});
+}));
 const columns = [
   {
     name: "Token",
@@ -142,7 +145,7 @@ export default function ViewTokens() {
           <Grid item md={2}>
             <SideMenu />
           </Grid>
-          <Grid item md={10}>
+          <Grid item md={10} xs={12} >
             <ResponsiveAppBar />
             {/* <Card style={{
                             backgroundColor: 'white',
@@ -157,12 +160,12 @@ export default function ViewTokens() {
 
             <div
               style={{
-                height: "80%",
+
+                height: "100vh",
                 width: "100%",
                 overflow: "auto", // Kaydırma çubuğu eklemek için
-                scrollbarWidth: "thin", // Kaydırma çubuğunun kalınlığını ayarlamak için
-                scrollbarColor: "darkgray gray",
-                overflowY: "scroll",
+
+
               }}
             >
               {loading && (
@@ -179,12 +182,16 @@ export default function ViewTokens() {
                 }}
               >
                 {tokens.length === 0 && (
-                  <Grid item md={12}>
+                  <Grid item md={12} style={{
+                    justifyContent: "center",
+                    alignItems: "center",
+                    display: "flex",
+                  }}>
                     <Card
                       style={{
                         backgroundColor: "white",
                         borderRadius: "1rem",
-                        padding: "30vh",
+                        padding: "5rem",
                         marginTop: "2rem",
                         boxShadow: "0 0 10px 0 rgba(0,0,0,0.1)",
                         justifyContent: "center",
@@ -195,7 +202,7 @@ export default function ViewTokens() {
                       <Typography
                         style={{
                           color: "#1689c5",
-                          fontSize: "40px",
+                          fontSize: "30px",
                           fontWeight: "bold",
                         }}
                       >
@@ -218,6 +225,6 @@ export default function ViewTokens() {
           </Grid>
         </Grid>
       </div>
-    </div>
+    </div >
   );
 }
