@@ -5,6 +5,7 @@ import { useTonAddress } from "@tonconnect/ui-react";
 import TokenItem from "../components/token-item";
 import ResponsiveAppBar from "../components/header";
 import SideMenu from "../components/sideMenu";
+import { fetchTokens, fetchNfts } from "../lib/api/index";
 
 const useStyles = makeStyles((theme) => ({
   container: {
@@ -47,8 +48,6 @@ const useStyles = makeStyles((theme) => ({
   },
 }));
 
-let url = "https://testnet.tonapi.io/v1/jetton/getBalances?account=";
-
 export default function ViewTokens() {
   const classes = useStyles();
 
@@ -69,8 +68,7 @@ export default function ViewTokens() {
   useEffect(() => {
     const fetchData = async () => {
       if (address) {
-        const response = await fetch(url + address);
-        const jettons = await response.json();
+        const jettons = await fetchTokens(address);
         const jettonlist = jettons.balances;
 
         setTokens(jettonlist);
