@@ -22,7 +22,7 @@ const useStyles = makeStyles((theme) => ({
   card: {
     backgroundColor: "#2AABEE",
     boxShadow: "0 0 10px 0 rgba(0,0,0,0.1)",
-    height: "90vh",
+    height: "92vh",
     color: "white",
     padding: "10px",
     borderRadius: "1rem",
