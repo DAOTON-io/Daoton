@@ -11,7 +11,7 @@ const useStyles = makeStyles((theme) => ({
     padding: "2rem",
     [theme.breakpoints.down("md")]: {
       padding: "1rem",
-    }
+    },
   },
   card: {
     backgroundColor: "#2AABEE",
@@ -46,57 +46,6 @@ const useStyles = makeStyles((theme) => ({
     color: "white",
   },
 }));
-const columns = [
-  {
-    name: "Token",
-    description: "The TON network is designed to provide a user-friendly experience for both developers and end-users, with a focus on simplicity and ease-of-use..",
-    date: "January 2021",
-    value: "",
-  },
-  {
-    name: "Token",
-    description:
-      "The TON network is a blockchain protocol developed by the team behind Telegram messenger, designed to enable fast and secure transactions for users around the world",
-    date: "February 2021",
-    value: "",
-  },
-  {
-    name: "Token",
-    value: "",
-    description: "The TON network features a unique Byzantine Fault Tolerant consensus mechanism, enabling high levels of security and scalability for the network",
-    date: "10.10.2021",
-  },
-  {
-    name: "TON",
-    description: "The TON network allows developers to build decentralized applications (dApps) on top of the network, providing a range of use cases for users",
-    value: "",
-    date: "10.05.2021",
-  },
-  {
-    name: "DAO",
-    description: "The TON network is designed to provide a user-friendly experience for both developers and end-users, with a focus on simplicity and ease-of-use.",
-    value: "",
-    date: "10.10.2023",
-  },
-  {
-    name: "TONDAO",
-    description: "The TON network is designed to provide a user-friendly experience for both developers and end-users, with a focus on simplicity and ease-of-use.",
-    value: "",
-    date: "05.10.2021",
-  },
-  {
-    name: "DAOTon",
-    description: "The TON network is designed to provide a user-friendly experience for both developers and end-users, with a focus on simplicity and ease-of-use.",
-    value: "",
-    date: "01.10.2021",
-  },
-  {
-    name: "DAOTon",
-    description: "The TON network is designed to provide a user-friendly experience for both developers and end-users, with a focus on simplicity and ease-of-use.",
-    value: "",
-    date: "01.10.2021",
-  },
-];
 
 let url = "https://testnet.tonapi.io/v1/jetton/getBalances?account=";
 
@@ -145,7 +94,7 @@ export default function ViewTokens() {
           <Grid item md={2}>
             <SideMenu />
           </Grid>
-          <Grid item md={10} xs={12} >
+          <Grid item md={10} xs={12}>
             <ResponsiveAppBar />
             {/* <Card style={{
                             backgroundColor: 'white',
@@ -160,12 +109,9 @@ export default function ViewTokens() {
 
             <div
               style={{
-
                 height: "100vh",
                 width: "100%",
                 overflow: "auto", // Kaydırma çubuğu eklemek için
-
-
               }}
             >
               {loading && (
@@ -182,11 +128,15 @@ export default function ViewTokens() {
                 }}
               >
                 {tokens.length === 0 && (
-                  <Grid item md={12} style={{
-                    justifyContent: "center",
-                    alignItems: "center",
-                    display: "flex",
-                  }}>
+                  <Grid
+                    item
+                    md={12}
+                    style={{
+                      justifyContent: "center",
+                      alignItems: "center",
+                      display: "flex",
+                    }}
+                  >
                     <Card
                       style={{
                         backgroundColor: "white",
@@ -225,6 +175,6 @@ export default function ViewTokens() {
           </Grid>
         </Grid>
       </div>
-    </div >
+    </div>
   );
 }
