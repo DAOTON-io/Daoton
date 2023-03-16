@@ -179,7 +179,7 @@ export default function GenerateNft() {
                 </Grid>
               </Grid>
               <BrowserView>
-                <Grid container xs={10} justifyContent={'flex-end'}>
+                <Grid container xs={6.8} justifyContent={'flex-end'}>
                   <Grid item>
                     <Button
                       className={classes.button}
@@ -327,7 +327,7 @@ export default function GenerateNft() {
                 </Grid>
               </Grid>
               <BrowserView>
-                <Grid container xs={10} justifyContent={'flex-end'}>
+                <Grid container xs={6.8} justifyContent={'flex-end'}>
                   <Grid item>
                     <Button
                       className={classes.button}
@@ -424,5 +424,9 @@ const useStyles = makeStyles((theme) => ({
     "&:hover": {
       border: "1px solid #2AABEE",
     },
+    [theme.breakpoints.up("sm")]: {
+      width: '60%'
+
+    }
   },
 }));
