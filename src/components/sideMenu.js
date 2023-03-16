@@ -158,11 +158,38 @@ export default function SideMenu() {
               <p className={classes.title}>Proposal</p>
               <Grid className={classes.listItemSmall} container spacing={1}>
                 <Grid item>
-                  {" "}
                   <CalendarMonthIcon />
                 </Grid>
                 <Grid item>
                   <Typography className={classes.item}> Proposal Calender</Typography>
+                </Grid>
+              </Grid>
+            </div>
+            <Divider className={classes.divider} />
+            <div className={classes.listItem}>
+              <p className={classes.title}>NFT</p>
+              <Grid className={classes.listItemSmall} container spacing={1}>
+                <Grid item>
+                  <ViewCompactAltIcon />
+                </Grid>
+                <Grid item>
+                  <Typography className={classes.item}>
+                    <a className={classes.item} href="view-nfts">
+                      View Nft's
+                    </a>
+                  </Typography>
+                </Grid>
+              </Grid>
+              <Grid className={classes.listItemSmall} container spacing={1}>
+                <Grid item>
+                  <GridViewIcon />
+                </Grid>
+                <Grid item>
+                  <Typography className={classes.item}>
+                    <a className={classes.item} href="generate-nft">
+                      Generate Nft
+                    </a>
+                  </Typography>
                 </Grid>
               </Grid>
             </div>
