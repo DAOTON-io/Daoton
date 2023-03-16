@@ -5,18 +5,14 @@ import Divider from "@mui/material/Divider";
 import ViewHeadlineIcon from "@mui/icons-material/ViewHeadline";
 import AddCircleIcon from "@mui/icons-material/AddCircle";
 import ViewCompactAltIcon from "@mui/icons-material/ViewCompactAlt";
-import AddIcon from "@mui/icons-material/Add";
+import GridViewIcon from "@mui/icons-material/GridView";
 import CalendarMonthIcon from "@mui/icons-material/CalendarMonth";
 import AddCircleOutlineIcon from "@mui/icons-material/AddCircleOutline";
 import { Card } from "reactstrap";
 import Grid from "@mui/material/Grid";
 import GoogleFontLoader from "react-google-font-loader";
 import { makeStyles } from "@mui/styles";
-import { ThemeProvider, createTheme } from "@mui/material";
 
-
-
-const drawerWidth = 240;
 const useStyles = makeStyles((theme) => ({
   container: {
     padding: "1rem",
@@ -24,7 +20,7 @@ const useStyles = makeStyles((theme) => ({
   card: {
     backgroundColor: "#2AABEE",
     boxShadow: "0 0 10px 0 rgba(0,0,0,0.1)",
-    height: "90vh",
+    height: "92vh",
     color: "white",
     padding: "10px",
     borderRadius: "1rem",
@@ -32,7 +28,7 @@ const useStyles = makeStyles((theme) => ({
     [theme.breakpoints.down("md")]: {
       visible: "none",
       display: "none",
-    }
+    },
   },
   listItem: {
     padding: "10px",
@@ -160,11 +156,50 @@ export default function SideMenu() {
               <p className={classes.title}>Proposal</p>
               <Grid className={classes.listItemSmall} container spacing={1}>
                 <Grid item>
-                  {" "}
                   <CalendarMonthIcon />
                 </Grid>
                 <Grid item>
                   <Typography className={classes.item}> Proposal Calender</Typography>
+                </Grid>
+              </Grid>
+            </div>
+            <Divider className={classes.divider} />
+            <div className={classes.listItem}>
+              <p className={classes.title}>NFT</p>
+              <Grid className={classes.listItemSmall} container spacing={1}>
+                <Grid item>
+                  <ViewCompactAltIcon />
+                </Grid>
+                <Grid item>
+                  <Typography className={classes.item}>
+                    <a className={classes.item} href="view-nfts">
+                      View Nft's
+                    </a>
+                  </Typography>
+                </Grid>
+              </Grid>
+              <Grid className={classes.listItemSmall} container spacing={1}>
+                <Grid item>
+                  <GridViewIcon />
+                </Grid>
+                <Grid item>
+                  <Typography className={classes.item}>
+                    <a className={classes.item} href="generate-nft-collection">
+                      Generate Collection
+                    </a>
+                  </Typography>
+                </Grid>
+              </Grid>
+              <Grid className={classes.listItemSmall} container spacing={1}>
+                <Grid item>
+                  <GridViewIcon />
+                </Grid>
+                <Grid item>
+                  <Typography className={classes.item}>
+                    <a className={classes.item} href="generate-nft">
+                      Generate Nft
+                    </a>
+                  </Typography>
                 </Grid>
               </Grid>
             </div>

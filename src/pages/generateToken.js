@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import { Grid, FormControlLabel, Switch } from "@mui/material";
+import { Grid, Switch } from "@mui/material";
 import { makeStyles } from "@mui/styles";
 import { Button, Card } from "reactstrap";
 import ResponsiveAppBar from "../components/header";
@@ -425,7 +425,7 @@ export default function GenerateToken() {
                   style={{
                     backgroundColor: "#2AABEE",
                     width: "35vh",
-                    marginTop: "0.5rem",
+                    marginTop: "1rem",
                   }}
                   onClick={() => generateToken()}
                 >
