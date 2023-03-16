@@ -23,7 +23,7 @@
     "react-google-font-loader": "^1.1.0",
     "react-scripts": "5.0.1",
     "reactstrap": "^9.1.6",
-    "ton": "^11.16.0",
+    "ton": "^13.4.1",
     "ton-core": "^0.48.0",
     "ton-crypto": "^3.2.0",
     "tonweb": "^0.0.60",

@@ -12,6 +12,7 @@ import ListAltIcon from "@mui/icons-material/ListAlt";
 import { useTonConnectUI } from "@tonconnect/ui-react";
 import TonWeb from "tonweb";
 import GoogleFontLoader from "react-google-font-loader";
+import { Address } from "tonweb";
 
 const useStyles = makeStyles((theme) => ({
     container: {
@@ -99,14 +100,15 @@ export default function CreateDao() {
         console.log("Dao name", data.name);
         console.log("Dao desc", data.desc);
         console.log("Dao tokenContract", data.tokenContract);
-        let code = TonWeb.boc.Cell.fromBoc('b5ee9c72c1010401004300000d12210114ff00f4a413f4bcf2c80b0102016203020019a1e9fbda89a1a67fa67fe808610040d0ed44d0d33fd33f6d21c700b39430f404309131e202c8cb3fcb3ff400c9ed54d6cfb549')[0];
+        let code = TonWeb.boc.Cell.fromBoc('b5ee9c72c1010401003400000d121f0114ff00f4a413f4bcf2c80b0102016203020015a1e9fbda89a1a67fa7fe610026d030ed44d0d33fd3ff3001c8cb3fcbffc9ed5492a5ccc5')[0];
         let dataInit = new TonWeb.boc.Cell();
         //init state is set_data(begin_cell().store_uint(dao_id, 64).store_uint(contract_id, 64).store_dict(dict).end_cell());
         //dao_id = random 64 bit number
+        // transform  256 bit hex address to int and store it in contract_id 
+        let contract_id = TonWeb.utils.hexToBytes('f50a666039b8eb6bded61bf8d9ceac32a052fed4cc6ffbf578102db1e00cfcdb'); 
         let dao_id = Math.floor(Math.random() * 100000000 + 1);
         dataInit.bits.writeUint(dao_id, 64);
-        dataInit.bits.writeUint(12, 64);
-        dataInit.bits.writeUint(0, 1);
+        dataInit.bits.writeUint(contract_id, 256);
         let state_init = new TonWeb.boc.Cell();
         state_init.bits.writeUint(6, 5);
         state_init.refs.push(code);

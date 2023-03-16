@@ -91,16 +91,19 @@ export default function CreateContract() {
         console.log("Dao id:" + daoId)
         console.log("Proposal text:" + proposalText)
 
-        let code = TonWeb.boc.Cell.fromBoc('b5ee9c72c1010401006400000d12230114ff00f4a413f4bcf2c80b010201620302001da1e9fbda89a1a67fa67fa67fa67e61007ed020c7009130e0d31f30ed44d0d33fd33fd33fd33f3021810258a0f823b9925f05e024c0019303a403de04c0009301a401de02c8cb3fcb3fcb3fcb3fc9ed54dd99322a')[0];
+        // deploy voting contract
+        let code = TonWeb.boc.Cell.fromBoc('b5ee9c72c1010401007c00000d12250114ff00f4a413f4bcf2c80b0102016203020021a1e9fbda89a1a67fa67fa67fa67fa67e6100aad03120c7009130e0d31f30ed44d0d33fd33fd33fd33fd33f3020811770a0f823b9925f06e025c0009303a403de25c0019304a404de25c0029302a402de05c00391a4de550304c8cb3f13cb3fcb3fcb3fcb3fc9ed5473e021b3')[0];
         let positive = 0;
         let negative = 0;
+        let veto = 0;
+        let abstain = 0;
         let contract_time_of_deployment = Math.floor(Date.now());
-        let proposal_detail = 1;
         let data = new TonWeb.boc.Cell();
         data.bits.writeUint(positive, 64);
         data.bits.writeUint(negative, 64);
+        data.bits.writeUint(veto, 64);//veto   
+        data.bits.writeUint(abstain, 64);//abstain
         data.bits.writeUint(contract_time_of_deployment, 64);
-        data.bits.writeUint(proposal_detail, 64);
         //init state is set_data(begin_cell().store_uint(positive, 64).store_uint(negative, 64).store_uint(contract_time_of_deployment, 64).store_ref(proposal_detail).end_cell());
         let state_init = new TonWeb.boc.Cell();
         state_init.bits.writeUint(6, 5);
@@ -116,6 +119,9 @@ export default function CreateContract() {
 
         let contractAddressNew = '0:' + TonWeb.utils.bytesToHex(await state_init.hash());
         console.log(contractAddressNew);
+
+        //add voting contract address to dao contract
+        // let daoContract = TonWeb.boc.Cell.fromBoc(localStorage.getItem(daoId))[0];
 
         const defaultTx2 = {
             validUntil: Date.now() + 1000000,
