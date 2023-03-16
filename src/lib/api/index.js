@@ -61,3 +61,11 @@ export const fetchNfts = async (account) => {
 
   return { nftItems, collections };
 };
+
+export const fetchNftCollection = async (collectionAddress) => {
+  const route = "nft/getCollection?account=" + collectionAddress;
+
+  const { data } = await axios.get(mainUrl + route);
+
+  return data;
+};
