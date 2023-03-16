@@ -13,7 +13,7 @@ const jettonOnChainMetadataSpec = {
   decimals: "utf8",
 };
 
-const sha256 = (str: string) => {
+const sha256 = (str) => {
   const sha = new Sha256();
   sha.update(str);
   return Buffer.from(sha.digestSync());

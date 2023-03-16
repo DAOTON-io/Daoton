@@ -1,6 +1,6 @@
 import { getHttpEndpoint } from "@orbs-network/ton-access";
 import { TonClient, Address } from "ton";
-import Counter from "./counter.ts"; // this is the interface class we just implemented
+import Counter from "./counter.js"; // this is the interface class we just implemented
 
 export default async function getCurrentValue(address) {
   // initialize ton rpc client on testnet
@@ -8,7 +8,7 @@ export default async function getCurrentValue(address) {
   const client = new TonClient({ endpoint });
 
   // open Counter instance by address
-  const counterAddress = Address.parse(address) // replace with your address from step 8
+  const counterAddress = Address.parse(address); // replace with your address from step 8
   const counter = new Counter(counterAddress);
   const counterContract = client.open(counter);
 
@@ -16,4 +16,3 @@ export default async function getCurrentValue(address) {
   const counterValue = await counterContract.getCounter();
   return counterValue;
 }
-
