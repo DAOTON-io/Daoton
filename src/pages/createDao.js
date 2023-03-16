@@ -11,33 +11,46 @@ import StickyHeadTable from "../components/table";
 import ListAltIcon from "@mui/icons-material/ListAlt";
 import { useTonConnectUI } from "@tonconnect/ui-react";
 import TonWeb from "tonweb";
+import GoogleFontLoader from "react-google-font-loader";
 
-const useStyles = makeStyles({
+const useStyles = makeStyles((theme) => ({
     container: {
-        padding: "1rem",
+        padding: "2rem",
+        [theme.breakpoints.down("md")]: {
+            padding: "1rem",
+        }
     },
     card: {
         backgroundColor: "#ffffff",
         boxShadow: "0 0 10px 0 rgba(0,0,0,0.1)",
         color: "white",
-        padding: "20px",
+
         borderRadius: "0.5rem",
-        height: "78vh",
+        padding: "30px",
+        height: "100%",
+        [theme.breakpoints.up("sm")]: {
+            width: "70%", padding: "50px",
+
+        }
+
     },
 
     title: {
         marginBottom: "0.5rem",
         fontSize: "30px",
-        color: "black",
+        color: "#2AABEE",
         fontWeight: "bold",
+        fontFamily: "Signika Negative",
     },
     form: {
         marginTop: "1rem",
     },
     label: {
-        color: "#2AABEE",
+        color: "grey",
         fontSize: "14px",
         fontWeight: "bold",
+        fontFamily: "Signika Negative",
+
     },
     button: {
         padding: "10px",
@@ -45,13 +58,14 @@ const useStyles = makeStyles({
         color: "white",
         border: "none",
         borderRadius: "0.5rem",
-        marginTop: "1rem",
+        fontFamily: "Signika Negative",
+
 
         marginBottom: "1rem",
     },
     select: {
-        marginTop: "0.5rem",
 
+        fontFamily: "Signika Negative",
         width: "100%",
         fontSize: "14px",
         fontWeight: "bold",
@@ -67,13 +81,13 @@ const useStyles = makeStyles({
         padding: "10px",
         border: "1px solid #2AABEE",
         borderRadius: "0.5rem",
-        width: "120%",
+        width: "100%",
 
         "&:hover": {
             border: "1px solid #2AABEE",
         },
     },
-});
+}));
 export default function CreateDao() {
     const classes = useStyles();
     const [data, setData] = useState({ name: "", type: "1", desc: "Sample Desc", tokenContract: "address" });
@@ -85,16 +99,14 @@ export default function CreateDao() {
         console.log("Dao name", data.name);
         console.log("Dao desc", data.desc);
         console.log("Dao tokenContract", data.tokenContract);
-    
         let code = TonWeb.boc.Cell.fromBoc('b5ee9c72c1010401004300000d12210114ff00f4a413f4bcf2c80b0102016203020019a1e9fbda89a1a67fa67fe808610040d0ed44d0d33fd33f6d21c700b39430f404309131e202c8cb3fcb3ff400c9ed54d6cfb549')[0];
-
         let dataInit = new TonWeb.boc.Cell();
         //init state is set_data(begin_cell().store_uint(dao_id, 64).store_uint(contract_id, 64).store_dict(dict).end_cell());
         //dao_id = random 64 bit number
         let dao_id = Math.floor(Math.random() * 100000000 + 1);
         dataInit.bits.writeUint(dao_id, 64);
         dataInit.bits.writeUint(12, 64);
-        dataInit.bits.writeUint(0,1);
+        dataInit.bits.writeUint(0, 1);
         let state_init = new TonWeb.boc.Cell();
         state_init.bits.writeUint(6, 5);
         state_init.refs.push(code);
@@ -124,15 +136,19 @@ export default function CreateDao() {
             localStorage.setItem("daos", JSON.stringify({ ...JSON.parse(localStorage.getItem("daos")), [data.name]: { name: data.name, type: data.type, desc: data.desc, tokenContract: "TokenTon", address: contractAddressNew } }));
             console.log(res);
             console.log(localStorage.getItem("daos"));
+            window.location.href = '/view-dao';
         });
-        
+
+
+
     }
     return (
-        <div>
+        <div style={{
+            backgroundColor: "#E7EBF1",
+            height: "100%",
+        }}>
             <div
-                style={{
-                    backgroundColor: "#E7EBF1",
-                }}
+
                 className={classes.container}
             >
                 <Grid container spacing={2}>
@@ -141,9 +157,24 @@ export default function CreateDao() {
                     </Grid>
                     <Grid item md={10}>
                         <ResponsiveAppBar />{" "}
-                        <div style={{ marginTop: "1rem" }}>
+                        <div style={{
+                            marginTop: "1rem",
+                            justifyContent: "center",
+                            alignItems: "center",
+                            display: "flex",
+                            height: "80vh"
+                        }}>
                             <Card className={classes.card}>
-                                <Grid container>
+                                <GoogleFontLoader
+                                    fonts={[
+                                        {
+                                            font: "Signika Negative",
+                                            weights: [400, "400i"],
+                                        },
+                                    ]}
+                                    subsets={["cyrillic-ext", "greek"]}
+                                />
+                                <Grid container >
                                     <Grid item md={12}>
                                         {" "}
                                         <div
@@ -157,12 +188,18 @@ export default function CreateDao() {
                                                 <p className={classes.title}>Create DAO</p>
                                             </Grid>
 
-                                            <Grid container>
-                                                <div>
+                                            <Grid container alignItems={'center'} >
+                                                <Grid item xs={12} md={2}>  <div>
                                                     <form className={classes.form}>
                                                         <label className={classes.label} for="fname">
-                                                            Choose DAO Type:{" "}
+                                                            DAO Type :{" "}
                                                         </label>
+
+                                                    </form>
+                                                </div></Grid>
+                                                <Grid item xs={12} md={8} >  <div>
+                                                    <form className={classes.form}>
+
                                                         <select
                                                             className={classes.select}
                                                             id="type"
@@ -175,108 +212,166 @@ export default function CreateDao() {
                                                             <option value="3">Game-fi</option>
                                                         </select>
                                                     </form>
+                                                </div></Grid>
+
+                                            </Grid>
+                                            <Grid container alignItems={'center'}>
+
+                                                <Grid item xs={12} md={2} > <div>
+                                                    <form className={classes.form}>
+                                                        <label className={classes.label} for="fname">
+                                                            Token :
+                                                        </label>
+
+                                                    </form>
+                                                </div></Grid>
+                                                <Grid item xs={12} md={8} > <div>
+                                                    <form className={classes.form}>
+
+                                                        <select
+                                                            className={classes.select}
+                                                            id="type"
+                                                            name="type"
+                                                            value={data.type}
+                                                            onChange={(e) => setData({ ...data, type: e.target.value })}
+                                                        >
+                                                            <option value="1">Company</option>
+                                                            <option value="2">Start-up</option>
+                                                            <option value="3">Game-fi</option>
+                                                        </select>
+                                                    </form>
+                                                </div></Grid>
+
+
+                                            </Grid>
+                                            <Grid container alignItems={'center'}>
+                                                <Grid item xs={12} md={2}>  <div>
+                                                    <form className={classes.form}>
+                                                        <label className={classes.label} for="fname">
+                                                            NFT :
+                                                        </label>
+
+                                                    </form>
+                                                </div></Grid>
+                                                <Grid item xs={12} md={8}>  <div>
+                                                    <form className={classes.form}>
+
+                                                        <select
+                                                            className={classes.select}
+                                                            id="type"
+                                                            name="type"
+                                                            value={data.type}
+                                                            onChange={(e) => setData({ ...data, type: e.target.value })}
+                                                        >
+                                                            <option value="1">Company</option>
+                                                            <option value="2">Start-up</option>
+                                                            <option value="3">Game-fi</option>
+                                                        </select>
+                                                    </form>
+                                                </div></Grid>
+
+                                            </Grid>
+                                            <Grid container alignItems={'center'}>
+                                                <Grid item xs={12} md={2}>  <div>
+                                                    <form className={classes.form}>
+                                                        <label className={classes.label} for="fname">
+                                                            DAO Name:
+                                                        </label>
+                                                    </form>
                                                 </div>
+
+                                                </Grid>
+                                                <Grid item xs={12} md={8}>  <div>
+                                                    <form className={classes.form}>
+                                                        <input
+                                                            fullWidth
+                                                            className={classes.input}
+                                                            type="text"
+                                                            id="name"
+                                                            name="name"
+                                                            placeholder="DAO name.."
+                                                            value={data.name}
+                                                            onChange={(e) => setData({ ...data, name: e.target.value })}
+                                                        ></input>
+                                                    </form>
+                                                </div></Grid>
                                             </Grid>
+
+
+                                            <Grid container alignItems={'center'}>
+                                                <Grid item xs={12} md={2}>  <div>
+                                                    <form className={classes.form}>
+                                                        <label className={classes.label} for="fname">
+                                                            Description:
+                                                        </label>
+                                                    </form>
+                                                </div>
+
+                                                </Grid>
+                                                <Grid item xs={12} md={8}>  <div>
+                                                    <form className={classes.form}>
+                                                        <input
+                                                            fullWidth
+                                                            className={classes.input}
+                                                            type="text"
+                                                            id="desc"
+                                                            name="desc"
+                                                            placeholder="Description.."
+                                                            value={data.desc}
+                                                            onChange={(e) => setData({ ...data, desc: e.target.value })}
+                                                        ></input>
+                                                    </form>
+                                                </div></Grid>
+                                            </Grid>
+
+                                            <Grid container alignItems={'center'}>
+                                                <Grid item xs={12} md={2}>  <div>
+                                                    <form className={classes.form}>
+                                                        <label className={classes.label} for="fname">
+                                                            Jetton Address:
+                                                        </label>
+                                                    </form>
+                                                </div>
+
+                                                </Grid>
+                                                <Grid item xs={12} md={8}>  <div>
+                                                    <form className={classes.form}>
+                                                        <input
+                                                            fullWidth
+                                                            className={classes.input}
+                                                            type="text"
+                                                            id="tokenContract"
+                                                            name="tokenContract"
+                                                            placeholder="Adress.."
+                                                            value={data.tokenContract}
+                                                            onChange={(e) => setData({ ...data, tokenContract: e.target.value })}
+                                                        ></input>
+                                                    </form>
+                                                </div></Grid>
+                                            </Grid>
+
+
                                             <Grid container>
-                                                <Grid item md={6}>
-                                                    <Grid container alignItems={"center"} spacing={2}>
-                                                        {" "}
-                                                        <Grid item md={3} >
-                                                            {" "}
-                                                            <form className={classes.form}>
-                                                                <label className={classes.label} for="fname">
-                                                                    DAO Name:
-                                                                </label>
-                                                            </form>
-                                                        </Grid>
-                                                        <Grid item md={6} >
-                                                            {" "}
-                                                            <form className={classes.form}>
-                                                                <input
-                                                                    fullWidth
-                                                                    className={classes.input}
-                                                                    type="text"
-                                                                    id="name"
-                                                                    name="name"
-                                                                    placeholder="DAO name.."
-                                                                    value={data.name}
-                                                                    onChange={(e) => setData({ ...data, name: e.target.value })}
-                                                                ></input>
-                                                            </form>
-                                                        </Grid>
-                                                    </Grid>
-                                                </Grid>
-                                                <Grid item md={6}>
-                                                    <Grid container alignItems={"center"} spacing={2}>
-                                                        {" "}
-                                                        <Grid item md={3}  >
-                                                            {" "}
-                                                            <form className={classes.form}>
-                                                                <label className={classes.label} for="fname">
-                                                                    Description:
-                                                                </label>
-                                                            </form>
-                                                        </Grid>
-                                                        <Grid item md={6} >
-                                                            {" "}
-                                                            <form className={classes.form}>
-                                                                <input
-                                                                    fullWidth
-                                                                    className={classes.input}
-                                                                    type="text"
-                                                                    id="desc"
-                                                                    name="desc"
-                                                                    placeholder="Description.."
-                                                                    value={data.desc}
-                                                                    onChange={(e) => setData({ ...data, desc: e.target.value })}
-                                                                ></input>
-                                                            </form>
-                                                        </Grid>
-                                                    </Grid>
-                                                </Grid>
+
+
 
                                             </Grid>
-                                            <Grid container>
-                                                <Grid item md={6}>
-                                                    <Grid container alignItems={"center"} spacing={2}>
-                                                        {" "}
-                                                        <Grid item md={3} >
-                                                            {" "}
-                                                            <form className={classes.form}>
-                                                                <label className={classes.label} for="fname">
-                                                                    Jetton Address:
-                                                                </label>
-                                                            </form>
-                                                        </Grid>
-                                                        <Grid item md={6} >
-                                                            {" "}
-                                                            <form className={classes.form}>
-                                                                <input
-                                                                    fullWidth
-                                                                    className={classes.input}
-                                                                    type="text"
-                                                                    id="tokenContract"
-                                                                    name="tokenContract"
-                                                                    placeholder="Adress.."
-                                                                    value={data.tokenContract}
-                                                                    onChange={(e) => setData({ ...data, tokenContract: e.target.value })}
-                                                                ></input>
-                                                            </form>
-                                                        </Grid>
-                                                    </Grid>
-                                                </Grid>
 
-                                            </Grid>
                                         </div>
                                     </Grid>
                                 </Grid>{" "}
-                                <Button
+                                <div style={{
+                                    display: 'flex',
+                                    justifyContent: 'center',
+                                    alignItems: 'center',
+                                }} > <Button
                                     className={classes.button}
                                     onClick={createDao}
-                                    style={{ backgroundColor: "#2AABEE", width: "35vh", marginTop: '2rem' }}
+                                    style={{ backgroundColor: "#2AABEE", width: "35vh", marginTop: '1rem' }}
                                 >
-                                    Create
-                                </Button>{" "}
+                                        Create
+                                    </Button>{" "}</div>
+
                             </Card>
                         </div>
                     </Grid>

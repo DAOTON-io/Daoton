@@ -10,12 +10,15 @@ import SideMenu from "../components/sideMenu";
 import StickyHeadTable from "../components/table";
 import { Buffer } from 'buffer';
 import ListAltIcon from "@mui/icons-material/ListAlt";
-import {useTonConnectUI, useTonWallet} from "@tonconnect/ui-react";
+import { useTonConnectUI, useTonWallet } from "@tonconnect/ui-react";
 import TonWeb from "tonweb";
 
-const useStyles = makeStyles({
+const useStyles = makeStyles((theme) => ({
     container: {
-        padding: "1rem",
+        padding: "2rem",
+        [theme.breakpoints.down("md")]: {
+            padding: "1rem",
+        }
     },
     card: {
         backgroundColor: "#ffffff",
@@ -74,15 +77,15 @@ const useStyles = makeStyles({
             border: "1px solid #2AABEE",
         },
     },
-});
+}));
 
 
 
 export default function CreateContract() {
     const classes = useStyles();
     const [proposalText, setProposalText] = React.useState("");
-	const [tonConnectUi] = useTonConnectUI();
-    const {daoId} = useParams();
+    const [tonConnectUi] = useTonConnectUI();
+    const { daoId } = useParams();
     const createProposal = async () => {
         console.log("create proposal")
         console.log("Dao id:" + daoId)
@@ -125,7 +128,7 @@ export default function CreateContract() {
             ],
         };
         tonConnectUi.sendTransaction(defaultTx2).then((res) => {
-            localStorage.setItem('proposals',JSON.stringify({ ...JSON.parse(localStorage.getItem('proposals')), [contractAddressNew] : {daoId:daoId, proposalText: proposalText, proposalId: contractAddressNew, date: Date().split(" ")[3] + "-" + Date().split(" ")[1] + "-" + Date().split(" ")[2]}}));
+            localStorage.setItem('proposals', JSON.stringify({ ...JSON.parse(localStorage.getItem('proposals')), [contractAddressNew]: { daoId: daoId, proposalText: proposalText, proposalId: contractAddressNew, date: Date().split(" ")[3] + "-" + Date().split(" ")[1] + "-" + Date().split(" ")[2] } }));
             console.log(res);
         });
     }
@@ -181,7 +184,7 @@ export default function CreateContract() {
                                                     Proposal
                                                 </label>
                                                 <input
-                                                onChange={(e) => setProposalText(e.target.value)}
+                                                    onChange={(e) => setProposalText(e.target.value)}
                                                     className={classes.input}
                                                     type="text"
                                                     id="proposalText"

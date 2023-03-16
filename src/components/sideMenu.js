@@ -1,5 +1,4 @@
 import * as React from "react";
-import { makeStyles } from "@mui/styles";
 
 import Typography from "@mui/material/Typography";
 import Divider from "@mui/material/Divider";
@@ -12,9 +11,11 @@ import AddCircleOutlineIcon from "@mui/icons-material/AddCircleOutline";
 import { Card } from "reactstrap";
 import Grid from "@mui/material/Grid";
 import GoogleFontLoader from "react-google-font-loader";
+import { makeStyles } from "@mui/styles";
+import { ThemeProvider, createTheme } from "@mui/material";
 
 const drawerWidth = 240;
-const useStyles = makeStyles({
+const useStyles = makeStyles((theme) => ({
   container: {
     padding: "1rem",
   },
@@ -25,6 +26,11 @@ const useStyles = makeStyles({
     color: "white",
     padding: "10px",
     borderRadius: "1rem",
+    // add breakpoint
+    [theme.breakpoints.down("md")]: {
+      visible: "none",
+      display: "none",
+    },
   },
   listItem: {
     padding: "10px",
@@ -52,144 +58,117 @@ const useStyles = makeStyles({
     textDecoration: "none",
     fontFamily: "Signika Negative",
   },
-});
+}));
 export default function SideMenu() {
   const classes = useStyles();
   return (
-    <Card className={classes.card}>
-      <div
-        style={{
-          color: "white",
-          justifyContent: "center",
-          alignItems: "center",
-          display: "flex",
-        }}
-      >
-        <GoogleFontLoader
-          fonts={[
-            {
-              font: "Signika Negative",
-              weights: [400, "400i"],
-            },
-          ]}
-          subsets={["cyrillic-ext", "greek"]}
-        />
-        <Typography
+    <>
+      <Card className={classes.card}>
+        <div
           style={{
-            fontWeight: "bold",
-            fontSize: "2rem",
-            marginBottom: "1rem",
+            color: "white",
+            justifyContent: "center",
+            alignItems: "center",
+            display: "flex",
           }}
         >
-          DAOTON
-        </Typography>
-        {/* <img width={'80%'} src="logo/logobg.png" /> */}
-      </div>
+          <GoogleFontLoader
+            fonts={[
+              {
+                font: "Signika Negative",
+                weights: [400, "400i"],
+              },
+            ]}
+            subsets={["cyrillic-ext", "greek"]}
+          />
+          <Typography
+            style={{
+              fontWeight: "bold",
+              fontSize: "2rem",
+              marginBottom: "1rem",
+            }}
+          >
+            DAOTON
+          </Typography>
+          {/* <img width={'80%'} src="logo/logobg.png" /> */}
+        </div>
 
-      <div>
-        <Grid item md={12}>
-          {" "}
-          <div className={classes.listItem}>
-            <p className={classes.title}>Dao</p>
-            <Grid className={classes.listItemSmall} container spacing={1}>
-              <Grid item>
-                <ViewHeadlineIcon />
+        <div>
+          <Grid item md={12}>
+            {" "}
+            <div className={classes.listItem}>
+              <p className={classes.title}>Dao</p>
+              <Grid className={classes.listItemSmall} container spacing={1}>
+                <Grid item>
+                  <ViewHeadlineIcon />
+                </Grid>
+                <Grid item>
+                  <Typography>
+                    <a className={classes.item} href="view-dao">
+                      View Dao
+                    </a>
+                  </Typography>
+                </Grid>
               </Grid>
-              <Grid item>
-                <Typography>
-                  <a className={classes.item} href="view-dao">
-                    View Dao
-                  </a>
-                </Typography>
+              <Grid className={classes.listItemSmall} container spacing={1}>
+                <Grid item>
+                  {" "}
+                  <AddCircleIcon />
+                </Grid>
+                <Grid item>
+                  {" "}
+                  <Typography className={classes.item}>
+                    <a className={classes.item} href="create-dao">
+                      Create Dao
+                    </a>
+                  </Typography>
+                </Grid>
               </Grid>
-            </Grid>
-            <Grid className={classes.listItemSmall} container spacing={1}>
-              <Grid item>
-                {" "}
-                <AddCircleIcon />
+            </div>
+            <Divider className={classes.divider} />
+            <div className={classes.listItem}>
+              <p className={classes.title}>Token</p>
+              <Grid className={classes.listItemSmall} container spacing={1}>
+                <Grid item>
+                  <ViewCompactAltIcon />
+                </Grid>
+                <Grid item>
+                  <Typography className={classes.item}>
+                    <a className={classes.item} href="view-tokens">
+                      View Tokens
+                    </a>
+                  </Typography>
+                </Grid>
               </Grid>
-              <Grid item>
-                {" "}
-                <Typography className={classes.item}>
-                  <a className={classes.item} href="create-dao">
-                    Create Dao
-                  </a>
-                </Typography>
+              <Grid className={classes.listItemSmall} container spacing={1}>
+                <Grid item>
+                  <AddCircleOutlineIcon />
+                </Grid>
+                <Grid item>
+                  <Typography className={classes.item}>
+                    <a className={classes.item} href="generate-token">
+                      Generate Token
+                    </a>
+                  </Typography>
+                </Grid>
               </Grid>
-            </Grid>
-          </div>
-          <Divider className={classes.divider} />
-          <div className={classes.listItem}>
-            <p className={classes.title}>Token</p>
-            <Grid className={classes.listItemSmall} container spacing={1}>
-              <Grid item>
-                <ViewCompactAltIcon />
+            </div>
+            <Divider className={classes.divider} />
+            <div className={classes.listItem}>
+              <p className={classes.title}>Proposal</p>
+              <Grid className={classes.listItemSmall} container spacing={1}>
+                <Grid item>
+                  {" "}
+                  <CalendarMonthIcon />
+                </Grid>
+                <Grid item>
+                  <Typography className={classes.item}> Proposal Calender</Typography>
+                </Grid>
               </Grid>
-              <Grid item>
-                <Typography className={classes.item}>
-                  <a className={classes.item} href="view-tokens">
-                    View Tokens
-                  </a>
-                </Typography>
-              </Grid>
-            </Grid>
-            <Grid className={classes.listItemSmall} container spacing={1}>
-              <Grid item>
-                <AddCircleOutlineIcon />
-              </Grid>
-              <Grid item>
-                <Typography className={classes.item}>
-                  <a className={classes.item} href="generate-token">
-                    Generate Token
-                  </a>
-                </Typography>
-              </Grid>
-            </Grid>
-          </div>
-          <Divider className={classes.divider} />
-          <div className={classes.listItem}>
-            <p className={classes.title}>Proposal</p>
-            <Grid className={classes.listItemSmall} container spacing={1}>
-              <Grid item>
-                {" "}
-                <CalendarMonthIcon />
-              </Grid>
-              <Grid item>
-                <Typography className={classes.item}> Proposal Calender</Typography>
-              </Grid>
-            </Grid>
-          </div>
-          <div className={classes.listItem}>
-            <p className={classes.title}>Nft</p>
-            <Grid className={classes.listItemSmall} container spacing={1}>
-              <Grid item>
-                <GridViewIcon />
-              </Grid>
-              <Grid item>
-                <Typography className={classes.item}>
-                  <a className={classes.item} href="view-nfts">
-                    View Nft's
-                  </a>
-                </Typography>
-              </Grid>
-            </Grid>
-            <Grid className={classes.listItemSmall} container spacing={1}>
-              <Grid item>
-                <AddCircleOutlineIcon />
-              </Grid>
-              <Grid item>
-                <Typography className={classes.item}>
-                  <a className={classes.item} href="generate-nft">
-                    Generate Nft
-                  </a>
-                </Typography>
-              </Grid>
-            </Grid>
-          </div>
-          <Divider className={classes.divider} />
-        </Grid>
+            </div>
+          </Grid>
 
-        {/* <List>
+          {/* <List>
                                     {[
                                         "View DAOs",
                                         "Create DAO",
@@ -223,7 +202,8 @@ export default function SideMenu() {
                                         </ListItem>
                                     ))}
                                 </List> */}
-      </div>
-    </Card>
+        </div>
+      </Card>
+    </>
   );
 }

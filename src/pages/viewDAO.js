@@ -7,10 +7,14 @@ import DaoCard from "../components/dao-card";
 import ResponsiveAppBar from "../components/header";
 import SideMenu from "../components/sideMenu";
 import StickyHeadTable from "../components/table";
+import { isMobile } from 'react-device-detect';
 
-const useStyles = makeStyles({
+const useStyles = makeStyles((theme) => ({
     container: {
-        padding: "1rem",
+        padding: "2rem",
+        [theme.breakpoints.down("md")]: {
+            padding: "1rem",
+        }
     },
     card: {
         backgroundColor: "#2AABEE",
@@ -44,7 +48,7 @@ const useStyles = makeStyles({
     item: {
         color: "white",
     },
-});
+}));
 // const columns = [
 //     {
 //         name: "DAO",
@@ -106,8 +110,8 @@ const useStyles = makeStyles({
 //exapmle daos data: {"11":{"name":"11","type":"1","desc":"Sample Desc","tokenContract":"11","address":"0:352750010d7c939b5dfdb9141852838f3be4dacbf9f905935895e7ddacdef18b"},"12":{"name":"12","type":"1","desc":"Sample Desc","tokenContract":"11","address":"0:f4dd6eb1b0e53a0c4c0b5c37acd4ac5bcddde4f4a7e722bbc24f6325b206f6e8"}}
 const columnsJson = JSON.parse(localStorage.getItem("daos"));
 var columns = [];
-for(var i in columnsJson)
-    columns.push([i, columnsJson [i]]);
+for (var i in columnsJson)
+    columns.push([i, columnsJson[i]]);
 console.log(columns);
 export default function ViewDao() {
     const classes = useStyles();
@@ -124,48 +128,35 @@ export default function ViewDao() {
                     <Grid item md={2}>
                         <SideMenu />
                     </Grid>
-                    <Grid item md={10}>
+                    <Grid item md={10} xs={12} >
                         <ResponsiveAppBar />
-                        {/* <Card style={{
-                            backgroundColor: 'white',
-                            borderRadius: '1rem',
-                            padding: '1rem',
-                            marginTop: '1rem',
-                            boxShadow: '0 0 10px 0 rgba(0,0,0,0.1)',
-                            justifyContent: 'center',
-                            alignItems: 'center',
-                            display: 'flex',
 
-
-
-                        }} ></Card>  */}
                         <div
                             style={{
-                                height: "80%",
+                                height: "100vh",
                                 width: "100%",
                                 overflow: "auto", // Kaydırma çubuğu eklemek için
-                                scrollbarWidth: "thin", // Kaydırma çubuğunun kalınlığını ayarlamak için
-                                scrollbarColor: "darkgray gray",
-                                overflowY: "scroll",
+
                             }}
                         >
                             {" "}
                             <Grid
                                 container
-                                style={{
-                                    position: "-webkit-sticky",
-                                    position: "sticky",
-                                    top: "0",
-                                }}
+
                             >
                                 {/* If columns are empty write there are no DAO's in the middle of the screen on a card */}
                                 {columns.length === 0 && (
-                                    <Grid item md={12}>
+                                    <Grid item md={12} style={{
+                                        justifyContent: "center",
+                                        alignItems: "center",
+                                        display: "flex",
+                                    }}  >
                                         <Card
                                             style={{
+
                                                 backgroundColor: "white",
                                                 borderRadius: "1rem",
-                                                padding: "30vh",
+                                                padding: "5rem",
                                                 marginTop: "2rem",
                                                 boxShadow: "0 0 10px 0 rgba(0,0,0,0.1)",
                                                 justifyContent: "center",
@@ -176,8 +167,11 @@ export default function ViewDao() {
                                             <Typography
                                                 style={{
                                                     color: "#1689c5",
-                                                    fontSize: "40px",
+                                                    fontSize: "30px",
                                                     fontWeight: "bold",
+                                                    justifyContent: "center",
+                                                    alignItems: "center",
+                                                    display: "flex",
                                                 }}
                                             >
                                                 There are no DAO's
