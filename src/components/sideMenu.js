@@ -12,9 +12,7 @@ import { Card } from "reactstrap";
 import Grid from "@mui/material/Grid";
 import GoogleFontLoader from "react-google-font-loader";
 import { makeStyles } from "@mui/styles";
-import { ThemeProvider, createTheme } from "@mui/material";
 
-const drawerWidth = 240;
 const useStyles = makeStyles((theme) => ({
   container: {
     padding: "1rem",
@@ -176,6 +174,18 @@ export default function SideMenu() {
                   <Typography className={classes.item}>
                     <a className={classes.item} href="view-nfts">
                       View Nft's
+                    </a>
+                  </Typography>
+                </Grid>
+              </Grid>
+              <Grid className={classes.listItemSmall} container spacing={1}>
+                <Grid item>
+                  <GridViewIcon />
+                </Grid>
+                <Grid item>
+                  <Typography className={classes.item}>
+                    <a className={classes.item} href="generate-nft-collection">
+                      Generate Collection
                     </a>
                   </Typography>
                 </Grid>
