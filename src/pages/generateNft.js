@@ -170,7 +170,7 @@ export default function GenerateNft() {
                         type="text"
                         id="nftValue"
                         name="nftValue"
-                        placeholder="Value..."
+                        placeholder="Value...(decimal)"
                         onChange={(event) => {
                           setNftData({ ...nftData, value: event.target.value });
                         }}
@@ -198,7 +198,7 @@ export default function GenerateNft() {
                         type="text"
                         id="collectionAddress"
                         name="collectionAddress"
-                        placeholder="Collection Address..."
+                        placeholder="Collection Raw Address  (0:...)"
                         onChange={(event) => {
                           setNftData({ ...nftData, collectionAddress: event.target.value });
                         }}
@@ -215,7 +215,6 @@ export default function GenerateNft() {
                       style={{ backgroundColor: "#2AABEE", width: "20vh", marginTop: "2rem" }}
                       onClick={() => {
                         generateNFT();
-                        console.log(nftData);
                       }}
                     >
                       Mint NFT
@@ -286,7 +285,7 @@ const useStyles = makeStyles((theme) => ({
     border: "none",
     borderRadius: "0.5rem",
     fontFamily: "Signika Negative",
-
+    cursor: "pointer",
     marginBottom: "1rem",
   },
 
