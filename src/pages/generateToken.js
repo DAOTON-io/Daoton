@@ -425,7 +425,7 @@ export default function GenerateToken() {
                   style={{
                     backgroundColor: "#2AABEE",
                     width: "35vh",
-                    marginTop: "0.5rem",
+                    marginTop: "1rem",
                   }}
                   onClick={() => generateToken()}
                 >

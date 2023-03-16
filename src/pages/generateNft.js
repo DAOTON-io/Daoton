@@ -7,7 +7,9 @@ import SideMenu from "../components/sideMenu";
 import { useTonConnectUI, useTonAddress } from "@tonconnect/ui-react";
 import NftMinter from "../lib/nft-minter";
 import { create } from "ipfs";
-import { Box } from "@mui/system";
+import { Box, Container, flexbox, width } from "@mui/system";
+import { MobileView, BrowserView, isBrowser } from "react-device-detect";
+import { render } from "@testing-library/react";
 
 export default function GenerateNft() {
   const classes = useStyles();
@@ -71,121 +73,117 @@ export default function GenerateNft() {
   };
 
   return (
-    <div>
-      <div
-        style={{
-          backgroundColor: "#E7EBF1",
-        }}
-        className={classes.container}
-      >
-        <Grid container spacing={2}>
-          <Grid item md={2}>
-            <SideMenu />
-          </Grid>
-          <Grid item md={10}>
-            <ResponsiveAppBar />{" "}
-            <div style={{ marginTop: "1rem" }}>
-              <Card className={classes.card}>
-                <Grid container>
-                  <Grid item md={12}>
-                    <div
-                      style={{
-                        marginTop: "1rem",
-                      }}
-                    >
-                      <Grid container display={"flex"} alignItems={"center"}>
-                        <p className={classes.title}>Generate Collection</p>
-                      </Grid>
-                      <Grid container>
-                        <Grid item md={6}>
-                          <Grid container alignItems={"center"} spacing={2}>
-                            <Grid item md={3}>
-                              <form className={classes.form}>
-                                <label className={classes.label} for="name">
-                                  Collection Name:
-                                </label>
-                              </form>
-                            </Grid>
-                            <Grid item md={6}>
-                              <form className={classes.form}>
-                                <input
-                                  fullWidth
-                                  className={classes.input}
-                                  type="text"
-                                  id="name"
-                                  name="name"
-                                  placeholder="Collection name.."
-                                  onChange={(event) => {
-                                    setCollectionData({ ...collectionData, collectionName: event.target.value });
-                                  }}
-                                ></input>
-                              </form>
-                            </Grid>
-                          </Grid>
-                        </Grid>
-                        <Grid item md={6}>
-                          <Grid container alignItems={"center"} spacing={2}>
-                            <Grid item md={3}>
-                              <form className={classes.form}>
-                                <label className={classes.label} for="description">
-                                  Collection Description:
-                                </label>
-                              </form>
-                            </Grid>
-                            <Grid item md={6}>
-                              <form className={classes.form}>
-                                <input
-                                  fullWidth
-                                  className={classes.input}
-                                  type="text"
-                                  id="description"
-                                  name="description"
-                                  placeholder="Collection description.."
-                                  onChange={(event) => {
-                                    setCollectionData({ ...collectionData, collectionDescription: event.target.value });
-                                  }}
-                                ></input>
-                              </form>
-                            </Grid>
-                          </Grid>
-                        </Grid>
-                      </Grid>
-                      <Grid container>
-                        <Grid item md={6}>
-                          <Grid container alignItems={"center"} spacing={2}>
-                            <Grid item md={3}>
-                              <form className={classes.form}>
-                                <label className={classes.label} for="decimal">
-                                  Image
-                                </label>
-                              </form>
-                            </Grid>
-                            <Grid item md={6}>
-                              <form className={classes.form}>
-                                <input
-                                  fullWidth
-                                  className={classes.input}
-                                  type="text"
-                                  id="decimal"
-                                  name="decimal"
-                                  placeholder="URL of 256x256 pixel PNG image of nft logo..."
-                                  onChange={(event) => {
-                                    setCollectionData({ ...collectionData, collectionImage: event.target.value });
-                                  }}
-                                ></input>
-                              </form>
-                            </Grid>
-                          </Grid>
-                        </Grid>
-                      </Grid>
-                    </div>
-                  </Grid>
+    <div
+      style={{
+        backgroundColor: "#E7EBF1",
+      }}
+      className={classes.container}
+    >
+
+
+      <Grid container spacing={2}>
+        <Grid item md={2}>
+          <SideMenu></SideMenu>
+        </Grid>
+        <Grid item md={10}>
+          <ResponsiveAppBar></ResponsiveAppBar>
+          <div style={{ marginTop: "1rem" }}>
+            <Card className={classes.card}>
+
+
+              <Box mt={2}>
+                <p className={classes.title}>Create Collection</p>
+              </Box>
+              <Grid container alignItems={"center"}>
+                <Grid item xs={12} md={2}>
+                  <div>
+                    <form className={classes.form}>
+                      <label className={classes.label} for="name">
+                        Collection name:
+                      </label>
+                    </form>
+                  </div>
                 </Grid>
-                <div>
-                  <Box>
+                <Grid item xs={12} md={8}>
+                  <div>
+                    <form className={classes.form}>
+                      <input
+                        fullWidth
+                        className={classes.input}
+                        type="text"
+                        id="name"
+                        name="collectionName"
+                        placeholder="Collection name.."
+                        onChange={(event) => {
+                          setCollectionData({ ...collectionData, collectionName: event.target.value });
+                        }}
+                      ></input>
+                    </form>
+                  </div>
+                </Grid>
+              </Grid>
+              <Grid container alignItems={"center"}>
+                <Grid item xs={12} md={2}>
+                  <div>
+                    <form className={classes.form}>
+                      <label className={classes.label} for="name">
+                        Description:
+                      </label>
+                    </form>
+                  </div>
+                </Grid>
+                <Grid item xs={12} md={8}>
+                  <div>
+                    <form className={classes.form}>
+                      <input
+                        fullWidth
+                        className={classes.input}
+                        type="text"
+                        id="description"
+                        name="description"
+                        placeholder="Description..."
+                        onChange={(event) => {
+                          setCollectionData({ ...collectionData, collectionDescription: event.target.value });
+                        }}
+                      ></input>
+                    </form>
+                  </div>
+                </Grid>
+              </Grid>
+              <Grid container alignItems={"center"}>
+                <Grid item xs={12} md={2}>
+                  <div>
+                    <form className={classes.form}>
+                      <label className={classes.label} for="name">
+                        Image:
+                      </label>
+                    </form>
+                  </div>
+                </Grid>
+                <Grid item xs={12} md={8}>
+                  <div>
+                    <form className={classes.form}>
+                      <input
+                        fullWidth
+                        className={classes.input}
+                        type="text"
+                        id="description"
+                        name="description"
+                        placeholder="URL of 256x256 pixel PNG image of Collection logo."
+                        onChange={(event) => {
+                          setCollectionData({ ...collectionData, collectionImage: event.target.value });
+                        }}
+                      ></input>
+                    </form>
+                  </div>
+                </Grid>
+              </Grid>
+              <BrowserView>
+                <Grid container xs={10} justifyContent={'flex-end'}>
+                  <Grid item>
                     <Button
                       className={classes.button}
-                      style={{ backgroundColor: "#2AABEE", width: "35vh", marginTop: "2rem" }}
+                      style={{ backgroundColor: "#2AABEE", width: "20vh", marginTop: "2rem" }}
                       onClick={() => {
                         generateCollection();
                         console.log(collectionData);
@@ -193,202 +191,215 @@ export default function GenerateNft() {
                     >
                       Generate Collection
                     </Button>
-                    <Divider sx={{ marginY: "20px" }} variant="fullWidth"></Divider>
-                    <Grid container>
-                      <Grid item md={12}>
-                        <div
-                          style={{
-                            marginTop: "1rem",
-                          }}
-                        >
-                          <Grid container display={"flex"} alignItems={"center"}>
-                            <p className={classes.title}>Generate NFT</p>
-                          </Grid>
-                          <Grid item md={12}>
-                            <Grid container alignItems={"center"}>
-                              <Grid item md={2}>
-                                <form className={classes.form}>
-                                  <label className={classes.label} for="name">
-                                    Colelction Contract:
-                                  </label>
-                                </form>
-                              </Grid>
-                              <Grid item md={8}>
-                                <form className={classes.form}>
-                                  <input
-                                    fullWidth
-                                    className={classes.input}
-                                    type="text"
-                                    id="contract"
-                                    name="contract"
-                                    placeholder="Collection Contract.."
-                                    onChange={(event) => {
-                                      // setNftData({ ...nftData, nftName: event.target.value });
-                                    }}
-                                  ></input>
-                                </form>
-                              </Grid>
-                            </Grid>
-                          </Grid>
-                          <Grid container>
-                            <Grid item md={6}>
-                              <Grid container alignItems={"center"} spacing={2}>
-                                <Grid item md={3}>
-                                  <form className={classes.form}>
-                                    <label className={classes.label} for="name">
-                                      NFT Name:
-                                    </label>
-                                  </form>
-                                </Grid>
-                                <Grid item md={6}>
-                                  <form className={classes.form}>
-                                    <input
-                                      fullWidth
-                                      className={classes.input}
-                                      type="text"
-                                      id="name"
-                                      name="name"
-                                      placeholder="NFT name.."
-                                      onChange={(event) => {
-                                        setNftData({ ...nftData, nftName: event.target.value });
-                                      }}
-                                    ></input>
-                                  </form>
-                                </Grid>
-                              </Grid>
-                            </Grid>
-                            <Grid item md={6}>
-                              <Grid container alignItems={"center"} spacing={2}>
-                                <Grid item md={3}>
-                                  <form className={classes.form}>
-                                    <label className={classes.label} for="description">
-                                      NFT Description:
-                                    </label>
-                                  </form>
-                                </Grid>
-                                <Grid item md={6}>
-                                  <form className={classes.form}>
-                                    <input
-                                      fullWidth
-                                      className={classes.input}
-                                      type="text"
-                                      id="description"
-                                      name="description"
-                                      placeholder="NFT description.."
-                                      onChange={(event) => {
-                                        setNftData({ ...nftData, nftDescription: event.target.value });
-                                      }}
-                                    ></input>
-                                  </form>
-                                </Grid>
-                              </Grid>
-                            </Grid>
-                          </Grid>
-                          <Grid container>
-                            <Grid item md={6}>
-                              <Grid container alignItems={"center"} spacing={2}>
-                                <Grid item md={3}>
-                                  <form className={classes.form}>
-                                    <label className={classes.label} for="decimal">
-                                      NFT Image
-                                    </label>
-                                  </form>
-                                </Grid>
-                                <Grid item md={6}>
-                                  <form className={classes.form}>
-                                    <input
-                                      fullWidth
-                                      className={classes.input}
-                                      type="text"
-                                      id="decimal"
-                                      name="decimal"
-                                      placeholder="URL of 256x256 pixel PNG image of NFT logo..."
-                                      onChange={(event) => {
-                                        setNftData({ ...nftData, nftImage: event.target.value });
-                                      }}
-                                    ></input>
-                                  </form>
-                                </Grid>
-                              </Grid>
-                            </Grid>
-                            <Grid item md={6}>
-                              <Grid container alignItems={"center"} spacing={2}>
-                                <Grid item md={3}>
-                                  <form className={classes.form}>
-                                    <label className={classes.label} for="name">
-                                      NFT value:
-                                    </label>
-                                  </form>
-                                </Grid>
-                                <Grid item md={6}>
-                                  <form className={classes.form}>
-                                    <input
-                                      fullWidth
-                                      className={classes.input}
-                                      type="text"
-                                      id="value"
-                                      name="value"
-                                      placeholder="NFT value.."
-                                      onChange={(event) => {
-                                        setNftData({ ...nftData, value: event.target.value });
-                                      }}
-                                    ></input>
-                                  </form>
-                                </Grid>
-                              </Grid>
-                            </Grid>
-                          </Grid>
-                        </div>
-                      </Grid>
-                    </Grid>
+                  </Grid>
+                </Grid>
+              </BrowserView>
+              <MobileView>
+                <Grid container >
+                  <Button
+                    className={classes.button}
+                    style={{ backgroundColor: "#2AABEE", width: "100%", marginTop: "2rem" }}
+                    onClick={() => {
+                      generateCollection();
+                      console.log(collectionData);
+                    }}
+                  >
+                    Generate Collection
+                  </Button>
+                </Grid>
+              </MobileView>
+
+              <Divider sx={{ marginY: "20px" }} variant="fullWidth"></Divider>
+
+              <Box mt={4}>
+                <p className={classes.title}>Create NFT</p>
+              </Box>
+              <Grid container alignItems={"center"}>
+                <Grid item xs={12} md={2}>
+                  <div>
+                    <form className={classes.form}>
+                      <label className={classes.label} for="name">
+                        Name:
+                      </label>
+                    </form>
+                  </div>
+                </Grid>
+                <Grid item xs={12} md={8}>
+                  <div>
+                    <form className={classes.form}>
+                      <input
+                        fullWidth
+                        className={classes.input}
+                        type="text"
+                        id="nftName"
+                        name="nftName"
+                        placeholder="Name..."
+                        onChange={(event) => {
+                          setNftData({ ...nftData, nftName: event.target.value });
+                        }}
+                      ></input>
+                    </form>
+                  </div>
+                </Grid>
+              </Grid>
+              <Grid container alignItems={"center"}>
+                <Grid item xs={12} md={2}>
+                  <div>
+                    <form className={classes.form}>
+                      <label className={classes.label} for="name">
+                        Description:
+                      </label>
+                    </form>
+                  </div>
+                </Grid>
+                <Grid item xs={12} md={8}>
+                  <div>
+                    <form className={classes.form}>
+                      <input
+                        fullWidth
+                        className={classes.input}
+                        type="text"
+                        id="nftDescription"
+                        name="nftDescription"
+                        placeholder="Description..."
+                        onChange={(event) => {
+                          setNftData({ ...nftData, nftDescription: event.target.value });
+                        }}
+                      ></input>
+                    </form>
+                  </div>
+                </Grid>
+              </Grid>
+              <Grid container alignItems={"center"}>
+                <Grid item xs={12} md={2}>
+                  <div>
+                    <form className={classes.form}>
+                      <label className={classes.label} for="name">
+                        Image:
+                      </label>
+                    </form>
+                  </div>
+                </Grid>
+                <Grid item xs={12} md={8}>
+                  <div>
+                    <form className={classes.form}>
+                      <input
+                        fullWidth
+                        className={classes.input}
+                        type="text"
+                        id="nftImage"
+                        name="nftImage"
+                        placeholder="URL of 256x256 pixel PNG image of NFT logo..."
+                        onChange={(event) => {
+                          setNftData({ ...nftData, nftImage: event.target.value });
+                        }}
+                      ></input>
+                    </form>
+                  </div>
+                </Grid>
+              </Grid>
+              <Grid container alignItems={"center"}>
+                <Grid item xs={12} md={2}>
+                  <div>
+                    <form className={classes.form}>
+                      <label className={classes.label} for="name">
+                        Value:
+                      </label>
+                    </form>
+                  </div>
+                </Grid>
+                <Grid item xs={12} md={8}>
+                  <div>
+                    <form className={classes.form}>
+                      <input
+                        fullWidth
+                        className={classes.input}
+                        type="text"
+                        id="nftValue"
+                        name="nftValue"
+                        placeholder="Value..."
+                        onChange={(event) => {
+                          setNftData({ ...nftData, value: event.target.value });
+                        }}
+                      ></input>
+                    </form>
+                  </div>
+                </Grid>
+              </Grid>
+              <BrowserView>
+                <Grid container xs={10} justifyContent={'flex-end'}>
+                  <Grid item>
                     <Button
                       className={classes.button}
-                      style={{ backgroundColor: "#2AABEE", width: "35vh", marginTop: "2rem" }}
+                      style={{ backgroundColor: "#2AABEE", width: "20vh", marginTop: "2rem" }}
                       onClick={() => {
                         generateNFT();
                         console.log(nftData);
                       }}
                     >
-                      Mint NFT
-                    </Button>{" "}
-                  </Box>
-                </div>
-              </Card>
-            </div>
-          </Grid>
-        </Grid>
-      </div>
-    </div>
+                      Mint  NFT
+                    </Button>
+                  </Grid>
+                </Grid>
+              </BrowserView>
+
+              <MobileView>
+                <Grid container >
+                  <Button
+                    className={classes.button}
+                    style={{ backgroundColor: "#2AABEE", width: "100%", marginTop: "2rem" }}
+                    onClick={() => {
+                      generateNFT();
+                      console.log(nftData);
+                    }}
+                  >
+                    Mint NFT
+                  </Button>
+                </Grid>
+              </MobileView>
+            </Card>
+          </div>
+        </Grid >
+      </Grid >
+    </div >
   );
+
+
 }
 
-const useStyles = makeStyles({
+const useStyles = makeStyles((theme) => ({
   container: {
-    padding: "1rem",
+    padding: "2rem",
+    [theme.breakpoints.down("md")]: {
+      padding: "1rem",
+    }
   },
   card: {
     backgroundColor: "#ffffff",
     boxShadow: "0 0 10px 0 rgba(0,0,0,0.1)",
     color: "white",
-    padding: "20px",
+    padding: "30px",
     borderRadius: "0.5rem",
-    height: "78vh",
-    overflow: "scroll",
+    height: '100%'
   },
 
   title: {
     marginBottom: "0.5rem",
     fontSize: "30px",
-    color: "black",
+    color: "#2AABEE",
+    fontFamily: "Signika Negative",
     fontWeight: "bold",
   },
   form: {
     marginTop: "1rem",
   },
   label: {
-    color: "#2AABEE",
+    color: "grey",
     fontSize: "14px",
     fontWeight: "bold",
+    fontFamily: "Signika Negative",
+    padding: '0px'
+
   },
   button: {
     padding: "10px",
@@ -396,7 +407,9 @@ const useStyles = makeStyles({
     color: "white",
     border: "none",
     borderRadius: "0.5rem",
-    marginTop: "1rem",
+    fontFamily: "Signika Negative",
+
+
 
     marginBottom: "1rem",
   },
@@ -407,9 +420,9 @@ const useStyles = makeStyles({
     color: "black",
     border: "1px solid #2AABEE",
     borderRadius: "0.5rem",
-    width: "120%",
+    width: "100%",
     "&:hover": {
       border: "1px solid #2AABEE",
     },
   },
-});
+}));
