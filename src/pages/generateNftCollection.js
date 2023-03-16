@@ -220,7 +220,7 @@ const useStyles = makeStyles((theme) => ({
     border: "none",
     borderRadius: "0.5rem",
     fontFamily: "Signika Negative",
-
+    cursor: "pointer",
     marginBottom: "1rem",
   },
 
