@@ -9,11 +9,15 @@ import NftMinter from "../lib/nft-minter";
 import { create } from "ipfs";
 import { Box } from "@mui/system";
 import { MobileView, BrowserView } from "react-device-detect";
+import { collectionPreview } from "../lib/api/index";
+import { Address } from "ton";
+import { useNavigate } from "react-router-dom";
 
 export default function GenerateNft() {
   const classes = useStyles();
+  const navigate = useNavigate();
 
-  let address = useTonAddress(true);
+  let address = useTonAddress(false);
   const [tonConnectUi] = useTonConnectUI();
   const [nftData, setNftData] = useState({ nftName: "", nftDescription: "", nftImage: "", value: "", collectionAddress: "" });
 
@@ -35,8 +39,13 @@ export default function GenerateNft() {
         })
       );
 
-      // const minter = new NftMinter(address, tonConnectUi, "https://ipfs.io/ipfs/" + nftCollectionUri);
-      // await minter.deployNftItem(itemContent.path);
+      const content = await collectionPreview(nftData.collectionAddress);
+
+      const minter = new NftMinter(Address.parse(content.owner_address).toString(), tonConnectUi, content.collection_content.data);
+
+      minter.deployNftItem(itemContent.path, content.next_item_index, address).then(() => {
+        navigate("/view-nfts");
+      });
     }
   };
 

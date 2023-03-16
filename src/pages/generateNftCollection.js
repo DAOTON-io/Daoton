@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import { Divider, Grid } from "@mui/material";
+import { Grid } from "@mui/material";
 import { makeStyles } from "@mui/styles";
 import { Button, Card } from "reactstrap";
 import ResponsiveAppBar from "../components/header";
@@ -9,9 +9,11 @@ import NftMinter from "../lib/nft-minter";
 import { create } from "ipfs";
 import { Box } from "@mui/system";
 import { MobileView, BrowserView } from "react-device-detect";
+import { useNavigate } from "react-router-dom";
 
 export default function GenerateNftCollection() {
   const classes = useStyles();
+  const navigate = useNavigate();
 
   let address = useTonAddress(true);
   const [tonConnectUi] = useTonConnectUI();
@@ -32,7 +34,9 @@ export default function GenerateNftCollection() {
       );
 
       const minter = new NftMinter(address, tonConnectUi, "https://ipfs.io/ipfs/" + nftCollectionUri.path);
-      await minter.deployNftCollection();
+      minter.deployNftCollection().then(() => {
+        navigate("/generate-nft");
+      });
     }
   };
 
