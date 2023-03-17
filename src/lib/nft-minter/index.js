@@ -44,14 +44,14 @@ export default class NftMinter {
     });
   };
 
-  deployNftItem = async (itemContentUri) => {
+  deployNftItem = async (itemContentUri, itemIndex, ownerAddress) => {
     const nftCollectionAddress = await this.nftCollection.getAddress();
     const amount = toNano(0.05);
 
     const body = await this.nftCollection.createMintBody({
       amount: amount,
-      itemIndex: 0,
-      itemOwnerAddress: this.walletAddress,
+      itemIndex: itemIndex,
+      itemOwnerAddress: new TonWeb.utils.Address(ownerAddress),
       itemContentUri: itemContentUri,
     });
 

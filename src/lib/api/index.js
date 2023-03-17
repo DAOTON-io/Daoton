@@ -69,3 +69,11 @@ export const fetchNftCollection = async (collectionAddress) => {
 
   return data;
 };
+
+export const collectionPreview = async (collectionAddress) => {
+  const route = "https://testnet.toncenter.com/api/v2/getTokenData?address=" + collectionAddress;
+
+  const { data } = await axios.get(route);
+
+  return data.result;
+};
