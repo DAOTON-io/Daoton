@@ -1,9 +1,61 @@
-import { Grid, Box, Button } from "@mui/material";
+import { Card, Grid } from "@mui/material";
 import { makeStyles } from "@mui/styles";
-import React from "react";
-import GoogleFontLoader from "react-google-font-loader";
-import { Card } from "reactstrap";
-import { CopyAll } from "@mui/icons-material";
+
+
+export default function NftCard({ name, address, description }) {
+
+    const classes = useStyles();
+
+    return (
+        <div margin={4}>
+
+            <Card className={classes.card}>
+                <div
+                    style={{
+                        justifyContent: "center",
+                        alignItems: "center",
+                        display: "flex",
+                    }}>
+                    <Grid item>
+                        <div
+                            style={{
+                                justifyContent: "center",
+                                alignItems: "center",
+                                display: "flex",
+                            }}
+                        >
+                            <img width={"45%"}/>
+                        </div>
+                        <Grid container>
+                            <p className={classes.name}>{name}</p>
+                        </Grid>
+                        <p className={classes.description}>Address: {address}</p>
+                        <p className={classes.description}>Description: {description}</p>
+                        {/* <Box
+                                sx={{
+                                    display: "flex",
+                                    flexDirection: "row",
+                                }}
+                            >
+                                <p className={classes.description}>aaa</p>
+                                <Button
+                                    style={{ maxWidth: "0.2rem", maxHeight: "1rem" }}
+                                    endIcon={<CopyAll/>}
+                                    onClick={() => {
+                                        navigator.clipboard.writeText(description);
+                                    }}
+                                ></Button>
+                            </Box> */}
+                        <br />
+                    </Grid>
+                </div>
+            </Card>
+        </div>
+    );
+}
+
+
+
 
 const useStyles = makeStyles({
     container: {
@@ -14,7 +66,8 @@ const useStyles = makeStyles({
         boxShadow: "0 0 10px 0 rgba(0,0,0,0.1)",
         borderRadius: "0.5rem",
         padding: "20px",
-        minHeight: "40vh",
+        // minHeight: "100%",
+        minHeight:'200px'
     },
     name: {
         color: "white",
@@ -56,61 +109,3 @@ const useStyles = makeStyles({
         fontSize: "12px",
     },
 });
-
-export default function NFTItem({ name, image, description, value }) {
-    const classes = useStyles();
-
-    return (
-        <div className={classes.container}>
-            <a
-                style={{
-                    textDecoration: "none",
-                }}
-            >
-                <Card className={classes.card} >
-                    <div
-                        style={{
-                            justifyContent: "center",
-                            alignItems: "center",
-                            display: "flex",
-                        }}
-                    >
-                        <Grid item>
-                            <div
-                                style={{
-                                    justifyContent: "center",
-                                    alignItems: "center",
-                                    display: "flex",
-                                }}
-                            >
-                                <img width={"45%"} src="logo/logo.jpeg" />
-                            </div>{" "}
-                            <Grid container>
-                                <p className={classes.name}>{name}</p>
-                            </Grid>
-                            <p className={classes.date}>Token Details</p>
-                            <Box
-                                sx={{
-                                    display: "flex",
-                                    flexDirection: "row",
-                                }}
-                            >
-                                <p className={classes.description}>{description.slice(0, 16) + "..." + description.slice(-3)}</p>
-                                <Button
-                                    style={{ maxWidth: "0.2rem", maxHeight: "1rem" }}
-                                    endIcon={<CopyAll />}
-                                    onClick={() => {
-                                        navigator.clipboard.writeText(description);
-                                    }}
-                                ></Button>
-                            </Box>
-                            <br />
-                            <p className={classes.value}>{value}</p>
-                            <p className={classes.image}></p>
-                        </Grid>
-                    </div>
-                </Card>
-            </a>
-        </div>
-    );
-}

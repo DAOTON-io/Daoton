@@ -7,6 +7,7 @@ import ResponsiveAppBar from "../components/header";
 import { useLocation, useParams } from 'react-router-dom';
 import { useState, useEffect } from "react";
 import { fetchNfts } from "../lib/api";
+import NftCard from "../components/nft-item";
 
 export default function ViewNft() {
     const { collectionId } = useParams();
@@ -39,8 +40,8 @@ export default function ViewNft() {
                         console.log(nftItem)
                     }
                 }
-                
-                
+
+
                 setNft(nftItem)
             }
             setLoading(false);
@@ -121,24 +122,26 @@ export default function ViewNft() {
                                         </Card>
                                     </Grid>
                                 )}
-                                <Grid md={20} margin={2}>
 
+                                <Grid md={20} margin={2}>
                                     <Collection
                                         name={'your collection'}
                                         address={collectionId}
                                     ></Collection>
                                 </Grid>
-                                {
-                                    nft.map((item) => (
-                                        <Grid item margin={1} md={3.75} justifyContent={'space-around'}>
-                                            <a style={{ textDecoration: 'none' }}>
-                                                <Collection
-                                                    name={item.collection.name}
-                                                    address={item.address.slice(0, 4) + '...' + item.address.slice(-4)}
-                                                ></Collection>
-                                            </a>
-                                        </Grid>
-                                    ))}
+
+
+                                {nft.map((item) => (
+                                    <Grid item margin={1} md={3.75} justifyContent={'space-around'}>
+                                        <a style={{ textDecoration: 'none' }}>
+                                            <NftCard
+                                                name={item.collection.name}
+                                                address={item.address.slice(0, 4) + '...' + item.address.slice(-4)}
+                                                description={item.metadata.description}
+                                            ></NftCard>
+                                        </a>
+                                    </Grid>
+                                ))}
                             </Grid>
                         </div>
 
