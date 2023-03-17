@@ -125,6 +125,18 @@ export default function SideMenu() {
             </div>
             <Divider className={classes.divider} />
             <div className={classes.listItem}>
+              <p className={classes.title}>Proposal</p>
+              <Grid className={classes.listItemSmall} container spacing={1}>
+                <Grid item>
+                  <CalendarMonthIcon />
+                </Grid>
+                <Grid item>
+                  <Typography className={classes.item}> Proposal Calender</Typography>
+                </Grid>
+              </Grid>
+            </div>
+            <Divider className={classes.divider} />
+            <div className={classes.listItem}>
               <p className={classes.title}>Token</p>
               <Grid className={classes.listItemSmall} container spacing={1}>
                 <Grid item>
@@ -148,18 +160,6 @@ export default function SideMenu() {
                       Generate Token
                     </a>
                   </Typography>
-                </Grid>
-              </Grid>
-            </div>
-            <Divider className={classes.divider} />
-            <div className={classes.listItem}>
-              <p className={classes.title}>Proposal</p>
-              <Grid className={classes.listItemSmall} container spacing={1}>
-                <Grid item>
-                  <CalendarMonthIcon />
-                </Grid>
-                <Grid item>
-                  <Typography className={classes.item}> Proposal Calender</Typography>
                 </Grid>
               </Grid>
             </div>
