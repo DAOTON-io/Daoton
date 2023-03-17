@@ -1,47 +1,46 @@
-
-import { Grid, Card, Box, Typography } from "@mui/material";
-import Collection from "../components/collections";
+import React, { useEffect, useState, CircularProgress } from "react";
+import { Grid, Box, Card, Typography } from "@mui/material";
 import SideMenu from "../components/sideMenu";
-import { makeStyles } from "@mui/styles";
 import ResponsiveAppBar from "../components/header";
-import { useLocation, useParams } from 'react-router-dom';
-import { useState, useEffect } from "react";
+import { makeStyles } from "@mui/styles";
+import { useTonAddress } from "@tonconnect/ui-react";
 import { fetchNfts } from "../lib/api";
+import Collection from "../components/collections";
 
-export default function ViewNft() {
-    const { collectionId } = useParams();
+export default function ViewCollections() {
     const classes = useStyles();
 
-    const [nft, setNft] = useState([]);
+    const [collection, setCollection] = useState([]);
+    const [items, setItems] = useState();
+    const [link, setLink] = useState();
+
     const [loading, setLoading] = useState(true);
 
+    const [timer, setTimer] = useState(Date.now());
 
-    const nftItem = []
-    // const [list, setList] = useState();
+
+
+    // useEffect(() => {
+    //     const interval = setInterval(() => setTimer(Date.now()), 6000);
+    //     return () => {
+    //         clearInterval(interval);
+    //     };
+    // }, []);
+
+    function timeout(ms) {
+        return new Promise(resolve => setTimeout(resolve, ms));
+    }
+
 
     // const address = useTonAddress();
     const address = 'EQDyNhhx8N1Uy_jF4b1cT_CUFLsHKP6IwP6CwpsqBSM1tfn_'
 
-
     useEffect(() => {
         const fetchData = async () => {
             if (address) {
-                const nftResponse = await fetchNfts(address)
-                const nftData = nftResponse.nftItems
-
-                console.log(nftData[0].collection_address)
-
-
-                for (let index = 0; index < nftData.length; index++) {
-                    // console.log(nftData[index].collection_address)
-                    if (collectionId === nftData[index].collection_address) {
-                        nftItem.push(nftData[index])
-                        console.log(nftItem)
-                    }
-                }
-                
-                
-                setNft(nftItem)
+                const collectionResponse = await fetchNfts(address)
+                const collectionData = collectionResponse.collections
+                setCollection(collectionData)
             }
             setLoading(false);
 
@@ -50,21 +49,25 @@ export default function ViewNft() {
     }, [address])
 
 
-    // console.log(collectionId)
 
     return (
-        <div>
+        <div marginTop={2}>
             <div
                 style={{
                     backgroundColor: "#E7EBF1",
+                    height: "100vh",
+                    width: "100%",
+                    overflow: "auto",
                 }}
-                className={classes.container}>
+                className={classes.container}
+            >
                 <Grid container spacing={2}>
                     <Grid item md={2}>
-                        <SideMenu />
+                        <SideMenu></SideMenu>
                     </Grid>
-                    <Grid item md={10} xs={12}>
-                        <ResponsiveAppBar />
+                    <Grid item md={10}>
+                        <ResponsiveAppBar></ResponsiveAppBar>
+
                         <div
                             style={{
                                 height: "100vh",
@@ -87,7 +90,7 @@ export default function ViewNft() {
                                     top: "0",
                                 }}
                             >
-                                {nft.length === 0 && (
+                                {collection.length === 0 && (
                                     <Grid
                                         item
                                         md={12}
@@ -121,32 +124,28 @@ export default function ViewNft() {
                                         </Card>
                                     </Grid>
                                 )}
-                                <Grid md={20} margin={2}>
+                                {collection.map((item) => (
 
-                                    <Collection
-                                        name={collectionId}
-                                    ></Collection>
-                                </Grid>
-                                {
-                                    nft.map((item) => (
-                                        <Grid item margin={1} md={3.75} justifyContent={'space-around'}>
-                                            <a style={{ textDecoration: 'none' }}>
-                                                <Collection
-                                                    name={item.collection.name}
-                                                    address={item.address.slice(0, 4) + '...'}
-                                                ></Collection>
-                                            </a>
-                                        </Grid>
-                                    ))}
+                                    <Grid item my={1} md={20}>
+                                        <a href={"/view-collections/"+item.address} onClick={()=>{setLink(item.address)
+                                        console.log(item.address)}} style={{ textDecoration: 'none' }}>
+                                            <Collection
+                                                name={item.name}
+                                                address={item.address}
+                                            ></Collection>
+                                        </a>
+                                    </Grid>
+                                ))}
                             </Grid>
                         </div>
 
                     </Grid>
                 </Grid>
             </div>
-        </div>
+        </div >
     );
 }
+
 
 const useStyles = makeStyles((theme) => ({
     container: {

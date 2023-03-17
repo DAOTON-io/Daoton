@@ -10,7 +10,8 @@ import GenerateNft from "./pages/generateNft";
 import Vote from "./pages/vote";
 import { ThemeProvider } from "@mui/styles";
 import { createTheme } from "@mui/material";
-import ViewNFTS from "./pages/viewNFT";
+import ViewCollections from "./pages/viewCollections";
+import ViewNft from "./pages/viewNFT";
 const theme = createTheme();
 const TonProofDemoApi = {
   connectWalletRequest: {
@@ -53,13 +54,15 @@ function App() {
               <Route path="/listContracts/:daoId" index element={<ContractList />} />
               <Route path="/create-dao" index element={<CreateDao />} />
               <Route path="/view-tokens" index element={<ViewTokens />} />
-              <Route path="/view-nfts" index element={<ViewNFTS />} />
+              <Route path="/view-collections" index element={<ViewCollections />} />
               <Route path="/create-contract" index element={<CreateContract />} />
               <Route path="/generate-token" index element={<GenerateToken />} />
               <Route path="/vote/:proposalId" index element={<Vote />} />
 
               <Route path="/create-contract/:daoId" index element={<CreateContract />} />
               <Route path="/generate-nft" index element={<GenerateNft />} />
+
+              <Route path="/view-collections/:collectionId" index element={<ViewNft/>}></Route>
             </Route>
           </Routes>
         </BrowserRouter>

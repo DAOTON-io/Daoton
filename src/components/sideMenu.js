@@ -174,7 +174,7 @@ export default function SideMenu() {
                 </Grid>
                 <Grid item>
                   <Typography className={classes.item}>
-                    <a className={classes.item} href="view-nfts">
+                    <a className={classes.item} href="view-collections">
                       View Nft's
                     </a>
                   </Typography>
