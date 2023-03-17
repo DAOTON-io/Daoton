@@ -11,12 +11,14 @@ import BigNumber from "bignumber.js";
 import { BN } from "bn.js";
 import { useNavigate } from "react-router-dom";
 import GoogleFontLoader from "react-google-font-loader";
+import toastr from "toastr";
+
 const useStyles = makeStyles((theme) => ({
   container: {
     padding: "2rem",
     [theme.breakpoints.down("md")]: {
       padding: "1rem",
-    }
+    },
   },
   card: {
     backgroundColor: "#ffffff",
@@ -30,8 +32,7 @@ const useStyles = makeStyles((theme) => ({
       width: "70%",
 
       padding: "50px",
-
-    }
+    },
   },
 
   title: {
@@ -42,14 +43,13 @@ const useStyles = makeStyles((theme) => ({
     fontWeight: "bold",
   },
   form: {
-    marginTop: "1rem",
+    marginTop: "0.6rem",
   },
   label: {
     color: "grey",
     fontSize: "14px",
     fontWeight: "bold",
     fontFamily: "Signika Negative",
-
   },
   button: {
     padding: "10px",
@@ -58,9 +58,7 @@ const useStyles = makeStyles((theme) => ({
     border: "none",
     borderRadius: "0.5rem",
     fontFamily: "Signika Negative",
-
-
-
+    cursor: "pointer",
     marginBottom: "1rem",
   },
 
@@ -98,6 +96,7 @@ export default function GenerateToken() {
     amount: 0,
     description: "",
     isPausable: false,
+    isStackable: false,
   });
   let address = useTonAddress();
   const [tonConnectUi] = useTonConnectUI();
@@ -110,9 +109,7 @@ export default function GenerateToken() {
 
     let dc = data.decimal;
     if (data.offchainUri) {
-      let res = await fetchDecimalsOffchain(
-        data.offchainUri.replace("ipfs://", "https://ipfs.io/ipfs/")
-      );
+      let res = await fetchDecimalsOffchain(data.offchainUri.replace("ipfs://", "https://ipfs.io/ipfs/"));
       dc = res.decimals;
     }
 
@@ -162,6 +159,7 @@ export default function GenerateToken() {
 
     tonConnectUi.sendTransaction(defaultTx2).then(() => {
       navigate("/view-tokens");
+      toastr.success(contractAddressHex, "Jetton deployed successfully.");
     });
   };
 
@@ -179,12 +177,15 @@ export default function GenerateToken() {
           </Grid>
           <Grid item md={10}>
             <ResponsiveAppBar />{" "}
-            <div style={{
-              marginTop: "1rem", justifyContent: "center",
-              alignItems: "center",
-              display: "flex",
-              height: "80vh"
-            }}>
+            <div
+              style={{
+                marginTop: "1rem",
+                justifyContent: "center",
+                alignItems: "center",
+                display: "flex",
+                height: "80vh",
+              }}
+            >
               <Card className={classes.card}>
                 <GoogleFontLoader
                   fonts={[
@@ -245,10 +246,7 @@ export default function GenerateToken() {
                           {" "}
                           <div>
                             <form className={classes.form}>
-                              <label
-                                className={classes.label}
-                                for="description"
-                              >
+                              <label className={classes.label} for="description">
                                 Description :
                               </label>
                             </form>
@@ -277,8 +275,6 @@ export default function GenerateToken() {
                           </div>
                         </Grid>
                       </Grid>
-
-
 
                       <Grid container alignItems={"center"}>
                         <Grid item xs={12} md={2}>
@@ -315,8 +311,6 @@ export default function GenerateToken() {
                         </Grid>
                       </Grid>
 
-
-
                       <Grid container alignItems={"center"}>
                         <Grid item xs={12} md={2}>
                           {" "}
@@ -352,7 +346,6 @@ export default function GenerateToken() {
                         </Grid>
                       </Grid>
 
-
                       <Grid container alignItems={"center"}>
                         <Grid item xs={12} md={2}>
                           {" "}
@@ -387,10 +380,9 @@ export default function GenerateToken() {
                           </div>
                         </Grid>
                       </Grid>
-                      <Grid container alignItems={'center'} >
-
+                      <Grid container alignItems={"center"}>
                         <Grid item md={6}>
-                          <Grid container alignItems={'center'} >
+                          <Grid container alignItems={"center"}>
                             <Grid item md={8}>
                               <form className={classes.form}>
                                 <label className={classes.label} for="decimal">
@@ -408,6 +400,33 @@ export default function GenerateToken() {
                                     setData({
                                       ...data,
                                       isPausable: !data.isPausable,
+                                    });
+                                  }}
+                                  disabled
+                                />
+                              </form>
+                            </Grid>
+                          </Grid>
+                        </Grid>
+                        <Grid item md={6}>
+                          <Grid container alignItems={"center"}>
+                            <Grid item md={8}>
+                              <form className={classes.form}>
+                                <label className={classes.label} for="decimal">
+                                  Stackable Contract :
+                                </label>
+                              </form>
+                            </Grid>
+                            <Grid item md={3}>
+                              <form className={classes.form}>
+                                <Switch
+                                  color="primary"
+                                  size="medium"
+                                  checked={data.isStackable}
+                                  onChange={() => {
+                                    setData({
+                                      ...data,
+                                      isStackable: !data.isStackable,
                                     });
                                   }}
                                   disabled
