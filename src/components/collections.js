@@ -2,7 +2,7 @@ import { Card, Grid } from "@mui/material";
 import { makeStyles } from "@mui/styles";
 
 
-export default function Collection({ name, address }) {
+export default function Collection({ name, address, image }) {
 
     const classes = useStyles();
 
@@ -24,13 +24,16 @@ export default function Collection({ name, address }) {
                                 display: "flex",
                             }}
                         >
-                            <img width={"45%"}/>
-                        </div>
-                        <Grid container>
-                            <p className={classes.name}>{name}</p>
-                        </Grid>
-                        <p className={classes.description}>Address: {address} </p>
-                        {/* <Box
+                            <img 
+                            onerror="this.onerror=null;this.src='https://i.ibb.co/XYv6QT1/Daoton-Logo.png';"
+                            src={image} width="200" height="auto"></img>
+                            
+                </div>
+                <Grid container>
+                    <p className={classes.name}>{name}</p>
+                </Grid>
+                <p className={classes.description}>Address: {address} </p>
+                {/* <Box
                                 sx={{
                                     display: "flex",
                                     flexDirection: "row",
@@ -45,11 +48,11 @@ export default function Collection({ name, address }) {
                                     }}
                                 ></Button>
                             </Box> */}
-                        <br />
-                    </Grid>
-                </div>
-            </Card>
+                <br />
+            </Grid>
         </div>
+            </Card >
+        </div >
     );
 }
 
@@ -66,7 +69,7 @@ const useStyles = makeStyles({
         borderRadius: "0.5rem",
         padding: "20px",
         // minHeight: "100%",
-        minHeight:'200px'
+        minHeight: '200px'
     },
     name: {
         color: "white",

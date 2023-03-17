@@ -2,7 +2,7 @@ import { Card, Grid } from "@mui/material";
 import { makeStyles } from "@mui/styles";
 
 
-export default function NftCard({ name, address, description }) {
+export default function NftCard({ name, address, description, image }) {
 
     const classes = useStyles();
 
@@ -24,7 +24,11 @@ export default function NftCard({ name, address, description }) {
                                 display: "flex",
                             }}
                         >
-                            <img width={"45%"}/>
+                            <img
+                                src={image}
+                                onerror="this.onerror=null;this.src='https://i.ibb.co/42mMZZz/image.png';"
+                            />
+
                         </div>
                         <Grid container>
                             <p className={classes.name}>{name}</p>
@@ -67,7 +71,7 @@ const useStyles = makeStyles({
         borderRadius: "0.5rem",
         padding: "20px",
         // minHeight: "100%",
-        minHeight:'200px'
+        minHeight: '200px'
     },
     name: {
         color: "white",

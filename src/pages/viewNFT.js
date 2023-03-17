@@ -8,6 +8,7 @@ import { useLocation, useParams } from 'react-router-dom';
 import { useState, useEffect } from "react";
 import { fetchNfts } from "../lib/api";
 import NftCard from "../components/nft-item";
+import { BrowserView, MobileView } from "react-device-detect";
 
 export default function ViewNft() {
     const { collectionId } = useParams();
@@ -43,6 +44,7 @@ export default function ViewNft() {
         fetchData();
     }, [address])
 
+    console.log(nft)
 
     return (
         <div>
@@ -113,13 +115,23 @@ export default function ViewNft() {
                                         </Card>
                                     </Grid>
                                 )}
-
-                                <Grid md={20} margin={2}>
-                                    <Collection
-                                        name={collectionName}
-                                        address={collectionId}
-                                    ></Collection>
-                                </Grid>
+                                {/* <BrowserView> */}
+                                    <Grid md={20} margin={2}>
+                                        <Collection
+                                            name={collectionName}
+                                            address={collectionId}
+                                            // image={collectionId}
+                                        ></Collection>
+                                    </Grid>
+                                {/* </BrowserView> */}
+                                {/* <MobileView>
+                                    <Grid md={2} margin={2}>
+                                        <Collection
+                                            name={collectionName}
+                                            address={collectionId.slice(0, 4) + '...' + collectionId.slice(-4)}
+                                        ></Collection>
+                                    </Grid>
+                                </MobileView> */}
 
 
                                 {nft.map((item) => (
@@ -129,6 +141,7 @@ export default function ViewNft() {
                                                 name={item.metadata.name}
                                                 address={item.address.slice(0, 4) + '...' + item.address.slice(-4)}
                                                 description={item.metadata.description}
+                                                image={item.metadata.image}
                                             ></NftCard>
                                         </a>
                                     </Grid>
