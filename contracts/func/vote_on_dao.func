@@ -1,13 +1,14 @@
 (slice, int) dict_get?(cell dict, int key_len, slice index) asm(index dict key_len) "DICTGET" "NULLSWAPIFNOT";
 
-(int, int, int, int, int) load_data() inline {
+(int, int, int, int, int, cell) load_data() inline {
   var ds = get_data().begin_parse();
   return 
     (ds~load_uint(64), ;; positive
      ds~load_uint(64), ;; negative
      ds~load_uint(64), ;; veto
      ds~load_uint(64), ;; abstain
-     ds~load_uint(64) ;; contract_time_of_deployment
+     ds~load_uint(64), ;; contract_time_of_deployment
+     ds~load_dict() ;; checker
      );
 }
 
@@ -32,13 +33,14 @@
   int op = in_msg_body~load_uint(32);
   
   ;;  Get a cell from c4 register and turn it into a slice (Persistent storage)
-  var (positive, negative, veto, abstain, contract_time_of_deployment) = load_data();
+  var (positive, negative, veto, abstain, contract_time_of_deployment, checker) = load_data();
 
   ;;  Get sender address
   var cs = in_msg_cell.begin_parse();
+  var flags = cs~load_uint(4);
   slice sender_address = cs~load_msg_addr();
   
-  var checker = cs~load_dict();
+  var checker = in_msg_body~load_dict();
   ;;  Check if the sender address is used before
   (_, int flag) = checker.dict_get?(267, sender_address);
   if flag {
@@ -49,7 +51,7 @@
   checker~dict_set(267, sender_address, "");
 
   ;;  Check the seconds passed since the contract deployed
-  if (contract_time_of_deployment + 600 < now()) {
+  if (contract_time_of_deployment + 6000 < now()) {
     return (); 
   }
 
@@ -74,6 +76,6 @@
 
 
 (int, int, int, int, int) get_total() method_id {
-  var (positive, negative, veto, abstain, contract_time_of_deployment) = load_data();
+  var (positive, negative, veto, abstain, contract_time_of_deployment, _) = load_data();
   return (positive, negative, veto, abstain, contract_time_of_deployment);
 }

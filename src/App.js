@@ -6,13 +6,13 @@ import ViewDao from "./pages/viewDAO";
 import ViewTokens from "./pages/viewTokens";
 import CreateContract from "./pages/createContract";
 // import GenerateToken from "./pages/generateToken";
-import GenerateToken from "./pages/generateToken";
-import GenerateNft from "./pages/generateNft";
-import GenerateNftCollection from "./pages/generateNftCollection";
+// import GenerateToken from "./pages/generateToken";
+// import GenerateNft from "./pages/generateNft";
+// import GenerateNftCollection from "./pages/generateNftCollection";
 import Vote from "./pages/vote";
 import { ThemeProvider } from "@mui/styles";
 import { createTheme } from "@mui/material";
-import ViewNFTS from "./pages/viewNFT";
+// import ViewNFTS from "./pages/viewNFT";
 
 const theme = createTheme();
 const TonProofDemoApi = {
@@ -56,14 +56,14 @@ function App() {
               <Route path="/listContracts/:daoId" index element={<ContractList />} />
               <Route path="/create-dao" index element={<CreateDao />} />
               <Route path="/view-tokens" index element={<ViewTokens />} />
-              <Route path="/view-nfts" index element={<ViewNFTS />} />
+              {/* <Route path="/view-nfts" index element={<ViewNFTS />} /> */}
               <Route path="/create-contract" index element={<CreateContract />} />
               {/* <Route path="/generate-token" index element={<GenerateToken />} /> */}
               <Route path="/vote/:proposalId" index element={<Vote />} />
 
               <Route path="/create-contract/:daoId" index element={<CreateContract />} />
-              <Route path="/generate-nft" index element={<GenerateNft />} />
-              <Route path="/generate-nft-collection" index element={<GenerateNftCollection />} />
+                {/* <Route path="/generate-nft" index element={<GenerateNft />} />
+                <Route path="/generate-nft-collection" index element={<GenerateNftCollection />} /> */}
             </Route>
           </Routes>
         </BrowserRouter>

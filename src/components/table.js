@@ -126,7 +126,7 @@ export default function StickyHeadTable({daoId}) {
                                                 );
                                             })}
                                             {/* go to /vote page with proposalId like: /vote/0x123456789 */}
-                                            <a href={`/vote/${row.Adress}`}><Button className={classes.buttonEdit} > <EditIcon style={{ fontSize: '14px', marginRight: '5px' }} /> Oyla</Button></a>
+                                            <a href={`/vote/${row.Adress}`}><Button className={classes.buttonEdit} > <EditIcon style={{ fontSize: '14px', marginRight: '5px' }} /> Vote</Button></a>
                                         </TableRow>
                                     );
                                 })}

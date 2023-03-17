@@ -79,11 +79,23 @@ const useStyles = makeStyles((theme) => ({
     },
 }));
 
-
+const writeMayBe = (cell, ref) => {
+    if (ref) {
+        cell.bits.writeBit(1);
+        if (cell.refs.length >= 4) {
+            throw new Error('refs overflow')
+        }
+        cell.refs.push(ref);
+    } else {
+        cell.bits.writeBit(0);
+    }
+}
 
 export default function CreateContract() {
     const classes = useStyles();
     const [proposalText, setProposalText] = React.useState("");
+    const [duration, setDuration] = React.useState("");
+    const [treshold, setTreshold] = React.useState("");
     const [tonConnectUi] = useTonConnectUI();
     const { daoId } = useParams();
     const createProposal = async () => {
@@ -92,7 +104,7 @@ export default function CreateContract() {
         console.log("Proposal text:" + proposalText)
 
         // deploy voting contract
-        let code = TonWeb.boc.Cell.fromBoc('b5ee9c72c1010401007c00000d12250114ff00f4a413f4bcf2c80b0102016203020021a1e9fbda89a1a67fa67fa67fa67fa67e6100aad03120c7009130e0d31f30ed44d0d33fd33fd33fd33fd33f3020811770a0f823b9925f06e025c0009303a403de25c0019304a404de25c0029302a402de05c00391a4de550304c8cb3f13cb3fcb3fcb3fcb3fc9ed5473e021b3')[0];
+        let code = TonWeb.boc.Cell.fromBoc('b5ee9c72c1010401009d00000d12280114ff00f4a413f4bcf2c80b0102016203020027a1e9fbda89a1a67fa67fa67fa67fa67fe808606100e6d020c700915be0d31fed44d0d33fd33fd33fd33fd33ff404303007d0d30331fa403005f404305350810101f40a6fa1375b04925f06e025811770a0f823b9925f06e024c0009301a401de24c0019302a402de24c00291a4de04c0039302a402de55200404c8cb3f13cb3fcb3fcb3fcb3fc9ed5495f106e7')[0];
         let positive = 0;
         let negative = 0;
         let veto = 0;
@@ -104,7 +116,7 @@ export default function CreateContract() {
         data.bits.writeUint(veto, 64);//veto   
         data.bits.writeUint(abstain, 64);//abstain
         data.bits.writeUint(contract_time_of_deployment, 64);
-        //init state is set_data(begin_cell().store_uint(positive, 64).store_uint(negative, 64).store_uint(contract_time_of_deployment, 64).store_ref(proposal_detail).end_cell());
+        data.bits.writeBit(0);
         let state_init = new TonWeb.boc.Cell();
         state_init.bits.writeUint(6, 5);
         state_init.refs.push(code);
@@ -128,7 +140,7 @@ export default function CreateContract() {
             messages: [
                 {
                     address: contractAddressNew,
-                    amount: '69000000',
+                    amount: '6900000',
                     stateInit: state_init_boc
                 },
             ],
@@ -186,6 +198,26 @@ export default function CreateContract() {
                                     <Grid container>
                                         <div>
                                             <form className={classes.form}>
+                                                <label className={classes.label} for="tokenID">
+                                                    Token{" "}
+                                                </label>
+                                                <input
+                                                    value={daoId}
+                                                    fullWidth
+                                                    className={classes.input}
+                                                    type="text"
+                                                    id="tokenID"
+                                                    name="firstname"
+                                                    placeholder="DAO name.."
+                                                    // non editable
+                                                    disabled
+                                                ></input>
+                                            </form>
+                                        </div>
+                                    </Grid>
+                                    <Grid container>
+                                        <div>
+                                            <form className={classes.form}>
                                                 <label className={classes.label} for="proposalText">
                                                     Proposal
                                                 </label>
@@ -200,6 +232,41 @@ export default function CreateContract() {
                                             </form>
                                         </div>
                                     </Grid>
+                                    <Grid container>
+                                        <div>
+                                            <form className={classes.form}>
+                                                <label className={classes.label} for="duration">
+                                                    Duration
+                                                </label>
+                                                <input
+                                                    onChange={(e) => setDuration(e.target.value)}
+                                                    className={classes.input}
+                                                    type="text"
+                                                    id="duration"
+                                                    name="firstname"
+                                                    placeholder="Duration"
+                                                ></input>
+                                            </form>
+                                        </div>
+                                    </Grid>
+                                    <Grid container>
+                                        <div>
+                                            <form className={classes.form}>
+                                                <label className={classes.label} for="treshold">
+                                                    Treshold
+                                                </label>
+                                                <input
+                                                    onChange={(e) => setTreshold(e.target.value)}
+                                                    className={classes.input}
+                                                    type="text"
+                                                    id="treshold"
+                                                    name="firstname"
+                                                    placeholder="Treshold"
+                                                ></input>
+                                            </form>
+                                        </div>
+                                    </Grid>
+
 
 
 
