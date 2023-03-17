@@ -14,11 +14,9 @@ export default function ViewNft() {
     const classes = useStyles();
 
     const [nft, setNft] = useState([]);
+    const [collectionName, setCollectionName] = useState();
     const [loading, setLoading] = useState(true);
-
-
     const nftItem = []
-    // const [list, setList] = useState();
 
     // const address = useTonAddress();
     const address = 'EQDyNhhx8N1Uy_jF4b1cT_CUFLsHKP6IwP6CwpsqBSM1tfn_'
@@ -30,18 +28,13 @@ export default function ViewNft() {
                 const nftResponse = await fetchNfts(address)
                 const nftData = nftResponse.nftItems
 
-                console.log(nftData[0].collection_address)
-
-
                 for (let index = 0; index < nftData.length; index++) {
                     // console.log(nftData[index].collection_address)
                     if (collectionId === nftData[index].collection_address) {
+                        setCollectionName(nftData[index].collection.name)
                         nftItem.push(nftData[index])
-                        console.log(nftItem)
                     }
                 }
-
-
                 setNft(nftItem)
             }
             setLoading(false);
@@ -50,8 +43,6 @@ export default function ViewNft() {
         fetchData();
     }, [address])
 
-
-    // console.log(collectionId)
 
     return (
         <div>
@@ -125,7 +116,7 @@ export default function ViewNft() {
 
                                 <Grid md={20} margin={2}>
                                     <Collection
-                                        name={'your collection'}
+                                        name={collectionName}
                                         address={collectionId}
                                     ></Collection>
                                 </Grid>
@@ -135,7 +126,7 @@ export default function ViewNft() {
                                     <Grid item margin={1} md={3.75} justifyContent={'space-around'}>
                                         <a style={{ textDecoration: 'none' }}>
                                             <NftCard
-                                                name={item.collection.name}
+                                                name={item.metadata.name}
                                                 address={item.address.slice(0, 4) + '...' + item.address.slice(-4)}
                                                 description={item.metadata.description}
                                             ></NftCard>
