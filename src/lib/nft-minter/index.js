@@ -1,5 +1,6 @@
 import TonWeb from "tonweb";
 import { toNano } from "ton";
+import toastr from "toastr";
 
 const { NftCollection, NftItem } = TonWeb.token.nft;
 
@@ -39,8 +40,8 @@ export default class NftMinter {
       ],
     };
 
-    this.tonConnectUi.sendTransaction(defaultTx2).then(() => {
-      console.log("here");
+    this.tonConnectUi.sendTransaction(defaultTx2).then((data) => {
+      toastr.success(nftCollectionAddress.toString(true, true, true), "Contract deployed successfully.");
     });
   };
 
@@ -70,7 +71,7 @@ export default class NftMinter {
     };
 
     this.tonConnectUi.sendTransaction(defaultTx2).then(() => {
-      console.log("here");
+      toastr.success("Nft item created successfully.");
     });
   };
 }
