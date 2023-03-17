@@ -26,8 +26,12 @@
   var (token_id, total_balance, stake_amount_request, already_staked_amount) = load_data();
   ;;  Get sender address
   var cs = in_msg_cell.begin_parse();
-  slice sender_address = cs~load_msg_addr();
+  slice s_addr = cs~load_msg_addr();
+  (int sender_wc, slice sender_addr) = parse_var_addr(s_addr);
+  int member = sender_addr~load_uint(256);
 
+  ;;  Get token balance
+  var [balance, extra] = get_balance();
   ;;  Define operation, transform the message sent to an uint32 integer
   int op = in_msg_body~load_uint(32);
 
