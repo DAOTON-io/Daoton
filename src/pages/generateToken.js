@@ -43,7 +43,7 @@ const useStyles = makeStyles((theme) => ({
     fontWeight: "bold",
   },
   form: {
-    marginTop: "1rem",
+    marginTop: "0.6rem",
   },
   label: {
     color: "grey",
@@ -58,7 +58,7 @@ const useStyles = makeStyles((theme) => ({
     border: "none",
     borderRadius: "0.5rem",
     fontFamily: "Signika Negative",
-
+    cursor: "pointer",
     marginBottom: "1rem",
   },
 
