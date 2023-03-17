@@ -12,6 +12,72 @@ import { MobileView, BrowserView } from "react-device-detect";
 import { collectionPreview } from "../lib/api/index";
 import { Address } from "ton";
 import { useNavigate } from "react-router-dom";
+const useStyles = makeStyles((theme) => ({
+  container: {
+    padding: "2rem",
+    [theme.breakpoints.down("md")]: {
+      padding: "1rem",
+    }
+  },
+  card: {
+    backgroundColor: "#ffffff",
+    boxShadow: "0 0 10px 0 rgba(0,0,0,0.1)",
+    color: "white",
+    padding: "30px",
+    borderRadius: "0.5rem",
+
+    height: "100%",
+    [theme.breakpoints.up("sm")]: {
+      width: "70%",
+
+      padding: "50px",
+
+    }
+  },
+
+  title: {
+    marginBottom: "0.5rem",
+    fontSize: "30px",
+    color: "#2AABEE",
+    fontFamily: "Signika Negative",
+    fontWeight: "bold",
+  },
+  form: {
+    marginTop: "1rem",
+  },
+  label: {
+    color: "grey",
+    fontSize: "14px",
+    fontWeight: "bold",
+    fontFamily: "Signika Negative",
+
+  },
+  button: {
+    padding: "10px",
+    backgroundColor: "#2AABEE",
+    color: "white",
+    border: "none",
+    borderRadius: "0.5rem",
+    fontFamily: "Signika Negative",
+
+
+
+    marginBottom: "1rem",
+  },
+
+  input: {
+    marginTop: "0.5rem",
+    padding: "10px",
+    color: "black",
+    border: "1px solid #2AABEE",
+    borderRadius: "0.5rem",
+    width: "100%",
+    "&:hover": {
+      border: "1px solid #2AABEE",
+    },
+  },
+}));
+
 
 export default function GenerateNft() {
   const classes = useStyles();
@@ -62,13 +128,20 @@ export default function GenerateNft() {
         </Grid>
         <Grid item md={10}>
           <ResponsiveAppBar></ResponsiveAppBar>
-          <div style={{ marginTop: "1rem" }}>
+          <div style={{
+            marginTop: "1rem", justifyContent: "center",
+            alignItems: "center",
+            display: "flex",
+            height: "80vh"
+          }}>
             <Card className={classes.card}>
               <Box mt={4}>
                 <p className={classes.title}>Create NFT</p>
               </Box>
+
               <Grid container alignItems={"center"}>
                 <Grid item xs={12} md={2}>
+                  {" "}
                   <div>
                     <form className={classes.form}>
                       <label className={classes.label} for="name">
@@ -78,6 +151,7 @@ export default function GenerateNft() {
                   </div>
                 </Grid>
                 <Grid item xs={12} md={8}>
+                  {" "}
                   <div>
                     <form className={classes.form}>
                       <input
@@ -97,15 +171,20 @@ export default function GenerateNft() {
               </Grid>
               <Grid container alignItems={"center"}>
                 <Grid item xs={12} md={2}>
+                  {" "}
                   <div>
                     <form className={classes.form}>
-                      <label className={classes.label} for="name">
-                        Description:
+                      <label
+                        className={classes.label}
+                        for="description"
+                      >
+                        Description :
                       </label>
                     </form>
                   </div>
                 </Grid>
                 <Grid item xs={12} md={8}>
+                  {" "}
                   <div>
                     <form className={classes.form}>
                       <input
@@ -125,6 +204,7 @@ export default function GenerateNft() {
               </Grid>
               <Grid container alignItems={"center"}>
                 <Grid item xs={12} md={2}>
+                  {" "}
                   <div>
                     <form className={classes.form}>
                       <label className={classes.label} for="name">
@@ -134,6 +214,7 @@ export default function GenerateNft() {
                   </div>
                 </Grid>
                 <Grid item xs={12} md={8}>
+                  {" "}
                   <div>
                     <form className={classes.form}>
                       <input
@@ -151,8 +232,10 @@ export default function GenerateNft() {
                   </div>
                 </Grid>
               </Grid>
+
               <Grid container alignItems={"center"}>
                 <Grid item xs={12} md={2}>
+                  {" "}
                   <div>
                     <form className={classes.form}>
                       <label className={classes.label} for="name">
@@ -162,6 +245,7 @@ export default function GenerateNft() {
                   </div>
                 </Grid>
                 <Grid item xs={12} md={8}>
+                  {" "}
                   <div>
                     <form className={classes.form}>
                       <input
@@ -179,6 +263,10 @@ export default function GenerateNft() {
                   </div>
                 </Grid>
               </Grid>
+
+
+
+
               <Grid container alignItems={"center"}>
                 <Grid item xs={12} md={2}>
                   <div>
@@ -245,62 +333,3 @@ export default function GenerateNft() {
   );
 }
 
-const useStyles = makeStyles((theme) => ({
-  container: {
-    padding: "2rem",
-    [theme.breakpoints.down("md")]: {
-      padding: "1rem",
-    },
-  },
-  card: {
-    backgroundColor: "#ffffff",
-    boxShadow: "0 0 10px 0 rgba(0,0,0,0.1)",
-    color: "white",
-    padding: "30px",
-    borderRadius: "0.5rem",
-    height: "100%",
-  },
-
-  title: {
-    marginBottom: "0.5rem",
-    fontSize: "30px",
-    color: "#2AABEE",
-    fontFamily: "Signika Negative",
-    fontWeight: "bold",
-  },
-  form: {
-    marginTop: "1rem",
-  },
-  label: {
-    color: "grey",
-    fontSize: "14px",
-    fontWeight: "bold",
-    fontFamily: "Signika Negative",
-    padding: "0px",
-  },
-  button: {
-    padding: "10px",
-    backgroundColor: "#2AABEE",
-    color: "white",
-    border: "none",
-    borderRadius: "0.5rem",
-    fontFamily: "Signika Negative",
-    cursor: "pointer",
-    marginBottom: "1rem",
-  },
-
-  input: {
-    marginTop: "0.5rem",
-    padding: "10px",
-    color: "black",
-    border: "1px solid #2AABEE",
-    borderRadius: "0.5rem",
-    width: "100%",
-    "&:hover": {
-      border: "1px solid #2AABEE",
-    },
-    [theme.breakpoints.up("sm")]: {
-      width: "60%",
-    },
-  },
-}));

@@ -1,6 +1,6 @@
 import { Grid, Menu, Typography } from "@mui/material";
 import { makeStyles } from "@mui/styles";
-import React, { Component, useEffect } from "react";
+import React, { Component } from "react";
 import { useHref } from "react-router-dom";
 import { Card } from "reactstrap";
 import DaoCard from "../components/dao-card";
@@ -8,7 +8,6 @@ import ResponsiveAppBar from "../components/header";
 import SideMenu from "../components/sideMenu";
 import StickyHeadTable from "../components/table";
 import { isMobile } from 'react-device-detect';
-import axios from "axios";
 
 const useStyles = makeStyles((theme) => ({
     container: {
@@ -109,39 +108,14 @@ const useStyles = makeStyles((theme) => ({
 //     },
 // ];
 //exapmle daos data: {"11":{"name":"11","type":"1","desc":"Sample Desc","tokenContract":"11","address":"0:352750010d7c939b5dfdb9141852838f3be4dacbf9f905935895e7ddacdef18b"},"12":{"name":"12","type":"1","desc":"Sample Desc","tokenContract":"11","address":"0:f4dd6eb1b0e53a0c4c0b5c37acd4ac5bcddde4f4a7e722bbc24f6325b206f6e8"}}
-
-//get daos from api and convert to array. 188.132.128.77:1423/getDAOs  save to columns
-
-
-// for each dao in columnsJson add to columns array
-
-
-
-
-
-export default function ViewDao() {
+const columnsJson = JSON.parse(localStorage.getItem("daos"));
+var columns = [];
+for (var i in columnsJson)
+    columns.push([i, columnsJson[i]]);
+console.log(columns);
+export default function MyDao() {
     const classes = useStyles();
-    const [columns, setColumns] = React.useState([]);
-    useEffect(() => {
-        var columnsJson = {};
 
-        var columnsJson2 = [];
-        axios.get("http://188.132.128.77:1423/getDAOs").then((response) => {
-        columnsJson = response.data;
-        console.log(columnsJson);
-        columnsJson = Object.values(columnsJson);
-        //Creator :  "1234" DAO_Address :  "asdasd" DAO_Description :  "asdas" DAO_Name :  "aasd" DAO_Token_Address :  "asdasd" DAO_Token_Symbol :  "asdasd"
-        columnsJson2 = columnsJson.map((item) => { 
-            return {
-                name: item.DAO_Name,
-                description: item.DAO_Description,
-                date: item.DAO_Address,
-                value: item.DAO_Token_Address,
-            };
-        });
-        setColumns(columnsJson2);
-        });
-    }, []);
     return (
         <div>
             <div
@@ -208,10 +182,10 @@ export default function ViewDao() {
                                 {columns.map((column) => (
                                     <Grid key={column.id} item md={3}>
                                         <DaoCard
-                                            daoId={column.name}
-                                            name={column.name}
-                                            description={column.desc}
-                                            value={column.tokenContract}
+                                            daoId={column[1].name}
+                                            name={column[1].name}
+                                            description={column[1].desc}
+                                            value={column[1].tokenContract}
                                             // today's date in format: 2021-10-10
                                             date={Date().split(" ")[3] + "-" + Date().split(" ")[1] + "-" + Date().split(" ")[2]}
                                         />

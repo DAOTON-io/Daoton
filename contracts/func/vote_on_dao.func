@@ -1,5 +1,31 @@
-() recv_internal(slice in_msg_body) impure {
-  ;;  Return if the operation message sent is empty
+(int, int, int, int, int, cell, int) load_data() inline {
+  var ds = get_data().begin_parse();
+  return 
+    (ds~load_uint(64), ;; positive
+     ds~load_uint(64), ;; negative
+     ds~load_uint(64), ;; veto
+     ds~load_uint(64), ;; abstain
+     ds~load_uint(64), ;; contract_time_of_deployment
+     ds~load_dict(), ;; checker
+     ds~load_uint(64) ;; token_id
+     );
+}
+
+() save_data(int positive, int negative, int veto, int abstain, int contract_time_of_deployment, int token_id, cell checker) impure inline {
+  set_data(begin_cell()
+    .store_uint(positive, 64)
+    .store_uint(negative, 64)
+    .store_uint(veto, 64)
+    .store_uint(abstain, 64)
+    .store_uint(contract_time_of_deployment, 64)
+    .store_uint(token_id, 64)
+    .store_dict(checker)
+    .end_cell());
+}
+
+
+() recv_internal(cell in_msg_cell, slice in_msg_body) impure {
+  ;;  Ignore empty messages
   if (in_msg_body.slice_empty?()) { 
     return (); 
   }
@@ -7,38 +33,49 @@
   ;;  Define operation, transform the message sent to an uint32 integer
   int op = in_msg_body~load_uint(32);
   
-
   ;;  Get a cell from c4 register and turn it into a slice (Persistent storage)
-  slice ds = get_data().begin_parse();
-  ;;  Transform this slice into Integer 64-bit
-  int positive = ds~load_uint(64);
-  int negative = ds~load_uint(64);
-  int contract_time_of_deployment = ds~load_uint(64);
-  int proposal_detail = ds~load_uint(64);
+  var (positive, negative, veto, abstain, contract_time_of_deployment, checker, token_id) = load_data();
+
+  ;;  Get sender address
+  var cs = in_msg_cell.begin_parse();
+  var flags = cs~load_uint(4);
+  slice s_addr = cs~load_msg_addr();
+  (int sender_wc, slice sender_addr) = parse_var_addr(s_addr);
+  int member = sender_addr~load_uint(256);
   
+  ;;  Check if the sender address is used before
+  (_, int flag) = checker.udict_get?(256, member);
+  if flag {
+    return ();
+  }
+
 
   ;;  Check the seconds passed since the contract deployed
-  if (contract_time_of_deployment + 600 < now()) {
+  if (contract_time_of_deployment + 6000 < now()) {
     return (); 
   }
 
-  ;;  Vote positive or negative
-  if (op == 1) {
-    positive += 1;
-  }
+  ;;  Vote for negative, positive, veto or abstain
   if (op == 0) {
     negative += 1;
   }
+  if (op == 1) {
+    positive += 1;
+  }
+  if (op == 2) {
+    veto += 1;
+  }
+  if (op == 3) {
+    abstain += 1;
+  }
+  
 
   ;;  Create a Builder for the future cell, write a value to it, from Builder create Cell, Write the resulting cell to the c4 register
-  set_data(begin_cell().store_uint(positive, 64).store_uint(negative, 64).store_uint(contract_time_of_deployment, 64).store_uint(proposal_id, 64).end_cell());
+  save_data(positive, negative, veto, abstain, contract_time_of_deployment, token_id, checker);
 }
 
-(int, int, int, int) get_total() method_id {
-	slice ds = get_data().begin_parse();
- 	int positive = ds~load_uint(64);
-  int negative = ds~load_uint(64);
-  int contract_time_of_deployment = ds~load_uint(64);
-  int proposal_id = ds~load_uint(64);
-	return (positive, negative, contract_time_of_deployment, proposal_id);
+
+(int, int, int, int, int, int) get_total() method_id {
+  var (positive, negative, veto, abstain, contract_time_of_deployment, _, token_id) = load_data();
+  return (positive, negative, veto, abstain, contract_time_of_deployment, token_id);
 }

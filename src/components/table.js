@@ -11,6 +11,7 @@ import Button from '@mui/material/Button';
 import { makeStyles } from "@mui/styles";
 import ThumbUpIcon from '@mui/icons-material/ThumbUp';
 import EditIcon from '@mui/icons-material/Edit';
+import axios from 'axios';
 const useStyles = makeStyles({
     buttonEdit: {
         backgroundColor: "#ff761c !important",
@@ -66,14 +67,22 @@ function createData(Contract, DAO, Adress, Token, Date) {
 
 export default function StickyHeadTable({daoId}) {
     //get proposals from local storage and filter by daoId
-    const proposals = JSON.parse(localStorage.getItem('proposals'))
-    console.log(proposals);
-    const filteredProposals = proposals? Object.values(proposals).filter(proposal => proposal.daoId === daoId) : [];
-    console.log(filteredProposals);
+
     //create rows for table from proposals array by mapping
-    const rows =filteredProposals? filteredProposals.map(proposal => createData( proposal.proposalText, proposal.daoId, proposal.proposalId, proposal.tokenAddress, proposal.date)) : [];
+    const [rows, setRows] = React.useState([]);
     const [page, setPage] = React.useState(0);
     const [rowsPerPage, setRowsPerPage] = React.useState(10);
+
+    React.useEffect(() => {
+        //get proposals from API and save to rows. Api is 188.132.128.77:1423/getContracts/:id
+        axios.get(`http://188.132.128.77:1423/getContracts/${daoId}`)
+            .then(res => {
+                console.log(res.data);
+                const proposals = res.data;
+                var tempData = proposals.map(proposal => createData( proposal.contract_description, proposal.DAO_Id, proposal.contract_address, proposal.contract_address, proposal.contract_name));
+                setRows(tempData);
+            })
+    }, [daoId]);
 
     const handleChangePage = (event, newPage) => {
         setPage(newPage);
@@ -126,7 +135,7 @@ export default function StickyHeadTable({daoId}) {
                                                 );
                                             })}
                                             {/* go to /vote page with proposalId like: /vote/0x123456789 */}
-                                            <a href={`/vote/${row.Adress}`}><Button className={classes.buttonEdit} > <EditIcon style={{ fontSize: '14px', marginRight: '5px' }} /> Oyla</Button></a>
+                                            <a href={`/vote/${row.Adress}`}><Button className={classes.buttonEdit} > <EditIcon style={{ fontSize: '14px', marginRight: '5px' }} /> Vote</Button></a>
                                         </TableRow>
                                     );
                                 })}

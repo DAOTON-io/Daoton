@@ -1,4 +1,4 @@
-import { Grid } from "@mui/material";
+import { Grid, Switch } from "@mui/material";
 
 import { makeStyles } from "@mui/styles";
 import React, { useState, useEffect } from "react";
@@ -8,7 +8,9 @@ import SideMenu from "../components/sideMenu";
 import { useTonConnectUI, useTonAddress } from "@tonconnect/ui-react";
 import TonWeb from "tonweb";
 import GoogleFontLoader from "react-google-font-loader";
+import { Address } from "tonweb";
 import { fetchTokens, fetchNfts } from "../lib/api/index";
+import axios from "axios";
 
 const useStyles = makeStyles((theme) => ({
   container: {
@@ -83,8 +85,10 @@ const useStyles = makeStyles((theme) => ({
 }));
 
 export default function CreateDao() {
+
+    
   const classes = useStyles();
-  const [data, setData] = useState({ name: "", type: "1", desc: "Sample Desc", tokenContract: "", nftCollectionContract: "" });
+  const [data, setData] = useState({ name: "", type: "1", desc: "Sample Desc", isPauseable:"true", tokenContract: "", nftCollectionContract: "" });
   const [tonConnectUi] = useTonConnectUI();
   const address = useTonAddress();
   const [tokens, setTokens] = useState([]);
@@ -113,49 +117,61 @@ export default function CreateDao() {
     console.log("Dao name", data.name);
     console.log("Dao desc", data.desc);
     console.log("Dao tokenContract", data.tokenContract);
-    let code = TonWeb.boc.Cell.fromBoc(
-      "b5ee9c72c1010401004300000d12210114ff00f4a413f4bcf2c80b0102016203020019a1e9fbda89a1a67fa67fe808610040d0ed44d0d33fd33f6d21c700b39430f404309131e202c8cb3fcb3ff400c9ed54d6cfb549"
-    )[0];
+    let code = TonWeb.boc.Cell.fromBoc('b5ee9c72c1010401004100000d12230114ff00f4a413f4bcf2c80b010201620302001da1e9fbda89a1a67fa7ffa7ffa67e610038d030ed44d0d33fd3ffd3ffd33f3003c8cb3f12cbffcbffcb3fc9ed5475069b44')[0];
     let dataInit = new TonWeb.boc.Cell();
     //init state is set_data(begin_cell().store_uint(dao_id, 64).store_uint(contract_id, 64).store_dict(dict).end_cell());
     //dao_id = random 64 bit number
+    // transform  256 bit hex address to int and store it in contract_id 
+    let contract_id = TonWeb.utils.hexToBytes(data.tokenContract); 
     let dao_id = Math.floor(Math.random() * 100000000 + 1);
     dataInit.bits.writeUint(dao_id, 64);
-    dataInit.bits.writeUint(12, 64);
-    dataInit.bits.writeUint(0, 1);
+    // dataInit.bits.writeUint(data.tokenContract, 256);
+    dataInit.bits.writeUint(0, 256);
+    dataInit.bits.writeUint(0, 256);
+    dataInit.bits.writeUint(dao_id, 64);
     let state_init = new TonWeb.boc.Cell();
     state_init.bits.writeUint(6, 5);
     state_init.refs.push(code);
     state_init.refs.push(dataInit);
 
+
+
+
     let state_init_boc = TonWeb.utils.bytesToBase64(await state_init.toBoc());
     console.log(state_init_boc);
     //  te6ccsEBBAEAUwAABRJJAgE0AQMBFP8A9KQT9LzyyAsCAGrTMAGCCGlJILmRMODQ0wMx+kAwi0ZG9nZYcCCAGMjLBVAEzxaARfoCE8tqEssfAc8WyXP7AAAQAAABhltsPJ+MirEd
 
-    let contractAddressNew = "0:" + TonWeb.utils.bytesToHex(await state_init.hash());
+    let contractAddressNew = '0:' + TonWeb.utils.bytesToHex(await state_init.hash());
     console.log(contractAddressNew);
 
     const defaultTx2 = {
-      validUntil: Date.now() + 1000000,
-      messages: [
-        {
-          address: contractAddressNew,
-          amount: "69000000",
-          stateInit: state_init_boc,
-        },
-      ],
+        validUntil: Date.now() + 1000000,
+        messages: [
+            {
+                address: contractAddressNew,
+                amount: '69000000',
+                stateInit: state_init_boc
+            },
+        ],
     };
     tonConnectUi.sendTransaction(defaultTx2).then((res) => {
-      localStorage.setItem(
-        "daos",
-        JSON.stringify({
-          ...JSON.parse(localStorage.getItem("daos")),
-          [data.name]: { name: data.name, type: data.type, desc: data.desc, tokenContract: "TokenTon", address: contractAddressNew },
-        })
-      );
-      console.log(res);
-      console.log(localStorage.getItem("daos"));
-      window.location.href = "/view-dao";
+      let token;
+      //Get JWT token from api /auth with address
+      axios.post("http://188.132.128.77:1423/auth", { address: contractAddressNew }).then(
+          (res) => {
+              token = res.data.token;
+          }
+      )
+
+
+      //save dao address to database using api call post. set token in post header x-access-token  http://188.132.128.77:1423/saveDAO with DAO_Name, sender, DAO_Description, DAO_Address, DAO_Token_Address, DAO_Token_Symbol
+      axios.post("http://188.132.128.77:1423/saveDAO", { DAO_Name: data.name, sender: address, DAO_Description: data.desc, DAO_Address: contractAddressNew, DAO_Token_Address: data.tokenContract, DAO_Token_Symbol: data.tokenContract }, { headers: { "x-access-token": token } }).then(
+          (res) => {
+              console.log(res);
+          }
+      ).finally(() => {
+        window.location.href = '/view-dao';
+      })
     });
   };
 
@@ -220,73 +236,77 @@ export default function CreateDao() {
                           <div>
                             <form className={classes.form}>
                               <select className={classes.select} id="type" name="type" value={data.type} onChange={(e) => setData({ ...data, type: e.target.value })}>
-                                <option value="1">Company</option>
-                                <option value="2">Start-up</option>
-                                <option value="3">Game-fi</option>
+                                <option value="1">Token</option>
+                                <option value="2">NFT</option>
                               </select>
                             </form>
                           </div>
                         </Grid>
                       </Grid>
-                      <Grid container alignItems={"center"}>
-                        <Grid item xs={12} md={2}>
-                          {" "}
-                          <div>
-                            <form className={classes.form}>
-                              <label className={classes.label} for="token">
-                                Token :
-                              </label>
-                            </form>
-                          </div>
+
+                      {/* If data.type == 1, ask token, else nft  */}
+                      {data.type == 1 ? (
+                        <Grid container alignItems={"center"}>
+                          <Grid item xs={12} md={2}>
+                            {" "}
+                            <div>
+                              <form className={classes.form}>
+                                <label className={classes.label} for="token">
+                                  Token :
+                                </label>
+                              </form>
+                            </div>
+                          </Grid>
+                          <Grid item xs={12} md={8}>
+                            {" "}
+                            <div>
+                              <form className={classes.form}>
+                                <select
+                                  className={classes.select}
+                                  id="token"
+                                  name="token"
+                                  value={data.tokenContract}
+                                  onChange={(e) => setData({ ...data, tokenContract: e.target.value })}
+                                >
+                                  {tokens.map((tk) => {
+                                    return <option value={tk.jetton_address}>{tk.metadata.name + "(" + tk.metadata.symbol + ")"}</option>;
+                                  })}
+                                </select>
+                              </form>
+                            </div>
+                          </Grid>
                         </Grid>
-                        <Grid item xs={12} md={8}>
-                          {" "}
-                          <div>
-                            <form className={classes.form}>
-                              <select
-                                className={classes.select}
-                                id="token"
-                                name="token"
-                                value={data.tokenContract}
-                                onChange={(e) => setData({ ...data, tokenContract: e.target.value })}
-                              >
-                                {tokens.map((tk) => {
-                                  return <option value={tk.jetton_address}>{tk.metadata.name + "(" + tk.metadata.symbol + ")"}</option>;
-                                })}
-                              </select>
-                            </form>
-                          </div>
+                      ) : (
+                        <Grid container alignItems={"center"}>
+                          <Grid item xs={12} md={2}>
+                            {" "}
+                            <div>
+                              <form className={classes.form}>
+                                <label className={classes.label} for="fname">
+                                  NFT :
+                                </label>
+                              </form>
+                            </div>
+                          </Grid>
+                          <Grid item xs={12} md={8}>
+                            <div>
+                              <form className={classes.form}>
+                                <select
+                                  className={classes.select}
+                                  id="collection"
+                                  name="collection"
+                                  value={data.nftCollectionContract}
+                                  onChange={(e) => setData({ ...data, nftCollectionContract: e.target.value })}
+                                >
+                                  {nftCollections.map((nfc) => {
+                                    return <option value={nfc.address}>{nfc.name}</option>;
+                                  })}
+                                </select>
+                              </form>
+                            </div>
+                          </Grid>
                         </Grid>
-                      </Grid>
-                      <Grid container alignItems={"center"}>
-                        <Grid item xs={12} md={2}>
-                          {" "}
-                          <div>
-                            <form className={classes.form}>
-                              <label className={classes.label} for="fname">
-                                NFT :
-                              </label>
-                            </form>
-                          </div>
-                        </Grid>
-                        <Grid item xs={12} md={8}>
-                          <div>
-                            <form className={classes.form}>
-                              <select
-                                className={classes.select}
-                                id="collection"
-                                name="collection"
-                                value={data.nftCollectionContract}
-                                onChange={(e) => setData({ ...data, nftCollectionContract: e.target.value })}
-                              >
-                                {nftCollections.map((nfc) => {
-                                  return <option value={nfc.address}>{nfc.name}</option>;
-                                })}
-                              </select>
-                            </form>
-                          </div>
-                        </Grid>
-                      </Grid>
+                      )}
                       <Grid container alignItems={"center"}>
                         <Grid item xs={12} md={2}>
                           {" "}
@@ -345,7 +365,33 @@ export default function CreateDao() {
                           </div>
                         </Grid>
                       </Grid>
+                      {/* Is pauseable switch */}
                       <Grid container alignItems={"center"}>
+                        <Grid item xs={12} md={2}>
+                          {" "}
+                          <div>
+                            <form className={classes.form}>
+                              <label className={classes.label} for="fname">
+                                Is Pauseable:
+                              </label>
+                            </form>
+                          </div>
+                        </Grid>
+                        <Grid item xs={12} md={8}>
+                          {" "}
+                          <div>
+                            <form className={classes.form}>
+                              <Switch
+                                checked={data.isPauseable}
+                                onChange={(e) => setData({ ...data, isPauseable: e.target.checked })}
+                                name="isPauseable"
+                                inputProps={{ "aria-label": "secondary checkbox" }}
+                              />
+                            </form>
+                          </div>
+                        </Grid>
+                      </Grid>
+                      {/* <Grid container alignItems={"center"}>
                         <Grid item xs={12} md={2}>
                           {" "}
                           <div>
@@ -373,7 +419,7 @@ export default function CreateDao() {
                             </form>
                           </div>
                         </Grid>
-                      </Grid>
+                      </Grid> */}
                       <Grid container></Grid>
                     </div>
                   </Grid>
@@ -387,7 +433,7 @@ export default function CreateDao() {
                 >
                   {" "}
                   <Button className={classes.button} onClick={createDao} style={{ backgroundColor: "#2AABEE", width: "35vh", marginTop: "1rem" }}>
-                    Create
+                    Generate
                   </Button>{" "}
                 </div>
               </Card>

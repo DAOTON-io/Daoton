@@ -1,6 +1,7 @@
 import { Grid, Typography } from "@mui/material";
 import { makeStyles } from "@mui/styles";
 import { useTonConnectUI } from "@tonconnect/ui-react";
+import axios from "axios";
 import React, { Component, useEffect } from "react";
 import GoogleFontLoader from "react-google-font-loader";
 import { useHref, useParams } from "react-router-dom";
@@ -79,10 +80,16 @@ export default function Vote() {
     const classes = useStyles();
     const [tonConnectUi] = useTonConnectUI();
     const {proposalId} = useParams();
-    const proposals = JSON.parse(localStorage.getItem('proposals'))
-    const proposalText = proposals? Object.values(proposals).filter(proposal => proposal.proposalId == proposalId)[0].proposalText : [];
+    const [proposal, setProposal] = React.useState([]);
     const [votes, setVotes] = React.useState([]);
      useEffect( () => {
+            //get proposals from API and save to rows. Api is 188.132.128.77:1423/getContracts/:id
+        axios.get(`http://188.132.128.77:1423/getContractDetails/${proposalId}`)
+            .then(res => {
+                console.log(res.data);
+                const proposal = res.data[0];
+                setProposal(proposal);
+            })
         getCurrentValue(proposalId).then((votes) => {
             setVotes(votes);
             console.log(votes);
@@ -109,6 +116,7 @@ export default function Vote() {
     const voteNo = async () => {
         let a = new TonWeb.boc.Cell();
         a.bits.writeUint(1, 32);
+
         let payload = TonWeb.utils.bytesToBase64(await a.toBoc());
         
         let contractAddressHex = proposalId;
@@ -155,11 +163,12 @@ export default function Vote() {
                                     justifyContent: "center",
                                     display: "flex",
                                     alignItems: "center",
-                                }} >  <p className={classes.title} >{proposalText}</p></Grid>
+                                }} >  <p className={classes.title} >{proposal.contract_description}</p></Grid>
 
                             </Card>
                             <p className={classes.title} >Vote</p>
-                            <Card className={classes.card} > <Grid container alignItems={'center'} style={{
+                            <Card className={classes.card} > 
+                            <Grid container alignItems={'center'} style={{
                                 justifyContent: "center",
                                 display: "flex",
                             }} spacing={2} >
@@ -168,6 +177,23 @@ export default function Vote() {
                                 </Grid>
                                 <Grid item>
                                     <Button onClick={voteNo} className={classes.Button}>No</Button>
+                                </Grid>
+                            </Grid>
+                            {/* Display time left to vote ending. Display ended if already ended. */}
+
+                            <Grid container alignItems={'center'} style={{
+                                justifyContent: "center",
+                                display: "flex",
+                            }} spacing={2} >
+                                <Grid item>
+                                    <p className={classes.info} style={{
+                                        fontWeight: 'bold',
+                                    }} >Time left to vote: </p>
+                                </Grid>
+                                <Grid item>
+                                    <p className={classes.info} style={{
+                                        fontWeight: 'bold',
+                                    }} >{(votes[4] - Date.now())>0? new Date((votes[4] - Date.now())).getHours():("Vote is done!! Result is: "+ ((votes[5]/2 < votes[1])? "Yes": "No")) }</p>
                                 </Grid>
                             </Grid>
 
@@ -193,7 +219,7 @@ export default function Vote() {
                                                 }} >Vote</p>
                                             </Grid>
                                             <Grid container className={classes.center}>
-                                                <p className={classes.info}>{votes[3]}</p>
+                                                <p className={classes.info}>{votes[5]}</p>
                                             </Grid>
                                             <Grid container className={classes.center}>
                                                 <p className={classes.info}>Quorum 33%</p>
@@ -221,6 +247,32 @@ export default function Vote() {
                                         </Grid>
                                         <Grid container className={classes.center}>
                                             <p className={classes.info}>{votes[0]}</p>
+                                        </Grid>
+                                        <Grid container className={classes.center}>
+                                            <p className={classes.info}>Quorum: 33%</p>
+                                        </Grid>
+                                    </Grid>
+                                    <Grid item md={4} >
+                                        <Grid container className={classes.center}>
+                                            <p className={classes.info} style={{
+                                                fontWeight: 'bold',
+                                            }} >No with Veto</p>
+                                        </Grid>
+                                        <Grid container className={classes.center}>
+                                            <p className={classes.info}>{votes[2]}</p>
+                                        </Grid>
+                                        <Grid container className={classes.center}>
+                                            <p className={classes.info}>Quorum: 33%</p>
+                                        </Grid>
+                                    </Grid>
+                                    <Grid item md={4} >
+                                        <Grid container className={classes.center}>
+                                            <p className={classes.info} style={{
+                                                fontWeight: 'bold',
+                                            }} >Abstain</p>
+                                        </Grid>
+                                        <Grid container className={classes.center}>
+                                            <p className={classes.info}>{votes[3]}</p>
                                         </Grid>
                                         <Grid container className={classes.center}>
                                             <p className={classes.info}>Quorum: 33%</p>

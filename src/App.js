@@ -56,7 +56,7 @@ function App() {
             <Route path="/create-dao" index element={<CreateDao />} />
             <Route path="/view-tokens" index element={<ViewTokens />} />
             <Route path="/create-contract" index element={<CreateContract />} />
-            <Route path="/generate-token" index element={<GenerateToken />} />
+            {/* <Route path="/generate-token" index element={<GenerateToken />} /> */}
             <Route path="/vote/:proposalId" index element={<Vote />} />
 
             <Route path="/create-contract/:daoId" index element={<CreateContract />} />
