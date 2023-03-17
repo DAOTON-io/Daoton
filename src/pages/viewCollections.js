@@ -127,7 +127,7 @@ export default function ViewCollections() {
                                 {collection.map((item) => (
 
                                     <Grid item my={1} md={20}>
-                                        <a href={"/view-collections/"+item.address} onClick={()=>{setLink(item.address)
+                                        <a href={"/"+item.address} onClick={()=>{setLink(item.address)
                                         console.log(item.address)}} style={{ textDecoration: 'none' }}>
                                             <Collection
                                                 name={item.name}

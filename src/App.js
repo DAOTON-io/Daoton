@@ -62,7 +62,7 @@ function App() {
               <Route path="/create-contract/:daoId" index element={<CreateContract />} />
               <Route path="/generate-nft" index element={<GenerateNft />} />
 
-              <Route path="/view-collections/:collectionId" index element={<ViewNft/>}></Route>
+              <Route path="/:collectionId" index element={<ViewNft/>}></Route>
             </Route>
           </Routes>
         </BrowserRouter>

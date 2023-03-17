@@ -124,7 +124,8 @@ export default function ViewNft() {
                                 <Grid md={20} margin={2}>
 
                                     <Collection
-                                        name={collectionId}
+                                        name={'your collection'}
+                                        address={collectionId}
                                     ></Collection>
                                 </Grid>
                                 {
@@ -133,7 +134,7 @@ export default function ViewNft() {
                                             <a style={{ textDecoration: 'none' }}>
                                                 <Collection
                                                     name={item.collection.name}
-                                                    address={item.address.slice(0, 4) + '...'}
+                                                    address={item.address.slice(0, 4) + '...' + item.address.slice(-4)}
                                                 ></Collection>
                                             </a>
                                         </Grid>
