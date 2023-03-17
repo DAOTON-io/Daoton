@@ -5,14 +5,13 @@ import ContractList from "./pages/contractList";
 import ViewDao from "./pages/viewDAO";
 import ViewTokens from "./pages/viewTokens";
 import CreateContract from "./pages/createContract";
-// import GenerateToken from "./pages/generateToken";
-// import GenerateToken from "./pages/generateToken";
-// import GenerateNft from "./pages/generateNft";
-// import GenerateNftCollection from "./pages/generateNftCollection";
+import GenerateToken from "./pages/generateToken";
+import GenerateNft from "./pages/generateNft";
+import GenerateNftCollection from "./pages/generateNftCollection";
 import Vote from "./pages/vote";
 import { ThemeProvider } from "@mui/styles";
 import { createTheme } from "@mui/material";
-// import ViewNFTS from "./pages/viewNFT";
+import ViewNFTS from "./pages/viewNFT";
 
 const theme = createTheme();
 const TonProofDemoApi = {

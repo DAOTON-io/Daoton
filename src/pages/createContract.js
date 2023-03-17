@@ -12,6 +12,7 @@ import { Buffer } from 'buffer';
 import ListAltIcon from "@mui/icons-material/ListAlt";
 import { useTonConnectUI, useTonWallet } from "@tonconnect/ui-react";
 import TonWeb from "tonweb";
+import axios from "axios";
 
 const useStyles = makeStyles((theme) => ({
     container: {
@@ -104,7 +105,7 @@ export default function CreateContract() {
         console.log("Proposal text:" + proposalText)
 
         // deploy voting contract
-        let code = TonWeb.boc.Cell.fromBoc('b5ee9c72c1010401009d00000d12280114ff00f4a413f4bcf2c80b0102016203020027a1e9fbda89a1a67fa67fa67fa67fa67fe808606100e6d020c700915be0d31fed44d0d33fd33fd33fd33fd33ff404303007d0d30331fa403005f404305350810101f40a6fa1375b04925f06e025811770a0f823b9925f06e024c0009301a401de24c0019302a402de24c00291a4de04c0039302a402de55200404c8cb3f13cb3fcb3fcb3fcb3fc9ed5495f106e7')[0];
+        let code = TonWeb.boc.Cell.fromBoc('b5ee9c72c101040100a500000d122a0114ff00f4a413f4bcf2c80b010201620302002ba1e9fbda89a1a67fa67fa67fa67fa67fe809a67e606300f2d020c700915be0d31f30ed44d0d33fd33fd33fd33fd33ff404d33f3008d0d30331fa4030fa4631d3ff30218307f40e6fa131925f08e021811770a0f823b9925f08e026c0009304a404de26c0019305a405de26c0029303a403de06c0039301a401de551406c8cb3f15cb3f13cb3fcb3fcb3fcb3ff400c9ed5476615ce2')[0];
         let positive = 0;
         let negative = 0;
         let veto = 0;
@@ -116,11 +117,13 @@ export default function CreateContract() {
         data.bits.writeUint(veto, 64);//veto   
         data.bits.writeUint(abstain, 64);//abstain
         data.bits.writeUint(contract_time_of_deployment, 64);
+        data.bits.writeUint(contract_time_of_deployment, 64);
         data.bits.writeBit(0);
         let state_init = new TonWeb.boc.Cell();
         state_init.bits.writeUint(6, 5);
         state_init.refs.push(code);
         state_init.refs.push(data);
+        let sender_address = tonConnectUi.wallet.address;
 
 
 
@@ -146,8 +149,23 @@ export default function CreateContract() {
             ],
         };
         tonConnectUi.sendTransaction(defaultTx2).then((res) => {
-            localStorage.setItem('proposals', JSON.stringify({ ...JSON.parse(localStorage.getItem('proposals')), [contractAddressNew]: { daoId: daoId, proposalText: proposalText, proposalId: contractAddressNew, date: Date().split(" ")[3] + "-" + Date().split(" ")[1] + "-" + Date().split(" ")[2] } }));
-            console.log(res);
+            let token;
+            //Get JWT token from api /auth with address
+            axios.post("http://188.132.128.77:1423/auth", { address: contractAddressNew }).then(
+                (res) => {
+                    token = res.data.token;
+                }
+            )
+
+
+            //save voting contract address to database using api call post. set token in post header x-access-token  http://188.132.128.77:1423/saveContract with contract_name, contract_address, contract_description, DAO_Id
+            axios.post("http://188.132.128.77:1423/saveContract", { address: sender_address, contract_name: "Voting", contract_address: contractAddressNew, contract_description: proposalText, DAO_Id: daoId }, { headers: { 'x-access-token': token } }).then(
+                (res) => {
+                    console.log(res);
+                }
+            )
+
+                
         });
     }
     return (

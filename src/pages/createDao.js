@@ -10,6 +10,7 @@ import TonWeb from "tonweb";
 import GoogleFontLoader from "react-google-font-loader";
 import { Address } from "tonweb";
 import { fetchTokens, fetchNfts } from "../lib/api/index";
+import axios from "axios";
 
 const useStyles = makeStyles((theme) => ({
   container: {
@@ -116,7 +117,7 @@ export default function CreateDao() {
     console.log("Dao name", data.name);
     console.log("Dao desc", data.desc);
     console.log("Dao tokenContract", data.tokenContract);
-    let code = TonWeb.boc.Cell.fromBoc('b5ee9c72c1010401003400000d121f0114ff00f4a413f4bcf2c80b0102016203020015a1e9fbda89a1a67fa7fe610026d030ed44d0d33fd3ff3001c8cb3fcbffc9ed5492a5ccc5')[0];
+    let code = TonWeb.boc.Cell.fromBoc('b5ee9c72c1010401004100000d12230114ff00f4a413f4bcf2c80b010201620302001da1e9fbda89a1a67fa7ffa7ffa67e610038d030ed44d0d33fd3ffd3ffd33f3003c8cb3f12cbffcbffcb3fc9ed5475069b44')[0];
     let dataInit = new TonWeb.boc.Cell();
     //init state is set_data(begin_cell().store_uint(dao_id, 64).store_uint(contract_id, 64).store_dict(dict).end_cell());
     //dao_id = random 64 bit number
@@ -124,7 +125,10 @@ export default function CreateDao() {
     let contract_id = TonWeb.utils.hexToBytes(data.tokenContract); 
     let dao_id = Math.floor(Math.random() * 100000000 + 1);
     dataInit.bits.writeUint(dao_id, 64);
-    dataInit.bits.writeUint(contract_id, 256);
+    // dataInit.bits.writeUint(data.tokenContract, 256);
+    dataInit.bits.writeUint(0, 256);
+    dataInit.bits.writeUint(0, 256);
+    dataInit.bits.writeUint(dao_id, 64);
     let state_init = new TonWeb.boc.Cell();
     state_init.bits.writeUint(6, 5);
     state_init.refs.push(code);
@@ -151,10 +155,23 @@ export default function CreateDao() {
         ],
     };
     tonConnectUi.sendTransaction(defaultTx2).then((res) => {
-        localStorage.setItem("daos", JSON.stringify({ ...JSON.parse(localStorage.getItem("daos")), [data.name]: { name: data.name, type: data.type, desc: data.desc, tokenContract: "TokenTon", address: contractAddressNew } }));
-        console.log(res);
-        console.log(localStorage.getItem("daos"));
+      let token;
+      //Get JWT token from api /auth with address
+      axios.post("http://188.132.128.77:1423/auth", { address: contractAddressNew }).then(
+          (res) => {
+              token = res.data.token;
+          }
+      )
+
+
+      //save dao address to database using api call post. set token in post header x-access-token  http://188.132.128.77:1423/saveDAO with DAO_Name, sender, DAO_Description, DAO_Address, DAO_Token_Address, DAO_Token_Symbol
+      axios.post("http://188.132.128.77:1423/saveDAO", { DAO_Name: data.name, sender: address, DAO_Description: data.desc, DAO_Address: contractAddressNew, DAO_Token_Address: data.tokenContract, DAO_Token_Symbol: data.tokenContract }, { headers: { "x-access-token": token } }).then(
+          (res) => {
+              console.log(res);
+          }
+      ).finally(() => {
         window.location.href = '/view-dao';
+      })
     });
   };
 

@@ -1,6 +1,7 @@
 import { Grid, Typography } from "@mui/material";
 import { makeStyles } from "@mui/styles";
 import { useTonConnectUI } from "@tonconnect/ui-react";
+import axios from "axios";
 import React, { Component, useEffect } from "react";
 import GoogleFontLoader from "react-google-font-loader";
 import { useHref, useParams } from "react-router-dom";
@@ -79,10 +80,16 @@ export default function Vote() {
     const classes = useStyles();
     const [tonConnectUi] = useTonConnectUI();
     const {proposalId} = useParams();
-    const proposals = JSON.parse(localStorage.getItem('proposals'))
-    const proposalText = proposals? Object.values(proposals).filter(proposal => proposal.proposalId == proposalId)[0].proposalText : [];
+    const [proposal, setProposal] = React.useState([]);
     const [votes, setVotes] = React.useState([]);
      useEffect( () => {
+            //get proposals from API and save to rows. Api is 188.132.128.77:1423/getContracts/:id
+        axios.get(`http://188.132.128.77:1423/getContractDetails/${proposalId}`)
+            .then(res => {
+                console.log(res.data);
+                const proposal = res.data[0];
+                setProposal(proposal);
+            })
         getCurrentValue(proposalId).then((votes) => {
             setVotes(votes);
             console.log(votes);
@@ -156,7 +163,7 @@ export default function Vote() {
                                     justifyContent: "center",
                                     display: "flex",
                                     alignItems: "center",
-                                }} >  <p className={classes.title} >{proposalText}</p></Grid>
+                                }} >  <p className={classes.title} >{proposal.contract_description}</p></Grid>
 
                             </Card>
                             <p className={classes.title} >Vote</p>
