@@ -5,7 +5,7 @@ import App from "./App";
 import "./index.css";
 
 const queryClient = new QueryClient({
-  defaultOptions: { queries: { refetchOnWindowFocus: false } },
+  defaultOptions: { queries: { refetchOnWindowFocus: false, suspense: true } },
 });
 
 const TonProofDemoApi = {
@@ -23,7 +23,7 @@ const TonProofDemoApi = {
 
 ReactDOM.createRoot(document.getElementById("root")).render(
   <TonConnectUIProvider
-    manifestUrl="https://ton-connect.github.io/demo-dapp-with-react-ui/tonconnect-manifest.json"
+    manifestUrl="https://raw.githubusercontent.com/ton-community/tutorials/main/03-client/test/public/tonconnect-manifest.json"
     getConnectParameters={() => TonProofDemoApi.connectWalletRequest}
     uiPreferences={{ theme: THEME.DARK }}
   >

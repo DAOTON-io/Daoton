@@ -1,4 +1,5 @@
 import { BrowserRouter, Routes, Route } from "react-router-dom";
+import "@twa-dev/sdk";
 import CreateDao from "./pages/createDao";
 import ContractList from "./pages/contractList";
 import ViewDao from "./pages/viewDAO";
