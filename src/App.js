@@ -47,24 +47,25 @@ function App() {
     }))
 }}*/
       >
-        <BrowserRouter>
+        {/* <BrowserRouter basename="/Daoton"> live */}
+        <BrowserRouter basename="/">
           <Routes>
-            <Route>
-              {/* dummy  home page */}
-              <Route path="/" index element={<ViewDao />} />
-              <Route path="/view-dao" index element={<ViewDao />} />
-              <Route path="/listContracts/:daoId" index element={<ContractList />} />
-              <Route path="/create-dao" index element={<CreateDao />} />
-              <Route path="/view-tokens" index element={<ViewTokens />} />
-              {/* <Route path="/view-nfts" index element={<ViewNFTS />} /> */}
-              <Route path="/create-contract" index element={<CreateContract />} />
-              {/* <Route path="/generate-token" index element={<GenerateToken />} /> */}
-              <Route path="/vote/:proposalId" index element={<Vote />} />
+            {/* <Route> */}
+            {/* dummy  home page */}
+            <Route path="/" index element={<ViewDao />} />
+            <Route path="/view-dao" index element={<ViewDao />} />
+            <Route path="/listContracts/:daoId" index element={<ContractList />} />
+            <Route path="/create-dao" index element={<CreateDao />} />
+            <Route path="/view-tokens" index element={<ViewTokens />} />
+            <Route path="/view-nfts" index element={<ViewNFTS />} />
+            <Route path="/create-contract" index element={<CreateContract />} />
+            <Route path="/generate-token" index element={<GenerateToken />} />
+            <Route path="/vote/:proposalId" index element={<Vote />} />
 
-              <Route path="/create-contract/:daoId" index element={<CreateContract />} />
-                {/* <Route path="/generate-nft" index element={<GenerateNft />} />
-                <Route path="/generate-nft-collection" index element={<GenerateNftCollection />} /> */}
-            </Route>
+            <Route path="/create-contract/:daoId" index element={<CreateContract />} />
+            <Route path="/generate-nft" index element={<GenerateNft />} />
+            <Route path="/generate-nft-collection" index element={<GenerateNftCollection />} />
+            {/* </Route> */}
           </Routes>
         </BrowserRouter>
       </TonConnectUIProvider>
