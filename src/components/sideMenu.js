@@ -12,7 +12,7 @@ import { Card } from "reactstrap";
 import Grid from "@mui/material/Grid";
 import GoogleFontLoader from "react-google-font-loader";
 import { makeStyles } from "@mui/styles";
-
+import RemoveRedEyeIcon from '@mui/icons-material/RemoveRedEye';
 const useStyles = makeStyles((theme) => ({
   container: {
     padding: "1rem",
@@ -96,6 +96,7 @@ export default function SideMenu() {
             {" "}
             <div className={classes.listItem}>
               <p className={classes.title}>Dao</p>
+
               <Grid className={classes.listItemSmall} container spacing={1}>
                 <Grid item>
                   <ViewHeadlineIcon />
@@ -103,7 +104,19 @@ export default function SideMenu() {
                 <Grid item>
                   <Typography>
                     <a className={classes.item} href="view-dao">
-                      View Dao
+                      All Dao's
+                    </a>
+                  </Typography>
+                </Grid>
+              </Grid>
+              <Grid className={classes.listItemSmall} container spacing={1}>
+                <Grid item>
+                  <RemoveRedEyeIcon />
+                </Grid>
+                <Grid item>
+                  <Typography>
+                    <a className={classes.item} href="view-dao">
+                      My Dao's
                     </a>
                   </Typography>
                 </Grid>
@@ -142,10 +155,11 @@ export default function SideMenu() {
                 <Grid item>
                   <ViewCompactAltIcon />
                 </Grid>
+
                 <Grid item>
                   <Typography className={classes.item}>
                     <a className={classes.item} href="view-tokens">
-                      View Tokens
+                      My Tokens
                     </a>
                   </Typography>
                 </Grid>
@@ -173,7 +187,7 @@ export default function SideMenu() {
                 <Grid item>
                   <Typography className={classes.item}>
                     <a className={classes.item} href="view-nfts">
-                      View Nft's
+                      My Nft's
                     </a>
                   </Typography>
                 </Grid>
