@@ -5,7 +5,7 @@ import { useTonAddress } from "@tonconnect/ui-react";
 import TokenItem from "../components/token-item";
 import ResponsiveAppBar from "../components/header";
 import SideMenu from "../components/sideMenu";
-import { fetchTokens, fetchNfts } from "../lib/api/index";
+import { fetchTokens } from "../lib/api/index";
 
 const useStyles = makeStyles((theme) => ({
   container: {

@@ -11,7 +11,8 @@ import GenerateNftCollection from "./pages/generateNftCollection";
 import Vote from "./pages/vote";
 import { ThemeProvider } from "@mui/styles";
 import { createTheme } from "@mui/material";
-import ViewNFTS from "./pages/viewNFT";
+import ViewNft from "./pages/viewNFT";
+
 const theme = createTheme();
 const TonProofDemoApi = {
   connectWalletRequest: {
@@ -54,13 +55,14 @@ function App() {
             <Route path="/listContracts/:daoId" index element={<ContractList />} />
             <Route path="/create-dao" index element={<CreateDao />} />
             <Route path="/view-tokens" index element={<ViewTokens />} />
-            <Route path="/view-nfts" index element={<ViewNFTS />} />
             <Route path="/create-contract" index element={<CreateContract />} />
             <Route path="/generate-token" index element={<GenerateToken />} />
             <Route path="/vote/:proposalId" index element={<Vote />} />
 
             <Route path="/create-contract/:daoId" index element={<CreateContract />} />
             <Route path="/generate-nft" index element={<GenerateNft />} />
+            <Route path="/generate-nft-collection" index element={<GenerateNftCollection />} />
+            <Route path="/view-nfts" index element={<ViewNft />} />
           </Routes>
         </BrowserRouter>
       </TonConnectUIProvider>
