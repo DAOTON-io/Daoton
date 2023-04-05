@@ -49,7 +49,8 @@ export const fetchNfts = async (account) => {
 
   const { data } = await axios.get(mainUrl + route);
 
-  const nftItems = data.nft_items;
+  //filter nft items with empty name
+  const nftItems = data.nft_items.filter((item) => item.metadata.name);
   let collections = [];
 
   nftItems.forEach((item) => {

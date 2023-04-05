@@ -12,6 +12,7 @@ import { Card } from "reactstrap";
 import Grid from "@mui/material/Grid";
 import GoogleFontLoader from "react-google-font-loader";
 import { makeStyles } from "@mui/styles";
+import SummarizeIcon from '@mui/icons-material/Summarize';
 import RemoveRedEyeIcon from '@mui/icons-material/RemoveRedEye';
 const useStyles = makeStyles((theme) => ({
   container: {
@@ -137,7 +138,7 @@ export default function SideMenu() {
               </Grid>
             </div>
             <Divider className={classes.divider} />
-            <div className={classes.listItem}>
+            {/* <div className={classes.listItem}>
               <p className={classes.title}>Proposal</p>
               <Grid className={classes.listItemSmall} container spacing={1}>
                 <Grid item>
@@ -147,8 +148,8 @@ export default function SideMenu() {
                   <Typography className={classes.item}> Proposal Calender</Typography>
                 </Grid>
               </Grid>
-            </div>
-            <Divider className={classes.divider} />
+            </div> */}
+            {/* <Divider className={classes.divider} /> */}
             <div className={classes.listItem}>
               <p className={classes.title}>Token</p>
               <Grid className={classes.listItemSmall} container spacing={1}>
@@ -212,6 +213,24 @@ export default function SideMenu() {
                   <Typography className={classes.item}>
                     <a className={classes.item} href="generate-nft">
                       Generate Nft
+                    </a>
+                  </Typography>
+                </Grid>
+              </Grid>
+            </div>
+            <Divider />
+            <div className={classes.listItem}>
+              <p className={classes.title}>Docs</p>
+
+
+              <Grid className={classes.listItemSmall} container spacing={1}>
+                <Grid item>
+                  <SummarizeIcon />
+                </Grid>
+                <Grid item>
+                  <Typography className={classes.item}>
+                    <a className={classes.item} href="https://docs.daoton.io">
+                      Our Docs
                     </a>
                   </Typography>
                 </Grid>

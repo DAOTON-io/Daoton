@@ -13,6 +13,7 @@ import ListAltIcon from "@mui/icons-material/ListAlt";
 import { useTonConnectUI, useTonWallet } from "@tonconnect/ui-react";
 import TonWeb from "tonweb";
 import axios from "axios";
+import DrawerAppBar from "../components/mobilMenu";
 
 const useStyles = makeStyles((theme) => ({
     container: {
@@ -151,15 +152,15 @@ export default function CreateContract() {
         tonConnectUi.sendTransaction(defaultTx2).then((res) => {
             let token;
             //Get JWT token from api /auth with address
-            axios.post("http://188.132.128.77:1423/auth", { address: contractAddressNew }).then(
+            axios.post("https://0xfb5f6301747772afa27c55100b95eb29f07dbeb5.diode.link/auth", { address: contractAddressNew }).then(
                 (res) => {
                     token = res.data.token;
                 }
             )
 
 
-            //save voting contract address to database using api call post. set token in post header x-access-token  http://188.132.128.77:1423/saveContract with contract_name, contract_address, contract_description, DAO_Id
-            axios.post("http://188.132.128.77:1423/saveContract", { address: sender_address, contract_name: "Voting", contract_address: contractAddressNew, contract_description: proposalText, DAO_Id: daoId }, { headers: { 'x-access-token': token } }).then(
+            //save voting contract address to database using api call post. set token in post header x-access-token  https://0xfb5f6301747772afa27c55100b95eb29f07dbeb5.diode.link/saveContract with contract_name, contract_address, contract_description, DAO_Id
+            axios.post("https://0xfb5f6301747772afa27c55100b95eb29f07dbeb5.diode.link/saveContract", { address: sender_address, contract_name: "Voting", contract_address: contractAddressNew, contract_description: proposalText, DAO_Id: daoId }, { headers: { 'x-access-token': token } }).then(
                 (res) => {
                     console.log(res);
                 }
@@ -181,7 +182,7 @@ export default function CreateContract() {
                         <SideMenu />
                     </Grid>
                     <Grid item md={10}>
-                        <ResponsiveAppBar /> <div style={{ marginTop: '1rem' }} ><Card className={classes.card}>
+                        <DrawerAppBar /> <div style={{ marginTop: '1rem' }} ><Card className={classes.card}>
                             <Grid container >
                                 <Grid item md={6}> <div
                                     style={{

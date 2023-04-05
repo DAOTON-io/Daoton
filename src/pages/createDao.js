@@ -11,6 +11,8 @@ import GoogleFontLoader from "react-google-font-loader";
 import { Address } from "tonweb";
 import { fetchTokens, fetchNfts } from "../lib/api/index";
 import axios from "axios";
+import DrawerAppBar from "../components/mobilMenu";
+import FileBase64 from 'react-file-base64';
 
 const useStyles = makeStyles((theme) => ({
   container: {
@@ -122,7 +124,7 @@ export default function CreateDao() {
     //init state is set_data(begin_cell().store_uint(dao_id, 64).store_uint(contract_id, 64).store_dict(dict).end_cell());
     //dao_id = random 64 bit number
     // transform  256 bit hex address to int and store it in contract_id 
-    let contract_id = TonWeb.utils.hexToBytes(data.tokenContract); 
+    // let contract_id = TonWeb.utils.hexToBytes(data.tokenContract); 
     let dao_id = Math.floor(Math.random() * 100000000 + 1);
     dataInit.bits.writeUint(dao_id, 64);
     // dataInit.bits.writeUint(data.tokenContract, 256);
@@ -156,21 +158,26 @@ export default function CreateDao() {
     };
     tonConnectUi.sendTransaction(defaultTx2).then((res) => {
       let token;
+      //prepare image base64 data
+      let image = data.image;
+      if (image) {
+          image = image.replace(/^data:image\/[a-z]+;base64,/, "");
+      }
+
       //Get JWT token from api /auth with address
-      axios.post("http://188.132.128.77:1423/auth", { address: contractAddressNew }).then(
+      axios.post("https://0xfb5f6301747772afa27c55100b95eb29f07dbeb5.diode.link/auth", { address: contractAddressNew }).then(
           (res) => {
               token = res.data.token;
           }
       )
 
-
-      //save dao address to database using api call post. set token in post header x-access-token  http://188.132.128.77:1423/saveDAO with DAO_Name, sender, DAO_Description, DAO_Address, DAO_Token_Address, DAO_Token_Symbol
-      axios.post("http://188.132.128.77:1423/saveDAO", { DAO_Name: data.name, sender: address, DAO_Description: data.desc, DAO_Address: contractAddressNew, DAO_Token_Address: data.tokenContract, DAO_Token_Symbol: data.tokenContract }, { headers: { "x-access-token": token } }).then(
+      //save dao address to database using api call post. set token in post header x-access-token  https://0xfb5f6301747772afa27c55100b95eb29f07dbeb5.diode.link/saveDAO with DAO_Name, sender, DAO_Description, DAO_Address, DAO_Token_Address, DAO_Token_Symbol
+      axios.post("https://0xfb5f6301747772afa27c55100b95eb29f07dbeb5.diode.link/saveDAO", { DAO_Name: data.name, sender: address, DAO_Description: data.desc, DAO_Address: contractAddressNew, DAO_Token_Address: data.tokenContract, DAO_Token_Symbol: data.tokenContract, DAO_Image: data.image }, { headers: { "x-access-token": token } }).then(
           (res) => {
               console.log(res);
           }
       ).finally(() => {
-        window.location.href = '/view-dao';
+        // window.location.href = '/view-dao';
       })
     });
   };
@@ -188,7 +195,7 @@ export default function CreateDao() {
             <SideMenu />
           </Grid>
           <Grid item md={10}>
-            <ResponsiveAppBar />{" "}
+            <DrawerAppBar />
             <div
               style={{
                 marginTop: "1rem",
@@ -386,6 +393,32 @@ export default function CreateDao() {
                                 onChange={(e) => setData({ ...data, isPauseable: e.target.checked })}
                                 name="isPauseable"
                                 inputProps={{ "aria-label": "secondary checkbox" }}
+                              />
+                            </form>
+                          </div>
+                        </Grid>
+                      </Grid>
+                      {/* DAO Image Upload*/}
+                      <Grid container alignItems={"center"}>
+                        <Grid item xs={12} md={2}>
+                          {" "}
+                          <div>
+                            <form className={classes.form}>
+                              <label className={classes.label} for="fname">
+                                DAO Image: (Only PNG!!!)
+                              </label>
+                            </form>
+                          </div>
+                        </Grid>
+                        <Grid item xs={12} md={8}>
+                          {" "}
+                          <div>
+                            <form className={classes.form}
+                                style={{color: "black"}}
+                                >
+                              <FileBase64
+                                multiple={false}
+                                onDone={(file) => setData({ ...data, image: file.base64 })}
                               />
                             </form>
                           </div>

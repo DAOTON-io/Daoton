@@ -4,6 +4,7 @@ import React, { Component } from "react";
 import { useHref, useParams } from "react-router-dom";
 import { Button, Card } from "reactstrap";
 import ResponsiveAppBar from "../components/header";
+import DrawerAppBar from "../components/mobilMenu";
 import OwnerCard from "../components/owner-card";
 import SideMenu from "../components/sideMenu";
 import StickyHeadTable from "../components/table";
@@ -38,7 +39,7 @@ export default function ContractList() {
                         <SideMenu />
                     </Grid>
                     <Grid item md={10}>
-                        <ResponsiveAppBar />
+                        <DrawerAppBar />
                         <OwnerCard daoId={daoId} />
                         <Grid container alignItems={"end"} spacing={2}>
                             <Grid item>

@@ -22,10 +22,10 @@ export default function NftCard({ name, address, collectionAddress, description,
                 display: "flex",
               }}
             >
-              <img src={image} onerror="this.onerror=null;this.src='https://i.ibb.co/42mMZZz/image.png';" />
+              <img src={image?image:"https://talis-protocol.mo.cloudinary.net/tokens/63b23955cd6bafb22aadc85a/mediaThumbnail"} height={"200"} onerror="this.onerror=null;this.src='https://i.ibb.co/42mMZZz/image.png';" />
             </div>
             <Grid container>
-              <p className={classes.name}>{name}</p>
+              <p className={classes.name}>{name? name:"Pastel Dream"}</p>
             </Grid>
             <p className={classes.description}>Address: {address}</p>
             <p className={classes.description}>Collection Address: {collectionAddress}</p>

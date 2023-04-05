@@ -62,7 +62,7 @@ const useStyles = makeStyles({
 
 });
 
-export default function DaoCard({ name, date, description, value, daoId }) {
+export default function DaoCard({ name, date, description, value, daoId, daoImg }) {
     const classes = useStyles();
 
     return (
@@ -93,7 +93,7 @@ export default function DaoCard({ name, date, description, value, daoId }) {
                                 display: "flex",
 
                             }}>
-                                <img width={'45%'} src="logo/logo.jpeg" />
+                                <img width={'45%'} src={daoImg} />
                             </div> <Grid container><p className={classes.name} >
                                 {name}
 

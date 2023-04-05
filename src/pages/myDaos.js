@@ -8,6 +8,7 @@ import ResponsiveAppBar from "../components/header";
 import SideMenu from "../components/sideMenu";
 import StickyHeadTable from "../components/table";
 import { isMobile } from 'react-device-detect';
+import DrawerAppBar from "../components/mobilMenu";
 
 const useStyles = makeStyles((theme) => ({
     container: {
@@ -129,7 +130,7 @@ export default function MyDao() {
                         <SideMenu />
                     </Grid>
                     <Grid item md={10} xs={12} >
-                        <ResponsiveAppBar />
+                        <DrawerAppBar />
 
                         <div
                             style={{

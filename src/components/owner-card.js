@@ -1,10 +1,11 @@
 import { Avatar, Grid } from "@mui/material";
 import { makeStyles } from "@mui/styles";
-import React, { Component } from "react";
+import React, { Component, useEffect } from "react";
 import GoogleFontLoader from "react-google-font-loader";
 import { Card } from "reactstrap";
 import ListAltIcon from '@mui/icons-material/ListAlt';
 import { json } from "react-router-dom";
+import axios from "axios";
 
 const useStyles = makeStyles({
     container: {
@@ -60,10 +61,35 @@ const useStyles = makeStyles({
 });
 
 export default function OwnerCard({ daoId }) {
+    const [daoName, setDaoName] = React.useState("");
+    const [daoDescription, setDaoDescription] = React.useState("");
     const classes = useStyles();
-    const daoName = JSON.parse(localStorage.getItem('daos'))[daoId].name;
-    const desc = JSON.parse(localStorage.getItem('daos'))[daoId].desc;
-    console.log(JSON.parse(localStorage.getItem('daos'))[daoId])
+    useEffect(() => {
+        var columnsJson = {};
+
+        var columnsJson2 = [];
+        axios.get("https://0xfb5f6301747772afa27c55100b95eb29f07dbeb5.diode.link/getDAOs").then((response) => {
+        columnsJson = response.data;
+        console.log(columnsJson);
+        columnsJson = Object.values(columnsJson);
+        //Creator :  "1234" DAO_Address :  "asdasd" DAO_Description :  "asdas" DAO_Name :  "aasd" DAO_Token_Address :  "asdasd" DAO_Token_Symbol :  "asdasd"
+        columnsJson2 = columnsJson.map((item) => { 
+            return {
+                name: item.DAO_Name,
+                description: item.DAO_Description,
+                date: item.DAO_Address,
+                value: item.DAO_Token_Address,
+            };
+        });
+        //filter DAOs by DAO_ID
+        columnsJson2 = columnsJson2.filter((item) => {
+            console.log(item.name);
+            return item.name === daoId;
+        });
+        setDaoName(columnsJson2[0].name);
+        setDaoDescription(columnsJson2[0].description);
+        });
+    }, []);
     return (
         <div>
             <GoogleFontLoader
@@ -89,7 +115,7 @@ export default function OwnerCard({ daoId }) {
                             <Grid item >
                                 <img width={'20%'} src="/logo/logo.jpeg" />
                             </Grid>
-                            <Grid item className={classes.description} >desc
+                            <Grid item className={classes.description} >{daoDescription}
                             </Grid>
 
                         </Grid>

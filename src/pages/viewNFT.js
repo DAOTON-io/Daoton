@@ -8,6 +8,7 @@ import { useState, useEffect } from "react";
 import { fetchNfts } from "../lib/api";
 import NftCard from "../components/nft-item";
 import { useTonAddress } from "@tonconnect/ui-react";
+import DrawerAppBar from "../components/mobilMenu";
 
 export default function ViewNft() {
   const classes = useStyles();
@@ -24,6 +25,7 @@ export default function ViewNft() {
         const nftData = nftResponse.nftItems;
 
         setNfts(nftData);
+        nftData.map((item) => console.log(item.metadata));
       }
       setLoading(false);
     };
@@ -43,7 +45,7 @@ export default function ViewNft() {
             <SideMenu />
           </Grid>
           <Grid item md={10} xs={12}>
-            <ResponsiveAppBar />
+            <DrawerAppBar />
             <div
               style={{
                 height: "100vh",

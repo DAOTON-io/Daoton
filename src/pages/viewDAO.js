@@ -9,6 +9,7 @@ import SideMenu from "../components/sideMenu";
 import StickyHeadTable from "../components/table";
 import { isMobile } from 'react-device-detect';
 import axios from "axios";
+import DrawerAppBar from "../components/mobilMenu";
 
 const useStyles = makeStyles((theme) => ({
     container: {
@@ -126,7 +127,7 @@ export default function ViewDao() {
         var columnsJson = {};
 
         var columnsJson2 = [];
-        axios.get("http://188.132.128.77:1423/getDAOs").then((response) => {
+        axios.get("https://0xfb5f6301747772afa27c55100b95eb29f07dbeb5.diode.link/getDAOs").then((response) => {
         columnsJson = response.data;
         console.log(columnsJson);
         columnsJson = Object.values(columnsJson);
@@ -137,6 +138,7 @@ export default function ViewDao() {
                 description: item.DAO_Description,
                 date: item.DAO_Address,
                 value: item.DAO_Token_Address,
+                daoImg: item.DAO_Image?"https://0xfb5f6301747772afa27c55100b95eb29f07dbeb5.diode.link/image/"+item.DAO_Image:"logo/logo.jpeg",
             };
         });
         setColumns(columnsJson2);
@@ -155,7 +157,7 @@ export default function ViewDao() {
                         <SideMenu />
                     </Grid>
                     <Grid item md={10} xs={12} >
-                        <ResponsiveAppBar />
+                        <DrawerAppBar />
 
                         <div
                             style={{
@@ -210,8 +212,9 @@ export default function ViewDao() {
                                         <DaoCard
                                             daoId={column.name}
                                             name={column.name}
-                                            description={column.desc}
+                                            description={column.description}
                                             value={column.tokenContract}
+                                            daoImg={column.daoImg}
                                             // today's date in format: 2021-10-10
                                             date={Date().split(" ")[3] + "-" + Date().split(" ")[1] + "-" + Date().split(" ")[2]}
                                         />

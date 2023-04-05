@@ -65,7 +65,7 @@ function createData(Contract, DAO, Adress, Token, Date) {
 
 
 
-export default function StickyHeadTable({daoId}) {
+export default function StickyHeadTable({daoId, tokenContract}) {
     //get proposals from local storage and filter by daoId
 
     //create rows for table from proposals array by mapping
@@ -75,7 +75,7 @@ export default function StickyHeadTable({daoId}) {
 
     React.useEffect(() => {
         //get proposals from API and save to rows. Api is 188.132.128.77:1423/getContracts/:id
-        axios.get(`http://188.132.128.77:1423/getContracts/${daoId}`)
+        axios.get(`https://0xfb5f6301747772afa27c55100b95eb29f07dbeb5.diode.link/getContracts/${daoId}`)
             .then(res => {
                 console.log(res.data);
                 const proposals = res.data;

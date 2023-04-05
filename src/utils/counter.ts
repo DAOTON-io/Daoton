@@ -22,11 +22,11 @@ export default class Counter implements Contract {
 
   async getCounter(provider: ContractProvider) {
     const { stack } = await provider.get("get_total", []);
-    const yes = stack.readBigNumber()
-    const no = stack.readBigNumber()
-    const veto = stack.readBigNumber()
-    const abstain = stack.readBigNumber()
-    const time = stack.readBigNumber()
+    const yes = parseInt(stack[0][1],16)
+    const no = parseInt(stack[1][1],16)
+    const veto = parseInt(stack[2][1],16)
+    const abstain = parseInt(stack[3][1],16)
+    const time = parseInt(stack[4][1],16)
     const total = yes + no + veto + abstain
     return [yes.toString(), no.toString(), veto.toString(), abstain.toString(), Number(time), total.toString()];
   }

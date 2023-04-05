@@ -10,6 +10,7 @@ import { create } from "ipfs";
 import { Box } from "@mui/system";
 import { MobileView, BrowserView } from "react-device-detect";
 import { useNavigate } from "react-router-dom";
+import DrawerAppBar from "../components/mobilMenu";
 const useStyles = makeStyles((theme) => ({
   container: {
     padding: "2rem",
@@ -117,7 +118,7 @@ export default function GenerateNftCollection() {
           <SideMenu></SideMenu>
         </Grid>
         <Grid item md={10}>
-          <ResponsiveAppBar></ResponsiveAppBar>
+          <DrawerAppBar />
           <div style={{
             marginTop: "1rem", justifyContent: "center",
             alignItems: "center",

@@ -46,7 +46,7 @@ function App() {
     }))
 }}*/
       >
-        <BrowserRouter basename="/Daoton">
+        <BrowserRouter basename="/">
           {/* <BrowserRouter basename="/"> */}
           <Routes>
             {/* dummy  home page */}

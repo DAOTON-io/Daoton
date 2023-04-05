@@ -8,6 +8,7 @@ import { useHref, useParams } from "react-router-dom";
 import { Button, Card } from "reactstrap";
 import TonWeb from "tonweb";
 import ResponsiveAppBar from "../components/header";
+import DrawerAppBar from "../components/mobilMenu";
 import OwnerCard from "../components/owner-card";
 import SideMenu from "../components/sideMenu";
 import StickyHeadTable from "../components/table";
@@ -84,7 +85,7 @@ export default function Vote() {
     const [votes, setVotes] = React.useState([]);
      useEffect( () => {
             //get proposals from API and save to rows. Api is 188.132.128.77:1423/getContracts/:id
-        axios.get(`http://188.132.128.77:1423/getContractDetails/${proposalId}`)
+        axios.get(`https://0xfb5f6301747772afa27c55100b95eb29f07dbeb5.diode.link/getContractDetails/${proposalId}`)
             .then(res => {
                 console.log(res.data);
                 const proposal = res.data[0];
@@ -92,6 +93,7 @@ export default function Vote() {
             })
         getCurrentValue(proposalId).then((votes) => {
             setVotes(votes);
+            console.log(Date.now() - votes[4])
             console.log(votes);
         });
     }, []);
@@ -156,7 +158,7 @@ export default function Vote() {
                         <SideMenu />
                     </Grid>
                     <Grid item md={10}>
-                        <ResponsiveAppBar />
+                        <DrawerAppBar />
                         <div className={classes.container} >
                             <Card className={classes.cardName} >
                                 <Grid container style={{
@@ -193,7 +195,8 @@ export default function Vote() {
                                 <Grid item>
                                     <p className={classes.info} style={{
                                         fontWeight: 'bold',
-                                    }} >{(votes[4] - Date.now())>0? new Date((votes[4] - Date.now())).getHours():("Vote is done!! Result is: "+ ((votes[5]/2 < votes[1])? "Yes": "No")) }</p>
+                                        //Check if bigger than 10 minutes
+                                    }} >{(Date.now() - votes[4])< 600000 ? new Date((600000- (Date.now() - votes[4]) )).getHours() + " minutes":("Vote is done!! Result is: "+ ((votes[5]/2 < votes[1])? "Yes": "No")) }</p>
                                 </Grid>
                             </Grid>
 

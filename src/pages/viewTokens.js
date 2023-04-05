@@ -6,6 +6,7 @@ import TokenItem from "../components/token-item";
 import ResponsiveAppBar from "../components/header";
 import SideMenu from "../components/sideMenu";
 import { fetchTokens } from "../lib/api/index";
+import DrawerAppBar from "../components/mobilMenu";
 
 const useStyles = makeStyles((theme) => ({
   container: {
@@ -93,7 +94,7 @@ export default function ViewTokens() {
             <SideMenu />
           </Grid>
           <Grid item md={10} xs={12}>
-            <ResponsiveAppBar />
+            <DrawerAppBar />
             {/* <Card style={{
                             backgroundColor: 'white',
                             borderRadius: '1rem',

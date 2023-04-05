@@ -12,6 +12,7 @@ import { BN } from "bn.js";
 import { useNavigate } from "react-router-dom";
 import GoogleFontLoader from "react-google-font-loader";
 import toastr from "toastr";
+import DrawerAppBar from "../components/mobilMenu";
 
 const useStyles = makeStyles((theme) => ({
   container: {
@@ -176,7 +177,7 @@ export default function GenerateToken() {
             <SideMenu />
           </Grid>
           <Grid item md={10}>
-            <ResponsiveAppBar />{" "}
+            <DrawerAppBar />
             <div
               style={{
                 marginTop: "1rem",
