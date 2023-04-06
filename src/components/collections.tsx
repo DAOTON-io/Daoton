@@ -2,11 +2,13 @@
 import { Card, Grid } from "@mui/material";
 import { makeStyles } from "@mui/styles";
 
-export default function Collection({ name, address, image }) {
+type Props = { name: string; address: string; image: string };
+
+export const Collection: React.FC<Props> = ({ name, address, image }) => {
   const classes = useStyles();
 
   return (
-    <div margin={4}>
+    <div>
       <Card className={classes.card}>
         <div
           style={{
@@ -23,7 +25,8 @@ export default function Collection({ name, address, image }) {
                 display: "flex",
               }}
             >
-              <img onerror="this.onerror=null;this.src='https://i.ibb.co/XYv6QT1/Daoton-Logo.png';" src={image} width="200" height="auto"></img>
+              <img src={image || "https://i.ibb.co/XYv6QT1/Daoton-Logo.png"} width="200" height="auto"></img>
+              {/* <img onError="this.onerror=null;this.src='https://i.ibb.co/XYv6QT1/Daoton-Logo.png';" src={image} width="200" height="auto"></img> */}
             </div>
             <Grid container>
               <p className={classes.name}>{name}</p>
@@ -50,7 +53,7 @@ export default function Collection({ name, address, image }) {
       </Card>
     </div>
   );
-}
+};
 
 const useStyles = makeStyles({
   container: {

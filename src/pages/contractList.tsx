@@ -1,12 +1,12 @@
+import React from "react";
 import { Grid } from "@mui/material";
 import { makeStyles } from "@mui/styles";
-import React from "react";
 import { useParams } from "react-router-dom";
 import { Button } from "reactstrap";
 import DrawerAppBar from "../components/mobilMenu";
-import OwnerCard from "../components/owner-card";
+import { OwnerCard } from "../components/owner-card";
 import SideMenu from "../components/sideMenu";
-import StickyHeadTable from "../components/table";
+import { StickyHeadTable } from "../components/table";
 
 const useStyles = makeStyles((theme) => ({
   container: {
@@ -21,6 +21,7 @@ const useStyles = makeStyles((theme) => ({
     marginTop: "1rem",
   },
 }));
+
 export default function ContractList() {
   const classes = useStyles();
   let { daoId } = useParams();
@@ -39,7 +40,7 @@ export default function ContractList() {
           </Grid>
           <Grid item md={10}>
             <DrawerAppBar />
-            <OwnerCard daoId={daoId} />
+            <OwnerCard daoId={daoId || ""} />
             <Grid container alignItems={"end"} spacing={2}>
               <Grid item>
                 <p className={classes.title}>Proposals</p>
@@ -63,7 +64,7 @@ export default function ContractList() {
                 </a>
               </Grid>
             </Grid>
-            <StickyHeadTable daoId={daoId} />
+            <StickyHeadTable daoId={daoId || ""} tokenContract={""} />
           </Grid>
         </Grid>
       </div>

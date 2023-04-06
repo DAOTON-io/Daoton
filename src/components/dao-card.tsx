@@ -57,7 +57,16 @@ const useStyles = makeStyles({
   },
 });
 
-export default function DaoCard({ name, date, description, value, daoId, daoImg }) {
+type Props = {
+  name: string;
+  date: string;
+  description: string;
+  value: string;
+  daoId: string;
+  daoImg: string;
+};
+
+export const DaoCard: React.FC<Props> = ({ name, date, description, value, daoId, daoImg }) => {
   const classes = useStyles();
 
   return (
@@ -111,4 +120,4 @@ export default function DaoCard({ name, date, description, value, daoId, daoImg 
       </div>
     </div>
   );
-}
+};

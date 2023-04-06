@@ -13,6 +13,7 @@ import GoogleFontLoader from "react-google-font-loader";
 import { makeStyles } from "@mui/styles";
 import SummarizeIcon from "@mui/icons-material/Summarize";
 import RemoveRedEyeIcon from "@mui/icons-material/RemoveRedEye";
+
 const useStyles = makeStyles((theme) => ({
   container: {
     padding: "1rem",
@@ -57,6 +58,7 @@ const useStyles = makeStyles((theme) => ({
     fontFamily: "Signika Negative",
   },
 }));
+
 export default function SideMenu() {
   const classes = useStyles();
   return (

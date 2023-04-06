@@ -86,7 +86,7 @@ const useStyles = makeStyles((theme) => ({
 
 export default function CreateDao() {
   const classes = useStyles();
-  const [data, setData] = useState({ name: "", type: "1", desc: "Sample Desc", isPauseable: "true", tokenContract: "", nftCollectionContract: "" });
+  const [data, setData] = useState({ name: "", type: "1", desc: "Sample Desc", isPauseable: true, tokenContract: "", nftCollectionContract: "", image: "" });
   const [tonConnectUi] = useTonConnectUI();
   const address = useTonAddress();
   const [tokens, setTokens] = useState([]);
@@ -100,7 +100,7 @@ export default function CreateDao() {
         const tokenList = await fetchTokens(address);
         const nftList = await fetchNfts(address);
 
-        setNftCollections(nftList.collections);
+        setNftCollections(nftList.collections as any);
         setTokens(tokenList.balances);
       };
 
@@ -239,7 +239,7 @@ export default function CreateDao() {
                           {" "}
                           <div>
                             <form className={classes.form}>
-                              <label className={classes.label} for="fname">
+                              <label className={classes.label} htmlFor="fname">
                                 DAO Type :{" "}
                               </label>
                             </form>
@@ -258,20 +258,19 @@ export default function CreateDao() {
                         </Grid>
                       </Grid>
                       {/* If data.type == 1, ask token, else nft  */}
-                      {data.type === 1 ? (
+                      {Number(data.type) === 1 ? (
                         <Grid container alignItems={"center"}>
                           <Grid item xs={12} md={2}>
                             {" "}
                             <div>
                               <form className={classes.form}>
-                                <label className={classes.label} for="token">
+                                <label className={classes.label} htmlFor="token">
                                   Token :
                                 </label>
                               </form>
                             </div>
                           </Grid>
                           <Grid item xs={12} md={8}>
-                            {" "}
                             <div>
                               <form className={classes.form}>
                                 <select
@@ -281,7 +280,7 @@ export default function CreateDao() {
                                   value={data.tokenContract}
                                   onChange={(e) => setData({ ...data, tokenContract: e.target.value })}
                                 >
-                                  {tokens.map((tk) => {
+                                  {tokens.map((tk: any) => {
                                     return <option value={tk.jetton_address}>{tk.metadata.name + "(" + tk.metadata.symbol + ")"}</option>;
                                   })}
                                 </select>
@@ -295,7 +294,7 @@ export default function CreateDao() {
                             {" "}
                             <div>
                               <form className={classes.form}>
-                                <label className={classes.label} for="fname">
+                                <label className={classes.label} htmlFor="fname">
                                   NFT :
                                 </label>
                               </form>
@@ -311,8 +310,8 @@ export default function CreateDao() {
                                   value={data.nftCollectionContract}
                                   onChange={(e) => setData({ ...data, nftCollectionContract: e.target.value })}
                                 >
-                                  {nftCollections.map((nfc) => {
-                                    return <option value={nfc.address}>{nfc.name}</option>;
+                                  {nftCollections.map((nft: any) => {
+                                    return <option value={nft.address}>{nft.name}</option>;
                                   })}
                                 </select>
                               </form>
@@ -325,7 +324,7 @@ export default function CreateDao() {
                           {" "}
                           <div>
                             <form className={classes.form}>
-                              <label className={classes.label} for="fname">
+                              <label className={classes.label} htmlFor="fname">
                                 DAO Name:
                               </label>
                             </form>
@@ -336,7 +335,6 @@ export default function CreateDao() {
                           <div>
                             <form className={classes.form}>
                               <input
-                                fullWidth
                                 className={classes.input}
                                 type="text"
                                 id="name"
@@ -354,7 +352,7 @@ export default function CreateDao() {
                           {" "}
                           <div>
                             <form className={classes.form}>
-                              <label className={classes.label} for="fname">
+                              <label className={classes.label} htmlFor="fname">
                                 Description:
                               </label>
                             </form>
@@ -365,7 +363,6 @@ export default function CreateDao() {
                           <div>
                             <form className={classes.form}>
                               <input
-                                fullWidth
                                 className={classes.input}
                                 type="text"
                                 id="desc"
@@ -384,7 +381,7 @@ export default function CreateDao() {
                           {" "}
                           <div>
                             <form className={classes.form}>
-                              <label className={classes.label} for="fname">
+                              <label className={classes.label} htmlFor="fname">
                                 Is Pauseable:
                               </label>
                             </form>
@@ -410,7 +407,7 @@ export default function CreateDao() {
                           {" "}
                           <div>
                             <form className={classes.form}>
-                              <label className={classes.label} for="fname">
+                              <label className={classes.label} htmlFor="fname">
                                 DAO Image: (Only PNG!!!)
                               </label>
                             </form>
@@ -420,7 +417,7 @@ export default function CreateDao() {
                           {" "}
                           <div>
                             <form className={classes.form} style={{ color: "black" }}>
-                              <FileBase64 multiple={false} onDone={(file) => setData({ ...data, image: file.base64 })} />
+                              <FileBase64 multiple={false} onDone={(file: any) => setData({ ...data, image: file.base64 })} />
                             </form>
                           </div>
                         </Grid>

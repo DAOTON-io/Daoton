@@ -2,7 +2,7 @@ import { Grid, Box, CircularProgress, Card, Typography } from "@mui/material";
 import { makeStyles } from "@mui/styles";
 import React, { useEffect, useState } from "react";
 import { useTonAddress } from "@tonconnect/ui-react";
-import TokenItem from "../components/token-item";
+import { TokenItem } from "../components/token-item";
 import SideMenu from "../components/sideMenu";
 import { fetchTokens } from "../lib/api/index";
 import DrawerAppBar from "../components/mobilMenu";
@@ -158,7 +158,7 @@ export default function ViewTokens() {
                     </Card>
                   </Grid>
                 )}
-                {tokens.map((column) => (
+                {tokens.map((column: any) => (
                   <Grid key={column.metadata.address} item md={3}>
                     <TokenItem
                       name={column.metadata.name + "(" + column.metadata.symbol + ")"}

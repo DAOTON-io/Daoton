@@ -8,8 +8,11 @@ import NftMinter from "../lib/nft-minter";
 import { create } from "ipfs";
 import { Box } from "@mui/system";
 import { MobileView, BrowserView } from "react-device-detect";
+import { collectionPreview } from "../lib/api/index";
+import { Address } from "ton";
 import { useNavigate } from "react-router-dom";
 import DrawerAppBar from "../components/mobilMenu";
+
 const useStyles = makeStyles((theme) => ({
   container: {
     padding: "2rem",
@@ -72,31 +75,38 @@ const useStyles = makeStyles((theme) => ({
   },
 }));
 
-export default function GenerateNftCollection() {
+export default function GenerateNft() {
   const classes = useStyles();
   const navigate = useNavigate();
 
-  let address = useTonAddress(true);
+  let address = useTonAddress(false);
   const [tonConnectUi] = useTonConnectUI();
-  const [collectionData, setCollectionData] = useState({ collectionName: "", collectionDescription: "", collectionImage: "" });
+  const [nftData, setNftData] = useState({ nftName: "", nftDescription: "", nftImage: "", value: "", collectionAddress: "" });
 
-  const generateCollection = async () => {
+  const generateNFT = async () => {
     if (address) {
       const node = await create();
-      const nftCollectionUri = await node.add(
+      const itemContent = await node.add(
         JSON.stringify({
-          name: collectionData.collectionName,
-          description: collectionData.collectionDescription,
-          image: collectionData.collectionImage,
-          external_link: "example.com",
-          seller_fee_basis_points: 100,
-          fee_recipient: "0xA97F337c39cccE66adfeCB2BF99C1DdC54C2D721",
+          attributes: [
+            {
+              trait_type: "level",
+              value: nftData.value,
+            },
+          ],
+          description: nftData.nftDescription,
+          external_url: "example.com",
+          image: nftData.nftImage,
+          name: nftData.nftName,
         })
       );
 
-      const minter = new NftMinter(address, tonConnectUi, "https://ipfs.io/ipfs/" + nftCollectionUri.path);
-      minter.deployNftCollection().then(() => {
-        navigate("/generate-nft");
+      const content = await collectionPreview(nftData.collectionAddress);
+
+      const minter = new NftMinter(Address.parse(content.owner_address).toString(), tonConnectUi, content.collection_content.data);
+
+      minter.deployNftItem(itemContent.path, content.next_item_index, address).then(() => {
+        navigate("/view-nfts");
       });
     }
   };
@@ -124,31 +134,33 @@ export default function GenerateNftCollection() {
             }}
           >
             <Card className={classes.card}>
-              <Box mt={2}>
-                <p className={classes.title}>Create Collection</p>
+              <Box mt={4}>
+                <p className={classes.title}>Create NFT</p>
               </Box>
+
               <Grid container alignItems={"center"}>
                 <Grid item xs={12} md={2}>
+                  {" "}
                   <div>
                     <form className={classes.form}>
-                      <label className={classes.label} for="name">
-                        Collection name:
+                      <label className={classes.label} htmlFor="name">
+                        Name:
                       </label>
                     </form>
                   </div>
                 </Grid>
                 <Grid item xs={12} md={8}>
+                  {" "}
                   <div>
                     <form className={classes.form}>
                       <input
-                        fullWidth
                         className={classes.input}
                         type="text"
-                        id="name"
-                        name="collectionName"
-                        placeholder="Collection name.."
+                        id="nftName"
+                        name="nftName"
+                        placeholder="Name..."
                         onChange={(event) => {
-                          setCollectionData({ ...collectionData, collectionName: event.target.value });
+                          setNftData({ ...nftData, nftName: event.target.value });
                         }}
                       ></input>
                     </form>
@@ -157,26 +169,27 @@ export default function GenerateNftCollection() {
               </Grid>
               <Grid container alignItems={"center"}>
                 <Grid item xs={12} md={2}>
+                  {" "}
                   <div>
                     <form className={classes.form}>
-                      <label className={classes.label} for="name">
-                        Description:
+                      <label className={classes.label} htmlFor="description">
+                        Description :
                       </label>
                     </form>
                   </div>
                 </Grid>
                 <Grid item xs={12} md={8}>
+                  {" "}
                   <div>
                     <form className={classes.form}>
                       <input
-                        fullWidth
                         className={classes.input}
                         type="text"
-                        id="description"
-                        name="description"
+                        id="nftDescription"
+                        name="nftDescription"
                         placeholder="Description..."
                         onChange={(event) => {
-                          setCollectionData({ ...collectionData, collectionDescription: event.target.value });
+                          setNftData({ ...nftData, nftDescription: event.target.value });
                         }}
                       ></input>
                     </form>
@@ -185,26 +198,85 @@ export default function GenerateNftCollection() {
               </Grid>
               <Grid container alignItems={"center"}>
                 <Grid item xs={12} md={2}>
+                  {" "}
                   <div>
                     <form className={classes.form}>
-                      <label className={classes.label} for="name">
+                      <label className={classes.label} htmlFor="name">
                         Image:
                       </label>
                     </form>
                   </div>
                 </Grid>
                 <Grid item xs={12} md={8}>
+                  {" "}
                   <div>
                     <form className={classes.form}>
                       <input
-                        fullWidth
                         className={classes.input}
                         type="text"
-                        id="description"
-                        name="description"
-                        placeholder="URL of 256x256 pixel PNG image of Collection logo."
+                        id="nftImage"
+                        name="nftImage"
+                        placeholder="URL of 256x256 pixel PNG image of NFT logo..."
                         onChange={(event) => {
-                          setCollectionData({ ...collectionData, collectionImage: event.target.value });
+                          setNftData({ ...nftData, nftImage: event.target.value });
+                        }}
+                      ></input>
+                    </form>
+                  </div>
+                </Grid>
+              </Grid>
+
+              <Grid container alignItems={"center"}>
+                <Grid item xs={12} md={2}>
+                  {" "}
+                  <div>
+                    <form className={classes.form}>
+                      <label className={classes.label} htmlFor="name">
+                        Level:
+                      </label>
+                    </form>
+                  </div>
+                </Grid>
+                <Grid item xs={12} md={8}>
+                  {" "}
+                  <div>
+                    <form className={classes.form}>
+                      <input
+                        className={classes.input}
+                        type="text"
+                        id="nftValue"
+                        name="nftValue"
+                        placeholder="Value...(decimal)"
+                        onChange={(event) => {
+                          setNftData({ ...nftData, value: event.target.value });
+                        }}
+                      ></input>
+                    </form>
+                  </div>
+                </Grid>
+              </Grid>
+
+              <Grid container alignItems={"center"}>
+                <Grid item xs={12} md={2}>
+                  <div>
+                    <form className={classes.form}>
+                      <label className={classes.label} htmlFor="collectionAddress">
+                        Collection Address:
+                      </label>
+                    </form>
+                  </div>
+                </Grid>
+                <Grid item xs={12} md={8}>
+                  <div>
+                    <form className={classes.form}>
+                      <input
+                        className={classes.input}
+                        type="text"
+                        id="collectionAddress"
+                        name="collectionAddress"
+                        placeholder="Collection Raw Address  (0:...)"
+                        onChange={(event) => {
+                          setNftData({ ...nftData, collectionAddress: event.target.value });
                         }}
                       ></input>
                     </form>
@@ -218,26 +290,26 @@ export default function GenerateNftCollection() {
                       className={classes.button}
                       style={{ backgroundColor: "#2AABEE", width: "20vh", marginTop: "2rem" }}
                       onClick={() => {
-                        generateCollection();
-                        console.log(collectionData);
+                        generateNFT();
                       }}
                     >
-                      Generate Collection
+                      Mint NFT
                     </Button>
                   </Grid>
                 </Grid>
               </BrowserView>
+
               <MobileView>
                 <Grid container>
                   <Button
                     className={classes.button}
                     style={{ backgroundColor: "#2AABEE", width: "100%", marginTop: "2rem" }}
                     onClick={() => {
-                      generateCollection();
-                      console.log(collectionData);
+                      generateNFT();
+                      console.log(nftData);
                     }}
                   >
-                    Generate Collection
+                    Mint NFT
                   </Button>
                 </Grid>
               </MobileView>

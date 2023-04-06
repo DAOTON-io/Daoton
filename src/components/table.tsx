@@ -16,7 +16,7 @@ const useStyles = makeStyles({
   buttonEdit: {
     backgroundColor: "#ff761c !important",
     color: "white !important",
-    textTransform: "none    !important",
+    // textTransform: "none    !important",
     margin: "0.5rem !important",
     borderRadius: "5rem !important",
     padding: "0rem!important",
@@ -51,11 +51,16 @@ const columns = [
   },
 ];
 
-function createData(Contract, DAO, Adress, Token, Date) {
+function createData(Contract: any, DAO: any, Adress: any, Token: any, Date: any) {
   return { Contract, DAO, Adress, Token, Date };
 }
 
-export default function StickyHeadTable({ daoId, tokenContract }) {
+type Props = {
+  daoId: string;
+  tokenContract: string;
+};
+
+export const StickyHeadTable: React.FC<Props> = ({ daoId, tokenContract }) => {
   //get proposals from local storage and filter by daoId
 
   //create rows for table from proposals array by mapping
@@ -68,18 +73,18 @@ export default function StickyHeadTable({ daoId, tokenContract }) {
     axios.get(`https://0xfb5f6301747772afa27c55100b95eb29f07dbeb5.diode.link/getContracts/${daoId}`).then((res) => {
       console.log(res.data);
       const proposals = res.data;
-      var tempData = proposals.map((proposal) =>
+      var tempData = proposals.map((proposal: { contract_description: any; DAO_Id: any; contract_address: any; contract_name: any }) =>
         createData(proposal.contract_description, proposal.DAO_Id, proposal.contract_address, proposal.contract_address, proposal.contract_name)
       );
       setRows(tempData);
     });
   }, [daoId]);
 
-  const handleChangePage = (event, newPage) => {
+  const handleChangePage = (event: any, newPage: React.SetStateAction<number>) => {
     setPage(newPage);
   };
 
-  const handleChangeRowsPerPage = (event) => {
+  const handleChangeRowsPerPage = (event: { target: { value: string | number } }) => {
     setRowsPerPage(+event.target.value);
     setPage(0);
   };
@@ -97,17 +102,21 @@ export default function StickyHeadTable({ daoId, tokenContract }) {
             <TableHead>
               <TableRow>
                 {columns.map((column) => (
-                  <TableCell key={column.id} align={column.align} style={{ minWidth: column.minWidth, fontWeight: "bold" }}>
+                  <TableCell
+                    key={column.id}
+                    align={column.align as "right" | "center" | "left" | "inherit" | "justify" | undefined}
+                    style={{ minWidth: column.minWidth, fontWeight: "bold" }}
+                  >
                     {column.label}
                   </TableCell>
                 ))}
               </TableRow>
             </TableHead>
             <TableBody>
-              {rows.slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage).map((row) => {
+              {rows.slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage).map((row: any) => {
                 return (
                   <TableRow hover role="checkbox" tabIndex={-1} key={row.code}>
-                    {columns.map((column) => {
+                    {columns.map((column: any) => {
                       const value = row[column.id];
                       return (
                         <TableCell
@@ -115,7 +124,7 @@ export default function StickyHeadTable({ daoId, tokenContract }) {
                             fontSize: "12px",
                           }}
                           key={column.id}
-                          align={column.align}
+                          align={column.align as "right" | "center" | "left" | "inherit" | "justify" | undefined}
                         >
                           {column.format && typeof value === "number" ? column.format(value) : value}
                         </TableCell>
@@ -146,4 +155,4 @@ export default function StickyHeadTable({ daoId, tokenContract }) {
       </Paper>
     </div>
   );
-}
+};

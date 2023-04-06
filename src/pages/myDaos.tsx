@@ -2,7 +2,7 @@ import { Grid, Typography } from "@mui/material";
 import { makeStyles } from "@mui/styles";
 import React from "react";
 import { Card } from "reactstrap";
-import DaoCard from "../components/dao-card";
+import { DaoCard } from "../components/dao-card";
 import SideMenu from "../components/sideMenu";
 import DrawerAppBar from "../components/mobilMenu";
 
@@ -46,69 +46,13 @@ const useStyles = makeStyles((theme) => ({
     color: "white",
   },
 }));
-// const columns = [
-//     {
-//         name: "DAO",
-//         description:
-//             "The TON network is designed to provide a user-friendly experience for both developers and end-users, with a focus on simplicity and ease-of-use..",
-//         date: "January 2021",
-//         value: "",
-//     },
-//     {
-//         name: "TON",
-//         description:
-//             "The TON network is a blockchain protocol developed by the team behind Telegram messenger, designed to enable fast and secure transactions for users around the world",
-//         date: "February 2021",
-//         value: "",
-//     },
-//     {
-//         name: "DAO",
-//         value: "",
-//         description:
-//             "The TON network features a unique Byzantine Fault Tolerant consensus mechanism, enabling high levels of security and scalability for the network",
-//         date: "10.10.2021",
-//     },
-//     {
-//         name: "TON",
-//         description:
-//             "The TON network allows developers to build decentralized applications (dApps) on top of the network, providing a range of use cases for users",
-//         value: "",
-//         date: "10.05.2021",
-//     },
-//     {
-//         name: "DAO",
-//         description:
-//             "The TON network is designed to provide a user-friendly experience for both developers and end-users, with a focus on simplicity and ease-of-use.",
-//         value: "",
-//         date: "10.10.2023",
-//     },
-//     {
-//         name: "TONDAO",
-//         description:
-//             "The TON network is designed to provide a user-friendly experience for both developers and end-users, with a focus on simplicity and ease-of-use.",
-//         value: "",
-//         date: "05.10.2021",
-//     },
-//     {
-//         name: "DAOTon",
-//         description:
-//             "The TON network is designed to provide a user-friendly experience for both developers and end-users, with a focus on simplicity and ease-of-use.",
-//         value: "",
-//         date: "01.10.2021",
-//     },
-//     {
-//         name: "DAOTon",
-//         description:
-//             "The TON network is designed to provide a user-friendly experience for both developers and end-users, with a focus on simplicity and ease-of-use.",
-//         value: "",
-//         date: "01.10.2021",
-//     },
-// ];
-//exapmle daos data: {"11":{"name":"11","type":"1","desc":"Sample Desc","tokenContract":"11","address":"0:352750010d7c939b5dfdb9141852838f3be4dacbf9f905935895e7ddacdef18b"},"12":{"name":"12","type":"1","desc":"Sample Desc","tokenContract":"11","address":"0:f4dd6eb1b0e53a0c4c0b5c37acd4ac5bcddde4f4a7e722bbc24f6325b206f6e8"}}
-const columnsJson = JSON.parse(localStorage.getItem("daos"));
-var columns = [];
+
+const columnsJson = JSON.parse(localStorage.getItem("daos") || "");
+
+var columns: any = [];
+
 for (var i in columnsJson) columns.push([i, columnsJson[i]]);
-console.log(columns);
+
 export default function MyDao() {
   const classes = useStyles();
 
@@ -174,7 +118,7 @@ export default function MyDao() {
                     </Card>
                   </Grid>
                 )}
-                {columns.map((column) => (
+                {columns.map((column: any) => (
                   <Grid key={column.id} item md={3}>
                     <DaoCard
                       daoId={column[1].name}
@@ -183,6 +127,7 @@ export default function MyDao() {
                       value={column[1].tokenContract}
                       // today's date in format: 2021-10-10
                       date={Date().split(" ")[3] + "-" + Date().split(" ")[1] + "-" + Date().split(" ")[2]}
+                      daoImg={""}
                     />
                   </Grid>
                 ))}

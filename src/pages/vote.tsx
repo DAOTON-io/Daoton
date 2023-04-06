@@ -2,14 +2,14 @@ import { Grid } from "@mui/material";
 import { makeStyles } from "@mui/styles";
 import { useTonConnectUI } from "@tonconnect/ui-react";
 import axios from "axios";
-import React, { useEffect } from "react";
+import React, { useEffect, useState } from "react";
 import GoogleFontLoader from "react-google-font-loader";
 import { useParams } from "react-router-dom";
 import { Button, Card } from "reactstrap";
 import TonWeb from "tonweb";
 import DrawerAppBar from "../components/mobilMenu";
 import SideMenu from "../components/sideMenu";
-import getCurrentValue from "../utils/get_current_value.ts";
+import getCurrentValue from "../utils/get_current_value";
 
 const useStyles = makeStyles({
   container: {
@@ -69,8 +69,8 @@ export default function Vote() {
   const classes = useStyles();
   const [tonConnectUi] = useTonConnectUI();
   const { proposalId } = useParams();
-  const [proposal, setProposal] = React.useState([]);
-  const [votes, setVotes] = React.useState([]);
+  const [proposal, setProposal] = useState<any>();
+  const [votes, setVotes] = useState([]);
   useEffect(() => {
     //get proposals from API and save to rows. Api is 188.132.128.77:1423/getContracts/:id
     axios.get(`https://0xfb5f6301747772afa27c55100b95eb29f07dbeb5.diode.link/getContractDetails/${proposalId}`).then((res) => {
@@ -78,7 +78,8 @@ export default function Vote() {
       const proposal = res.data[0];
       setProposal(proposal);
     });
-    getCurrentValue(proposalId).then((votes) => {
+
+    getCurrentValue(proposalId).then((votes: any) => {
       setVotes(votes);
       console.log(Date.now() - votes[4]);
       console.log(votes);
@@ -95,14 +96,16 @@ export default function Vote() {
       validUntil: Date.now() + 1000000,
       messages: [
         {
-          address: contractAddressHex,
+          address: contractAddressHex || "",
           amount: "6900000",
           payload: payload,
         },
       ],
     };
+
     tonConnectUi.sendTransaction(defaultTx2);
   };
+
   const voteNo = async () => {
     let a = new TonWeb.boc.Cell();
     a.bits.writeUint(1, 32);
@@ -114,7 +117,7 @@ export default function Vote() {
       validUntil: Date.now() + 1000000,
       messages: [
         {
-          address: contractAddressHex,
+          address: contractAddressHex || "",
           amount: "6900000",
           payload: payload,
         },
@@ -157,7 +160,7 @@ export default function Vote() {
                   }}
                 >
                   {" "}
-                  <p className={classes.title}>{proposal.contract_description}</p>
+                  <p className={classes.title}>{proposal ? proposal.contract_description : ""}</p>
                 </Grid>
               </Card>
               <p className={classes.title}>Vote</p>

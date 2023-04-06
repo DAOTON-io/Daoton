@@ -4,7 +4,7 @@ import SideMenu from "../components/sideMenu";
 import { makeStyles } from "@mui/styles";
 import { useState, useEffect } from "react";
 import { fetchNfts } from "../lib/api";
-import NftCard from "../components/nft-item";
+import { NftCard } from "../components/nft-item";
 import { useTonAddress } from "@tonconnect/ui-react";
 import DrawerAppBar from "../components/mobilMenu";
 
@@ -24,7 +24,7 @@ export default function ViewNft() {
         const nftData = nftResponse.nftItems;
 
         setNfts(nftData);
-        nftData.map((item) => console.log(item.metadata));
+        nftData.map((item: { metadata: any }) => console.log(item.metadata));
       }
       setLoading(false);
     };
@@ -52,7 +52,6 @@ export default function ViewNft() {
                 overflow: "auto", // Kaydırma çubuğu eklemek için
                 marginTop: "0.5em",
               }}
-              marginTop={2}
             >
               {/* //TODO cozemedigim bir hata */}
               {/* {loading && (
@@ -102,7 +101,7 @@ export default function ViewNft() {
                   </Grid>
                 )}
 
-                {nfts.map((item) => (
+                {nfts.map((item: any) => (
                   <Grid item margin={1} md={3.75} justifyContent={"space-around"}>
                     <a style={{ textDecoration: "none" }}>
                       <NftCard

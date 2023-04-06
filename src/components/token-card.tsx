@@ -1,11 +1,9 @@
-/* eslint-disable jsx-a11y/anchor-is-valid */
 /* eslint-disable jsx-a11y/alt-text */
-import { Grid, Box, Button } from "@mui/material";
+import { Grid } from "@mui/material";
 import { makeStyles } from "@mui/styles";
 import React from "react";
 import GoogleFontLoader from "react-google-font-loader";
 import { Card } from "reactstrap";
-import { CopyAll } from "@mui/icons-material";
 
 const useStyles = makeStyles({
   container: {
@@ -59,7 +57,14 @@ const useStyles = makeStyles({
   },
 });
 
-export default function TokenItem({ name, date, description, value }) {
+type Props = {
+  name: string;
+  date: string;
+  description: string;
+  value: string;
+};
+
+export const TokenCard: React.FC<Props> = ({ name, date, description, value }) => {
   const classes = useStyles();
 
   return (
@@ -78,7 +83,7 @@ export default function TokenItem({ name, date, description, value }) {
           style={{
             textDecoration: "none",
           }}
-          // href="/listContracts"
+          href="/listContracts"
         >
           {" "}
           <Card className={classes.card}>
@@ -103,23 +108,8 @@ export default function TokenItem({ name, date, description, value }) {
                 <Grid container>
                   <p className={classes.name}>{name}</p>
                 </Grid>
-                <p className={classes.date}>Token Details</p>
-                <Box
-                  sx={{
-                    display: "flex",
-                    flexDirection: "row",
-                  }}
-                >
-                  <p className={classes.description}>{description.slice(0, 16) + "..." + description.slice(-3)}</p>
-                  <Button
-                    style={{ maxWidth: "0.2rem", maxHeight: "1rem" }}
-                    endIcon={<CopyAll />}
-                    onClick={() => {
-                      navigator.clipboard.writeText(description);
-                    }}
-                  ></Button>
-                </Box>
-                <br />
+                <p className={classes.date}>Created on {date}</p>
+                <p className={classes.description}>{description}</p>
                 <p className={classes.value}>{value}</p>
               </Grid>
             </div>
@@ -128,4 +118,4 @@ export default function TokenItem({ name, date, description, value }) {
       </div>
     </div>
   );
-}
+};

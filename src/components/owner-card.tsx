@@ -52,20 +52,20 @@ const useStyles = makeStyles({
   },
 });
 
-export default function OwnerCard({ daoId }) {
+type Props = {
+  daoId: string;
+};
+
+export const OwnerCard: React.FC<Props> = ({ daoId }) => {
   const [daoName, setDaoName] = React.useState("");
   const [daoDescription, setDaoDescription] = React.useState("");
   const classes = useStyles();
   useEffect(() => {
-    var columnsJson = {};
-
-    var columnsJson2 = [];
     axios.get("https://0xfb5f6301747772afa27c55100b95eb29f07dbeb5.diode.link/getDAOs").then((response) => {
-      columnsJson = response.data;
-      console.log(columnsJson);
-      columnsJson = Object.values(columnsJson);
+      const columnsJson = Object.values(response.data);
+
       //Creator :  "1234" DAO_Address :  "asdasd" DAO_Description :  "asdas" DAO_Name :  "aasd" DAO_Token_Address :  "asdasd" DAO_Token_Symbol :  "asdasd"
-      columnsJson2 = columnsJson.map((item) => {
+      let columnsJson2 = columnsJson.map((item: any) => {
         return {
           name: item.DAO_Name,
           description: item.DAO_Description,
@@ -74,7 +74,7 @@ export default function OwnerCard({ daoId }) {
         };
       });
       //filter DAOs by DAO_ID
-      columnsJson2 = columnsJson2.filter((item) => {
+      columnsJson2 = columnsJson2.filter((item: any) => {
         console.log(item.name);
         return item.name === daoId;
       });
@@ -119,4 +119,4 @@ export default function OwnerCard({ daoId }) {
       </div>
     </div>
   );
-}
+};

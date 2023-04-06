@@ -56,7 +56,7 @@ export default function MenuPage() {
           </Grid>
           <Grid item md={8}>
             <ResponsiveAppBar />
-            <StickyHeadTable />
+            <StickyHeadTable daoId={undefined} tokenContract={undefined} />
           </Grid>
         </Grid>
       </div>

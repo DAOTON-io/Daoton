@@ -14,37 +14,26 @@ import { createTheme } from "@mui/material";
 import ViewNft from "./pages/viewNFT";
 
 const theme = createTheme();
-const TonProofDemoApi = {
-  connectWalletRequest: {
-    permissions: [
-      {
-        name: "https://demo.tonconnect.dev",
-        params: {
-          message: "Hello, TonConnect!",
-        },
-      },
-    ],
-  },
-};
+// const TonProofDemoApi = {
+//   connectWalletRequest: {
+//     permissions: [
+//       {
+//         name: "https://demo.tonconnect.dev",
+//         params: {
+//           message: "Hello, TonConnect!",
+//         },
+//       },
+//     ],
+//   },
+// };
 
 function App() {
   return (
     <ThemeProvider theme={theme}>
       <TonConnectUIProvider
         manifestUrl="https://ton-connect.github.io/demo-dapp-with-react-ui/tonconnect-manifest.json"
-        getConnectParameters={() => TonProofDemoApi.connectWalletRequest}
+        // getConnectParameters={() => TonProofDemoApi.connectWalletRequest}
         uiPreferences={{ theme: THEME.DARK }}
-        /*walletsListConfiguration={{
-    includeWallets: [...new Array(11)].map((_, index) => ({
-        name: 'tonkeeper',
-        bridgeUrl: `https://bridge${
-            index < 9 ? `0${index + 1}` : index + 1
-        }.subgroup.org/bridge`,
-        universalLink: 'https://app.tonkeeper.com/ton-connect',
-        aboutUrl: '',
-        imageUrl: 'https://tonkeeper.com/assets/tonconnect-icon.png'
-    }))
-}}*/
       >
         <BrowserRouter basename="/">
           {/* <BrowserRouter basename="/"> */}

@@ -118,7 +118,7 @@ const useStyles = makeStyles((theme) => ({
 
 const drawerWidth = 240;
 
-function DrawerAppBar(props) {
+function DrawerAppBar(props: { window: any }) {
   const classes = useStyles();
   const { window } = props;
   const [mobileOpen, setMobileOpen] = React.useState(false);

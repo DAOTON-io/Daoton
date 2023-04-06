@@ -121,7 +121,8 @@ export default function CreateContract() {
     state_init.bits.writeUint(6, 5);
     state_init.refs.push(code);
     state_init.refs.push(data);
-    let sender_address = tonConnectUi.wallet.address;
+    let sender_address = "";
+    if (tonConnectUi.wallet !== null) sender_address = tonConnectUi.wallet.account.address;
 
     let state_init_boc = TonWeb.utils.bytesToBase64(await state_init.toBoc());
     console.log(state_init_boc);
@@ -193,12 +194,11 @@ export default function CreateContract() {
                       <Grid container>
                         <div>
                           <form className={classes.form}>
-                            <label className={classes.label} for="daoId">
+                            <label className={classes.label} htmlFor="daoId">
                               DAO Id{" "}
                             </label>
                             <input
                               value={daoId}
-                              fullWidth
                               className={classes.input}
                               type="text"
                               id="daoId"
@@ -213,12 +213,11 @@ export default function CreateContract() {
                       <Grid container>
                         <div>
                           <form className={classes.form}>
-                            <label className={classes.label} for="tokenID">
+                            <label className={classes.label} htmlFor="tokenID">
                               Token{" "}
                             </label>
                             <input
                               value={daoId}
-                              fullWidth
                               className={classes.input}
                               type="text"
                               id="tokenID"
@@ -233,7 +232,7 @@ export default function CreateContract() {
                       <Grid container>
                         <div>
                           <form className={classes.form}>
-                            <label className={classes.label} for="proposalText">
+                            <label className={classes.label} htmlFor="proposalText">
                               Proposal
                             </label>
                             <input
@@ -250,7 +249,7 @@ export default function CreateContract() {
                       <Grid container>
                         <div>
                           <form className={classes.form}>
-                            <label className={classes.label} for="duration">
+                            <label className={classes.label} htmlFor="duration">
                               Duration
                             </label>
                             <input
@@ -267,7 +266,7 @@ export default function CreateContract() {
                       <Grid container>
                         <div>
                           <form className={classes.form}>
-                            <label className={classes.label} for="treshold">
+                            <label className={classes.label} htmlFor="treshold">
                               Treshold
                             </label>
                             <input
