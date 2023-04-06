@@ -1,8 +1,7 @@
 import React, { useState } from "react";
-import { Divider, Grid } from "@mui/material";
+import { Grid } from "@mui/material";
 import { makeStyles } from "@mui/styles";
 import { Button, Card } from "reactstrap";
-import ResponsiveAppBar from "../components/header";
 import SideMenu from "../components/sideMenu";
 import { useTonConnectUI, useTonAddress } from "@tonconnect/ui-react";
 import NftMinter from "../lib/nft-minter";
@@ -18,7 +17,7 @@ const useStyles = makeStyles((theme) => ({
     padding: "2rem",
     [theme.breakpoints.down("md")]: {
       padding: "1rem",
-    }
+    },
   },
   card: {
     backgroundColor: "#ffffff",
@@ -32,8 +31,7 @@ const useStyles = makeStyles((theme) => ({
       width: "70%",
 
       padding: "50px",
-
-    }
+    },
   },
 
   title: {
@@ -51,7 +49,6 @@ const useStyles = makeStyles((theme) => ({
     fontSize: "14px",
     fontWeight: "bold",
     fontFamily: "Signika Negative",
-
   },
   button: {
     padding: "10px",
@@ -60,8 +57,6 @@ const useStyles = makeStyles((theme) => ({
     border: "none",
     borderRadius: "0.5rem",
     fontFamily: "Signika Negative",
-
-
 
     marginBottom: "1rem",
   },
@@ -78,7 +73,6 @@ const useStyles = makeStyles((theme) => ({
     },
   },
 }));
-
 
 export default function GenerateNft() {
   const classes = useStyles();
@@ -129,12 +123,15 @@ export default function GenerateNft() {
         </Grid>
         <Grid item md={10}>
           <DrawerAppBar />
-          <div style={{
-            marginTop: "1rem", justifyContent: "center",
-            alignItems: "center",
-            display: "flex",
-            height: "80vh"
-          }}>
+          <div
+            style={{
+              marginTop: "1rem",
+              justifyContent: "center",
+              alignItems: "center",
+              display: "flex",
+              height: "80vh",
+            }}
+          >
             <Card className={classes.card}>
               <Box mt={4}>
                 <p className={classes.title}>Create NFT</p>
@@ -175,10 +172,7 @@ export default function GenerateNft() {
                   {" "}
                   <div>
                     <form className={classes.form}>
-                      <label
-                        className={classes.label}
-                        for="description"
-                      >
+                      <label className={classes.label} for="description">
                         Description :
                       </label>
                     </form>
@@ -265,9 +259,6 @@ export default function GenerateNft() {
                 </Grid>
               </Grid>
 
-
-
-
               <Grid container alignItems={"center"}>
                 <Grid item xs={12} md={2}>
                   <div>
@@ -333,4 +324,3 @@ export default function GenerateNft() {
     </div>
   );
 }
-

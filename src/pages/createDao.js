@@ -3,16 +3,14 @@ import { Grid, Switch } from "@mui/material";
 import { makeStyles } from "@mui/styles";
 import React, { useState, useEffect } from "react";
 import { Button, Card } from "reactstrap";
-import ResponsiveAppBar from "../components/header";
 import SideMenu from "../components/sideMenu";
 import { useTonConnectUI, useTonAddress } from "@tonconnect/ui-react";
 import TonWeb from "tonweb";
 import GoogleFontLoader from "react-google-font-loader";
-import { Address } from "tonweb";
 import { fetchTokens, fetchNfts } from "../lib/api/index";
 import axios from "axios";
 import DrawerAppBar from "../components/mobilMenu";
-import FileBase64 from 'react-file-base64';
+import FileBase64 from "react-file-base64";
 
 const useStyles = makeStyles((theme) => ({
   container: {
@@ -87,14 +85,13 @@ const useStyles = makeStyles((theme) => ({
 }));
 
 export default function CreateDao() {
-
-    
   const classes = useStyles();
-  const [data, setData] = useState({ name: "", type: "1", desc: "Sample Desc", isPauseable:"true", tokenContract: "", nftCollectionContract: "" });
+  const [data, setData] = useState({ name: "", type: "1", desc: "Sample Desc", isPauseable: "true", tokenContract: "", nftCollectionContract: "" });
   const [tonConnectUi] = useTonConnectUI();
   const address = useTonAddress();
   const [tokens, setTokens] = useState([]);
   const [nftCollections, setNftCollections] = useState([]);
+  // eslint-disable-next-line no-unused-vars
   const [loading, setLoading] = useState(true);
 
   useEffect(() => {
@@ -119,12 +116,14 @@ export default function CreateDao() {
     console.log("Dao name", data.name);
     console.log("Dao desc", data.desc);
     console.log("Dao tokenContract", data.tokenContract);
-    let code = TonWeb.boc.Cell.fromBoc('b5ee9c72c1010401004100000d12230114ff00f4a413f4bcf2c80b010201620302001da1e9fbda89a1a67fa7ffa7ffa67e610038d030ed44d0d33fd3ffd3ffd33f3003c8cb3f12cbffcbffcb3fc9ed5475069b44')[0];
+    let code = TonWeb.boc.Cell.fromBoc(
+      "b5ee9c72c1010401004100000d12230114ff00f4a413f4bcf2c80b010201620302001da1e9fbda89a1a67fa7ffa7ffa67e610038d030ed44d0d33fd3ffd3ffd33f3003c8cb3f12cbffcbffcb3fc9ed5475069b44"
+    )[0];
     let dataInit = new TonWeb.boc.Cell();
     //init state is set_data(begin_cell().store_uint(dao_id, 64).store_uint(contract_id, 64).store_dict(dict).end_cell());
     //dao_id = random 64 bit number
-    // transform  256 bit hex address to int and store it in contract_id 
-    // let contract_id = TonWeb.utils.hexToBytes(data.tokenContract); 
+    // transform  256 bit hex address to int and store it in contract_id
+    // let contract_id = TonWeb.utils.hexToBytes(data.tokenContract);
     let dao_id = Math.floor(Math.random() * 100000000 + 1);
     dataInit.bits.writeUint(dao_id, 64);
     // dataInit.bits.writeUint(data.tokenContract, 256);
@@ -136,49 +135,57 @@ export default function CreateDao() {
     state_init.refs.push(code);
     state_init.refs.push(dataInit);
 
-
-
-
     let state_init_boc = TonWeb.utils.bytesToBase64(await state_init.toBoc());
     console.log(state_init_boc);
     //  te6ccsEBBAEAUwAABRJJAgE0AQMBFP8A9KQT9LzyyAsCAGrTMAGCCGlJILmRMODQ0wMx+kAwi0ZG9nZYcCCAGMjLBVAEzxaARfoCE8tqEssfAc8WyXP7AAAQAAABhltsPJ+MirEd
 
-    let contractAddressNew = '0:' + TonWeb.utils.bytesToHex(await state_init.hash());
+    let contractAddressNew = "0:" + TonWeb.utils.bytesToHex(await state_init.hash());
     console.log(contractAddressNew);
 
     const defaultTx2 = {
-        validUntil: Date.now() + 1000000,
-        messages: [
-            {
-                address: contractAddressNew,
-                amount: '69000000',
-                stateInit: state_init_boc
-            },
-        ],
+      validUntil: Date.now() + 1000000,
+      messages: [
+        {
+          address: contractAddressNew,
+          amount: "69000000",
+          stateInit: state_init_boc,
+        },
+      ],
     };
     tonConnectUi.sendTransaction(defaultTx2).then((res) => {
       let token;
       //prepare image base64 data
       let image = data.image;
       if (image) {
-          image = image.replace(/^data:image\/[a-z]+;base64,/, "");
+        image = image.replace(/^data:image\/[a-z]+;base64,/, "");
       }
 
       //Get JWT token from api /auth with address
-      axios.post("https://0xfb5f6301747772afa27c55100b95eb29f07dbeb5.diode.link/auth", { address: contractAddressNew }).then(
-          (res) => {
-              token = res.data.token;
-          }
-      )
+      axios.post("https://0xfb5f6301747772afa27c55100b95eb29f07dbeb5.diode.link/auth", { address: contractAddressNew }).then((res) => {
+        token = res.data.token;
+      });
 
       //save dao address to database using api call post. set token in post header x-access-token  https://0xfb5f6301747772afa27c55100b95eb29f07dbeb5.diode.link/saveDAO with DAO_Name, sender, DAO_Description, DAO_Address, DAO_Token_Address, DAO_Token_Symbol
-      axios.post("https://0xfb5f6301747772afa27c55100b95eb29f07dbeb5.diode.link/saveDAO", { DAO_Name: data.name, sender: address, DAO_Description: data.desc, DAO_Address: contractAddressNew, DAO_Token_Address: data.tokenContract, DAO_Token_Symbol: data.tokenContract, DAO_Image: data.image }, { headers: { "x-access-token": token } }).then(
-          (res) => {
-              console.log(res);
-          }
-      ).finally(() => {
-        // window.location.href = '/view-dao';
-      })
+      axios
+        .post(
+          "https://0xfb5f6301747772afa27c55100b95eb29f07dbeb5.diode.link/saveDAO",
+          {
+            DAO_Name: data.name,
+            sender: address,
+            DAO_Description: data.desc,
+            DAO_Address: contractAddressNew,
+            DAO_Token_Address: data.tokenContract,
+            DAO_Token_Symbol: data.tokenContract,
+            DAO_Image: data.image,
+          },
+          { headers: { "x-access-token": token } }
+        )
+        .then((res) => {
+          console.log(res);
+        })
+        .finally(() => {
+          // window.location.href = '/view-dao';
+        });
     });
   };
 
@@ -250,9 +257,8 @@ export default function CreateDao() {
                           </div>
                         </Grid>
                       </Grid>
-
                       {/* If data.type == 1, ask token, else nft  */}
-                      {data.type == 1 ? (
+                      {data.type === 1 ? (
                         <Grid container alignItems={"center"}>
                           <Grid item xs={12} md={2}>
                             {" "}
@@ -413,13 +419,8 @@ export default function CreateDao() {
                         <Grid item xs={12} md={8}>
                           {" "}
                           <div>
-                            <form className={classes.form}
-                                style={{color: "black"}}
-                                >
-                              <FileBase64
-                                multiple={false}
-                                onDone={(file) => setData({ ...data, image: file.base64 })}
-                              />
+                            <form className={classes.form} style={{ color: "black" }}>
+                              <FileBase64 multiple={false} onDone={(file) => setData({ ...data, image: file.base64 })} />
                             </form>
                           </div>
                         </Grid>

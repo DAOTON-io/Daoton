@@ -2,7 +2,6 @@ import React, { useState } from "react";
 import { Grid, Switch } from "@mui/material";
 import { makeStyles } from "@mui/styles";
 import { Button, Card } from "reactstrap";
-import ResponsiveAppBar from "../components/header";
 import SideMenu from "../components/sideMenu";
 import { createDeployParams } from "../lib/token-minter/deployer";
 import { useTonConnectUI, useTonAddress } from "@tonconnect/ui-react";

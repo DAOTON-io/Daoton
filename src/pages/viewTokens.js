@@ -3,7 +3,6 @@ import { makeStyles } from "@mui/styles";
 import React, { useEffect, useState } from "react";
 import { useTonAddress } from "@tonconnect/ui-react";
 import TokenItem from "../components/token-item";
-import ResponsiveAppBar from "../components/header";
 import SideMenu from "../components/sideMenu";
 import { fetchTokens } from "../lib/api/index";
 import DrawerAppBar from "../components/mobilMenu";
@@ -122,7 +121,6 @@ export default function ViewTokens() {
                 container
                 style={{
                   position: "-webkit-sticky",
-                  position: "sticky",
                   top: "0",
                 }}
               >

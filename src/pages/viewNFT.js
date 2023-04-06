@@ -1,9 +1,7 @@
+/* eslint-disable jsx-a11y/anchor-is-valid */
 import { Grid, Card, Typography } from "@mui/material";
-import Collection from "../components/collections";
 import SideMenu from "../components/sideMenu";
 import { makeStyles } from "@mui/styles";
-import ResponsiveAppBar from "../components/header";
-import { useLocation, useParams } from "react-router-dom";
 import { useState, useEffect } from "react";
 import { fetchNfts } from "../lib/api";
 import NftCard from "../components/nft-item";
@@ -14,6 +12,7 @@ export default function ViewNft() {
   const classes = useStyles();
 
   const [nfts, setNfts] = useState([]);
+  // eslint-disable-next-line no-unused-vars
   const [loading, setLoading] = useState(true);
 
   const address = useTonAddress();
@@ -65,7 +64,6 @@ export default function ViewNft() {
                 container
                 style={{
                   position: "-webkit-sticky",
-                  position: "sticky",
                   top: "0",
                 }}
               >

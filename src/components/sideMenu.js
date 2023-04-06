@@ -6,14 +6,13 @@ import ViewHeadlineIcon from "@mui/icons-material/ViewHeadline";
 import AddCircleIcon from "@mui/icons-material/AddCircle";
 import ViewCompactAltIcon from "@mui/icons-material/ViewCompactAlt";
 import GridViewIcon from "@mui/icons-material/GridView";
-import CalendarMonthIcon from "@mui/icons-material/CalendarMonth";
 import AddCircleOutlineIcon from "@mui/icons-material/AddCircleOutline";
 import { Card } from "reactstrap";
 import Grid from "@mui/material/Grid";
 import GoogleFontLoader from "react-google-font-loader";
 import { makeStyles } from "@mui/styles";
-import SummarizeIcon from '@mui/icons-material/Summarize';
-import RemoveRedEyeIcon from '@mui/icons-material/RemoveRedEye';
+import SummarizeIcon from "@mui/icons-material/Summarize";
+import RemoveRedEyeIcon from "@mui/icons-material/RemoveRedEye";
 const useStyles = makeStyles((theme) => ({
   container: {
     padding: "1rem",
@@ -221,8 +220,6 @@ export default function SideMenu() {
             <Divider />
             <div className={classes.listItem}>
               <p className={classes.title}>Docs</p>
-
-
               <Grid className={classes.listItemSmall} container spacing={1}>
                 <Grid item>
                   <SummarizeIcon />

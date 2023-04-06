@@ -2,7 +2,6 @@ import React, { useState } from "react";
 import { Grid } from "@mui/material";
 import { makeStyles } from "@mui/styles";
 import { Button, Card } from "reactstrap";
-import ResponsiveAppBar from "../components/header";
 import SideMenu from "../components/sideMenu";
 import { useTonConnectUI, useTonAddress } from "@tonconnect/ui-react";
 import NftMinter from "../lib/nft-minter";
@@ -16,7 +15,7 @@ const useStyles = makeStyles((theme) => ({
     padding: "2rem",
     [theme.breakpoints.down("md")]: {
       padding: "1rem",
-    }
+    },
   },
   card: {
     backgroundColor: "#ffffff",
@@ -30,8 +29,7 @@ const useStyles = makeStyles((theme) => ({
       width: "70%",
 
       padding: "50px",
-
-    }
+    },
   },
 
   title: {
@@ -49,7 +47,6 @@ const useStyles = makeStyles((theme) => ({
     fontSize: "14px",
     fontWeight: "bold",
     fontFamily: "Signika Negative",
-
   },
   button: {
     padding: "10px",
@@ -58,8 +55,6 @@ const useStyles = makeStyles((theme) => ({
     border: "none",
     borderRadius: "0.5rem",
     fontFamily: "Signika Negative",
-
-
 
     marginBottom: "1rem",
   },
@@ -119,12 +114,15 @@ export default function GenerateNftCollection() {
         </Grid>
         <Grid item md={10}>
           <DrawerAppBar />
-          <div style={{
-            marginTop: "1rem", justifyContent: "center",
-            alignItems: "center",
-            display: "flex",
-            height: "80vh"
-          }}>
+          <div
+            style={{
+              marginTop: "1rem",
+              justifyContent: "center",
+              alignItems: "center",
+              display: "flex",
+              height: "80vh",
+            }}
+          >
             <Card className={classes.card}>
               <Box mt={2}>
                 <p className={classes.title}>Create Collection</p>
@@ -250,5 +248,3 @@ export default function GenerateNftCollection() {
     </div>
   );
 }
-
-
