@@ -1,6 +1,7 @@
-import TonWeb from "tonweb";
+import TonWeb, { AddressType } from "tonweb";
 import { toNano } from "ton";
 import toastr from "toastr";
+import { TonConnectUI } from "@tonconnect/ui-react";
 
 const { NftCollection, NftItem } = TonWeb.token.nft;
 
@@ -9,7 +10,7 @@ export default class NftMinter {
   tonConnectUi;
   walletAddress;
 
-  constructor(walletAddressParam, tonConnectUi, collectionContentUri) {
+  constructor(walletAddressParam: AddressType, tonConnectUi: TonConnectUI, collectionContentUri: string) {
     this.walletAddress = new TonWeb.utils.Address(walletAddressParam);
     this.tonConnectUi = tonConnectUi;
 
@@ -40,12 +41,12 @@ export default class NftMinter {
       ],
     };
 
-    this.tonConnectUi.sendTransaction(defaultTx2).then((data) => {
+    this.tonConnectUi.sendTransaction(defaultTx2).then((data: any) => {
       toastr.success(nftCollectionAddress.toString(true, true, true), "Contract deployed successfully.");
     });
   };
 
-  deployNftItem = async (itemContentUri, itemIndex, ownerAddress) => {
+  deployNftItem = async (itemContentUri: string, itemIndex: any, ownerAddress: AddressType) => {
     const nftCollectionAddress = await this.nftCollection.getAddress();
     const amount = toNano(0.05);
 

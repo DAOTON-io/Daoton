@@ -1,12 +1,12 @@
 import minterHex from "./contracts/jetton-minter.compiled.json";
 import walletHex from "./contracts/jetton-wallet.compiled.json";
-import { beginCell, toNano, Cell, beginDict } from "ton";
+import { beginCell, toNano, Cell, beginDict, Address } from "ton";
 import { Sha256 } from "@aws-crypto/sha256-js";
 
 export const mintContractHex = Cell.fromBoc(minterHex.hex)[0];
 export const walletContractHex = Cell.fromBoc(walletHex.hex)[0];
 
-const jettonOnChainMetadataSpec = {
+const jettonOnChainMetadataSpec: any = {
   name: "utf8",
   description: "utf8",
   symbol: "utf8",
@@ -19,7 +19,7 @@ const sha256 = (str: string) => {
   return Buffer.from(sha.digestSync());
 };
 
-export function mintBody(owner, jettonValue, transferToJWallet, queryId) {
+export function mintBody(owner: Address | null, jettonValue: number | import("bn.js"), transferToJWallet: number | import("bn.js"), queryId: number | import("bn.js")) {
   return beginCell()
     .storeUint(21, 32)
     .storeUint(queryId, 64) // queryid
@@ -40,11 +40,11 @@ export function mintBody(owner, jettonValue, transferToJWallet, queryId) {
     .endCell();
 }
 
-export function buildJettonOnchainMetadata(data) {
+export function buildJettonOnchainMetadata(data: any) {
   const KEYLEN = 256;
   const dict = beginDict(KEYLEN);
 
-  Object.entries(data).forEach(([k, v]) => {
+  Object.entries(data).forEach(([k, v]: any) => {
     if (!jettonOnChainMetadataSpec[k]) throw new Error(`Unsupported onchain key: ${k}`);
     if (v === undefined || v === "") return;
 
@@ -72,11 +72,11 @@ export function buildJettonOnchainMetadata(data) {
   return beginCell().storeInt(0x00, 8).storeDict(dict.endDict()).endCell();
 }
 
-export function buildJettonOffChainMetadata(contentUri) {
+export function buildJettonOffChainMetadata(contentUri: string) {
   return beginCell().storeInt(0x01, 8).storeBuffer(Buffer.from(contentUri, "ascii")).endCell();
 }
 
-export function initData(owner, data, offchainUri) {
+export function initData(owner: Address | null, data: any, offchainUri: any) {
   if (!data && !offchainUri) {
     throw new Error("Must either specify onchain data or offchain uri");
   }
@@ -88,7 +88,7 @@ export function initData(owner, data, offchainUri) {
     .endCell();
 }
 
-export const createDeployParams = (params, offchainUri) => {
+export const createDeployParams = (params: { owner: any; onchainMetaData: any; amountToMint: any }, offchainUri: string) => {
   console.log(params);
   return {
     code: mintContractHex,
