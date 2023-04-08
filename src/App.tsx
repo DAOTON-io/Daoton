@@ -12,6 +12,8 @@ import Vote from "./pages/vote";
 import { ThemeProvider } from "@mui/styles";
 import { createTheme } from "@mui/material";
 import ViewNft from "./pages/viewNFT";
+import { ProtectedRoute } from "./route/ProtectedRoute";
+import { Login } from "./pages/Login";
 
 const theme = createTheme();
 // const TonProofDemoApi = {
@@ -35,23 +37,25 @@ function App() {
         // getConnectParameters={() => TonProofDemoApi.connectWalletRequest}
         uiPreferences={{ theme: THEME.DARK }}
       >
-        <BrowserRouter basename="/">
-          {/* <BrowserRouter basename="/"> */}
+        <BrowserRouter>
           <Routes>
-            {/* dummy  home page */}
-            <Route path="/" index element={<ViewDao />} />
-            <Route path="/view-dao" index element={<ViewDao />} />
-            <Route path="/listContracts/:daoId" index element={<ContractList />} />
-            <Route path="/create-dao" index element={<CreateDao />} />
-            <Route path="/view-tokens" index element={<ViewTokens />} />
-            <Route path="/create-contract" index element={<CreateContract />} />
-            <Route path="/generate-token" index element={<GenerateToken />} />
-            <Route path="/vote/:proposalId" index element={<Vote />} />
+            <Route element={<ProtectedRoute />}>
+              <Route path="/" index element={<ViewDao />} />
+              <Route path="/view-dao" index element={<ViewDao />} />
+              <Route path="/listContracts/:daoId" index element={<ContractList />} />
+              <Route path="/create-dao" index element={<CreateDao />} />
+              <Route path="/view-tokens" index element={<ViewTokens />} />
+              <Route path="/create-contract" index element={<CreateContract />} />
+              <Route path="/generate-token" index element={<GenerateToken />} />
+              <Route path="/vote/:proposalId" index element={<Vote />} />
 
-            <Route path="/create-contract/:daoId" index element={<CreateContract />} />
-            <Route path="/generate-nft" index element={<GenerateNft />} />
-            <Route path="/generate-nft-collection" index element={<GenerateNftCollection />} />
-            <Route path="/view-nfts" index element={<ViewNft />} />
+              <Route path="/create-contract/:daoId" index element={<CreateContract />} />
+              <Route path="/generate-nft" index element={<GenerateNft />} />
+              <Route path="/generate-nft-collection" index element={<GenerateNftCollection />} />
+              <Route path="/view-nfts" index element={<ViewNft />} />
+            </Route>
+
+            <Route path="/login" index element={<Login />} />
           </Routes>
         </BrowserRouter>
       </TonConnectUIProvider>

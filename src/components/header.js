@@ -198,7 +198,7 @@ function ResponsiveAppBar() {
                         />
                     </Search> */}
           <Box className={classes.connect} style={{ flexGrow: 0, right: "0", marginTop: "0.5rem" }}>
-            <TonConnectButton> Connect </TonConnectButton>
+            <TonConnectButton />
           </Box>
         </Grid>
       </Container>

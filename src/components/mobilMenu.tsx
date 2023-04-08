@@ -312,7 +312,7 @@ function DrawerAppBar(props: { window: any }) {
           </Search>
 
           <Box className={classes.connect} style={{ flexGrow: 0, right: "0" }}>
-            <TonConnectButton> Connect </TonConnectButton>
+            <TonConnectButton />
           </Box>
         </Toolbar>
       </AppBar>
