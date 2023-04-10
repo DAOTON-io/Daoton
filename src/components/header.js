@@ -89,8 +89,6 @@ const StyledInputBase = styled(InputBase)(({ theme }) => ({
     transition: theme.transitions.create("width"),
   },
 }));
-const pages = ["Products", "Pricing", "Blog"];
-const settings = ["Profile", "Account", "Dashboard", "Logout"];
 
 function ResponsiveAppBar() {
   const [anchorElNav, setAnchorElNav] = React.useState(null);
@@ -111,6 +109,7 @@ function ResponsiveAppBar() {
     setAnchorElUser(null);
   };
   const classes = useStyles();
+
   return (
     <AppBar
       className={classes.container}
@@ -197,9 +196,9 @@ function ResponsiveAppBar() {
                             inputProps={{ 'aria-label': 'search' }}
                         />
                     </Search> */}
-          <Box className={classes.connect} style={{ flexGrow: 0, right: "0", marginTop: "0.5rem" }}>
+          {/* <Box className={classes.connect} style={{ flexGrow: 0, right: "0", marginTop: "0.5rem" }}>
             <TonConnectButton />
-          </Box>
+          </Box> */}
         </Grid>
       </Container>
     </AppBar>

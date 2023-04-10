@@ -31,7 +31,7 @@ const Search = styled("div")(({ theme }) => ({
     backgroundColor: alpha(theme.palette.common.white, 0.25),
   },
   marginLeft: 0,
-  width: "80%",
+  width: "100%",
   [theme.breakpoints.down("md")]: {
     visibility: "hidden",
   },
@@ -308,12 +308,12 @@ function DrawerAppBar(props: { window: any }) {
             <SearchIconWrapper>
               <SearchIcon />
             </SearchIconWrapper>
-            <StyledInputBase placeholder="Search..." inputProps={{ "aria-label": "search" }} />
+            <StyledInputBase placeholder="Search..." style={{ width: "100%" }} inputProps={{ "aria-label": "search" }} />
           </Search>
 
-          <Box className={classes.connect} style={{ flexGrow: 0, right: "0" }}>
+          {/* <Box className={classes.connect} style={{ flexGrow: 0, right: "0" }}>
             <TonConnectButton />
-          </Box>
+          </Box> */}
         </Toolbar>
       </AppBar>
       <Box component="nav">
