@@ -37,13 +37,13 @@ const useStyles = makeStyles((theme) => ({
     marginTop: "1rem",
   },
   label: {
-    color: "#2AABEE",
+    color: "#2D6495",
     fontSize: "14px",
     fontWeight: "bold",
   },
   button: {
     padding: "10px",
-    backgroundColor: "#2AABEE",
+    backgroundColor: "#2D6495",
     color: "white",
     border: "none",
     borderRadius: "0.5rem",
@@ -60,18 +60,18 @@ const useStyles = makeStyles((theme) => ({
     color: "white",
     border: "none",
     boxShadow: "0 0 10px 0 rgba(0,0,0,0.1)",
-    backgroundColor: "#2AABEE",
+    backgroundColor: "#2D6495",
     padding: "10px",
     borderRadius: "0.5rem",
   },
   input: {
     marginTop: "0.5rem",
     padding: "10px",
-    border: "1px solid #2AABEE",
+    border: "1px solid #2D6495",
     borderRadius: "0.5rem",
     width: "200%",
     "&:hover": {
-      border: "1px solid #2AABEE",
+      border: "1px solid #2D6495",
     },
   },
 }));
@@ -283,7 +283,7 @@ export default function CreateContract() {
                     </div>
                   </Grid>
                 </Grid>{" "}
-                <Button className={classes.button} onClick={createProposal} style={{ backgroundColor: "#2AABEE", width: "35vh" }}>
+                <Button className={classes.button} onClick={createProposal} style={{ backgroundColor: "#2D6495", width: "35vh" }}>
                   Create
                 </Button>{" "}
               </Card>

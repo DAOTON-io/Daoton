@@ -36,7 +36,7 @@ const useStyles = makeStyles((theme) => ({
   title: {
     marginBottom: "0.5rem",
     fontSize: "30px",
-    color: "#2AABEE",
+    color: "#2D6495",
     fontWeight: "bold",
     fontFamily: "Signika Negative",
   },
@@ -51,7 +51,7 @@ const useStyles = makeStyles((theme) => ({
   },
   button: {
     padding: "10px",
-    backgroundColor: "#2AABEE",
+    backgroundColor: "#2D6495",
     color: "white",
     border: "none",
     borderRadius: "0.5rem",
@@ -67,19 +67,19 @@ const useStyles = makeStyles((theme) => ({
     color: "white",
     border: "none",
     boxShadow: "0 0 10px 0 rgba(0,0,0,0.1)",
-    backgroundColor: "#2AABEE",
+    backgroundColor: "#2D6495",
     padding: "10px",
     borderRadius: "0.5rem",
   },
   input: {
     marginTop: "0.5rem",
     padding: "10px",
-    border: "1px solid #2AABEE",
+    border: "1px solid #2D6495",
     borderRadius: "0.5rem",
     width: "100%",
 
     "&:hover": {
-      border: "1px solid #2AABEE",
+      border: "1px solid #2D6495",
     },
   },
 }));
@@ -463,7 +463,7 @@ export default function CreateDao() {
                   }}
                 >
                   {" "}
-                  <Button className={classes.button} onClick={createDao} style={{ backgroundColor: "#2AABEE", width: "35vh", marginTop: "1rem" }}>
+                  <Button className={classes.button} onClick={createDao} style={{ backgroundColor: "#2D6495", width: "35vh", marginTop: "1rem" }}>
                     Generate
                   </Button>{" "}
                 </div>

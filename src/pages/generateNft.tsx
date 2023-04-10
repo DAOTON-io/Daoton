@@ -38,7 +38,7 @@ const useStyles = makeStyles((theme) => ({
   title: {
     marginBottom: "0.5rem",
     fontSize: "30px",
-    color: "#2AABEE",
+    color: "#2D6495",
     fontFamily: "Signika Negative",
     fontWeight: "bold",
   },
@@ -53,7 +53,7 @@ const useStyles = makeStyles((theme) => ({
   },
   button: {
     padding: "10px",
-    backgroundColor: "#2AABEE",
+    backgroundColor: "#2D6495",
     color: "white",
     border: "none",
     borderRadius: "0.5rem",
@@ -66,11 +66,11 @@ const useStyles = makeStyles((theme) => ({
     marginTop: "0.5rem",
     padding: "10px",
     color: "black",
-    border: "1px solid #2AABEE",
+    border: "1px solid #2D6495",
     borderRadius: "0.5rem",
     width: "100%",
     "&:hover": {
-      border: "1px solid #2AABEE",
+      border: "1px solid #2D6495",
     },
   },
 }));
@@ -288,7 +288,7 @@ export default function GenerateNft() {
                   <Grid item>
                     <Button
                       className={classes.button}
-                      style={{ backgroundColor: "#2AABEE", width: "20vh", marginTop: "2rem" }}
+                      style={{ backgroundColor: "#2D6495", width: "20vh", marginTop: "2rem" }}
                       onClick={() => {
                         generateNFT();
                       }}
@@ -303,7 +303,7 @@ export default function GenerateNft() {
                 <Grid container>
                   <Button
                     className={classes.button}
-                    style={{ backgroundColor: "#2AABEE", width: "100%", marginTop: "2rem" }}
+                    style={{ backgroundColor: "#2D6495", width: "100%", marginTop: "2rem" }}
                     onClick={() => {
                       generateNFT();
                       console.log(nftData);

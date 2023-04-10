@@ -69,7 +69,7 @@ const useStyles = makeStyles((theme) => ({
     padding: "1rem",
   },
   card: {
-    backgroundColor: "#2AABEE",
+    backgroundColor: "#2D6495",
     boxShadow: "0 0 10px 0 rgba(0,0,0,0.1)",
     height: "92vh",
     color: "white",
@@ -128,14 +128,14 @@ function DrawerAppBar(props: { window: any }) {
   };
 
   const drawer = (
-    <Box onClick={handleDrawerToggle} sx={{ textAlign: "center", backgroundColor: "#2AABEE", height: "100vh" }}>
+    <Box onClick={handleDrawerToggle} sx={{ textAlign: "center", backgroundColor: "#2D6495", height: "100vh" }}>
       <Typography variant="h6" sx={{ my: 2, color: "white", fontWeight: "bold" }}>
         DAOTON
       </Typography>
       <Divider className={classes.divider} />
       <Grid
         style={{
-          backgroundColor: "#2AABEE",
+          backgroundColor: "#2D6495",
         }}
         item
         md={12}
@@ -293,7 +293,7 @@ function DrawerAppBar(props: { window: any }) {
       <AppBar
         position="static"
         style={{
-          backgroundColor: "#2AABEE",
+          backgroundColor: "#2D6495",
           borderRadius: "0.5rem",
           fontFamily: "Signika Negative",
           width: "100%",

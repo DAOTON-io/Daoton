@@ -19,7 +19,7 @@ const useStyles = makeStyles((theme) => ({
     padding: "1rem",
   },
   card: {
-    backgroundColor: "#2AABEE",
+    backgroundColor: "#2D6495",
     boxShadow: "0 0 10px 0 rgba(0,0,0,0.1)",
     height: "92vh",
     color: "white",
@@ -32,14 +32,14 @@ const useStyles = makeStyles((theme) => ({
     },
   },
   listItem: {
-    padding: "10px",
+    padding: "4px",
     color: "white",
   },
   listItemSmall: {
     marginBottom: "1rem",
     "&:hover": {
       borderRadius: 4,
-      backgroundColor: "#1689c5",
+      backgroundColor: "#A2C5E3",
     },
   },
 

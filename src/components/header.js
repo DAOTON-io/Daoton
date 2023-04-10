@@ -114,7 +114,7 @@ function ResponsiveAppBar() {
     <AppBar
       className={classes.container}
       style={{
-        backgroundColor: "#2AABEE",
+        backgroundColor: "#2D6495",
         borderRadius: "0.5rem",
         fontFamily: "Signika Negative",
       }}
