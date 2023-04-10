@@ -56,9 +56,10 @@ export default function ViewDao() {
           description: item.DAO_Description,
           date: item.DAO_Address,
           value: item.DAO_Token_Address,
-          daoImg: item.DAO_Image ? "https://0xfb5f6301747772afa27c55100b95eb29f07dbeb5.diode.link/image/" + item.DAO_Image : "image/logo.jpeg",
+          daoImg: item.DAO_Image ? "https://0xfb5f6301747772afa27c55100b95eb29f07dbeb5.diode.link/image/" + item.DAO_Image : "/images/logo.jpeg",
         };
       });
+      console.group(columnsJson2);
 
       setColumns(columnsJson2 as any);
     });
