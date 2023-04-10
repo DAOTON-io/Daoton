@@ -108,7 +108,7 @@ export const OwnerCard: React.FC<Props> = ({ daoId }) => {
                 <p className={classes.name}>{daoName}</p>
               </Grid>
               <Grid item>
-                <img width={"20%"} src="/logo/logo.jpeg" />
+                <img width={"20%"} src="/images/logo.jpeg" />
               </Grid>
               <Grid item className={classes.description}>
                 {daoDescription}

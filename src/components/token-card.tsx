@@ -103,7 +103,7 @@ export const TokenCard: React.FC<Props> = ({ name, date, description, value }) =
                     display: "flex",
                   }}
                 >
-                  <img width={"45%"} src="logo/logo.jpeg" />
+                  <img width={"45%"} src="images/logo.jpeg" />
                 </div>{" "}
                 <Grid container>
                   <p className={classes.name}>{name}</p>

@@ -151,7 +151,7 @@ function DrawerAppBar(props: { window: any }) {
             <Grid item>
               <Typography>
                 <a className={classes.item} href="view-dao">
-                  All Dao's
+                  All DAOs
                 </a>
               </Typography>
             </Grid>
@@ -163,7 +163,7 @@ function DrawerAppBar(props: { window: any }) {
             <Grid item>
               <Typography>
                 <a className={classes.item} href="view-dao">
-                  My Dao's
+                  My DAOs
                 </a>
               </Typography>
             </Grid>

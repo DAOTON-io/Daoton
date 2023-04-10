@@ -34,6 +34,7 @@ const useStyles = makeStyles((theme) => ({
   listItem: {
     padding: "4px",
     color: "white",
+    cursor: "pointer",
   },
   listItemSmall: {
     marginBottom: "1rem",
@@ -106,7 +107,7 @@ export default function SideMenu() {
                 <Grid item>
                   <Typography>
                     <a className={classes.item} href="view-dao">
-                      All Dao's
+                      All DAOs
                     </a>
                   </Typography>
                 </Grid>
@@ -118,7 +119,7 @@ export default function SideMenu() {
                 <Grid item>
                   <Typography>
                     <a className={classes.item} href="view-dao">
-                      My Dao's
+                      My DAOs
                     </a>
                   </Typography>
                 </Grid>

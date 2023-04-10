@@ -73,7 +73,7 @@ export default function MyDao() {
             >
               {" "}
               <Grid container>
-                {/* If columns are empty write there are no DAO's in the middle of the screen on a card */}
+                {/* If columns are empty write there are no DAOs in the middle of the screen on a card */}
                 {columns.length === 0 && (
                   <Grid
                     item
@@ -106,7 +106,7 @@ export default function MyDao() {
                           display: "flex",
                         }}
                       >
-                        There are no DAO's
+                        There are no DAOs
                       </Typography>
                     </Card>
                   </Grid>

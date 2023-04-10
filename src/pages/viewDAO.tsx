@@ -56,7 +56,7 @@ export default function ViewDao() {
           description: item.DAO_Description,
           date: item.DAO_Address,
           value: item.DAO_Token_Address,
-          daoImg: item.DAO_Image ? "https://0xfb5f6301747772afa27c55100b95eb29f07dbeb5.diode.link/image/" + item.DAO_Image : "logo/logo.jpeg",
+          daoImg: item.DAO_Image ? "https://0xfb5f6301747772afa27c55100b95eb29f07dbeb5.diode.link/image/" + item.DAO_Image : "image/logo.jpeg",
         };
       });
 
@@ -87,7 +87,7 @@ export default function ViewDao() {
             >
               {" "}
               <Grid container>
-                {/* If columns are empty write there are no DAO's in the middle of the screen on a card */}
+                {/* If columns are empty write there are no DAOs in the middle of the screen on a card */}
                 {columns.length === 0 && (
                   <Grid
                     item
@@ -120,7 +120,7 @@ export default function ViewDao() {
                           display: "flex",
                         }}
                       >
-                        There are no DAO's
+                        There are no DAOs
                       </Typography>
                     </Card>
                   </Grid>
