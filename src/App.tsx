@@ -1,5 +1,5 @@
 import { THEME, TonConnectUIProvider } from "@tonconnect/ui-react";
-import { BrowserRouter, Routes, Route } from "react-router-dom";
+import { Routes, Route, BrowserRouter } from "react-router-dom";
 import CreateDao from "./pages/createDao";
 import ContractList from "./pages/contractList";
 import ViewDao from "./pages/viewDAO";
@@ -37,6 +37,7 @@ function App() {
         // getConnectParameters={() => TonProofDemoApi.connectWalletRequest}
         uiPreferences={{ theme: THEME.DARK }}
       >
+        {/* <BrowserRouter basename="/Daoton"> */}
         <BrowserRouter>
           <Routes>
             <Route element={<ProtectedRoute />}>
