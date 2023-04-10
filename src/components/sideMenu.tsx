@@ -229,7 +229,7 @@ export default function SideMenu() {
                 </Grid>
                 <Grid item>
                   <Typography className={classes.item}>
-                    <a className={classes.item} href="https://docs.daoton.io">
+                    <a className={classes.item} href="https://docs.daoton.io" target="_blank" rel="noreferrer">
                       Our Docs
                     </a>
                   </Typography>
