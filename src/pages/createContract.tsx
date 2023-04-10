@@ -12,12 +12,6 @@ import axios from "axios";
 import DrawerAppBar from "../components/mobilMenu";
 
 const useStyles = makeStyles((theme) => ({
-  container: {
-    padding: "2rem",
-    [theme.breakpoints.down("md")]: {
-      padding: "1rem",
-    },
-  },
   card: {
     backgroundColor: "#ffffff",
     boxShadow: "0 0 10px 0 rgba(0,0,0,0.1)",
@@ -75,18 +69,6 @@ const useStyles = makeStyles((theme) => ({
     },
   },
 }));
-
-// const writeMayBe = (cell, ref) => {
-//   if (ref) {
-//     cell.bits.writeBit(1);
-//     if (cell.refs.length >= 4) {
-//       throw new Error("refs overflow");
-//     }
-//     cell.refs.push(ref);
-//   } else {
-//     cell.bits.writeBit(0);
-//   }
-// };
 
 export default function CreateContract() {
   const classes = useStyles();
@@ -164,133 +146,110 @@ export default function CreateContract() {
     });
   };
   return (
-    <div>
-      <div
-        style={{
-          backgroundColor: "#E7EBF1",
-        }}
-        className={classes.container}
-      >
-        <Grid container spacing={2}>
-          <Grid item md={2}>
-            <SideMenu />
-          </Grid>
-          <Grid item md={10}>
-            <DrawerAppBar />{" "}
-            <div style={{ marginTop: "1rem" }}>
-              <Card className={classes.card}>
-                <Grid container>
-                  <Grid item md={6}>
-                    {" "}
-                    <div
-                      style={{
-                        marginTop: "1rem",
-                      }}
-                    >
-                      {" "}
-                      <Grid container display={"flex"} alignItems={"center"}>
-                        <p className={classes.title}>Create Proposal</p>
-                      </Grid>
-                      <Grid container>
-                        <div>
-                          <form className={classes.form}>
-                            <label className={classes.label} htmlFor="daoId">
-                              DAO Id{" "}
-                            </label>
-                            <input
-                              value={daoId}
-                              className={classes.input}
-                              type="text"
-                              id="daoId"
-                              name="firstname"
-                              placeholder="DAO name.."
-                              // non editable
-                              disabled
-                            ></input>
-                          </form>
-                        </div>
-                      </Grid>
-                      <Grid container>
-                        <div>
-                          <form className={classes.form}>
-                            <label className={classes.label} htmlFor="tokenID">
-                              Token{" "}
-                            </label>
-                            <input
-                              value={daoId}
-                              className={classes.input}
-                              type="text"
-                              id="tokenID"
-                              name="firstname"
-                              placeholder="DAO name.."
-                              // non editable
-                              disabled
-                            ></input>
-                          </form>
-                        </div>
-                      </Grid>
-                      <Grid container>
-                        <div>
-                          <form className={classes.form}>
-                            <label className={classes.label} htmlFor="proposalText">
-                              Proposal
-                            </label>
-                            <input
-                              onChange={(e) => setProposalText(e.target.value)}
-                              className={classes.input}
-                              type="text"
-                              id="proposalText"
-                              name="firstname"
-                              placeholder="Description.."
-                            ></input>
-                          </form>
-                        </div>
-                      </Grid>
-                      <Grid container>
-                        <div>
-                          <form className={classes.form}>
-                            <label className={classes.label} htmlFor="duration">
-                              Duration
-                            </label>
-                            <input
-                              onChange={(e) => setDuration(e.target.value)}
-                              className={classes.input}
-                              type="text"
-                              id="duration"
-                              name="firstname"
-                              placeholder="Duration"
-                            ></input>
-                          </form>
-                        </div>
-                      </Grid>
-                      <Grid container>
-                        <div>
-                          <form className={classes.form}>
-                            <label className={classes.label} htmlFor="treshold">
-                              Treshold
-                            </label>
-                            <input
-                              onChange={(e) => setTreshold(e.target.value)}
-                              className={classes.input}
-                              type="text"
-                              id="treshold"
-                              name="firstname"
-                              placeholder="Treshold"
-                            ></input>
-                          </form>
-                        </div>
-                      </Grid>
+    <Grid container spacing={2}>
+      <Grid item md={2}>
+        <SideMenu />
+      </Grid>
+      <Grid item md={10}>
+        <DrawerAppBar />{" "}
+        <div style={{ marginTop: "1rem" }}>
+          <Card className={classes.card}>
+            <Grid container>
+              <Grid item md={6}>
+                {" "}
+                <div
+                  style={{
+                    marginTop: "1rem",
+                  }}
+                >
+                  {" "}
+                  <Grid container display={"flex"} alignItems={"center"}>
+                    <p className={classes.title}>Create Proposal</p>
+                  </Grid>
+                  <Grid container>
+                    <div>
+                      <form className={classes.form}>
+                        <label className={classes.label} htmlFor="daoId">
+                          DAO Id{" "}
+                        </label>
+                        <input
+                          value={daoId}
+                          className={classes.input}
+                          type="text"
+                          id="daoId"
+                          name="firstname"
+                          placeholder="DAO name.."
+                          // non editable
+                          disabled
+                        ></input>
+                      </form>
                     </div>
                   </Grid>
-                </Grid>{" "}
-                <Button className={classes.button} onClick={createProposal} style={{ backgroundColor: "#2D6495", width: "35vh" }}>
-                  Create
-                </Button>{" "}
-              </Card>
-            </div>
-          </Grid>
-        </Grid>
-      </div>
-    </div>
+                  <Grid container>
+                    <div>
+                      <form className={classes.form}>
+                        <label className={classes.label} htmlFor="tokenID">
+                          Token{" "}
+                        </label>
+                        <input
+                          value={daoId}
+                          className={classes.input}
+                          type="text"
+                          id="tokenID"
+                          name="firstname"
+                          placeholder="DAO name.."
+                          // non editable
+                          disabled
+                        ></input>
+                      </form>
+                    </div>
+                  </Grid>
+                  <Grid container>
+                    <div>
+                      <form className={classes.form}>
+                        <label className={classes.label} htmlFor="proposalText">
+                          Proposal
+                        </label>
+                        <input
+                          onChange={(e) => setProposalText(e.target.value)}
+                          className={classes.input}
+                          type="text"
+                          id="proposalText"
+                          name="firstname"
+                          placeholder="Description.."
+                        ></input>
+                      </form>
+                    </div>
+                  </Grid>
+                  <Grid container>
+                    <div>
+                      <form className={classes.form}>
+                        <label className={classes.label} htmlFor="duration">
+                          Duration
+                        </label>
+                        <input onChange={(e) => setDuration(e.target.value)} className={classes.input} type="text" id="duration" name="firstname" placeholder="Duration"></input>
+                      </form>
+                    </div>
+                  </Grid>
+                  <Grid container>
+                    <div>
+                      <form className={classes.form}>
+                        <label className={classes.label} htmlFor="treshold">
+                          Treshold
+                        </label>
+                        <input onChange={(e) => setTreshold(e.target.value)} className={classes.input} type="text" id="treshold" name="firstname" placeholder="Treshold"></input>
+                      </form>
+                    </div>
+                  </Grid>
+                </div>
+              </Grid>
+            </Grid>{" "}
+            <Button className={classes.button} onClick={createProposal} style={{ backgroundColor: "#2D6495", width: "35vh" }}>
+              Create
+            </Button>{" "}
+          </Card>
+        </div>
+      </Grid>
+    </Grid>
   );
 }

@@ -20,3 +20,7 @@ code {
 #tc-connect-button .go800548454 {
   font-size: 1rem;
 }
+
+#root {
+  height: 100vh;
+}

@@ -12,9 +12,6 @@ import SideMenu from "../components/sideMenu";
 import getCurrentValue from "../utils/get_current_value";
 
 const useStyles = makeStyles({
-  container: {
-    padding: "1rem",
-  },
   title: {
     fontWeight: "bold",
     fontSize: "28px",
@@ -141,7 +138,6 @@ export default function Vote() {
         style={{
           backgroundColor: "#E7EBF1",
         }}
-        className={classes.container}
       >
         <Grid container spacing={2}>
           <Grid item md={2}>
@@ -149,7 +145,7 @@ export default function Vote() {
           </Grid>
           <Grid item md={10}>
             <DrawerAppBar />
-            <div className={classes.container}>
+            <div>
               <Card className={classes.cardName}>
                 <Grid
                   container

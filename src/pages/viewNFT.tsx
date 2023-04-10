@@ -37,7 +37,6 @@ export default function ViewNft() {
         style={{
           backgroundColor: "#E7EBF1",
         }}
-        className={classes.container}
       >
         <Grid container spacing={2}>
           <Grid item md={2}>
@@ -124,12 +123,6 @@ export default function ViewNft() {
 }
 
 const useStyles = makeStyles((theme) => ({
-  container: {
-    padding: "2rem",
-    [theme.breakpoints.down("md")]: {
-      padding: "1rem",
-    },
-  },
   card: {
     backgroundColor: "#2D6495",
     boxShadow: "0 0 10px 0 rgba(0,0,0,0.1)",

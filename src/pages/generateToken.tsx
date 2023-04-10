@@ -15,12 +15,6 @@ import toastr from "toastr";
 import DrawerAppBar from "../components/mobilMenu";
 
 const useStyles = makeStyles((theme) => ({
-  container: {
-    padding: "2rem",
-    [theme.breakpoints.down("md")]: {
-      padding: "1rem",
-    },
-  },
   card: {
     backgroundColor: "#ffffff",
     boxShadow: "0 0 10px 0 rgba(0,0,0,0.1)",
@@ -169,7 +163,6 @@ export default function GenerateToken() {
         style={{
           backgroundColor: "#E7EBF1",
         }}
-        className={classes.container}
       >
         <Grid container spacing={2}>
           <Grid item md={2}>

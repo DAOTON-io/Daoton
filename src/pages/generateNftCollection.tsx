@@ -11,12 +11,6 @@ import { MobileView, BrowserView } from "react-device-detect";
 import { useNavigate } from "react-router-dom";
 import DrawerAppBar from "../components/mobilMenu";
 const useStyles = makeStyles((theme) => ({
-  container: {
-    padding: "2rem",
-    [theme.breakpoints.down("md")]: {
-      padding: "1rem",
-    },
-  },
   card: {
     backgroundColor: "#ffffff",
     boxShadow: "0 0 10px 0 rgba(0,0,0,0.1)",
@@ -102,133 +96,112 @@ export default function GenerateNftCollection() {
   };
 
   return (
-    <div
-      style={{
-        backgroundColor: "#E7EBF1",
-      }}
-      className={classes.container}
-    >
-      <Grid container spacing={2}>
-        <Grid item md={2}>
-          <SideMenu></SideMenu>
-        </Grid>
-        <Grid item md={10}>
-          <DrawerAppBar />
-          <div
-            style={{
-              marginTop: "1rem",
-              justifyContent: "center",
-              alignItems: "center",
-              display: "flex",
-              height: "80vh",
-            }}
-          >
-            <Card className={classes.card}>
-              <Box mt={2}>
-                <p className={classes.title}>Create Collection</p>
-              </Box>
-              <Grid container alignItems={"center"}>
-                <Grid item xs={12} md={2}>
-                  <div>
-                    <form className={classes.form}>
-                      <label className={classes.label} htmlFor="name">
-                        Collection name:
-                      </label>
-                    </form>
-                  </div>
-                </Grid>
-                <Grid item xs={12} md={8}>
-                  <div>
-                    <form className={classes.form}>
-                      <input
-                        className={classes.input}
-                        type="text"
-                        id="name"
-                        name="collectionName"
-                        placeholder="Collection name.."
-                        onChange={(event) => {
-                          setCollectionData({ ...collectionData, collectionName: event.target.value });
-                        }}
-                      ></input>
-                    </form>
-                  </div>
-                </Grid>
+    <Grid container spacing={2}>
+      <Grid item md={2}>
+        <SideMenu></SideMenu>
+      </Grid>
+      <Grid item md={10}>
+        <DrawerAppBar />
+        <div
+          style={{
+            marginTop: "1rem",
+            justifyContent: "center",
+            alignItems: "center",
+            display: "flex",
+            height: "80vh",
+          }}
+        >
+          <Card className={classes.card}>
+            <Box mt={2}>
+              <p className={classes.title}>Create Collection</p>
+            </Box>
+            <Grid container alignItems={"center"}>
+              <Grid item xs={12} md={2}>
+                <div>
+                  <form className={classes.form}>
+                    <label className={classes.label} htmlFor="name">
+                      Collection name:
+                    </label>
+                  </form>
+                </div>
               </Grid>
-              <Grid container alignItems={"center"}>
-                <Grid item xs={12} md={2}>
-                  <div>
-                    <form className={classes.form}>
-                      <label className={classes.label} htmlFor="name">
-                        Description:
-                      </label>
-                    </form>
-                  </div>
-                </Grid>
-                <Grid item xs={12} md={8}>
-                  <div>
-                    <form className={classes.form}>
-                      <input
-                        className={classes.input}
-                        type="text"
-                        id="description"
-                        name="description"
-                        placeholder="Description..."
-                        onChange={(event) => {
-                          setCollectionData({ ...collectionData, collectionDescription: event.target.value });
-                        }}
-                      ></input>
-                    </form>
-                  </div>
-                </Grid>
-              </Grid>
-              <Grid container alignItems={"center"}>
-                <Grid item xs={12} md={2}>
-                  <div>
-                    <form className={classes.form}>
-                      <label className={classes.label} htmlFor="name">
-                        Image:
-                      </label>
-                    </form>
-                  </div>
-                </Grid>
-                <Grid item xs={12} md={8}>
-                  <div>
-                    <form className={classes.form}>
-                      <input
-                        className={classes.input}
-                        type="text"
-                        id="description"
-                        name="description"
-                        placeholder="URL of 256x256 pixel PNG image of Collection logo."
-                        onChange={(event) => {
-                          setCollectionData({ ...collectionData, collectionImage: event.target.value });
-                        }}
-                      ></input>
-                    </form>
-                  </div>
-                </Grid>
-              </Grid>
-              <BrowserView>
-                <Grid container xs={6.8} justifyContent={"flex-end"}>
-                  <Grid item>
-                    <Button
-                      className={classes.button}
-                      style={{ backgroundColor: "#2D6495", width: "20vh", marginTop: "2rem" }}
-                      onClick={() => {
-                        generateCollection();
-                        console.log(collectionData);
+              <Grid item xs={12} md={8}>
+                <div>
+                  <form className={classes.form}>
+                    <input
+                      className={classes.input}
+                      type="text"
+                      id="name"
+                      name="collectionName"
+                      placeholder="Collection name.."
+                      onChange={(event) => {
+                        setCollectionData({ ...collectionData, collectionName: event.target.value });
                       }}
-                    >
-                      Generate Collection
-                    </Button>
-                  </Grid>
-                </Grid>
-              </BrowserView>
-              <MobileView>
-                <Grid container>
+                    ></input>
+                  </form>
+                </div>
+              </Grid>
+            </Grid>
+            <Grid container alignItems={"center"}>
+              <Grid item xs={12} md={2}>
+                <div>
+                  <form className={classes.form}>
+                    <label className={classes.label} htmlFor="name">
+                      Description:
+                    </label>
+                  </form>
+                </div>
+              </Grid>
+              <Grid item xs={12} md={8}>
+                <div>
+                  <form className={classes.form}>
+                    <input
+                      className={classes.input}
+                      type="text"
+                      id="description"
+                      name="description"
+                      placeholder="Description..."
+                      onChange={(event) => {
+                        setCollectionData({ ...collectionData, collectionDescription: event.target.value });
+                      }}
+                    ></input>
+                  </form>
+                </div>
+              </Grid>
+            </Grid>
+            <Grid container alignItems={"center"}>
+              <Grid item xs={12} md={2}>
+                <div>
+                  <form className={classes.form}>
+                    <label className={classes.label} htmlFor="name">
+                      Image:
+                    </label>
+                  </form>
+                </div>
+              </Grid>
+              <Grid item xs={12} md={8}>
+                <div>
+                  <form className={classes.form}>
+                    <input
+                      className={classes.input}
+                      type="text"
+                      id="description"
+                      name="description"
+                      placeholder="URL of 256x256 pixel PNG image of Collection logo."
+                      onChange={(event) => {
+                        setCollectionData({ ...collectionData, collectionImage: event.target.value });
+                      }}
+                    ></input>
+                  </form>
+                </div>
+              </Grid>
+            </Grid>
+            <BrowserView>
+              <Grid container xs={6.8} justifyContent={"flex-end"}>
+                <Grid item>
                   <Button
                     className={classes.button}
-                    style={{ backgroundColor: "#2D6495", width: "100%", marginTop: "2rem" }}
+                    style={{ backgroundColor: "#2D6495", width: "20vh", marginTop: "2rem" }}
                     onClick={() => {
                       generateCollection();
                       console.log(collectionData);
@@ -237,11 +210,25 @@ export default function GenerateNftCollection() {
                     Generate Collection
                   </Button>
                 </Grid>
-              </MobileView>
-            </Card>
-          </div>
-        </Grid>
+              </Grid>
+            </BrowserView>
+            <MobileView>
+              <Grid container>
+                <Button
+                  className={classes.button}
+                  style={{ backgroundColor: "#2D6495", width: "100%", marginTop: "2rem" }}
+                  onClick={() => {
+                    generateCollection();
+                    console.log(collectionData);
+                  }}
+                >
+                  Generate Collection
+                </Button>
+              </Grid>
+            </MobileView>
+          </Card>
+        </div>
       </Grid>
-    </div>
+    </Grid>
   );
 }
