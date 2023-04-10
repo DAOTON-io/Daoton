@@ -59,7 +59,13 @@ const useStyles = makeStyles({
   },
 });
 
-export default function TokenItem({ name, date, description, value }) {
+type Props = {
+  name: string;
+  description: string;
+  value: string;
+};
+
+export const TokenItem: React.FC<Props> = ({ name, description, value }) => {
   const classes = useStyles();
 
   return (
@@ -128,4 +134,4 @@ export default function TokenItem({ name, date, description, value }) {
       </div>
     </div>
   );
-}
+};

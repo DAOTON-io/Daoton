@@ -6,20 +6,20 @@ import ViewHeadlineIcon from "@mui/icons-material/ViewHeadline";
 import AddCircleIcon from "@mui/icons-material/AddCircle";
 import ViewCompactAltIcon from "@mui/icons-material/ViewCompactAlt";
 import GridViewIcon from "@mui/icons-material/GridView";
-import CalendarMonthIcon from "@mui/icons-material/CalendarMonth";
 import AddCircleOutlineIcon from "@mui/icons-material/AddCircleOutline";
 import { Card } from "reactstrap";
 import Grid from "@mui/material/Grid";
 import GoogleFontLoader from "react-google-font-loader";
 import { makeStyles } from "@mui/styles";
-import SummarizeIcon from '@mui/icons-material/Summarize';
-import RemoveRedEyeIcon from '@mui/icons-material/RemoveRedEye';
+import SummarizeIcon from "@mui/icons-material/Summarize";
+import RemoveRedEyeIcon from "@mui/icons-material/RemoveRedEye";
+
 const useStyles = makeStyles((theme) => ({
   container: {
     padding: "1rem",
   },
   card: {
-    backgroundColor: "#2AABEE",
+    backgroundColor: "#2D6495",
     boxShadow: "0 0 10px 0 rgba(0,0,0,0.1)",
     height: "92vh",
     color: "white",
@@ -32,14 +32,15 @@ const useStyles = makeStyles((theme) => ({
     },
   },
   listItem: {
-    padding: "10px",
+    padding: "4px",
     color: "white",
+    cursor: "pointer",
   },
   listItemSmall: {
     marginBottom: "1rem",
     "&:hover": {
       borderRadius: 4,
-      backgroundColor: "#1689c5",
+      backgroundColor: "#A2C5E3",
     },
   },
 
@@ -58,6 +59,7 @@ const useStyles = makeStyles((theme) => ({
     fontFamily: "Signika Negative",
   },
 }));
+
 export default function SideMenu() {
   const classes = useStyles();
   return (
@@ -105,7 +107,7 @@ export default function SideMenu() {
                 <Grid item>
                   <Typography>
                     <a className={classes.item} href="view-dao">
-                      All Dao's
+                      All DAOs
                     </a>
                   </Typography>
                 </Grid>
@@ -117,7 +119,7 @@ export default function SideMenu() {
                 <Grid item>
                   <Typography>
                     <a className={classes.item} href="view-dao">
-                      My Dao's
+                      My DAOs
                     </a>
                   </Typography>
                 </Grid>
@@ -221,8 +223,6 @@ export default function SideMenu() {
             <Divider />
             <div className={classes.listItem}>
               <p className={classes.title}>Docs</p>
-
-
               <Grid className={classes.listItemSmall} container spacing={1}>
                 <Grid item>
                   <SummarizeIcon />

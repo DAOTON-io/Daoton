@@ -2,10 +2,10 @@ import React, { useState } from "react";
 import { Grid, Switch } from "@mui/material";
 import { makeStyles } from "@mui/styles";
 import { Button, Card } from "reactstrap";
-import ResponsiveAppBar from "../components/header";
 import SideMenu from "../components/sideMenu";
 import { createDeployParams } from "../lib/token-minter/deployer";
 import { useTonConnectUI, useTonAddress } from "@tonconnect/ui-react";
+
 import { Address, toNano, contractAddress, Cell } from "ton";
 import BigNumber from "bignumber.js";
 import { BN } from "bn.js";
@@ -15,12 +15,6 @@ import toastr from "toastr";
 import DrawerAppBar from "../components/mobilMenu";
 
 const useStyles = makeStyles((theme) => ({
-  container: {
-    padding: "2rem",
-    [theme.breakpoints.down("md")]: {
-      padding: "1rem",
-    },
-  },
   card: {
     backgroundColor: "#ffffff",
     boxShadow: "0 0 10px 0 rgba(0,0,0,0.1)",
@@ -39,7 +33,7 @@ const useStyles = makeStyles((theme) => ({
   title: {
     marginBottom: "0.5rem",
     fontSize: "30px",
-    color: "#2AABEE",
+    color: "#2D6495",
     fontFamily: "Signika Negative",
     fontWeight: "bold",
   },
@@ -54,7 +48,7 @@ const useStyles = makeStyles((theme) => ({
   },
   button: {
     padding: "10px",
-    backgroundColor: "#2AABEE",
+    backgroundColor: "#2D6495",
     color: "white",
     border: "none",
     borderRadius: "0.5rem",
@@ -67,24 +61,24 @@ const useStyles = makeStyles((theme) => ({
     marginTop: "0.5rem",
     padding: "10px",
     color: "black",
-    border: "1px solid #2AABEE",
+    border: "1px solid #2D6495",
     borderRadius: "0.5rem",
     width: "100%",
     "&:hover": {
-      border: "1px solid #2AABEE",
+      border: "1px solid #2D6495",
     },
   },
 }));
 
 const ten = new BigNumber(10);
 
-async function fetchDecimalsOffchain(url) {
+async function fetchDecimalsOffchain(url: string) {
   let res = await fetch(url);
   let obj = await res.json();
   return obj;
 }
 
-export function toDecimalsBN(num, decimals) {
+export function toDecimalsBN(num: BigNumber.Value, decimals: BigNumber.Value) {
   return new BN(BigNumber(num).multipliedBy(ten.pow(decimals)).toFixed(0));
 }
 
@@ -98,6 +92,7 @@ export default function GenerateToken() {
     description: "",
     isPausable: false,
     isStackable: false,
+    offchainUri: "",
   });
   let address = useTonAddress();
   const [tonConnectUi] = useTonConnectUI();
@@ -105,8 +100,6 @@ export default function GenerateToken() {
 
   const generateToken = async () => {
     const editedAddress = Address.parse(address);
-
-    console.log(editedAddress);
 
     let dc = data.decimal;
     if (data.offchainUri) {
@@ -120,7 +113,7 @@ export default function GenerateToken() {
         name: data.name,
         symbol: data.symbol,
         description: data.description,
-        decimals: parseInt(dc).toFixed(0),
+        decimals: dc.toFixed(0),
         // isPausable: data.isPausable,
       },
       // offchainUri: data.offchainUri,
@@ -151,7 +144,7 @@ export default function GenerateToken() {
       messages: [
         {
           address: contractAddressHex,
-          amount: toNano(0.25).toNumber(),
+          amount: toNano(0.25).toNumber().toString(),
           stateInit: bb,
           payload: py.toString("base64"),
         },
@@ -170,7 +163,6 @@ export default function GenerateToken() {
         style={{
           backgroundColor: "#E7EBF1",
         }}
-        className={classes.container}
       >
         <Grid container spacing={2}>
           <Grid item md={2}>
@@ -213,7 +205,7 @@ export default function GenerateToken() {
                           {" "}
                           <div>
                             <form className={classes.form}>
-                              <label className={classes.label} for="name">
+                              <label className={classes.label} htmlFor="name">
                                 Name:
                               </label>
                             </form>
@@ -224,7 +216,6 @@ export default function GenerateToken() {
                           <div>
                             <form className={classes.form}>
                               <input
-                                fullWidth
                                 className={classes.input}
                                 type="text"
                                 id="name"
@@ -247,7 +238,7 @@ export default function GenerateToken() {
                           {" "}
                           <div>
                             <form className={classes.form}>
-                              <label className={classes.label} for="description">
+                              <label className={classes.label} htmlFor="description">
                                 Description :
                               </label>
                             </form>
@@ -258,7 +249,6 @@ export default function GenerateToken() {
                           <div>
                             <form className={classes.form}>
                               <input
-                                fullWidth
                                 className={classes.input}
                                 type="text"
                                 id="description"
@@ -282,7 +272,7 @@ export default function GenerateToken() {
                           {" "}
                           <div>
                             <form className={classes.form}>
-                              <label className={classes.label} for="symbol">
+                              <label className={classes.label} htmlFor="symbol">
                                 Symbol :
                               </label>
                             </form>
@@ -293,7 +283,6 @@ export default function GenerateToken() {
                           <div>
                             <form className={classes.form}>
                               <input
-                                fullWidth
                                 className={classes.input}
                                 type="text"
                                 id="symbol"
@@ -317,7 +306,7 @@ export default function GenerateToken() {
                           {" "}
                           <div>
                             <form className={classes.form}>
-                              <label className={classes.label} for="amount">
+                              <label className={classes.label} htmlFor="amount">
                                 Amount :
                               </label>
                             </form>
@@ -328,7 +317,6 @@ export default function GenerateToken() {
                           <div>
                             <form className={classes.form}>
                               <input
-                                fullWidth
                                 className={classes.input}
                                 type="text"
                                 id="amount"
@@ -352,7 +340,7 @@ export default function GenerateToken() {
                           {" "}
                           <div>
                             <form className={classes.form}>
-                              <label className={classes.label} for="decimal">
+                              <label className={classes.label} htmlFor="decimal">
                                 Decimal :
                               </label>
                             </form>
@@ -363,7 +351,6 @@ export default function GenerateToken() {
                           <div>
                             <form className={classes.form}>
                               <input
-                                fullWidth
                                 className={classes.input}
                                 type="text"
                                 id="decimal"
@@ -386,7 +373,7 @@ export default function GenerateToken() {
                           <Grid container alignItems={"center"}>
                             <Grid item md={8}>
                               <form className={classes.form}>
-                                <label className={classes.label} for="decimal">
+                                <label className={classes.label} htmlFor="decimal">
                                   Pausable Contract :
                                 </label>
                               </form>
@@ -413,7 +400,7 @@ export default function GenerateToken() {
                           <Grid container alignItems={"center"}>
                             <Grid item md={8}>
                               <form className={classes.form}>
-                                <label className={classes.label} for="decimal">
+                                <label className={classes.label} htmlFor="decimal">
                                   Stackable Contract :
                                 </label>
                               </form>
@@ -443,7 +430,7 @@ export default function GenerateToken() {
                 <Button
                   className={classes.button}
                   style={{
-                    backgroundColor: "#2AABEE",
+                    backgroundColor: "#2D6495",
                     width: "35vh",
                     marginTop: "1rem",
                   }}

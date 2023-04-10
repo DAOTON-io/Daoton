@@ -1,12 +1,10 @@
+/* eslint-disable jsx-a11y/anchor-is-valid */
 import { Grid, Card, Typography } from "@mui/material";
-import Collection from "../components/collections";
 import SideMenu from "../components/sideMenu";
 import { makeStyles } from "@mui/styles";
-import ResponsiveAppBar from "../components/header";
-import { useLocation, useParams } from "react-router-dom";
 import { useState, useEffect } from "react";
 import { fetchNfts } from "../lib/api";
-import NftCard from "../components/nft-item";
+import { NftCard } from "../components/nft-item";
 import { useTonAddress } from "@tonconnect/ui-react";
 import DrawerAppBar from "../components/mobilMenu";
 
@@ -14,6 +12,7 @@ export default function ViewNft() {
   const classes = useStyles();
 
   const [nfts, setNfts] = useState([]);
+  // eslint-disable-next-line no-unused-vars
   const [loading, setLoading] = useState(true);
 
   const address = useTonAddress();
@@ -25,7 +24,7 @@ export default function ViewNft() {
         const nftData = nftResponse.nftItems;
 
         setNfts(nftData);
-        nftData.map((item) => console.log(item.metadata));
+        nftData.map((item: { metadata: any }) => console.log(item.metadata));
       }
       setLoading(false);
     };
@@ -38,7 +37,6 @@ export default function ViewNft() {
         style={{
           backgroundColor: "#E7EBF1",
         }}
-        className={classes.container}
       >
         <Grid container spacing={2}>
           <Grid item md={2}>
@@ -53,7 +51,6 @@ export default function ViewNft() {
                 overflow: "auto", // Kaydırma çubuğu eklemek için
                 marginTop: "0.5em",
               }}
-              marginTop={2}
             >
               {/* //TODO cozemedigim bir hata */}
               {/* {loading && (
@@ -65,7 +62,6 @@ export default function ViewNft() {
                 container
                 style={{
                   position: "-webkit-sticky",
-                  position: "sticky",
                   top: "0",
                 }}
               >
@@ -104,7 +100,7 @@ export default function ViewNft() {
                   </Grid>
                 )}
 
-                {nfts.map((item) => (
+                {nfts.map((item: any) => (
                   <Grid item margin={1} md={3.75} justifyContent={"space-around"}>
                     <a style={{ textDecoration: "none" }}>
                       <NftCard
@@ -127,14 +123,8 @@ export default function ViewNft() {
 }
 
 const useStyles = makeStyles((theme) => ({
-  container: {
-    padding: "2rem",
-    [theme.breakpoints.down("md")]: {
-      padding: "1rem",
-    },
-  },
   card: {
-    backgroundColor: "#2AABEE",
+    backgroundColor: "#2D6495",
     boxShadow: "0 0 10px 0 rgba(0,0,0,0.1)",
     height: "90vh",
     color: "white",

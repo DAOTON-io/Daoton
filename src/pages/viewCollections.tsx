@@ -144,7 +144,7 @@
 //     },
 //   },
 //   card: {
-//     backgroundColor: "#2AABEE",
+//     backgroundColor: "#2D6495",
 //     boxShadow: "0 0 10px 0 rgba(0,0,0,0.1)",
 //     height: "90vh",
 //     color: "white",

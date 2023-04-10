@@ -2,21 +2,14 @@ import { Grid, Box, CircularProgress, Card, Typography } from "@mui/material";
 import { makeStyles } from "@mui/styles";
 import React, { useEffect, useState } from "react";
 import { useTonAddress } from "@tonconnect/ui-react";
-import TokenItem from "../components/token-item";
-import ResponsiveAppBar from "../components/header";
+import { TokenItem } from "../components/token-item";
 import SideMenu from "../components/sideMenu";
 import { fetchTokens } from "../lib/api/index";
 import DrawerAppBar from "../components/mobilMenu";
 
 const useStyles = makeStyles((theme) => ({
-  container: {
-    padding: "2rem",
-    [theme.breakpoints.down("md")]: {
-      padding: "1rem",
-    },
-  },
   card: {
-    backgroundColor: "#2AABEE",
+    backgroundColor: "#2D6495",
     boxShadow: "0 0 10px 0 rgba(0,0,0,0.1)",
     height: "90vh",
     color: "white",
@@ -87,7 +80,6 @@ export default function ViewTokens() {
         style={{
           backgroundColor: "#E7EBF1",
         }}
-        className={classes.container}
       >
         <Grid container spacing={2}>
           <Grid item md={2}>
@@ -122,7 +114,6 @@ export default function ViewTokens() {
                 container
                 style={{
                   position: "-webkit-sticky",
-                  position: "sticky",
                   top: "0",
                 }}
               >
@@ -160,7 +151,7 @@ export default function ViewTokens() {
                     </Card>
                   </Grid>
                 )}
-                {tokens.map((column) => (
+                {tokens.map((column: any) => (
                   <Grid key={column.metadata.address} item md={3}>
                     <TokenItem
                       name={column.metadata.name + "(" + column.metadata.symbol + ")"}
