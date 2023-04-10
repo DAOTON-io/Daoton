@@ -13,6 +13,8 @@ import GoogleFontLoader from "react-google-font-loader";
 import { makeStyles } from "@mui/styles";
 import SummarizeIcon from "@mui/icons-material/Summarize";
 import RemoveRedEyeIcon from "@mui/icons-material/RemoveRedEye";
+import Avatar from "@mui/material/Avatar";
+import { useTonConnectUI, useTonAddress } from "@tonconnect/ui-react";
 
 const useStyles = makeStyles((theme) => ({
   container: {
@@ -37,7 +39,7 @@ const useStyles = makeStyles((theme) => ({
     cursor: "pointer",
   },
   listItemSmall: {
-    marginBottom: "1rem",
+    marginBottom: "0.6rem",
     "&:hover": {
       borderRadius: 4,
       backgroundColor: "#A2C5E3",
@@ -62,6 +64,8 @@ const useStyles = makeStyles((theme) => ({
 
 export default function SideMenu() {
   const classes = useStyles();
+  const address = useTonAddress(false);
+
   return (
     <>
       <Card className={classes.card}>
@@ -236,42 +240,15 @@ export default function SideMenu() {
                 </Grid>
               </Grid>
             </div>
+            <div className={classes.listItem}>
+              <Grid className={classes.listItemSmall} container spacing={1}>
+                <Grid item style={{ display: "flex", alignItems: "center", justifyContent: "center", padding: "0.3rem" }}>
+                  <Avatar src="/broken-image.jpg" sx={{ width: 32, height: 32, bgcolor: "#EC7D31", marginRight: "0.5rem" }} />
+                  <Typography className={classes.item}>{address.slice(0, 8) + "..." + address.slice(-4)} </Typography>
+                </Grid>
+              </Grid>
+            </div>
           </Grid>
-
-          {/* <List>
-                                    {[
-                                        "View DAOs",
-                                        "Create DAO",
-                                        "View Tokens",
-                                        "Generate Token",
-                                        "Proposal Calender",
-                                    ].map((text, index) => (
-                                        <ListItem style={{
-                                            marginBottom: '0.5rem'
-                                        }} key={text} disablePadding>
-                                            <ListItemButton >
-                                                <ListItemIcon style={{ color: "white" }}>
-                                                    {index == 0 ? (
-                                                        <ViewHeadlineIcon />
-                                                    ) : index == 1 ? (
-                                                        <AddCircleIcon />
-                                                    ) : index == 2 ? (
-                                                        <ViewCompactAltIcon />
-                                                    ) : index == 3 ? (
-                                                        <AddCircleOutlineIcon />
-                                                    ) : index == 4 ? (
-                                                        <CalendarMonthIcon />
-                                                    ) : (
-                                                        <MailIcon />
-                                                    )}
-                                                </ListItemIcon>
-
-                                                <ListItemText primary={text} />
-                                            </ListItemButton>
-
-                                        </ListItem>
-                                    ))}
-                                </List> */}
         </div>
       </Card>
     </>

@@ -3,7 +3,7 @@ import { makeStyles } from "@mui/styles";
 import React from "react";
 
 import ResponsiveAppBar from "./header";
-import StickyHeadTable from "./table";
+import { StickyHeadTable } from "./table";
 import SideMenu from "./sideMenu";
 
 const useStyles = makeStyles({
@@ -56,7 +56,7 @@ export default function MenuPage() {
           </Grid>
           <Grid item md={8}>
             <ResponsiveAppBar />
-            <StickyHeadTable daoId={undefined} tokenContract={undefined} />
+            {/* <StickyHeadTable daoId={undefined} tokenContract={undefined} /> */}
           </Grid>
         </Grid>
       </div>
