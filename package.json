@@ -28,7 +28,6 @@
     "react-file-base64": "^1.0.3",
     "react-google-font-loader": "^1.1.0",
     "react-scripts": "5.0.1",
-    "reactjs-popup": "^2.0.5",
     "reactstrap": "^9.1.6",
     "toastr": "^2.1.4",
     "ton": "12.3.3",
