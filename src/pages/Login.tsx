@@ -4,14 +4,14 @@ import Box from "@mui/material/Box";
 import Typography from "@mui/material/Typography";
 import Container from "@mui/material/Container";
 import { createTheme, ThemeProvider } from "@mui/material/styles";
-import { THEME, TonConnectButton, useTonConnectUI } from "@tonconnect/ui-react";
+import { TonConnectButton, useTonConnectUI } from "@tonconnect/ui-react";
 import { useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 
 const theme = createTheme();
 
 // telegram color
-const telegramColor = "#20A8E7";
+// const telegramColor = "#20A8E7";
 
 export const Login = () => {
   const [tonConnectUI] = useTonConnectUI();

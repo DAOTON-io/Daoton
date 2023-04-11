@@ -14,18 +14,19 @@ import { makeStyles } from "@mui/styles";
 import SummarizeIcon from "@mui/icons-material/Summarize";
 import RemoveRedEyeIcon from "@mui/icons-material/RemoveRedEye";
 import Avatar from "@mui/material/Avatar";
-import { useTonAddress } from "@tonconnect/ui-react";
+import { useTonAddress, useTonConnectUI } from "@tonconnect/ui-react";
 import ArrowBackIcon from "@mui/icons-material/ArrowBack";
 import LogoutIcon from "@mui/icons-material/Logout";
 import { IconButton } from "@mui/material";
+import { useNavigate } from "react-router-dom";
 
 export default function SideMenu() {
   const [showLogout, setShowLogout] = useState<boolean>(false);
+  const [tonConnectUI] = useTonConnectUI();
+  const navigate = useNavigate();
 
   const classes = useStyles();
   const address = useTonAddress(false);
-
-  console.log(showLogout);
 
   return (
     <>
@@ -221,7 +222,6 @@ export default function SideMenu() {
                       component="label"
                       style={{ color: "white" }}
                       onClick={() => {
-                        console.log("here");
                         setShowLogout(false);
                       }}
                     >
@@ -230,7 +230,15 @@ export default function SideMenu() {
                     <Grid item>
                       <Typography className={classes.item}>{address.slice(0, 8) + "..." + address.slice(-4)}</Typography>
                     </Grid>
-                    <IconButton aria-label="back" component="label" style={{ color: "white" }}>
+                    <IconButton
+                      aria-label="back"
+                      component="label"
+                      style={{ color: "white" }}
+                      onClick={() => {
+                        tonConnectUI.disconnect();
+                        navigate("/login");
+                      }}
+                    >
                       <LogoutIcon />
                     </IconButton>
                   </div>
