@@ -66,7 +66,7 @@ export const CustomStep: React.FC<Props> = ({ steps, activeStep }) => {
     <Stepper alternativeLabel activeStep={activeStep} connector={<QontoConnector />}>
       {steps.map((label) => (
         <Step key={label}>
-          <StepLabel StepIconComponent={QontoStepIcon}>{<span style={{ color: "#20A8E7", fontWeight: "bold", fontSize: "1rem" }}>{label}</span>}</StepLabel>
+          <StepLabel StepIconComponent={QontoStepIcon}>{<span style={{ color: "#2D6495", fontWeight: "bold", fontSize: "1rem" }}>{label}</span>}</StepLabel>
         </Step>
       ))}
     </Stepper>
