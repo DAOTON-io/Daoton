@@ -10,6 +10,7 @@ import { Button, Card, Container, Grid, Input, ListItem, OutlinedInput, Stack, T
 import SideMenu from "components/sideMenu";
 import { wordSize } from "bn.js";
 import GoogleFontLoader from "react-google-font-loader";
+import DrawerAppBar from "components/mobilMenu";
 
 
 const useStyles = makeStyles((theme) => ({
@@ -124,12 +125,13 @@ export default function GenerateNft() {
 
   return (
     <Grid container spacing={2}>
+
       <Grid item lg={2} md={3}>
         <SideMenu />
       </Grid>
       <Grid item lg={10} md={9} xs={12}>
+        <DrawerAppBar />
         <Card sx={{
-          height: '100%',
           borderRadius: '40px'
         }}>
           <GoogleFontLoader fonts={[{ font: "Raleway", weights: [700, "700i", 500, "500i"], },]} subsets={["cyrillic-ext", "greek"]} />
@@ -138,20 +140,36 @@ export default function GenerateNft() {
             <Grid item lg={1} md={2} sm={1} xs={0}></Grid>
             <Grid item lg={9} md={8} sm={11} xs={12}>
 
-
-
               <h5 className={classes.title}>Create NFT</h5>
 
               <Grid item>
                 <Stack spacing={2} maxWidth={'400px'} marginTop={4} >
-                  <input className={classes.input} placeholder="Name"></input>
-                  <input className={classes.input} placeholder="Description"></input>
-                  <input className={classes.input} placeholder="Image"></input>
-                  <input className={classes.input} placeholder="Level"></input>
-                  <input className={classes.input} placeholder="Collection Address"></input>
-                  <input className={classes.inputImage} placeholder="Image*"></input>
+                  <input className={classes.input} placeholder="Name"
+                    onChange={(event) => {
+                      setNftData({ ...nftData, nftName: event.target.value });
+                    }}></input>
+                  <input className={classes.input} placeholder="Description"
+                    onChange={(event) => {
+                      setNftData({ ...nftData, nftDescription: event.target.value });
+                    }}></input>
+                  <input className={classes.input} placeholder="Level"
+                    onChange={(event) => {
+                      setNftData({ ...nftData, value: event.target.value });
+                    }}></input>
+                  <input className={classes.input} placeholder="Collection Address"
+                    onChange={(event) => {
+                      setNftData({ ...nftData, collectionAddress: event.target.value });
+                    }}></input>
+                  <input className={classes.inputImage} placeholder="Image*"
+                    onChange={(event) => {
+                      setNftData({ ...nftData, nftImage: event.target.value });
+                    }}></input>
                   <Grid paddingTop={2} container justifyContent={'center'}>
-                    <button className={classes.button}>Create</button>
+                    <button className={classes.button}
+                      onClick={() => {
+                        generateNFT();
+                        console.log(nftData);
+                      }}>Create</button>
                   </Grid>
                 </Stack>
               </Grid>
