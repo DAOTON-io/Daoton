@@ -4,8 +4,6 @@ import Typography from "@mui/material/Typography";
 import Divider from "@mui/material/Divider";
 import ViewHeadlineIcon from "@mui/icons-material/ViewHeadline";
 import AddCircleIcon from "@mui/icons-material/AddCircle";
-import ViewCompactAltIcon from "@mui/icons-material/ViewCompactAlt";
-import GridViewIcon from "@mui/icons-material/GridView";
 import AddCircleOutlineIcon from "@mui/icons-material/AddCircleOutline";
 import { Card } from "reactstrap";
 import Grid from "@mui/material/Grid";
@@ -19,6 +17,9 @@ import ArrowBackIcon from "@mui/icons-material/ArrowBack";
 import LogoutIcon from "@mui/icons-material/Logout";
 import { IconButton } from "@mui/material";
 import { useNavigate } from "react-router-dom";
+import FitbitIcon from "@mui/icons-material/Fitbit";
+import TokenIcon from "@mui/icons-material/Token";
+import PlaylistAddCircleIcon from "@mui/icons-material/PlaylistAddCircle";
 
 export default function SideMenu() {
   const [showLogout, setShowLogout] = useState<boolean>(false);
@@ -122,7 +123,7 @@ export default function SideMenu() {
               <p className={classes.title}>Token</p>
               <Grid className={classes.listItemSmall} container spacing={1}>
                 <Grid item>
-                  <ViewCompactAltIcon />
+                  <TokenIcon />
                 </Grid>
 
                 <Grid item>
@@ -151,7 +152,7 @@ export default function SideMenu() {
               <p className={classes.title}>NFT</p>
               <Grid className={classes.listItemSmall} container spacing={1}>
                 <Grid item>
-                  <ViewCompactAltIcon />
+                  <FitbitIcon />
                 </Grid>
                 <Grid item>
                   <Typography className={classes.item}>
@@ -163,7 +164,7 @@ export default function SideMenu() {
               </Grid>
               <Grid className={classes.listItemSmall} container spacing={1}>
                 <Grid item>
-                  <GridViewIcon />
+                  <PlaylistAddCircleIcon />
                 </Grid>
                 <Grid item>
                   <Typography className={classes.item}>
@@ -175,7 +176,7 @@ export default function SideMenu() {
               </Grid>
               <Grid className={classes.listItemSmall} container spacing={1}>
                 <Grid item>
-                  <GridViewIcon />
+                  <PlaylistAddCircleIcon />
                 </Grid>
                 <Grid item>
                   <Typography className={classes.item}>
