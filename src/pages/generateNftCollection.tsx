@@ -42,15 +42,15 @@ const useStyles = makeStyles((theme) => ({
   },
   button: {
     padding: "10px",
-    backgroundColor: "#2D6495",
-    color: "white",
+    backgroundColor: "#0F2233",
+    color: "#E7F4FF",
     border: "none",
-    borderRadius: "0.5rem",
-    fontFamily: "Signika Negative",
-
-    marginBottom: "1rem",
+    borderRadius: "16px",
+    minWidth: '235px',
+    fontFamily: "Raleway",
+    fontWeight: 500,
   },
-
+  
   input: {
     borderRadius: '16px',
     borderColor: '#A2C5E3',
