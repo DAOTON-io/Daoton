@@ -22,7 +22,6 @@ export const ProtectedRoute = () => {
   const classes = useStyles();
 
   useEffect(() => {
-    console.log(tonConnectUI);
     tonConnectUI.connectionRestored.then(() => {
       setConnected(tonConnectUI.connected);
       setloading(false);
