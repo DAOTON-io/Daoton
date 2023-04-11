@@ -1,4 +1,4 @@
-import * as React from "react";
+import React, { useState } from "react";
 
 import Typography from "@mui/material/Typography";
 import Divider from "@mui/material/Divider";
@@ -13,55 +13,21 @@ import GoogleFontLoader from "react-google-font-loader";
 import { makeStyles } from "@mui/styles";
 import SummarizeIcon from "@mui/icons-material/Summarize";
 import RemoveRedEyeIcon from "@mui/icons-material/RemoveRedEye";
-
-const useStyles = makeStyles((theme) => ({
-  container: {
-    padding: "1rem",
-  },
-  card: {
-    backgroundColor: "#2D6495",
-    boxShadow: "0 0 10px 0 rgba(0,0,0,0.1)",
-    height: "92vh",
-    color: "white",
-    padding: "10px",
-    borderRadius: "1rem",
-    // add breakpoint
-    [theme.breakpoints.down("md")]: {
-      visible: "none",
-      display: "none",
-    },
-  },
-  listItem: {
-    padding: "4px",
-    color: "white",
-    cursor: "pointer",
-  },
-  listItemSmall: {
-    marginBottom: "1rem",
-    "&:hover": {
-      borderRadius: 4,
-      backgroundColor: "#A2C5E3",
-    },
-  },
-
-  divider: {
-    backgroundColor: "white",
-    color: "white",
-  },
-  title: {
-    color: "white",
-    marginBottom: "0.5rem",
-    fontSize: "14px",
-  },
-  item: {
-    color: "white",
-    textDecoration: "none",
-    fontFamily: "Signika Negative",
-  },
-}));
+import Avatar from "@mui/material/Avatar";
+import { useTonAddress, useTonConnectUI } from "@tonconnect/ui-react";
+import ArrowBackIcon from "@mui/icons-material/ArrowBack";
+import LogoutIcon from "@mui/icons-material/Logout";
+import { IconButton } from "@mui/material";
+import { useNavigate } from "react-router-dom";
 
 export default function SideMenu() {
+  const [showLogout, setShowLogout] = useState<boolean>(false);
+  const [tonConnectUI] = useTonConnectUI();
+  const navigate = useNavigate();
+
   const classes = useStyles();
+  const address = useTonAddress(false);
+
   return (
     <>
       <Card className={classes.card}>
@@ -236,44 +202,108 @@ export default function SideMenu() {
                 </Grid>
               </Grid>
             </div>
+            <div className={classes.logoutlistItem}>
+              <Grid className={classes.logoutlistItemSmall} container spacing={1}>
+                {!showLogout ? (
+                  <Grid
+                    item
+                    style={{ display: "flex", alignItems: "center", justifyContent: "center", padding: "0.3rem" }}
+                    onClick={() => {
+                      setShowLogout(true);
+                    }}
+                  >
+                    <Avatar src="/broken-image.jpg" sx={{ width: 32, height: 32, bgcolor: "#EC7D31", marginRight: "0.5rem" }} />
+                    <Typography className={classes.item}>{address.slice(0, 8) + "..." + address.slice(-4)} </Typography>
+                  </Grid>
+                ) : (
+                  <div style={{ display: "flex", alignItems: "center", justifyContent: "space-between", width: "100%" }}>
+                    <IconButton
+                      aria-label="back"
+                      component="label"
+                      style={{ color: "white" }}
+                      onClick={() => {
+                        setShowLogout(false);
+                      }}
+                    >
+                      <ArrowBackIcon />
+                    </IconButton>
+                    <Grid item>
+                      <Typography className={classes.item}>{address.slice(0, 8) + "..." + address.slice(-4)}</Typography>
+                    </Grid>
+                    <IconButton
+                      aria-label="back"
+                      component="label"
+                      style={{ color: "white" }}
+                      onClick={() => {
+                        tonConnectUI.disconnect();
+                        navigate("/login");
+                      }}
+                    >
+                      <LogoutIcon />
+                    </IconButton>
+                  </div>
+                )}
+              </Grid>
+            </div>
           </Grid>
-
-          {/* <List>
-                                    {[
-                                        "View DAOs",
-                                        "Create DAO",
-                                        "View Tokens",
-                                        "Generate Token",
-                                        "Proposal Calender",
-                                    ].map((text, index) => (
-                                        <ListItem style={{
-                                            marginBottom: '0.5rem'
-                                        }} key={text} disablePadding>
-                                            <ListItemButton >
-                                                <ListItemIcon style={{ color: "white" }}>
-                                                    {index == 0 ? (
-                                                        <ViewHeadlineIcon />
-                                                    ) : index == 1 ? (
-                                                        <AddCircleIcon />
-                                                    ) : index == 2 ? (
-                                                        <ViewCompactAltIcon />
-                                                    ) : index == 3 ? (
-                                                        <AddCircleOutlineIcon />
-                                                    ) : index == 4 ? (
-                                                        <CalendarMonthIcon />
-                                                    ) : (
-                                                        <MailIcon />
-                                                    )}
-                                                </ListItemIcon>
-
-                                                <ListItemText primary={text} />
-                                            </ListItemButton>
-
-                                        </ListItem>
-                                    ))}
-                                </List> */}
         </div>
       </Card>
     </>
   );
 }
+
+const useStyles = makeStyles((theme) => ({
+  container: {
+    padding: "1rem",
+  },
+  card: {
+    backgroundColor: "#2D6495",
+    boxShadow: "0 0 10px 0 rgba(0,0,0,0.1)",
+    height: "92vh",
+    color: "white",
+    padding: "10px",
+    borderRadius: "1rem",
+    // add breakpoint
+    [theme.breakpoints.down("md")]: {
+      visible: "none",
+      display: "none",
+    },
+  },
+  listItem: {
+    padding: "4px",
+    color: "white",
+    cursor: "pointer",
+  },
+  logoutlistItem: {
+    padding: "4px",
+    color: "white",
+  },
+  listItemSmall: {
+    marginBottom: "0.6rem",
+    "&:hover": {
+      borderRadius: 4,
+      backgroundColor: "#A2C5E3",
+    },
+  },
+  logoutlistItemSmall: {
+    marginBottom: "0.6rem",
+    "&:hover": {
+      borderRadius: 4,
+    },
+  },
+
+  divider: {
+    backgroundColor: "white",
+    color: "white",
+  },
+  title: {
+    color: "white",
+    marginBottom: "0.5rem",
+    fontSize: "14px",
+  },
+  item: {
+    color: "white",
+    textDecoration: "none",
+    fontFamily: "Signika Negative",
+  },
+}));
