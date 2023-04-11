@@ -66,6 +66,9 @@ const useStyles = makeStyles((theme) => ({
     fontSize: '16px',
     fontFamily: "Raleway",
     fontWeight: 500,
+    [theme.breakpoints.down("sm")]: {
+      minWidth: '300px',
+    },
   },
 
   inputImage: {
@@ -82,6 +85,16 @@ const useStyles = makeStyles((theme) => ({
     fontFamily: "Raleway",
     fontWeight: 500,
   },
+
+  center: {
+    [theme.breakpoints.down("sm")]: {
+      display: 'flex',
+      alignItems: 'center',
+      justifyContent: 'center',
+      textAlign: 'center',
+    }
+  },
+
 }));
 
 export default function GenerateNftCollection() {
@@ -128,10 +141,10 @@ export default function GenerateNftCollection() {
               borderRadius: '40px',
             }}>
               <GoogleFontLoader fonts={[{ font: "Raleway", weights: [700, "700i", 500, "500i"], },]} subsets={["cyrillic-ext", "greek"]} />
-              <Grid direction={'row'} container sx={{ padding: 2, marginTop: 6, }}>
+              <Grid container sx={{ padding: 2, marginY: 6, }}>
 
                 <Grid item lg={1} md={2} sm={1} xs={0}></Grid>
-                <Grid item lg={9} md={8} sm={11} xs={12}>
+                <Grid direction={'column'} item lg={9} md={8} sm={11} xs={12} className={classes.center}>
 
                   <h5 className={classes.title}>Create Collection</h5>
 
