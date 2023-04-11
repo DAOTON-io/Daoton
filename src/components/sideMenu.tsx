@@ -19,12 +19,12 @@ const useStyles = makeStyles((theme) => ({
     padding: "1rem",
   },
   card: {
-    backgroundColor: "#2D6495",
+    backgroundColor: "#0F2233",
     boxShadow: "0 0 10px 0 rgba(0,0,0,0.1)",
     height: "92vh",
     color: "white",
-    padding: "10px",
-    borderRadius: "1rem",
+    padding: 24,
+    borderRadius: "40px",
     // add breakpoint
     [theme.breakpoints.down("md")]: {
       visible: "none",
@@ -56,8 +56,26 @@ const useStyles = makeStyles((theme) => ({
   item: {
     color: "white",
     textDecoration: "none",
-    fontFamily: "Signika Negative",
+    fontFamily: "Raleway",
+    fontWeight: 500,
   },
+
+  button: {
+    padding: "10px",
+    backgroundColor: "#E7F4FF",
+    color: "#1D252C",
+    border: "none",
+    borderRadius: "16px",
+    minWidth: '100%',
+    fontFamily: "Raleway",
+    fontWeight: 500,
+  },
+  link:{
+    textDecoration: "none",
+    fontFamily: "Raleway",
+    fontWeight: 500,
+  }
+
 }));
 
 export default function SideMenu() {
@@ -68,28 +86,22 @@ export default function SideMenu() {
         <div
           style={{
             color: "white",
-            justifyContent: "center",
+            // justifyContent: "center",
             alignItems: "center",
             display: "flex",
           }}
         >
-          <GoogleFontLoader
-            fonts={[
-              {
-                font: "Signika Negative",
-                weights: [400, "400i"],
-              },
-            ]}
-            subsets={["cyrillic-ext", "greek"]}
-          />
+          <GoogleFontLoader fonts={[{ font: "Raleway", weights: [700, "700i", 500, "500i"], },]} subsets={["cyrillic-ext", "greek"]} />
+
           <Typography
             style={{
               fontWeight: "bold",
-              fontSize: "2rem",
+              fontSize: "26px",
               marginBottom: "1rem",
-            }}
-          >
-            DAOTON
+              textAlign: "left",
+              marginTop: 4,
+            }}>
+            Dao
           </Typography>
           {/* <img width={'80%'} src="logo/logobg.png" /> */}
         </div>
@@ -98,8 +110,6 @@ export default function SideMenu() {
           <Grid item md={12}>
             {" "}
             <div className={classes.listItem}>
-              <p className={classes.title}>Dao</p>
-
               <Grid className={classes.listItemSmall} container spacing={1}>
                 <Grid item>
                   <ViewHeadlineIcon />
@@ -107,7 +117,7 @@ export default function SideMenu() {
                 <Grid item>
                   <Typography>
                     <a className={classes.item} href="view-dao">
-                      All DAOs
+                      All Dao's
                     </a>
                   </Typography>
                 </Grid>
@@ -153,7 +163,16 @@ export default function SideMenu() {
             </div> */}
             {/* <Divider className={classes.divider} /> */}
             <div className={classes.listItem}>
-              <p className={classes.title}>Token</p>
+              <Typography
+                style={{
+                  fontWeight: "bold",
+                  fontSize: "26px",
+                  marginBottom: "1rem",
+                  textAlign: "left",
+                  marginTop: 4,
+                }}>
+                Token
+              </Typography>
               <Grid className={classes.listItemSmall} container spacing={1}>
                 <Grid item>
                   <ViewCompactAltIcon />
@@ -182,58 +201,65 @@ export default function SideMenu() {
             </div>
             <Divider className={classes.divider} />
             <div className={classes.listItem}>
-              <p className={classes.title}>NFT</p>
-              <Grid className={classes.listItemSmall} container spacing={1}>
-                <Grid item>
-                  <ViewCompactAltIcon />
+              <Typography
+                style={{
+                  fontWeight: "bold",
+                  fontSize: "26px",
+                  marginBottom: "1rem",
+                  textAlign: "left",
+                  marginTop: 4,
+                }}>
+                NFT
+              </Typography>
+
+              <Grid container paddingLeft={2}>
+                <Grid className={classes.listItemSmall} container spacing={1}>
+                  <Grid item>
+                    <ViewCompactAltIcon />
+                  </Grid>
+                  <Grid item>
+                    <Typography className={classes.item}>
+                      <a className={classes.item} href="view-nfts">
+                        My Nft's
+                      </a>
+                    </Typography>
+                  </Grid>
                 </Grid>
-                <Grid item>
-                  <Typography className={classes.item}>
-                    <a className={classes.item} href="view-nfts">
-                      My Nft's
-                    </a>
-                  </Typography>
+                <Grid className={classes.listItemSmall} container spacing={1}>
+                  <Grid item>
+                    <GridViewIcon />
+                  </Grid>
+                  <Grid item>
+                    <Typography className={classes.item}>
+                      <a className={classes.item} href="generate-nft-collection">
+                        Generate Collection
+                      </a>
+                    </Typography>
+                  </Grid>
+                </Grid>
+                <Grid className={classes.listItemSmall} container spacing={1}>
+                  <Grid item>
+                    <GridViewIcon />
+                  </Grid>
+                  <Grid item>
+                    <Typography className={classes.item}>
+                      <a className={classes.item} href="generate-nft">
+                        Generate Nft
+                      </a>
+                    </Typography>
+                  </Grid>
                 </Grid>
               </Grid>
-              <Grid className={classes.listItemSmall} container spacing={1}>
-                <Grid item>
-                  <GridViewIcon />
-                </Grid>
-                <Grid item>
-                  <Typography className={classes.item}>
-                    <a className={classes.item} href="generate-nft-collection">
-                      Generate Collection
-                    </a>
-                  </Typography>
-                </Grid>
-              </Grid>
-              <Grid className={classes.listItemSmall} container spacing={1}>
-                <Grid item>
-                  <GridViewIcon />
-                </Grid>
-                <Grid item>
-                  <Typography className={classes.item}>
-                    <a className={classes.item} href="generate-nft">
-                      Generate Nft
-                    </a>
-                  </Typography>
-                </Grid>
-              </Grid>
+
             </div>
             <Divider />
             <div className={classes.listItem}>
-              <p className={classes.title}>Docs</p>
-              <Grid className={classes.listItemSmall} container spacing={1}>
-                <Grid item>
-                  <SummarizeIcon />
-                </Grid>
-                <Grid item>
-                  <Typography className={classes.item}>
-                    <a className={classes.item} href="https://docs.daoton.io" target="_blank" rel="noreferrer">
-                      Our Docs
-                    </a>
-                  </Typography>
-                </Grid>
+              <Grid item>
+                <button className={classes.button}>
+                  <a className={classes.link} href="https://docs.daoton.io" target="_blank" rel="noreferrer">
+                    Our Docs
+                  </a>
+                </button>
               </Grid>
             </div>
           </Grid>
