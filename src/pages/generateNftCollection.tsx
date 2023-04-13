@@ -155,7 +155,7 @@ export default function GenerateNftCollection() {
               <Grid container className={classes.container}>
 
                 <Grid item lg={1} md={2} sm={1} xs={0}></Grid>
-                <Grid direction={'column'} item lg={9} md={8} sm={11} xs={12} className={classes.center}>
+                <Grid item lg={9} md={8} sm={11} xs={12} direction={'column'} className={classes.center}>
 
                   <h5 className={classes.title}>Create Collection</h5>
 
