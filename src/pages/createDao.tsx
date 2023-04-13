@@ -1,8 +1,7 @@
-import { Grid, Switch } from "@mui/material";
+import { Grid, Switch, Card, Stack, Button, Input } from "@mui/material";
 
 import { makeStyles } from "@mui/styles";
 import React, { useState, useEffect } from "react";
-import { Button, Card } from "reactstrap";
 import SideMenu from "../components/sideMenu";
 import { useTonConnectUI, useTonAddress } from "@tonconnect/ui-react";
 import TonWeb from "tonweb";
@@ -12,14 +11,17 @@ import axios from "axios";
 import DrawerAppBar from "../components/mobilMenu";
 import FileBase64 from "react-file-base64";
 
+import UploadIcon from "@mui/icons-material/Upload";
+import { ImageUpload } from "components/imageUpload";
+
 const useStyles = makeStyles((theme) => ({
   card: {
-    backgroundColor: "#ffffff",
+    backgroundColor: "#FBFDFF",
     boxShadow: "0 0 10px 0 rgba(0,0,0,0.1)",
     color: "white",
-
-    borderRadius: "0.5rem",
     padding: "30px",
+    borderRadius: "0.5rem",
+
     height: "100%",
     [theme.breakpoints.up("sm")]: {
       width: "70%",
@@ -28,11 +30,11 @@ const useStyles = makeStyles((theme) => ({
   },
 
   title: {
+    fontFamily: "Raleway",
+    fontWeight: 700,
+    fontSize: "26px",
+    color: "#0F2233",
     marginBottom: "0.5rem",
-    fontSize: "30px",
-    color: "#2D6495",
-    fontWeight: "bold",
-    fontFamily: "Signika Negative",
   },
   form: {
     marginTop: "1rem",
@@ -41,39 +43,97 @@ const useStyles = makeStyles((theme) => ({
     color: "grey",
     fontSize: "14px",
     fontWeight: "bold",
-    fontFamily: "Signika Negative",
+    fontFamily: "Raleway",
   },
   button: {
     padding: "10px",
     backgroundColor: "#2D6495",
-    color: "white",
+    color: "#E7F4FF",
     border: "none",
-    borderRadius: "0.5rem",
-    fontFamily: "Signika Negative",
-
-    marginBottom: "1rem",
+    borderRadius: "16px",
+    minWidth: "235px",
+    minHeight: "44px",
+    fontFamily: "Raleway",
+    fontWeight: 500,
+    [theme.breakpoints.down("sm")]: {
+      minWidth: "200px",
+    },
   },
+
   select: {
-    fontFamily: "Signika Negative",
+    fontFamily: "Raleway",
     width: "100%",
     fontSize: "14px",
     fontWeight: "bold",
-    color: "white",
+    color: "#1D252C",
     border: "none",
     boxShadow: "0 0 10px 0 rgba(0,0,0,0.1)",
-    backgroundColor: "#2D6495",
+    backgroundColor: "#A2C5E3",
     padding: "10px",
     borderRadius: "0.5rem",
   },
-  input: {
-    marginTop: "0.5rem",
-    padding: "10px",
-    border: "1px solid #2D6495",
-    borderRadius: "0.5rem",
-    width: "100%",
 
-    "&:hover": {
-      border: "1px solid #2D6495",
+  input: {
+    borderRadius: "16px",
+    borderColor: "#A2C5E3",
+    borderWidth: "1px",
+    maxWidth: "400px",
+    color: "#767D86",
+    minHeight: "44px",
+    padding: "12px",
+    boxShadow: "none",
+    fontSize: "16px",
+    fontFamily: "Raleway",
+    fontWeight: 500,
+    [theme.breakpoints.down("sm")]: {
+      minWidth: "300px",
+    },
+  },
+
+  inputImage: {
+    borderRadius: "16px",
+    borderColor: "#A2C5E3",
+    borderWidth: "1px",
+    borderStyle: "dashed",
+    maxWidth: "400px",
+    color: "#767D86",
+    minHeight: "44px",
+    padding: "12px",
+    boxShadow: "none",
+    fontSize: "16px",
+    fontFamily: "Raleway",
+    fontWeight: 500,
+  },
+
+  center: {
+    [theme.breakpoints.down("sm")]: {
+      display: "flex",
+      alignItems: "center",
+      justifyContent: "center",
+      textAlign: "center",
+    },
+  },
+
+  container: {
+    marginBottom: 6,
+    marginTop: 6,
+    padding: "64px",
+    [theme.breakpoints.down("sm")]: {
+      marginBottom: 2,
+      marginTop: 2,
+      padding: "24px",
+    },
+  },
+  buttonContainer: {
+    paddingRight: "32px",
+    paddingLeft: "32px",
+    textAlign: "start",
+    justifyContent: "space-between",
+    alignItems: "center",
+    marginTop: "8px",
+    [theme.breakpoints.down("sm")]: {
+      paddingRight: "16px",
+      paddingLeft: "16px",
     },
   },
 }));
@@ -90,12 +150,16 @@ export default function CreateDao() {
 
   useEffect(() => {
     if (address) {
+      //TODO will fix nft collection
       const fetchInitData = async () => {
-        const tokenList = await fetchTokens(address);
-        const nftList = await fetchNfts(address);
-
-        setNftCollections(nftList.collections as any);
-        setTokens(tokenList.balances);
+        try {
+          const tokenList = await fetchTokens(address);
+          setTokens(tokenList.balances);
+        } catch {}
+        try {
+          const nftList = await fetchNfts(address);
+          setNftCollections(nftList.collections as any);
+        } catch {}
       };
 
       fetchInitData();
@@ -184,286 +248,112 @@ export default function CreateDao() {
   };
 
   return (
-    <div
-      style={{
-        backgroundColor: "#E7EBF1",
-        height: "100%",
-      }}
-    >
-      <Grid container spacing={2}>
-        <Grid item md={2}>
-          <SideMenu />
-        </Grid>
-        <Grid item md={10}>
-          <DrawerAppBar />
-          <div
-            style={{
-              marginTop: "1rem",
-              justifyContent: "center",
-              alignItems: "center",
-              display: "flex",
-              height: "80vh",
-            }}
-          >
-            <Card className={classes.card}>
-              <GoogleFontLoader
-                fonts={[
-                  {
-                    font: "Signika Negative",
-                    weights: [400, "400i"],
-                  },
-                ]}
-                subsets={["cyrillic-ext", "greek"]}
-              />
-              <Grid container>
-                <Grid item md={12}>
-                  {" "}
-                  <div
-                    style={{
-                      marginTop: "1rem",
-                    }}
-                  >
-                    {" "}
-                    <Grid container display={"flex"} alignItems={"center"}>
-                      <p className={classes.title}>Create DAO</p>
-                    </Grid>
-                    <Grid container alignItems={"center"}>
-                      <Grid item xs={12} md={2}>
-                        {" "}
-                        <div>
-                          <form className={classes.form}>
-                            <label className={classes.label} htmlFor="fname">
-                              DAO Type :{" "}
-                            </label>
-                          </form>
-                        </div>
-                      </Grid>
-                      <Grid item xs={12} md={8}>
-                        {" "}
-                        <div>
-                          <form className={classes.form}>
-                            <select className={classes.select} id="type" name="type" value={data.type} onChange={(e) => setData({ ...data, type: e.target.value })}>
-                              <option value="1">Token</option>
-                              <option value="2">NFT</option>
-                            </select>
-                          </form>
-                        </div>
-                      </Grid>
-                    </Grid>
-                    {/* If data.type == 1, ask token, else nft  */}
-                    {Number(data.type) === 1 ? (
-                      <Grid container alignItems={"center"}>
-                        <Grid item xs={12} md={2}>
-                          {" "}
-                          <div>
-                            <form className={classes.form}>
-                              <label className={classes.label} htmlFor="token">
-                                Token :
-                              </label>
-                            </form>
-                          </div>
-                        </Grid>
-                        <Grid item xs={12} md={8}>
-                          <div>
-                            <form className={classes.form}>
-                              <select
-                                className={classes.select}
-                                id="token"
-                                name="token"
-                                value={data.tokenContract}
-                                onChange={(e) => setData({ ...data, tokenContract: e.target.value })}
-                              >
-                                {tokens.map((tk: any) => {
-                                  return <option value={tk.jetton_address}>{tk.metadata.name + "(" + tk.metadata.symbol + ")"}</option>;
-                                })}
-                              </select>
-                            </form>
-                          </div>
-                        </Grid>
-                      </Grid>
-                    ) : (
-                      <Grid container alignItems={"center"}>
-                        <Grid item xs={12} md={2}>
-                          {" "}
-                          <div>
-                            <form className={classes.form}>
-                              <label className={classes.label} htmlFor="fname">
-                                NFT :
-                              </label>
-                            </form>
-                          </div>
-                        </Grid>
-                        <Grid item xs={12} md={8}>
-                          <div>
-                            <form className={classes.form}>
-                              <select
-                                className={classes.select}
-                                id="collection"
-                                name="collection"
-                                value={data.nftCollectionContract}
-                                onChange={(e) => setData({ ...data, nftCollectionContract: e.target.value })}
-                              >
-                                {nftCollections.map((nft: any) => {
-                                  return <option value={nft.address}>{nft.name}</option>;
-                                })}
-                              </select>
-                            </form>
-                          </div>
-                        </Grid>
-                      </Grid>
-                    )}
-                    <Grid container alignItems={"center"}>
-                      <Grid item xs={12} md={2}>
-                        {" "}
-                        <div>
-                          <form className={classes.form}>
-                            <label className={classes.label} htmlFor="fname">
-                              DAO Name:
-                            </label>
-                          </form>
-                        </div>
-                      </Grid>
-                      <Grid item xs={12} md={8}>
-                        {" "}
-                        <div>
-                          <form className={classes.form}>
-                            <input
-                              className={classes.input}
-                              type="text"
-                              id="name"
-                              name="name"
-                              placeholder="DAO name.."
-                              value={data.name}
-                              onChange={(e) => setData({ ...data, name: e.target.value })}
-                            ></input>
-                          </form>
-                        </div>
-                      </Grid>
-                    </Grid>
-                    <Grid container alignItems={"center"}>
-                      <Grid item xs={12} md={2}>
-                        {" "}
-                        <div>
-                          <form className={classes.form}>
-                            <label className={classes.label} htmlFor="fname">
-                              Description:
-                            </label>
-                          </form>
-                        </div>
-                      </Grid>
-                      <Grid item xs={12} md={8}>
-                        {" "}
-                        <div>
-                          <form className={classes.form}>
-                            <input
-                              className={classes.input}
-                              type="text"
-                              id="desc"
-                              name="desc"
-                              placeholder="Description.."
-                              value={data.desc}
-                              onChange={(e) => setData({ ...data, desc: e.target.value })}
-                            ></input>
-                          </form>
-                        </div>
-                      </Grid>
-                    </Grid>
-                    {/* Is pauseable switch */}
-                    <Grid container alignItems={"center"}>
-                      <Grid item xs={12} md={2}>
-                        {" "}
-                        <div>
-                          <form className={classes.form}>
-                            <label className={classes.label} htmlFor="fname">
-                              Is Pauseable:
-                            </label>
-                          </form>
-                        </div>
-                      </Grid>
-                      <Grid item xs={12} md={8}>
-                        {" "}
-                        <div>
-                          <form className={classes.form}>
+    <Grid container spacing={2}>
+      <Grid item lg={2} md={3}>
+        <SideMenu></SideMenu>
+      </Grid>
+
+      <Grid item lg={10} md={9} xs={12}>
+        <Grid container direction={"column"} spacing={2}>
+          <Grid item>
+            <DrawerAppBar></DrawerAppBar>
+          </Grid>
+          <Grid item>
+            <Card
+              sx={{
+                borderRadius: "40px",
+              }}
+            >
+              <GoogleFontLoader fonts={[{ font: "Raleway", weights: [700, "700i", 500, "500i"] }]} subsets={["cyrillic-ext", "greek"]} />
+
+              <Grid container className={classes.container}>
+                <Grid item lg={1} md={2} sm={1} xs={0}></Grid>
+                <Grid direction={"column"} item lg={9} md={8} sm={11} xs={12} className={classes.center}>
+                  <h5 className={classes.title}>Create DAO</h5>
+
+                  <Grid item>
+                    <Stack spacing={2} maxWidth={"400px"} marginTop={4}>
+                      <select className={classes.select} id="type" name="type" value={data.type} onChange={(e) => setData({ ...data, type: e.target.value })}>
+                        <option value="1">Token</option>
+                        <option value="2">NFT</option>
+                      </select>
+
+                      {Number(data.type) === 1 ? (
+                        <select className={classes.select} placeholder="Token">
+                          {tokens.map((tk: any) => {
+                            return <option value={tk.jetton_address}>{tk.metadata.name + "(" + tk.metadata.symbol + ")"}</option>;
+                          })}
+                        </select>
+                      ) : (
+                        <select className={classes.select} placeholder="NFT">
+                          {nftCollections.map((nft: any) => {
+                            return <option value={nft.address}>{nft.name}</option>;
+                          })}
+                        </select>
+                      )}
+
+                      <input
+                        className={classes.input}
+                        placeholder="DAO Name"
+                        type="text"
+                        id="name"
+                        name="name"
+                        value={data.name}
+                        onChange={(e) => setData({ ...data, name: e.target.value })}
+                      ></input>
+                      <input
+                        className={classes.input}
+                        placeholder="Description"
+                        type="text"
+                        id="desc"
+                        name="desc"
+                        value={data.desc}
+                        onChange={(e) => setData({ ...data, desc: e.target.value })}
+                      ></input>
+
+                      <Grid direction={"column"} container justifyContent={"center"}>
+                        <Grid container className={classes.buttonContainer}>
+                          <Grid item>
+                            <label>Pausable : </label>
+                          </Grid>
+                          <Grid item>
                             <Switch
                               checked={data.isPauseable}
-                              onChange={(e) => setData({ ...data, isPauseable: e.target.checked })}
                               name="isPauseable"
                               inputProps={{ "aria-label": "secondary checkbox" }}
-                            />
-                          </form>
-                        </div>
-                      </Grid>
-                    </Grid>
-                    {/* DAO Image Upload*/}
-                    <Grid container alignItems={"center"}>
-                      <Grid item xs={12} md={2}>
-                        {" "}
-                        <div>
-                          <form className={classes.form}>
-                            <label className={classes.label} htmlFor="fname">
-                              DAO Image: (Only PNG!!!)
-                            </label>
-                          </form>
-                        </div>
-                      </Grid>
-                      <Grid item xs={12} md={8}>
-                        {" "}
-                        <div>
-                          <form className={classes.form} style={{ color: "black" }}>
-                            <FileBase64 multiple={false} onDone={(file: any) => setData({ ...data, image: file.base64 })} />
-                          </form>
-                        </div>
-                      </Grid>
-                    </Grid>
-                    {/* <Grid container alignItems={"center"}>
-                        <Grid item xs={12} md={2}>
-                          {" "}
-                          <div>
-                            <form className={classes.form}>
-                              <label className={classes.label} for="fname">
-                                Jetton Address:
-                              </label>
-                            </form>
-                          </div>
+                              onChange={(e) => setData({ ...data, isPauseable: e.target.checked })}
+                            ></Switch>
+                          </Grid>
                         </Grid>
-                        <Grid item xs={12} md={8}>
-                          {" "}
-                          <div>
-                            <form className={classes.form}>
-                              <input
-                                fullWidth
-                                className={classes.input}
-                                type="text"
-                                id="tokenContract"
-                                name="tokenContract"
-                                placeholder="Adress.."
-                                value={data.tokenContract}
-                                onChange={(e) => setData({ ...data, tokenContract: e.target.value })}
-                              ></input>
-                            </form>
-                          </div>
+                        <Grid container className={classes.buttonContainer}>
+                          <Grid item justifyContent={"flex-start"}>
+                            <label>DAO Image : </label>
+                          </Grid>
+                          <Grid item justifyContent={"flex-start"}>
+                            <ImageUpload onChange={() => {}} onClear={() => {}}></ImageUpload>
+                          </Grid>
                         </Grid>
-                      </Grid> */}
-                    <Grid container></Grid>
-                  </div>
+                      </Grid>
+
+                      <Grid paddingTop={2} container justifyContent={"center"}>
+                        <button
+                          className={classes.button}
+                          onClick={() => {
+                            createDao();
+                          }}
+                        >
+                          Generate
+                        </button>
+                      </Grid>
+                    </Stack>
+                  </Grid>
                 </Grid>
-              </Grid>{" "}
-              <div
-                style={{
-                  display: "flex",
-                  justifyContent: "center",
-                  alignItems: "center",
-                }}
-              >
-                {" "}
-                <Button className={classes.button} onClick={createDao} style={{ backgroundColor: "#2D6495", width: "35vh", marginTop: "1rem" }}>
-                  Generate
-                </Button>{" "}
-              </div>
+                <Grid item lg={2} md={2} sm={0} xs={0}></Grid>
+              </Grid>
             </Card>
-          </div>
+          </Grid>
         </Grid>
       </Grid>
-    </div>
+    </Grid>
   );
 }
