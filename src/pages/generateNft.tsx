@@ -25,7 +25,6 @@ const useStyles = makeStyles((theme) => ({
     height: "100%",
     [theme.breakpoints.up("sm")]: {
       width: "70%",
-
       padding: "50px",
     },
   },
@@ -73,6 +72,9 @@ const useStyles = makeStyles((theme) => ({
     fontSize: '16px',
     fontFamily: "Raleway",
     fontWeight: 500,
+    [theme.breakpoints.down("sm")]: {
+      minWidth: '300px',
+    },
   },
 
   inputImage: {
@@ -88,7 +90,28 @@ const useStyles = makeStyles((theme) => ({
     fontSize: '16px',
     fontFamily: "Raleway",
     fontWeight: 500,
+  },
+
+  center: {
+    [theme.breakpoints.down("sm")]: {
+      display: 'flex',
+      alignItems: 'center',
+      justifyContent: 'center',
+      textAlign: 'center',
+    }
+  },
+
+  container: {
+    marginBottom: 6,
+    marginTop: 6,
+    padding: '64px',
+    [theme.breakpoints.down("sm")]: {
+      marginBottom: 2,
+      marginTop: 2,
+      padding: '24px',
+    }
   }
+
 }));
 
 export default function GenerateNft() {
@@ -134,9 +157,7 @@ export default function GenerateNft() {
         <SideMenu />
       </Grid>
       <Grid item lg={10} md={9} xs={12}>
-
-
-        <Grid container direction={'column'} spacing={4}>
+        <Grid container direction={'column'} spacing={2}>
           <Grid item md={4}>
             <DrawerAppBar />
           </Grid>
@@ -145,7 +166,7 @@ export default function GenerateNft() {
               borderRadius: '40px',
             }}>
               <GoogleFontLoader fonts={[{ font: "Raleway", weights: [700, "700i", 500, "500i"], },]} subsets={["cyrillic-ext", "greek"]} />
-              <Grid direction={'row'} container sx={{ padding: 2, marginTop: 6, }}>
+              <Grid container className={classes.container}>
 
                 <Grid item lg={1} md={2} sm={1} xs={0}></Grid>
                 <Grid item lg={9} md={8} sm={11} xs={12}>

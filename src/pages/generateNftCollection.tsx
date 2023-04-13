@@ -95,6 +95,17 @@ const useStyles = makeStyles((theme) => ({
     }
   },
 
+  container: {
+    marginBottom: 6,
+    marginTop: 6,
+    padding: '64px',
+    [theme.breakpoints.down("sm")]: {
+      marginBottom: 2,
+      marginTop: 2,
+      padding: '24px',
+    }
+  }
+
 }));
 
 export default function GenerateNftCollection() {
@@ -131,8 +142,8 @@ export default function GenerateNftCollection() {
       <Grid item lg={2} md={3}>
         <SideMenu></SideMenu>
       </Grid>
-      <Grid item lg={10} md={9} xs={12} spacing={4}>
-        <Grid container direction={'column'} spacing={4}>
+      <Grid item lg={10} md={9} xs={12}>
+        <Grid container direction={'column'} spacing={2}>
           <Grid item>
             <DrawerAppBar></DrawerAppBar>
           </Grid>
@@ -141,7 +152,7 @@ export default function GenerateNftCollection() {
               borderRadius: '40px',
             }}>
               <GoogleFontLoader fonts={[{ font: "Raleway", weights: [700, "700i", 500, "500i"], },]} subsets={["cyrillic-ext", "greek"]} />
-              <Grid container sx={{ padding: 2, marginY: 6, }}>
+              <Grid container className={classes.container}>
 
                 <Grid item lg={1} md={2} sm={1} xs={0}></Grid>
                 <Grid direction={'column'} item lg={9} md={8} sm={11} xs={12} className={classes.center}>

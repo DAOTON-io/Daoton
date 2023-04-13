@@ -1,7 +1,6 @@
 import React, { useState } from "react";
-import { Grid, Switch } from "@mui/material";
+import { Grid, Stack, Card, Switch } from "@mui/material";
 import { makeStyles } from "@mui/styles";
-import { Button, Card } from "reactstrap";
 import SideMenu from "../components/sideMenu";
 import { createDeployParams } from "../lib/token-minter/deployer";
 import { useTonConnectUI, useTonAddress } from "@tonconnect/ui-react";
@@ -16,7 +15,7 @@ import DrawerAppBar from "../components/mobilMenu";
 
 const useStyles = makeStyles((theme) => ({
   card: {
-    backgroundColor: "#ffffff",
+    backgroundColor: "#FBFDFF",
     boxShadow: "0 0 10px 0 rgba(0,0,0,0.1)",
     color: "white",
     padding: "30px",
@@ -25,49 +24,93 @@ const useStyles = makeStyles((theme) => ({
     height: "100%",
     [theme.breakpoints.up("sm")]: {
       width: "70%",
-
       padding: "50px",
     },
   },
 
   title: {
+    fontFamily: "Raleway",
+    fontWeight: 700,
+    fontSize: "26px",
+    color: "#0F2233",
     marginBottom: "0.5rem",
-    fontSize: "30px",
-    color: "#2D6495",
-    fontFamily: "Signika Negative",
-    fontWeight: "bold",
   },
   form: {
-    marginTop: "0.6rem",
+    marginTop: "1rem",
   },
   label: {
     color: "grey",
     fontSize: "14px",
     fontWeight: "bold",
-    fontFamily: "Signika Negative",
+    fontFamily: "Raleway",
   },
   button: {
     padding: "10px",
     backgroundColor: "#2D6495",
-    color: "white",
+    color: "#E7F4FF",
     border: "none",
-    borderRadius: "0.5rem",
-    fontFamily: "Signika Negative",
-    cursor: "pointer",
-    marginBottom: "1rem",
+    borderRadius: "16px",
+    minWidth: '235px',
+    minHeight: '44px',
+    fontFamily: "Raleway",
+    fontWeight: 500,
+    [theme.breakpoints.down("sm")]: {
+      minWidth: '200px',
+    },
   },
 
   input: {
-    marginTop: "0.5rem",
-    padding: "10px",
-    color: "black",
-    border: "1px solid #2D6495",
-    borderRadius: "0.5rem",
-    width: "100%",
-    "&:hover": {
-      border: "1px solid #2D6495",
+    borderRadius: '16px',
+    borderColor: '#A2C5E3',
+    borderWidth: '1px',
+    maxWidth: '400px',
+    color: '#767D86',
+    minHeight: '44px',
+    padding: '12px',
+    boxShadow: 'none',
+    fontSize: '16px',
+    fontFamily: "Raleway",
+    fontWeight: 500,
+    [theme.breakpoints.down("sm")]: {
+      minWidth: '300px',
     },
   },
+
+  inputImage: {
+    borderRadius: '16px',
+    borderColor: '#A2C5E3',
+    borderWidth: '1px',
+    borderStyle: 'dashed',
+    maxWidth: '400px',
+    color: '#767D86',
+    minHeight: '44px',
+    padding: '12px',
+    boxShadow: 'none',
+    fontSize: '16px',
+    fontFamily: "Raleway",
+    fontWeight: 500,
+  },
+
+  center: {
+    [theme.breakpoints.down("sm")]: {
+      display: 'flex',
+      alignItems: 'center',
+      justifyContent: 'center',
+      textAlign: 'center',
+    }
+  },
+
+  container: {
+    marginBottom: 6,
+    marginTop: 6,
+    padding: '64px',
+    [theme.breakpoints.down("sm")]: {
+      marginBottom: 2,
+      marginTop: 2,
+      padding: '24px',
+    }
+  }
+
 }));
 
 const ten = new BigNumber(10);
@@ -158,291 +201,137 @@ export default function GenerateToken() {
   };
 
   return (
-    <div>
-      <div
-        style={{
-          backgroundColor: "#E7EBF1",
-        }}
-      >
-        <Grid container spacing={2}>
-          <Grid item md={2}>
-            <SideMenu />
+    <Grid container spacing={2}>
+
+      <Grid item lg={2} md={3}>
+        <SideMenu></SideMenu>
+      </Grid>
+
+
+
+      <Grid item lg={10} md={9} xs={12}>
+        <Grid container direction={'column'} spacing={2}>
+          <Grid item>
+            <DrawerAppBar></DrawerAppBar>
           </Grid>
-          <Grid item md={10}>
-            <DrawerAppBar />
-            <div
-              style={{
-                marginTop: "1rem",
-                justifyContent: "center",
-                alignItems: "center",
-                display: "flex",
-                height: "80vh",
-              }}
-            >
-              <Card className={classes.card}>
-                <GoogleFontLoader
-                  fonts={[
-                    {
-                      font: "Signika Negative",
-                      weights: [400, "400i"],
-                    },
-                  ]}
-                  subsets={["cyrillic-ext", "greek"]}
-                />
-                <Grid container>
-                  <Grid item md={12}>
-                    <div
-                      style={{
-                        marginTop: "1rem",
-                      }}
-                    >
-                      <Grid container display={"flex"} alignItems={"center"}>
-                        <p className={classes.title}>Generate Token</p>
-                      </Grid>
+          <Grid item>
+            <Card sx={{
+              borderRadius: '40px',
+            }}>
+              <GoogleFontLoader fonts={[{ font: "Raleway", weights: [700, "700i", 500, "500i"], },]} subsets={["cyrillic-ext", "greek"]} />
 
-                      <Grid container alignItems={"center"}>
-                        <Grid item xs={12} md={2}>
-                          {" "}
-                          <div>
-                            <form className={classes.form}>
-                              <label className={classes.label} htmlFor="name">
-                                Name:
-                              </label>
-                            </form>
-                          </div>
-                        </Grid>
-                        <Grid item xs={12} md={8}>
-                          {" "}
-                          <div>
-                            <form className={classes.form}>
-                              <input
-                                className={classes.input}
-                                type="text"
-                                id="name"
-                                name="name"
-                                value={data.name}
-                                placeholder="Token Name.."
-                                onChange={(event) => {
-                                  setData({
-                                    ...data,
-                                    name: event.target.value,
-                                  });
-                                }}
-                              ></input>
-                            </form>
-                          </div>
-                        </Grid>
-                      </Grid>
-                      <Grid container alignItems={"center"}>
-                        <Grid item xs={12} md={2}>
-                          {" "}
-                          <div>
-                            <form className={classes.form}>
-                              <label className={classes.label} htmlFor="description">
-                                Description :
-                              </label>
-                            </form>
-                          </div>
-                        </Grid>
-                        <Grid item xs={12} md={8}>
-                          {" "}
-                          <div>
-                            <form className={classes.form}>
-                              <input
-                                className={classes.input}
-                                type="text"
-                                id="description"
-                                name="description"
-                                placeholder="Description.."
-                                value={data.description}
-                                onChange={(event) => {
-                                  setData({
-                                    ...data,
-                                    description: event.target.value,
-                                  });
-                                }}
-                              ></input>
-                            </form>
-                          </div>
-                        </Grid>
-                      </Grid>
+              <Grid container className={classes.container}>
 
-                      <Grid container alignItems={"center"}>
-                        <Grid item xs={12} md={2}>
-                          {" "}
-                          <div>
-                            <form className={classes.form}>
-                              <label className={classes.label} htmlFor="symbol">
-                                Symbol :
-                              </label>
-                            </form>
-                          </div>
-                        </Grid>
-                        <Grid item xs={12} md={8}>
-                          {" "}
-                          <div>
-                            <form className={classes.form}>
-                              <input
-                                className={classes.input}
-                                type="text"
-                                id="symbol"
-                                name="symbol"
-                                placeholder="Token Symbol.."
-                                value={data.symbol}
-                                onChange={(event) => {
-                                  setData({
-                                    ...data,
-                                    symbol: event.target.value,
-                                  });
-                                }}
-                              ></input>
-                            </form>
-                          </div>
-                        </Grid>
-                      </Grid>
+                <Grid item lg={1} md={2} sm={1} xs={0}></Grid>
+                <Grid direction={'column'} item lg={9} md={8} sm={11} xs={12} className={classes.center}>
 
-                      <Grid container alignItems={"center"}>
-                        <Grid item xs={12} md={2}>
-                          {" "}
-                          <div>
-                            <form className={classes.form}>
-                              <label className={classes.label} htmlFor="amount">
-                                Amount :
-                              </label>
-                            </form>
-                          </div>
-                        </Grid>
-                        <Grid item xs={12} md={8}>
-                          {" "}
-                          <div>
-                            <form className={classes.form}>
-                              <input
-                                className={classes.input}
-                                type="text"
-                                id="amount"
-                                name="amount"
-                                placeholder="Amount.."
-                                value={data.amount}
-                                onChange={(event) => {
-                                  setData({
-                                    ...data,
-                                    amount: parseInt(event.target.value),
-                                  });
-                                }}
-                              ></input>
-                            </form>
-                          </div>
-                        </Grid>
-                      </Grid>
+                  <h5 className={classes.title}>Generate Token</h5>
 
-                      <Grid container alignItems={"center"}>
-                        <Grid item xs={12} md={2}>
-                          {" "}
-                          <div>
-                            <form className={classes.form}>
-                              <label className={classes.label} htmlFor="decimal">
-                                Decimal :
-                              </label>
-                            </form>
-                          </div>
-                        </Grid>
-                        <Grid item xs={12} md={8}>
-                          {" "}
-                          <div>
-                            <form className={classes.form}>
-                              <input
-                                className={classes.input}
-                                type="text"
-                                id="decimal"
-                                name="decimal"
-                                placeholder="Decimal.."
-                                value={data.decimal}
-                                onChange={(event) => {
-                                  setData({
-                                    ...data,
-                                    decimal: parseInt(event.target.value),
-                                  });
-                                }}
-                              ></input>
-                            </form>
-                          </div>
-                        </Grid>
-                      </Grid>
-                      <Grid container alignItems={"center"}>
-                        <Grid item md={6}>
-                          <Grid container alignItems={"center"}>
-                            <Grid item md={8}>
-                              <form className={classes.form}>
-                                <label className={classes.label} htmlFor="decimal">
-                                  Pausable Contract :
-                                </label>
-                              </form>
-                            </Grid>
-                            <Grid item md={3}>
-                              <form className={classes.form}>
-                                <Switch
-                                  color="primary"
-                                  size="medium"
-                                  checked={data.isPausable}
-                                  onChange={() => {
-                                    setData({
-                                      ...data,
-                                      isPausable: !data.isPausable,
-                                    });
-                                  }}
-                                  disabled
-                                />
-                              </form>
-                            </Grid>
+                  <Grid item>
+                    <Stack spacing={2} maxWidth={'400px'} marginTop={4} >
+                      <input className={classes.input} placeholder="Name"
+                        type="text"
+                        id="name"
+                        name="name"
+                        value={data.name}
+                        onChange={(event) => {
+                          setData({
+                            ...data,
+                            name: event.target.value,
+                          });
+                        }}></input>
+                      <input className={classes.input} placeholder="Description"
+                        type="text"
+                        id="description"
+                        name="description"
+                        value={data.description}
+                        onChange={(event) => {
+                          setData({
+                            ...data,
+                            description: event.target.value,
+                          });
+                        }}></input>
+                      <input className={classes.input} placeholder="Symbol"
+                        type="text"
+                        id="symbol"
+                        name="symbol"
+                        value={data.symbol}
+                        onChange={(event) => {
+                          setData({
+                            ...data,
+                            symbol: event.target.value,
+                          });
+                        }}></input>
+                      <input className={classes.input} placeholder="Amount"
+                        type="text"
+                        id="amount"
+                        name="amount"
+                        // value={data.amount}
+                        onChange={(event) => {
+                          setData({
+                            ...data,
+                            amount: parseInt(event.target.value),
+                          });
+                        }}></input>
+                      <input className={classes.input} placeholder="Decimal"
+                        type="text"
+                        id="decimal"
+                        name="decimal"
+                        // value={data.decimal}
+                        onChange={(event) => {
+                          setData({
+                            ...data,
+                            decimal: parseInt(event.target.value),
+                          });
+                        }}></input>
+
+                      <Grid direction={'column'} container justifyContent={'center'}>
+
+                        <Grid container paddingX={4} textAlign={'start'} justifyContent={'space-between'} alignItems={'center'} marginTop={2}>
+                          <Grid item>
+                            <label>Pausable Contract : </label>
+                          </Grid>
+                          <Grid item>
+                            <Switch
+                              onChange={() => {
+                                setData({
+                                  ...data,
+                                  isPausable: !data.isPausable,
+                                });
+                              }}></Switch>
                           </Grid>
                         </Grid>
-                        <Grid item md={6}>
-                          <Grid container alignItems={"center"}>
-                            <Grid item md={8}>
-                              <form className={classes.form}>
-                                <label className={classes.label} htmlFor="decimal">
-                                  Stackable Contract :
-                                </label>
-                              </form>
-                            </Grid>
-                            <Grid item md={3}>
-                              <form className={classes.form}>
-                                <Switch
-                                  color="primary"
-                                  size="medium"
-                                  checked={data.isStackable}
-                                  onChange={() => {
-                                    setData({
-                                      ...data,
-                                      isStackable: !data.isStackable,
-                                    });
-                                  }}
-                                  disabled
-                                />
-                              </form>
-                            </Grid>
+                        <Grid container paddingX={4} textAlign={'start'} justifyContent={'space-between'} alignItems={'center'} marginTop={2}>
+                          <Grid item>
+                            <label>Stackable Contract : </label>
+                          </Grid>
+                          <Grid item>
+                            <Switch
+                              onChange={() => {
+                                setData({
+                                  ...data,
+                                  isStackable: !data.isStackable,
+                                });
+                              }}></Switch>
                           </Grid>
                         </Grid>
                       </Grid>
-                    </div>
+                      <Grid paddingTop={2} container justifyContent={'center'}>
+                        <button className={classes.button}
+                          onClick={() => {
+                            generateToken()
+                          }}
+                        >Mint Token</button>
+                      </Grid>
+                    </Stack>
                   </Grid>
-                </Grid>{" "}
-                <Button
-                  className={classes.button}
-                  style={{
-                    backgroundColor: "#2D6495",
-                    width: "35vh",
-                    marginTop: "1rem",
-                  }}
-                  onClick={() => generateToken()}
-                >
-                  Mint Token
-                </Button>{" "}
-              </Card>
-            </div>
+                </Grid>
+                <Grid item lg={2} md={2} sm={0} xs={0}></Grid>
+              </Grid>
+            </Card>
           </Grid>
-        </Grid>
-      </div>
-    </div>
+        </Grid >
+      </Grid >
+    </Grid >
   );
 }
