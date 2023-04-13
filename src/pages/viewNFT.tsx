@@ -79,7 +79,7 @@ export default function ViewNft() {
                       style={{
                         backgroundColor: "white",
                         borderRadius: "1rem",
-                        padding: "5rem",
+                        padding: "5rem 2.5rem",
                         marginTop: "2rem",
                         boxShadow: "0 0 10px 0 rgba(0,0,0,0.1)",
                         justifyContent: "center",
