@@ -107,7 +107,7 @@ export const DaoCard: React.FC<Props> = ({ name, date, description, value, daoId
                     height: "6rem",
                   }}
                 >
-                  <img style={{ objectFit: "cover", width: "100%" }} src={daoImg} />
+                  <img style={{ objectFit: "contain", width: "100%" }} src={daoImg} />
                 </div>{" "}
                 <Grid container>
                   <p className={classes.name}>{name}</p>

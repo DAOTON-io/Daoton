@@ -1,6 +1,6 @@
 /* eslint-disable jsx-a11y/anchor-is-valid */
 /* eslint-disable jsx-a11y/alt-text */
-import { Grid, Box, Button } from "@mui/material";
+import { Grid, Box, Button, IconButton } from "@mui/material";
 import { makeStyles } from "@mui/styles";
 import React from "react";
 import GoogleFontLoader from "react-google-font-loader";
@@ -47,7 +47,6 @@ const useStyles = makeStyles({
     display: "flex",
     fontSize: "14px",
     fontFamily: "Signika Negative",
-    marginBottom: "10px",
   },
   value: {
     color: "black",
@@ -55,7 +54,7 @@ const useStyles = makeStyles({
     alignItems: "center",
     display: "flex",
     fontFamily: "Signika Negative",
-    fontSize: "12px",
+    fontSize: "1rem",
   },
 });
 
@@ -96,7 +95,6 @@ export const TokenItem: React.FC<Props> = ({ name, description, value }) => {
               }}
             >
               <Grid item>
-                {" "}
                 <div
                   style={{
                     justifyContent: "center",
@@ -104,8 +102,8 @@ export const TokenItem: React.FC<Props> = ({ name, description, value }) => {
                     display: "flex",
                   }}
                 >
-                  <img width={"45%"} src="logo/logo.jpeg" />
-                </div>{" "}
+                  <img style={{ objectFit: "contain", width: "100%" }} src="/images/logo.jpeg" />
+                </div>
                 <Grid container>
                   <p className={classes.name}>{name}</p>
                 </Grid>
@@ -114,16 +112,25 @@ export const TokenItem: React.FC<Props> = ({ name, description, value }) => {
                   sx={{
                     display: "flex",
                     flexDirection: "row",
+                    justifyContent: "center",
+                    alignItems: "center",
                   }}
                 >
-                  <p className={classes.description}>{description.slice(0, 16) + "..." + description.slice(-3)}</p>
-                  <Button
-                    style={{ maxWidth: "0.2rem", maxHeight: "1rem" }}
-                    endIcon={<CopyAll />}
-                    onClick={() => {
-                      navigator.clipboard.writeText(description);
-                    }}
-                  ></Button>
+                  <div style={{ width: "80%" }}>
+                    <p className={classes.description}>{description.slice(0, 16) + "..." + description.slice(-3)}</p>
+                  </div>
+                  <div style={{ width: "20%" }}>
+                    <IconButton
+                      color="primary"
+                      aria-label="upload picture"
+                      component="label"
+                      onClick={() => {
+                        navigator.clipboard.writeText(description);
+                      }}
+                    >
+                      <CopyAll />
+                    </IconButton>
+                  </div>
                 </Box>
                 <br />
                 <p className={classes.value}>{value}</p>
