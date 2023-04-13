@@ -12,7 +12,7 @@ import { useNavigate } from "react-router-dom";
 import GoogleFontLoader from "react-google-font-loader";
 import toastr from "toastr";
 import DrawerAppBar from "../components/mobilMenu";
-import { ImageUpload } from "components/imageUpload";
+import { ImageUpload } from "../components/imageUpload";
 
 const useStyles = makeStyles((theme) => ({
   card: {

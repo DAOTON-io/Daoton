@@ -8,7 +8,7 @@ import { create } from "ipfs";
 import { useNavigate } from "react-router-dom";
 import DrawerAppBar from "../components/mobilMenu";
 import GoogleFontLoader from "react-google-font-loader";
-import { ImageUpload } from "components/imageUpload";
+import { ImageUpload } from "../components/imageUpload";
 const useStyles = makeStyles((theme) => ({
   card: {
     backgroundColor: "#FBFDFF",

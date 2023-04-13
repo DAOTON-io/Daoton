@@ -10,8 +10,8 @@ import { Button, Card, Container, Grid, Input, ListItem, OutlinedInput, Stack, T
 import SideMenu from "components/sideMenu";
 import { wordSize } from "bn.js";
 import GoogleFontLoader from "react-google-font-loader";
-import DrawerAppBar from "components/mobilMenu";
-import { ImageUpload } from "components/imageUpload";
+import DrawerAppBar from "../components/mobilMenu";
+import { ImageUpload } from "../components/imageUpload";
 
 const useStyles = makeStyles((theme) => ({
   card: {
