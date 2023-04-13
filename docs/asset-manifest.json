@@ -1,16 +1,16 @@
 {
   "files": {
-    "main.css": "/Daoton/static/css/main.0e8599b9.css",
-    "main.js": "/Daoton/static/js/main.5d34b4ca.js",
+    "main.css": "/Daoton/static/css/main.b6cf0621.css",
+    "main.js": "/Daoton/static/js/main.e3c9935a.js",
     "static/js/787.a528580b.chunk.js": "/Daoton/static/js/787.a528580b.chunk.js",
     "static/media/rpc.cjs": "/Daoton/static/media/rpc.3ba5ca7bdb004060d5e2.cjs",
     "index.html": "/Daoton/index.html",
-    "main.0e8599b9.css.map": "/Daoton/static/css/main.0e8599b9.css.map",
-    "main.5d34b4ca.js.map": "/Daoton/static/js/main.5d34b4ca.js.map",
+    "main.b6cf0621.css.map": "/Daoton/static/css/main.b6cf0621.css.map",
+    "main.e3c9935a.js.map": "/Daoton/static/js/main.e3c9935a.js.map",
     "787.a528580b.chunk.js.map": "/Daoton/static/js/787.a528580b.chunk.js.map"
   },
   "entrypoints": [
-    "static/css/main.0e8599b9.css",
-    "static/js/main.5d34b4ca.js"
+    "static/css/main.b6cf0621.css",
+    "static/js/main.e3c9935a.js"
   ]
 }
