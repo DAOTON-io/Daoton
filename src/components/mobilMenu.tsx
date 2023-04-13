@@ -1,4 +1,4 @@
-import * as React from "react";
+import { useState } from "react";
 import PropTypes from "prop-types";
 import AppBar from "@mui/material/AppBar";
 import Box from "@mui/material/Box";
@@ -13,15 +13,19 @@ import SummarizeIcon from "@mui/icons-material/Summarize";
 import RemoveRedEyeIcon from "@mui/icons-material/RemoveRedEye";
 import ViewHeadlineIcon from "@mui/icons-material/ViewHeadline";
 import AddCircleIcon from "@mui/icons-material/AddCircle";
-import ViewCompactAltIcon from "@mui/icons-material/ViewCompactAlt";
-import GridViewIcon from "@mui/icons-material/GridView";
+import LogoutIcon from "@mui/icons-material/Logout";
 import AddCircleOutlineIcon from "@mui/icons-material/AddCircleOutline";
-import { Grid } from "@mui/material";
+import { Avatar, Grid } from "@mui/material";
 import { makeStyles } from "@mui/styles";
-import { TonConnectButton } from "@tonconnect/ui-react";
 import { styled, alpha } from "@mui/material/styles";
 import InputBase from "@mui/material/InputBase";
 import SearchIcon from "@mui/icons-material/Search";
+import FitbitIcon from "@mui/icons-material/Fitbit";
+import TokenIcon from "@mui/icons-material/Token";
+import PlaylistAddCircleIcon from "@mui/icons-material/PlaylistAddCircle";
+import ArrowBackIcon from "@mui/icons-material/ArrowBack";
+import { useNavigate } from "react-router-dom";
+import { useTonAddress, useTonConnectUI } from "@tonconnect/ui-react";
 
 const Search = styled("div")(({ theme }) => ({
   position: "relative",
@@ -92,6 +96,16 @@ const useStyles = makeStyles((theme) => ({
       backgroundColor: "#1689c5",
     },
   },
+  logoutlistItem: {
+    padding: "4px",
+    color: "white",
+  },
+  logoutlistItemSmall: {
+    marginBottom: "0.6rem",
+    "&:hover": {
+      borderRadius: 4,
+    },
+  },
 
   divider: {
     backgroundColor: "white",
@@ -119,16 +133,22 @@ const useStyles = makeStyles((theme) => ({
 const drawerWidth = 240;
 
 function DrawerAppBar(props: { window: any }) {
+  const [showLogout, setShowLogout] = useState<boolean>(false);
+  const [mobileOpen, setMobileOpen] = useState<boolean>(false);
+  const [tonConnectUI] = useTonConnectUI();
+
+  const address = useTonAddress(false);
+
   const classes = useStyles();
   const { window } = props;
-  const [mobileOpen, setMobileOpen] = React.useState(false);
+  const navigate = useNavigate();
 
   const handleDrawerToggle = () => {
     setMobileOpen((prevState) => !prevState);
   };
 
   const drawer = (
-    <Box onClick={handleDrawerToggle} sx={{ textAlign: "center", backgroundColor: "#2D6495", height: "100vh" }}>
+    <Box sx={{ textAlign: "center", backgroundColor: "#2D6495", height: "100vh" }}>
       <Typography variant="h6" sx={{ my: 2, color: "white", fontWeight: "bold" }}>
         DAOTON
       </Typography>
@@ -144,7 +164,7 @@ function DrawerAppBar(props: { window: any }) {
         <div className={classes.listItem}>
           <p className={classes.title}>Dao</p>
 
-          <Grid className={classes.listItemSmall} container spacing={1}>
+          <Grid onClick={handleDrawerToggle} className={classes.listItemSmall} container spacing={1}>
             <Grid item>
               <ViewHeadlineIcon />
             </Grid>
@@ -156,7 +176,7 @@ function DrawerAppBar(props: { window: any }) {
               </Typography>
             </Grid>
           </Grid>
-          <Grid className={classes.listItemSmall} container spacing={1}>
+          <Grid onClick={handleDrawerToggle} className={classes.listItemSmall} container spacing={1}>
             <Grid item>
               <RemoveRedEyeIcon />
             </Grid>
@@ -168,7 +188,7 @@ function DrawerAppBar(props: { window: any }) {
               </Typography>
             </Grid>
           </Grid>
-          <Grid className={classes.listItemSmall} container spacing={1}>
+          <Grid onClick={handleDrawerToggle} className={classes.listItemSmall} container spacing={1}>
             <Grid item>
               {" "}
               <AddCircleIcon />
@@ -184,23 +204,11 @@ function DrawerAppBar(props: { window: any }) {
           </Grid>
         </div>
         <Divider className={classes.divider} />
-        {/* <div className={classes.listItem}>
-              <p className={classes.title}>Proposal</p>
-              <Grid className={classes.listItemSmall} container spacing={1}>
-                <Grid item>
-                  <CalendarMonthIcon />
-                </Grid>
-                <Grid item>
-                  <Typography className={classes.item}> Proposal Calender</Typography>
-                </Grid>
-              </Grid>
-            </div> */}
-        {/* <Divider className={classes.divider} /> */}
         <div className={classes.listItem}>
           <p className={classes.title}>Token</p>
-          <Grid className={classes.listItemSmall} container spacing={1}>
+          <Grid onClick={handleDrawerToggle} className={classes.listItemSmall} container spacing={1}>
             <Grid item>
-              <ViewCompactAltIcon />
+              <TokenIcon />
             </Grid>
 
             <Grid item>
@@ -211,7 +219,7 @@ function DrawerAppBar(props: { window: any }) {
               </Typography>
             </Grid>
           </Grid>
-          <Grid className={classes.listItemSmall} container spacing={1}>
+          <Grid onClick={handleDrawerToggle} className={classes.listItemSmall} container spacing={1}>
             <Grid item>
               <AddCircleOutlineIcon />
             </Grid>
@@ -227,9 +235,9 @@ function DrawerAppBar(props: { window: any }) {
         <Divider className={classes.divider} />
         <div className={classes.listItem}>
           <p className={classes.title}>NFT</p>
-          <Grid className={classes.listItemSmall} container spacing={1}>
+          <Grid onClick={handleDrawerToggle} className={classes.listItemSmall} container spacing={1}>
             <Grid item>
-              <ViewCompactAltIcon />
+              <FitbitIcon />
             </Grid>
             <Grid item>
               <Typography className={classes.item}>
@@ -239,11 +247,11 @@ function DrawerAppBar(props: { window: any }) {
               </Typography>
             </Grid>
           </Grid>
-          <Grid className={classes.listItemSmall} container spacing={1}>
+          <Grid onClick={handleDrawerToggle} className={classes.listItemSmall} container spacing={1}>
             <Grid item>
-              <GridViewIcon />
+              <PlaylistAddCircleIcon />
             </Grid>
-            <Grid item>
+            <Grid onClick={handleDrawerToggle} item>
               <Typography className={classes.item}>
                 <a className={classes.item} href="generate-nft-collection">
                   Generate Collection
@@ -251,9 +259,9 @@ function DrawerAppBar(props: { window: any }) {
               </Typography>
             </Grid>
           </Grid>
-          <Grid className={classes.listItemSmall} container spacing={1}>
+          <Grid onClick={handleDrawerToggle} className={classes.listItemSmall} container spacing={1}>
             <Grid item>
-              <GridViewIcon />
+              <PlaylistAddCircleIcon />
             </Grid>
             <Grid item>
               <Typography className={classes.item}>
@@ -279,6 +287,50 @@ function DrawerAppBar(props: { window: any }) {
                 </a>
               </Typography>
             </Grid>
+          </Grid>
+        </div>
+        <div className={classes.logoutlistItem}>
+          <Grid className={classes.logoutlistItemSmall} container spacing={1}>
+            {!showLogout ? (
+              <Grid
+                item
+                style={{ display: "flex", alignItems: "center", justifyContent: "center", padding: "1rem" }}
+                onClick={() => {
+                  setShowLogout(true);
+                }}
+              >
+                <Avatar src="/broken-image.jpg" sx={{ width: 32, height: 32, bgcolor: "#EC7D31", marginRight: "0.5rem" }} />
+                <Typography className={classes.item}>{address.slice(0, 10) + "..." + address.slice(-6)} </Typography>
+              </Grid>
+            ) : (
+              <div style={{ display: "flex", alignItems: "center", justifyContent: "space-between", width: "100%", padding: "0.2rem" }}>
+                <IconButton
+                  aria-label="back"
+                  component="label"
+                  style={{ color: "white" }}
+                  onClick={(event) => {
+                    event.preventDefault();
+                    setShowLogout(false);
+                  }}
+                >
+                  <ArrowBackIcon />
+                </IconButton>
+                <Grid item>
+                  <Typography className={classes.item}>{address.slice(0, 8) + "..." + address.slice(-4)}</Typography>
+                </Grid>
+                <IconButton
+                  aria-label="back"
+                  component="label"
+                  style={{ color: "white" }}
+                  onClick={() => {
+                    tonConnectUI.disconnect();
+                    navigate("/login");
+                  }}
+                >
+                  <LogoutIcon />
+                </IconButton>
+              </div>
+            )}
           </Grid>
         </div>
       </Grid>
