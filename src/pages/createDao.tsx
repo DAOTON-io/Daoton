@@ -12,6 +12,7 @@ import DrawerAppBar from "../components/mobilMenu";
 import FileBase64 from "react-file-base64";
 
 import UploadIcon from '@mui/icons-material/Upload';
+import { ImageUpload } from "components/imageUpload";
 
 const useStyles = makeStyles((theme) => ({
   card: {
@@ -121,6 +122,18 @@ const useStyles = makeStyles((theme) => ({
       marginBottom: 2,
       marginTop: 2,
       padding: '24px',
+    }
+  },
+  buttonContainer: {
+    paddingRight: '32px',
+    paddingLeft: '32px',
+    textAlign:'start',
+    justifyContent:'space-between',
+    alignItems:'center',
+    marginTop:'8px',
+    [theme.breakpoints.down("sm")]: {
+      paddingRight: '16px',
+      paddingLeft: '16px',
     }
   }
 
@@ -305,7 +318,7 @@ export default function CreateDao() {
                       ></input>
 
                       <Grid direction={'column'} container justifyContent={'center'}>
-                        <Grid container paddingX={4} textAlign={'start'} justifyContent={'space-between'} alignItems={'center'} marginTop={2}>
+                        <Grid container className={classes.buttonContainer}>
                           <Grid item>
                             <label>Pausable : </label>
                           </Grid>
@@ -318,13 +331,16 @@ export default function CreateDao() {
                             ></Switch>
                           </Grid>
                         </Grid>
-                        <Grid container paddingX={4} textAlign={'start'} justifyContent={'space-between'} alignItems={'center'} marginTop={2}>
+                        <Grid container className={classes.buttonContainer}>
                           <Grid item justifyContent={'flex-start'}>
-                            <label>img : </label>
+                            <label>DAO Image : </label>
                           </Grid>
                           <Grid item justifyContent={'flex-start'}>
-                            //TODO IMAGE UPLOAD FIX
-                            <input type="file"></input>
+                            <ImageUpload onChange={function (image: any): void {
+                              throw new Error("Function not implemented.");
+                            }} onClear={function (): void {
+                              throw new Error("Function not implemented.");
+                            }}></ImageUpload>
                           </Grid>
                         </Grid>
                       </Grid>

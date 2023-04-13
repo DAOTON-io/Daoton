@@ -109,6 +109,18 @@ const useStyles = makeStyles((theme) => ({
       marginTop: 2,
       padding: '24px',
     }
+  },
+  buttonContainer: {
+    paddingRight: '32px',
+    paddingLeft: '32px',
+    textAlign: 'start',
+    justifyContent: 'space-between',
+    alignItems: 'center',
+    marginTop: '8px',
+    [theme.breakpoints.down("sm")]: {
+      paddingRight: '16px',
+      paddingLeft: '16px',
+    }
   }
 
 }));
@@ -287,7 +299,7 @@ export default function GenerateToken() {
 
                       <Grid direction={'column'} container justifyContent={'center'}>
 
-                        <Grid container paddingX={4} textAlign={'start'} justifyContent={'space-between'} alignItems={'center'} marginTop={2}>
+                        <Grid container className={classes.buttonContainer}>
                           <Grid item>
                             <label>Pausable Contract : </label>
                           </Grid>
@@ -301,7 +313,7 @@ export default function GenerateToken() {
                               }}></Switch>
                           </Grid>
                         </Grid>
-                        <Grid container paddingX={4} textAlign={'start'} justifyContent={'space-between'} alignItems={'center'} marginTop={2}>
+                        <Grid container className={classes.buttonContainer}>
                           <Grid item>
                             <label>Stackable Contract : </label>
                           </Grid>
