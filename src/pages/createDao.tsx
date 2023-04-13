@@ -127,10 +127,10 @@ const useStyles = makeStyles((theme) => ({
   buttonContainer: {
     paddingRight: '32px',
     paddingLeft: '32px',
-    textAlign:'start',
-    justifyContent:'space-between',
-    alignItems:'center',
-    marginTop:'8px',
+    textAlign: 'start',
+    justifyContent: 'space-between',
+    alignItems: 'center',
+    marginTop: '8px',
     [theme.breakpoints.down("sm")]: {
       paddingRight: '16px',
       paddingLeft: '16px',
@@ -151,12 +151,23 @@ export default function CreateDao() {
 
   useEffect(() => {
     if (address) {
+      //TODO will fix nft collection
       const fetchInitData = async () => {
-        const tokenList = await fetchTokens(address);
-        const nftList = await fetchNfts(address);
+        try {
+          const tokenList = await fetchTokens(address);
+          setTokens(tokenList.balances);
+        }
+        catch {
 
-        setNftCollections(nftList.collections as any);
-        setTokens(tokenList.balances);
+        }
+        try {
+          const nftList = await fetchNfts(address);
+          setNftCollections(nftList.collections as any);
+        } catch {
+
+        }
+
+
       };
 
       fetchInitData();
