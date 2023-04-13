@@ -29,7 +29,7 @@ export const Login = () => {
 
   return (
     <ThemeProvider theme={theme}>
-      <Container component="main" maxWidth="xl" style={{ background: "linear-gradient(#EC7D31, #20A8E7)", height: "100vh", padding: 0, margin: 0 }}>
+      <Container component="main" style={{ background: "linear-gradient(#EC7D31, #20A8E7)", height: "100vh", padding: 0, margin: 0, maxWidth:'100%' }}>
         <Box
           sx={{
             display: "flex",
