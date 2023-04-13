@@ -1,5 +1,5 @@
 /* eslint-disable jsx-a11y/anchor-is-valid */
-import { Grid, Card, Typography } from "@mui/material";
+import { Grid, Card, Typography, Box, CircularProgress } from "@mui/material";
 import SideMenu from "../components/sideMenu";
 import { makeStyles } from "@mui/styles";
 import { useState, useEffect } from "react";
@@ -65,54 +65,62 @@ export default function ViewNft() {
                   top: "0",
                 }}
               >
-                {nfts.length === 0 && (
-                  <Grid
-                    item
-                    md={12}
-                    style={{
-                      justifyContent: "center",
-                      alignItems: "center",
-                      display: "flex",
-                    }}
-                  >
-                    <Card
-                      style={{
-                        backgroundColor: "white",
-                        borderRadius: "1rem",
-                        padding: "5rem",
-                        marginTop: "2rem",
-                        boxShadow: "0 0 10px 0 rgba(0,0,0,0.1)",
-                        justifyContent: "center",
-                        alignItems: "center",
-                        display: "flex",
-                      }}
-                    >
-                      <Typography
+                {loading ? (
+                  <Box sx={{ display: "flex", justifyContent: "center", alignItems: "center", height: "60vh", width: "80vw" }}>
+                    <CircularProgress />
+                  </Box>
+                ) : (
+                  <>
+                    {nfts.length === 0 && (
+                      <Grid
+                        item
+                        md={12}
                         style={{
-                          color: "#1689c5",
-                          fontSize: "30px",
-                          fontWeight: "bold",
+                          justifyContent: "center",
+                          alignItems: "center",
+                          display: "flex",
                         }}
                       >
-                        There are no Nft's
-                      </Typography>
-                    </Card>
-                  </Grid>
-                )}
+                        <Card
+                          style={{
+                            backgroundColor: "white",
+                            borderRadius: "1rem",
+                            padding: "5rem 2.5rem",
+                            marginTop: "2rem",
+                            boxShadow: "0 0 10px 0 rgba(0,0,0,0.1)",
+                            justifyContent: "center",
+                            alignItems: "center",
+                            display: "flex",
+                          }}
+                        >
+                          <Typography
+                            style={{
+                              color: "#1689c5",
+                              fontSize: "30px",
+                              fontWeight: "bold",
+                            }}
+                          >
+                            There are no Nft's
+                          </Typography>
+                        </Card>
+                      </Grid>
+                    )}
 
-                {nfts.map((item: any) => (
-                  <Grid item margin={1} md={3.75} justifyContent={"space-around"}>
-                    <a style={{ textDecoration: "none" }}>
-                      <NftCard
-                        name={item.metadata.name}
-                        address={item.address.slice(0, 4) + "..." + item.address.slice(-4)}
-                        collectionAddress={item.collection_address.slice(0, 4) + "..." + item.collection_address.slice(-4)}
-                        description={item.metadata.description}
-                        image={item.metadata.image}
-                      ></NftCard>
-                    </a>
-                  </Grid>
-                ))}
+                    {nfts.map((item: any) => (
+                      <Grid item margin={1} md={3.75} justifyContent={"space-around"}>
+                        <a style={{ textDecoration: "none" }}>
+                          <NftCard
+                            name={item.metadata.name}
+                            address={item.address.slice(0, 4) + "..." + item.address.slice(-4)}
+                            collectionAddress={item.collection_address.slice(0, 4) + "..." + item.collection_address.slice(-4)}
+                            description={item.metadata.description}
+                            image={item.metadata.image}
+                          ></NftCard>
+                        </a>
+                      </Grid>
+                    ))}
+                  </>
+                )}
               </Grid>
             </div>
           </Grid>

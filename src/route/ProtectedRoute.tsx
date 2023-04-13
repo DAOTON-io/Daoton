@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from "react";
 import { Navigate, Outlet } from "react-router-dom";
 import { useTonConnectUI } from "@tonconnect/ui-react";
-import { CircularProgress } from "@mui/material";
+import { LinearProgress } from "@mui/material";
 import { makeStyles } from "@mui/styles";
 
 const useStyles = makeStyles((theme) => ({
@@ -29,7 +29,11 @@ export const ProtectedRoute = () => {
   }, [tonConnectUI, tonConnectUI.connected, tonConnectUI.connectionRestored]);
 
   if (loading) {
-    return <CircularProgress color="secondary" />;
+    return (
+      <div style={{ display: "flex", justifyContent: "center", alignItems: "center", height: "100vh" }}>
+        <LinearProgress color="inherit" style={{ width: "80%" }} />
+      </div>
+    );
   }
 
   return connected ? (

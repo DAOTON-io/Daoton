@@ -12,6 +12,7 @@ type Props = {
 
 export const NftCard: React.FC<Props> = ({ name, address, collectionAddress, description, image }) => {
   const classes = useStyles();
+  console.log(image);
 
   return (
     <div>
@@ -31,11 +32,7 @@ export const NftCard: React.FC<Props> = ({ name, address, collectionAddress, des
                 display: "flex",
               }}
             >
-              <img
-                src={image ? image : "https://talis-protocol.mo.cloudinary.net/tokens/63b23955cd6bafb22aadc85a/mediaThumbnail"}
-                height={"200"}
-                // onError="this.onerror=null;this.src='https://i.ibb.co/42mMZZz/image.png';"
-              />
+              <img src={image && image.length > 10 ? image : "/images/logo.jpeg"} style={{ objectFit: "contain", width: "100%" }} height={"200"} />
             </div>
             <Grid container>
               <p className={classes.name}>{name ? name : "Pastel Dream"}</p>
