@@ -46,79 +46,78 @@ const useStyles = makeStyles((theme) => ({
     color: "#E7F4FF",
     border: "none",
     borderRadius: "16px",
-    minWidth: '235px',
-    minHeight: '44px',
+    minWidth: "235px",
+    minHeight: "44px",
     fontFamily: "Raleway",
     fontWeight: 500,
     [theme.breakpoints.down("sm")]: {
-      minWidth: '200px',
+      minWidth: "200px",
     },
   },
 
   input: {
-    borderRadius: '16px',
-    borderColor: '#A2C5E3',
-    borderWidth: '1px',
-    maxWidth: '400px',
-    color: '#767D86',
-    minHeight: '44px',
-    padding: '12px',
-    boxShadow: 'none',
-    fontSize: '16px',
+    borderRadius: "16px",
+    borderColor: "#A2C5E3",
+    borderWidth: "1px",
+    maxWidth: "400px",
+    color: "#767D86",
+    minHeight: "44px",
+    padding: "12px",
+    boxShadow: "none",
+    fontSize: "16px",
     fontFamily: "Raleway",
     fontWeight: 500,
     [theme.breakpoints.down("sm")]: {
-      minWidth: '300px',
+      minWidth: "300px",
     },
   },
 
   inputImage: {
-    borderRadius: '16px',
-    borderColor: '#A2C5E3',
-    borderWidth: '1px',
-    borderStyle: 'dashed',
-    maxWidth: '400px',
-    color: '#767D86',
-    minHeight: '44px',
-    padding: '12px',
-    boxShadow: 'none',
-    fontSize: '16px',
+    borderRadius: "16px",
+    borderColor: "#A2C5E3",
+    borderWidth: "1px",
+    borderStyle: "dashed",
+    maxWidth: "400px",
+    color: "#767D86",
+    minHeight: "44px",
+    padding: "12px",
+    boxShadow: "none",
+    fontSize: "16px",
     fontFamily: "Raleway",
     fontWeight: 500,
   },
 
   center: {
     [theme.breakpoints.down("sm")]: {
-      display: 'flex',
-      alignItems: 'center',
-      justifyContent: 'center',
-      textAlign: 'center',
-    }
+      display: "flex",
+      alignItems: "center",
+      justifyContent: "center",
+      textAlign: "center",
+    },
   },
 
   container: {
     marginBottom: 6,
     marginTop: 6,
-    padding: '64px',
+    padding: "64px",
     [theme.breakpoints.down("sm")]: {
       marginBottom: 2,
       marginTop: 2,
-      padding: '24px',
-    }
+      padding: "24px",
+    },
   },
   buttonContainer: {
-    paddingRight: '32px',
-    paddingLeft: '32px',
-    textAlign: 'start',
-    justifyContent: 'space-between',
-    alignItems: 'center',
-    marginTop: '8px',
+    paddingRight: "32px",
+    paddingLeft: "32px",
+    textAlign: "start",
+    justifyContent: "space-between",
+    alignItems: "center",
+    marginTop: "8px",
     [theme.breakpoints.down("sm")]: {
-      paddingRight: '16px',
-      paddingLeft: '16px',
-    }
-  }
-
+      paddingRight: "16px",
+      paddingLeft: "16px",
+    },
+  },
 }));
 
 export default function GenerateNftCollection() {
@@ -156,59 +155,65 @@ export default function GenerateNftCollection() {
         <SideMenu></SideMenu>
       </Grid>
       <Grid item lg={10} md={9} xs={12}>
-        <Grid container direction={'column'} spacing={2}>
+        <Grid container direction={"column"} spacing={2}>
           <Grid item>
             <DrawerAppBar></DrawerAppBar>
           </Grid>
           <Grid item>
-            <Card sx={{
-              borderRadius: '40px',
-            }}>
-              <GoogleFontLoader fonts={[{ font: "Raleway", weights: [700, "700i", 500, "500i"], },]} subsets={["cyrillic-ext", "greek"]} />
+            <Card
+              sx={{
+                borderRadius: "40px",
+              }}
+            >
+              <GoogleFontLoader fonts={[{ font: "Raleway", weights: [700, "700i", 500, "500i"] }]} subsets={["cyrillic-ext", "greek"]} />
               <Grid container className={classes.container}>
-
                 <Grid item lg={1} md={2} sm={1} xs={0}></Grid>
-                <Grid item lg={9} md={8} sm={11} xs={12} direction={'column'} className={classes.center}>
-
+                <Grid item lg={9} md={8} sm={11} xs={12} direction={"column"} className={classes.center}>
                   <h5 className={classes.title}>Create Collection</h5>
 
                   <Grid item>
-                    <Stack spacing={2} maxWidth={'400px'} marginTop={4} >
-                      <input className={classes.input} placeholder="Name"
+                    <Stack spacing={2} maxWidth={"400px"} marginTop={4}>
+                      <input
+                        className={classes.input}
+                        placeholder="Name"
                         onChange={(event) => {
                           setCollectionData({ ...collectionData, collectionName: event.target.value });
-                        }}></input>
-                      <input className={classes.input} placeholder="Description"
+                        }}
+                      ></input>
+                      <input
+                        className={classes.input}
+                        placeholder="Description"
                         onChange={(event) => {
                           setCollectionData({ ...collectionData, collectionDescription: event.target.value });
-                        }}></input>
+                        }}
+                      ></input>
 
                       {/* <input className={classes.inputImage} placeholder="Image*"
                         onChange={(event) => {
                           setCollectionData({ ...collectionData, collectionImage: event.target.value });
                         }}></input> */}
 
-                      <Grid direction={'column'} container justifyContent={'center'}>
+                      <Grid direction={"column"} container justifyContent={"center"}>
                         <Grid container className={classes.buttonContainer}>
-                          <Grid item justifyContent={'flex-start'}>
+                          <Grid item justifyContent={"flex-start"}>
                             <label>Collection Image : </label>
                           </Grid>
-                          <Grid item justifyContent={'flex-start'}>
-                            <ImageUpload onChange={function (image: any): void {
-                              throw new Error("Function not implemented.");
-                            }} onClear={function (): void {
-                              throw new Error("Function not implemented.");
-                            }}></ImageUpload>
+                          <Grid item justifyContent={"flex-start"}>
+                            <ImageUpload onChange={() => {}} onClear={() => {}}></ImageUpload>
                           </Grid>
                         </Grid>
                       </Grid>
 
-                      <Grid paddingTop={2} container justifyContent={'center'}>
-                        <button className={classes.button}
+                      <Grid paddingTop={2} container justifyContent={"center"}>
+                        <button
+                          className={classes.button}
                           onClick={() => {
-                            generateCollection()
+                            generateCollection();
                             console.log(collectionData);
-                          }}>Create</button>
+                          }}
+                        >
+                          Create
+                        </button>
                       </Grid>
                     </Stack>
                   </Grid>

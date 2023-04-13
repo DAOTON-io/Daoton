@@ -51,79 +51,78 @@ const useStyles = makeStyles((theme) => ({
     color: "#E7F4FF",
     border: "none",
     borderRadius: "16px",
-    minWidth: '235px',
-    minHeight: '44px',
+    minWidth: "235px",
+    minHeight: "44px",
     fontFamily: "Raleway",
     fontWeight: 500,
     [theme.breakpoints.down("sm")]: {
-      minWidth: '200px',
+      minWidth: "200px",
     },
   },
 
   input: {
-    borderRadius: '16px',
-    borderColor: '#A2C5E3',
-    borderWidth: '1px',
-    maxWidth: '400px',
-    color: '#767D86',
-    minHeight: '44px',
-    padding: '12px',
-    boxShadow: 'none',
-    fontSize: '16px',
+    borderRadius: "16px",
+    borderColor: "#A2C5E3",
+    borderWidth: "1px",
+    maxWidth: "400px",
+    color: "#767D86",
+    minHeight: "44px",
+    padding: "12px",
+    boxShadow: "none",
+    fontSize: "16px",
     fontFamily: "Raleway",
     fontWeight: 500,
     [theme.breakpoints.down("sm")]: {
-      minWidth: '300px',
+      minWidth: "300px",
     },
   },
 
   inputImage: {
-    borderRadius: '16px',
-    borderColor: '#A2C5E3',
-    borderWidth: '1px',
-    borderStyle: 'dashed',
-    maxWidth: '400px',
-    color: '#767D86',
-    minHeight: '44px',
-    padding: '12px',
-    boxShadow: 'none',
-    fontSize: '16px',
+    borderRadius: "16px",
+    borderColor: "#A2C5E3",
+    borderWidth: "1px",
+    borderStyle: "dashed",
+    maxWidth: "400px",
+    color: "#767D86",
+    minHeight: "44px",
+    padding: "12px",
+    boxShadow: "none",
+    fontSize: "16px",
     fontFamily: "Raleway",
     fontWeight: 500,
   },
 
   center: {
     [theme.breakpoints.down("sm")]: {
-      display: 'flex',
-      alignItems: 'center',
-      justifyContent: 'center',
-      textAlign: 'center',
-    }
+      display: "flex",
+      alignItems: "center",
+      justifyContent: "center",
+      textAlign: "center",
+    },
   },
 
   container: {
     marginBottom: 6,
     marginTop: 6,
-    padding: '64px',
+    padding: "64px",
     [theme.breakpoints.down("sm")]: {
       marginBottom: 2,
       marginTop: 2,
-      padding: '24px',
-    }
+      padding: "24px",
+    },
   },
   buttonContainer: {
-    paddingRight: '32px',
-    paddingLeft: '32px',
-    textAlign: 'start',
-    justifyContent: 'space-between',
-    alignItems: 'center',
-    marginTop: '8px',
+    paddingRight: "32px",
+    paddingLeft: "32px",
+    textAlign: "start",
+    justifyContent: "space-between",
+    alignItems: "center",
+    marginTop: "8px",
     [theme.breakpoints.down("sm")]: {
-      paddingRight: '16px',
-      paddingLeft: '16px',
-    }
-  }
-
+      paddingRight: "16px",
+      paddingLeft: "16px",
+    },
+  },
 }));
 
 const ten = new BigNumber(10);
@@ -215,34 +214,33 @@ export default function GenerateToken() {
 
   return (
     <Grid container spacing={2}>
-
       <Grid item lg={2} md={3}>
         <SideMenu></SideMenu>
       </Grid>
 
-
-
       <Grid item lg={10} md={9} xs={12}>
-        <Grid container direction={'column'} spacing={2}>
+        <Grid container direction={"column"} spacing={2}>
           <Grid item>
             <DrawerAppBar></DrawerAppBar>
           </Grid>
           <Grid item>
-            <Card sx={{
-              borderRadius: '40px',
-            }}>
-              <GoogleFontLoader fonts={[{ font: "Raleway", weights: [700, "700i", 500, "500i"], },]} subsets={["cyrillic-ext", "greek"]} />
+            <Card
+              sx={{
+                borderRadius: "40px",
+              }}
+            >
+              <GoogleFontLoader fonts={[{ font: "Raleway", weights: [700, "700i", 500, "500i"] }]} subsets={["cyrillic-ext", "greek"]} />
 
               <Grid container className={classes.container}>
-
                 <Grid item lg={1} md={2} sm={1} xs={0}></Grid>
-                <Grid direction={'column'} item lg={9} md={8} sm={11} xs={12} className={classes.center}>
-
+                <Grid direction={"column"} item lg={9} md={8} sm={11} xs={12} className={classes.center}>
                   <h5 className={classes.title}>Generate Token</h5>
 
                   <Grid item>
-                    <Stack spacing={2} maxWidth={'400px'} marginTop={4} >
-                      <input className={classes.input} placeholder="Name"
+                    <Stack spacing={2} maxWidth={"400px"} marginTop={4}>
+                      <input
+                        className={classes.input}
+                        placeholder="Name"
                         type="text"
                         id="name"
                         name="name"
@@ -252,8 +250,11 @@ export default function GenerateToken() {
                             ...data,
                             name: event.target.value,
                           });
-                        }}></input>
-                      <input className={classes.input} placeholder="Description"
+                        }}
+                      ></input>
+                      <input
+                        className={classes.input}
+                        placeholder="Description"
                         type="text"
                         id="description"
                         name="description"
@@ -263,8 +264,11 @@ export default function GenerateToken() {
                             ...data,
                             description: event.target.value,
                           });
-                        }}></input>
-                      <input className={classes.input} placeholder="Symbol"
+                        }}
+                      ></input>
+                      <input
+                        className={classes.input}
+                        placeholder="Symbol"
                         type="text"
                         id="symbol"
                         name="symbol"
@@ -274,8 +278,11 @@ export default function GenerateToken() {
                             ...data,
                             symbol: event.target.value,
                           });
-                        }}></input>
-                      <input className={classes.input} placeholder="Amount"
+                        }}
+                      ></input>
+                      <input
+                        className={classes.input}
+                        placeholder="Amount"
                         type="text"
                         id="amount"
                         name="amount"
@@ -285,8 +292,11 @@ export default function GenerateToken() {
                             ...data,
                             amount: parseInt(event.target.value),
                           });
-                        }}></input>
-                      <input className={classes.input} placeholder="Decimal"
+                        }}
+                      ></input>
+                      <input
+                        className={classes.input}
+                        placeholder="Decimal"
                         type="text"
                         id="decimal"
                         name="decimal"
@@ -296,10 +306,10 @@ export default function GenerateToken() {
                             ...data,
                             decimal: parseInt(event.target.value),
                           });
-                        }}></input>
+                        }}
+                      ></input>
 
-                      <Grid direction={'column'} container justifyContent={'center'}>
-
+                      <Grid direction={"column"} container justifyContent={"center"}>
                         <Grid container className={classes.buttonContainer}>
                           <Grid item>
                             <label>Pausable Contract : </label>
@@ -311,7 +321,8 @@ export default function GenerateToken() {
                                   ...data,
                                   isPausable: !data.isPausable,
                                 });
-                              }}></Switch>
+                              }}
+                            ></Switch>
                           </Grid>
                         </Grid>
                         <Grid container className={classes.buttonContainer}>
@@ -325,28 +336,28 @@ export default function GenerateToken() {
                                   ...data,
                                   isStackable: !data.isStackable,
                                 });
-                              }}></Switch>
+                              }}
+                            ></Switch>
                           </Grid>
                         </Grid>
                         <Grid container className={classes.buttonContainer}>
-                          <Grid item justifyContent={'flex-start'}>
+                          <Grid item justifyContent={"flex-start"}>
                             <label>Collection Image : </label>
                           </Grid>
-                          <Grid item justifyContent={'flex-start'}>
-                            <ImageUpload onChange={function (image: any): void {
-                              throw new Error("Function not implemented.");
-                            }} onClear={function (): void {
-                              throw new Error("Function not implemented.");
-                            }}></ImageUpload>
+                          <Grid item justifyContent={"flex-start"}>
+                            <ImageUpload onChange={() => {}} onClear={() => {}}></ImageUpload>
                           </Grid>
                         </Grid>
                       </Grid>
-                      <Grid paddingTop={2} container justifyContent={'center'}>
-                        <button className={classes.button}
+                      <Grid paddingTop={2} container justifyContent={"center"}>
+                        <button
+                          className={classes.button}
                           onClick={() => {
-                            generateToken()
+                            generateToken();
                           }}
-                        >Mint Token</button>
+                        >
+                          Mint Token
+                        </button>
                       </Grid>
                     </Stack>
                   </Grid>
@@ -355,8 +366,8 @@ export default function GenerateToken() {
               </Grid>
             </Card>
           </Grid>
-        </Grid >
-      </Grid >
-    </Grid >
+        </Grid>
+      </Grid>
+    </Grid>
   );
 }

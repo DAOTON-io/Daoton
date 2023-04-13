@@ -11,7 +11,7 @@ import axios from "axios";
 import DrawerAppBar from "../components/mobilMenu";
 import FileBase64 from "react-file-base64";
 
-import UploadIcon from '@mui/icons-material/Upload';
+import UploadIcon from "@mui/icons-material/Upload";
 import { ImageUpload } from "components/imageUpload";
 
 const useStyles = makeStyles((theme) => ({
@@ -51,12 +51,12 @@ const useStyles = makeStyles((theme) => ({
     color: "#E7F4FF",
     border: "none",
     borderRadius: "16px",
-    minWidth: '235px',
-    minHeight: '44px',
+    minWidth: "235px",
+    minHeight: "44px",
     fontFamily: "Raleway",
     fontWeight: 500,
     [theme.breakpoints.down("sm")]: {
-      minWidth: '200px',
+      minWidth: "200px",
     },
   },
 
@@ -74,69 +74,68 @@ const useStyles = makeStyles((theme) => ({
   },
 
   input: {
-    borderRadius: '16px',
-    borderColor: '#A2C5E3',
-    borderWidth: '1px',
-    maxWidth: '400px',
-    color: '#767D86',
-    minHeight: '44px',
-    padding: '12px',
-    boxShadow: 'none',
-    fontSize: '16px',
+    borderRadius: "16px",
+    borderColor: "#A2C5E3",
+    borderWidth: "1px",
+    maxWidth: "400px",
+    color: "#767D86",
+    minHeight: "44px",
+    padding: "12px",
+    boxShadow: "none",
+    fontSize: "16px",
     fontFamily: "Raleway",
     fontWeight: 500,
     [theme.breakpoints.down("sm")]: {
-      minWidth: '300px',
+      minWidth: "300px",
     },
   },
 
   inputImage: {
-    borderRadius: '16px',
-    borderColor: '#A2C5E3',
-    borderWidth: '1px',
-    borderStyle: 'dashed',
-    maxWidth: '400px',
-    color: '#767D86',
-    minHeight: '44px',
-    padding: '12px',
-    boxShadow: 'none',
-    fontSize: '16px',
+    borderRadius: "16px",
+    borderColor: "#A2C5E3",
+    borderWidth: "1px",
+    borderStyle: "dashed",
+    maxWidth: "400px",
+    color: "#767D86",
+    minHeight: "44px",
+    padding: "12px",
+    boxShadow: "none",
+    fontSize: "16px",
     fontFamily: "Raleway",
     fontWeight: 500,
   },
 
   center: {
     [theme.breakpoints.down("sm")]: {
-      display: 'flex',
-      alignItems: 'center',
-      justifyContent: 'center',
-      textAlign: 'center',
-    }
+      display: "flex",
+      alignItems: "center",
+      justifyContent: "center",
+      textAlign: "center",
+    },
   },
 
   container: {
     marginBottom: 6,
     marginTop: 6,
-    padding: '64px',
+    padding: "64px",
     [theme.breakpoints.down("sm")]: {
       marginBottom: 2,
       marginTop: 2,
-      padding: '24px',
-    }
+      padding: "24px",
+    },
   },
   buttonContainer: {
-    paddingRight: '32px',
-    paddingLeft: '32px',
-    textAlign: 'start',
-    justifyContent: 'space-between',
-    alignItems: 'center',
-    marginTop: '8px',
+    paddingRight: "32px",
+    paddingLeft: "32px",
+    textAlign: "start",
+    justifyContent: "space-between",
+    alignItems: "center",
+    marginTop: "8px",
     [theme.breakpoints.down("sm")]: {
-      paddingRight: '16px',
-      paddingLeft: '16px',
-    }
-  }
-
+      paddingRight: "16px",
+      paddingLeft: "16px",
+    },
+  },
 }));
 
 export default function CreateDao() {
@@ -156,18 +155,11 @@ export default function CreateDao() {
         try {
           const tokenList = await fetchTokens(address);
           setTokens(tokenList.balances);
-        }
-        catch {
-
-        }
+        } catch {}
         try {
           const nftList = await fetchNfts(address);
           setNftCollections(nftList.collections as any);
-        } catch {
-
-        }
-
-
+        } catch {}
       };
 
       fetchInitData();
@@ -257,70 +249,61 @@ export default function CreateDao() {
 
   return (
     <Grid container spacing={2}>
-
       <Grid item lg={2} md={3}>
         <SideMenu></SideMenu>
       </Grid>
 
-
-
       <Grid item lg={10} md={9} xs={12}>
-        <Grid container direction={'column'} spacing={2}>
+        <Grid container direction={"column"} spacing={2}>
           <Grid item>
             <DrawerAppBar></DrawerAppBar>
           </Grid>
           <Grid item>
-            <Card sx={{
-              borderRadius: '40px',
-            }}>
-              <GoogleFontLoader fonts={[{ font: "Raleway", weights: [700, "700i", 500, "500i"], },]} subsets={["cyrillic-ext", "greek"]} />
+            <Card
+              sx={{
+                borderRadius: "40px",
+              }}
+            >
+              <GoogleFontLoader fonts={[{ font: "Raleway", weights: [700, "700i", 500, "500i"] }]} subsets={["cyrillic-ext", "greek"]} />
 
               <Grid container className={classes.container}>
-
                 <Grid item lg={1} md={2} sm={1} xs={0}></Grid>
-                <Grid direction={'column'} item lg={9} md={8} sm={11} xs={12} className={classes.center}>
-
+                <Grid direction={"column"} item lg={9} md={8} sm={11} xs={12} className={classes.center}>
                   <h5 className={classes.title}>Create DAO</h5>
 
                   <Grid item>
-                    <Stack spacing={2} maxWidth={'400px'} marginTop={4}>
-
-                      <select className={classes.select}
-                        id="type"
-                        name="type"
-                        value={data.type}
-                        onChange={(e) => setData({ ...data, type: e.target.value })}>
+                    <Stack spacing={2} maxWidth={"400px"} marginTop={4}>
+                      <select className={classes.select} id="type" name="type" value={data.type} onChange={(e) => setData({ ...data, type: e.target.value })}>
                         <option value="1">Token</option>
                         <option value="2">NFT</option>
                       </select>
 
-                      {
-                        Number(data.type) === 1 ?
-                          (
-                            <select className={classes.select} placeholder="Token">
-                              {tokens.map((tk: any) => {
-                                return <option value={tk.jetton_address}>{tk.metadata.name + "(" + tk.metadata.symbol + ")"}</option>;
-                              })}
-                            </select>
-                          )
-                          :
-                          (
-                            <select className={classes.select} placeholder="NFT">
-                              {nftCollections.map((nft: any) => {
-                                return <option value={nft.address}>{nft.name}</option>;
-                              })}
-                            </select>
-                          )
-                      }
+                      {Number(data.type) === 1 ? (
+                        <select className={classes.select} placeholder="Token">
+                          {tokens.map((tk: any) => {
+                            return <option value={tk.jetton_address}>{tk.metadata.name + "(" + tk.metadata.symbol + ")"}</option>;
+                          })}
+                        </select>
+                      ) : (
+                        <select className={classes.select} placeholder="NFT">
+                          {nftCollections.map((nft: any) => {
+                            return <option value={nft.address}>{nft.name}</option>;
+                          })}
+                        </select>
+                      )}
 
-                      <input className={classes.input} placeholder="DAO Name"
+                      <input
+                        className={classes.input}
+                        placeholder="DAO Name"
                         type="text"
                         id="name"
                         name="name"
                         value={data.name}
                         onChange={(e) => setData({ ...data, name: e.target.value })}
                       ></input>
-                      <input className={classes.input} placeholder="Description"
+                      <input
+                        className={classes.input}
+                        placeholder="Description"
                         type="text"
                         id="desc"
                         name="desc"
@@ -328,7 +311,7 @@ export default function CreateDao() {
                         onChange={(e) => setData({ ...data, desc: e.target.value })}
                       ></input>
 
-                      <Grid direction={'column'} container justifyContent={'center'}>
+                      <Grid direction={"column"} container justifyContent={"center"}>
                         <Grid container className={classes.buttonContainer}>
                           <Grid item>
                             <label>Pausable : </label>
@@ -343,25 +326,24 @@ export default function CreateDao() {
                           </Grid>
                         </Grid>
                         <Grid container className={classes.buttonContainer}>
-                          <Grid item justifyContent={'flex-start'}>
+                          <Grid item justifyContent={"flex-start"}>
                             <label>DAO Image : </label>
                           </Grid>
-                          <Grid item justifyContent={'flex-start'}>
-                            <ImageUpload onChange={function (image: any): void {
-                              throw new Error("Function not implemented.");
-                            }} onClear={function (): void {
-                              throw new Error("Function not implemented.");
-                            }}></ImageUpload>
+                          <Grid item justifyContent={"flex-start"}>
+                            <ImageUpload onChange={() => {}} onClear={() => {}}></ImageUpload>
                           </Grid>
                         </Grid>
                       </Grid>
 
-                      <Grid paddingTop={2} container justifyContent={'center'}>
-                        <button className={classes.button}
+                      <Grid paddingTop={2} container justifyContent={"center"}>
+                        <button
+                          className={classes.button}
                           onClick={() => {
-                            createDao()
+                            createDao();
                           }}
-                        >Generate</button>
+                        >
+                          Generate
+                        </button>
                       </Grid>
                     </Stack>
                   </Grid>
@@ -370,9 +352,8 @@ export default function CreateDao() {
               </Grid>
             </Card>
           </Grid>
-        </Grid >
-      </Grid >
-    </Grid >
+        </Grid>
+      </Grid>
+    </Grid>
   );
-
 }
