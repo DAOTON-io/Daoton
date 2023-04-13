@@ -203,7 +203,7 @@ export default function SideMenu() {
                 </Grid>
               </Grid>
             </div>
-            <div className={classes.logoutlistItem}>
+            <div className={classes.listItem}>
               <Grid className={classes.logoutlistItemSmall} container spacing={1}>
                 {!showLogout ? (
                   <Grid
