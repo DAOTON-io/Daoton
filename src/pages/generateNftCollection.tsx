@@ -8,6 +8,7 @@ import { create } from "ipfs";
 import { useNavigate } from "react-router-dom";
 import DrawerAppBar from "../components/mobilMenu";
 import GoogleFontLoader from "react-google-font-loader";
+import { ImageUpload } from "components/imageUpload";
 const useStyles = makeStyles((theme) => ({
   card: {
     backgroundColor: "#FBFDFF",
@@ -104,6 +105,18 @@ const useStyles = makeStyles((theme) => ({
       marginTop: 2,
       padding: '24px',
     }
+  },
+  buttonContainer: {
+    paddingRight: '32px',
+    paddingLeft: '32px',
+    textAlign: 'start',
+    justifyContent: 'space-between',
+    alignItems: 'center',
+    marginTop: '8px',
+    [theme.breakpoints.down("sm")]: {
+      paddingRight: '16px',
+      paddingLeft: '16px',
+    }
   }
 
 }));
@@ -170,10 +183,26 @@ export default function GenerateNftCollection() {
                           setCollectionData({ ...collectionData, collectionDescription: event.target.value });
                         }}></input>
 
-                      <input className={classes.inputImage} placeholder="Image*"
+                      {/* <input className={classes.inputImage} placeholder="Image*"
                         onChange={(event) => {
                           setCollectionData({ ...collectionData, collectionImage: event.target.value });
-                        }}></input>
+                        }}></input> */}
+
+                      <Grid direction={'column'} container justifyContent={'center'}>
+                        <Grid container className={classes.buttonContainer}>
+                          <Grid item justifyContent={'flex-start'}>
+                            <label>Collection Image : </label>
+                          </Grid>
+                          <Grid item justifyContent={'flex-start'}>
+                            <ImageUpload onChange={function (image: any): void {
+                              throw new Error("Function not implemented.");
+                            }} onClear={function (): void {
+                              throw new Error("Function not implemented.");
+                            }}></ImageUpload>
+                          </Grid>
+                        </Grid>
+                      </Grid>
+
                       <Grid paddingTop={2} container justifyContent={'center'}>
                         <button className={classes.button}
                           onClick={() => {

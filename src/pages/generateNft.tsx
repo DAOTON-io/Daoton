@@ -11,6 +11,7 @@ import SideMenu from "components/sideMenu";
 import { wordSize } from "bn.js";
 import GoogleFontLoader from "react-google-font-loader";
 import DrawerAppBar from "components/mobilMenu";
+import { ImageUpload } from "components/imageUpload";
 
 
 const useStyles = makeStyles((theme) => ({
@@ -110,6 +111,18 @@ const useStyles = makeStyles((theme) => ({
       marginTop: 2,
       padding: '24px',
     }
+  },
+  buttonContainer: {
+    paddingRight: '32px',
+    paddingLeft: '32px',
+    textAlign:'start',
+    justifyContent:'space-between',
+    alignItems:'center',
+    marginTop:'8px',
+    [theme.breakpoints.down("sm")]: {
+      paddingRight: '16px',
+      paddingLeft: '16px',
+    }
   }
 
 }));
@@ -169,7 +182,7 @@ export default function GenerateNft() {
               <Grid container className={classes.container}>
 
                 <Grid item lg={1} md={2} sm={1} xs={0}></Grid>
-                <Grid item lg={9} md={8} sm={11} xs={12} direction={'column'} className={classes.center}>
+                <Grid item lg={9} md={8} sm={11} xs={12} className={classes.center}>
 
                   <h5 className={classes.title}>Create NFT</h5>
 
@@ -191,10 +204,26 @@ export default function GenerateNft() {
                         onChange={(event) => {
                           setNftData({ ...nftData, collectionAddress: event.target.value });
                         }}></input>
-                      <input className={classes.inputImage} placeholder="Image*"
+                      {/* <input className={classes.inputImage} placeholder="Image*"
                         onChange={(event) => {
                           setNftData({ ...nftData, nftImage: event.target.value });
-                        }}></input>
+                        }}></input> */}
+
+                      <Grid direction={'column'} container justifyContent={'center'}>
+                        <Grid container className={classes.buttonContainer}>
+                          <Grid item justifyContent={'flex-start'}>
+                            <label>NFT Image : </label>
+                          </Grid>
+                          <Grid item justifyContent={'flex-start'}>
+                            <ImageUpload onChange={function (image: any): void {
+                              throw new Error("Function not implemented.");
+                            }} onClear={function (): void {
+                              throw new Error("Function not implemented.");
+                            }}></ImageUpload>
+                          </Grid>
+                        </Grid>
+                      </Grid>
+
                       <Grid paddingTop={2} container justifyContent={'center'}>
                         <button className={classes.button}
                           onClick={() => {

@@ -12,6 +12,7 @@ import { useNavigate } from "react-router-dom";
 import GoogleFontLoader from "react-google-font-loader";
 import toastr from "toastr";
 import DrawerAppBar from "../components/mobilMenu";
+import { ImageUpload } from "components/imageUpload";
 
 const useStyles = makeStyles((theme) => ({
   card: {
@@ -325,6 +326,18 @@ export default function GenerateToken() {
                                   isStackable: !data.isStackable,
                                 });
                               }}></Switch>
+                          </Grid>
+                        </Grid>
+                        <Grid container className={classes.buttonContainer}>
+                          <Grid item justifyContent={'flex-start'}>
+                            <label>Collection Image : </label>
+                          </Grid>
+                          <Grid item justifyContent={'flex-start'}>
+                            <ImageUpload onChange={function (image: any): void {
+                              throw new Error("Function not implemented.");
+                            }} onClear={function (): void {
+                              throw new Error("Function not implemented.");
+                            }}></ImageUpload>
                           </Grid>
                         </Grid>
                       </Grid>

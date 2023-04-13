@@ -2,8 +2,6 @@ import React, { useState, useRef } from "react";
 import { Button, IconButton } from "@mui/material";
 import { makeStyles } from "@mui/styles";
 import CloseIcon from "@mui/icons-material/Close";
-import DriveFolderUploadIcon from '@mui/icons-material/DriveFolderUpload';
-import UploadIcon from '@mui/icons-material/Upload';
 
 const useStyles = makeStyles((theme) => ({
   root: {
@@ -61,8 +59,8 @@ export const ImageUpload: React.FC<Props> = ({ onChange, onClear }) => {
     <div className={classes.root}>
       <input ref={inputRef} accept="image/*" id="contained-button-file" multiple type="file" className={classes.input} onChange={handleFileInputChange} />
       <label htmlFor="contained-button-file">
-        <Button variant="contained" color="primary" component="span" endIcon={<DriveFolderUploadIcon></DriveFolderUploadIcon>}>
-          Select</Button>
+        <Button variant="contained" color="primary" component="span">
+          Select Image</Button>
       </label>
       {file && (
         <div className={classes.imageDiv}>
