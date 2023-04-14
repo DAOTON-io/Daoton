@@ -76,7 +76,7 @@ export default function Vote() {
       setProposal(proposal);
     });
 
-    getCurrentValue(proposalId).then((votes: any) => {
+    getCurrentValue(proposalId as any).then((votes: any) => {
       setVotes(votes);
       console.log(Date.now() - votes[4]);
       console.log(votes);
