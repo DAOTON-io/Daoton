@@ -88,23 +88,11 @@ const useStyles = makeStyles((theme) => ({
     [theme.breakpoints.down("sm")]: {
       minWidth: "300px",
     },
+    "&:required:invalid": {
+      borderColor: "red",
+    },
   },
-
-  inputImage: {
-    borderRadius: "16px",
-    borderColor: "#A2C5E3",
-    borderWidth: "1px",
-    borderStyle: "dashed",
-    maxWidth: "400px",
-    color: "#767D86",
-    minHeight: "44px",
-    padding: "12px",
-    boxShadow: "none",
-    fontSize: "16px",
-    fontFamily: "Raleway",
-    fontWeight: 500,
-  },
-
+  
   center: {
     [theme.breakpoints.down("sm")]: {
       display: "flex",
@@ -136,6 +124,7 @@ const useStyles = makeStyles((theme) => ({
       paddingLeft: "16px",
     },
   },
+  
 }));
 
 export default function CreateDao() {

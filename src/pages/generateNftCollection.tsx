@@ -70,21 +70,9 @@ const useStyles = makeStyles((theme) => ({
     [theme.breakpoints.down("sm")]: {
       minWidth: "300px",
     },
-  },
-
-  inputImage: {
-    borderRadius: "16px",
-    borderColor: "#A2C5E3",
-    borderWidth: "1px",
-    borderStyle: "dashed",
-    maxWidth: "400px",
-    color: "#767D86",
-    minHeight: "44px",
-    padding: "12px",
-    boxShadow: "none",
-    fontSize: "16px",
-    fontFamily: "Raleway",
-    fontWeight: 500,
+    "&:required:invalid": {
+      borderColor: "red",
+    },
   },
 
   center: {
