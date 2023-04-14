@@ -2,7 +2,7 @@ import { getHttpEndpoint } from "@orbs-network/ton-access";
 import { TonClient, Cell } from "ton";
 import { beginCell, Address, comment, Contract, ContractProvider, ContractState, openContract, storeMessage, toNano } from "ton-core";
 import { Maybe } from "ton-core/dist/utils/maybe";
-import Counter from "./counter.ts"; // this is the interface class we just implemented
+import Counter from "./counter";
 
 export default async function getCurrentValue(address: string) {
   // initialize ton rpc client on testnet

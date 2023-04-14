@@ -7,7 +7,7 @@ import { collectionPreview } from "../lib/api/index";
 import { Address } from "ton";
 import { useNavigate } from "react-router-dom";
 import { Button, Card, Container, Grid, Input, ListItem, OutlinedInput, Stack, TextField, Typography } from "@mui/material";
-import SideMenu from "components/sideMenu";
+import SideMenu from "../components/sideMenu";
 import { wordSize } from "bn.js";
 import GoogleFontLoader from "react-google-font-loader";
 import DrawerAppBar from "../components/mobilMenu";
