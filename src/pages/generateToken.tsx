@@ -309,9 +309,9 @@ export default function GenerateToken() {
                               amount: parseInt(event.target.value),
                             });
                           }}
-                          required
-                          onInvalid={e => (e.target as HTMLInputElement).setCustomValidity('Please enter token description')}
-                          onInput={e => (e.target as HTMLInputElement).setCustomValidity('')}
+                          // required
+                          // onInvalid={e => (e.target as HTMLInputElement).setCustomValidity('Please enter token description')}
+                          // onInput={e => (e.target as HTMLInputElement).setCustomValidity('')}
                         ></input>
                         <input
                           className={classes.input}
@@ -326,9 +326,9 @@ export default function GenerateToken() {
                               decimal: parseInt(event.target.value),
                             });
                           }}
-                          required
-                          onInvalid={e => (e.target as HTMLInputElement).setCustomValidity('Please enter decimal value')}
-                          onInput={e => (e.target as HTMLInputElement).setCustomValidity('')}
+                          // required
+                          // onInvalid={e => (e.target as HTMLInputElement).setCustomValidity('Please enter decimal value')}
+                          // onInput={e => (e.target as HTMLInputElement).setCustomValidity('')}
                         ></input>
 
                         <Grid direction={"column"} container justifyContent={"center"}>
