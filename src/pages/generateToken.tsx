@@ -212,6 +212,11 @@ export default function GenerateToken() {
     });
   };
 
+  function handleSubmit(event: any) {
+    event.preventDefault();
+    if (data) { generateToken(); }
+  }
+
   return (
     <Grid container spacing={2}>
       <Grid item lg={2} md={3}>
@@ -236,131 +241,144 @@ export default function GenerateToken() {
                 <Grid direction={"column"} item lg={9} md={8} sm={11} xs={12} className={classes.center}>
                   <h5 className={classes.title}>Generate Token</h5>
 
-                  <Grid item>
-                    <Stack spacing={2} maxWidth={"400px"} marginTop={4}>
-                      <input
-                        className={classes.input}
-                        placeholder="Name"
-                        type="text"
-                        id="name"
-                        name="name"
-                        value={data.name}
-                        onChange={(event) => {
-                          setData({
-                            ...data,
-                            name: event.target.value,
-                          });
-                        }}
-                      ></input>
-                      <input
-                        className={classes.input}
-                        placeholder="Description"
-                        type="text"
-                        id="description"
-                        name="description"
-                        value={data.description}
-                        onChange={(event) => {
-                          setData({
-                            ...data,
-                            description: event.target.value,
-                          });
-                        }}
-                      ></input>
-                      <input
-                        className={classes.input}
-                        placeholder="Symbol"
-                        type="text"
-                        id="symbol"
-                        name="symbol"
-                        value={data.symbol}
-                        onChange={(event) => {
-                          setData({
-                            ...data,
-                            symbol: event.target.value,
-                          });
-                        }}
-                      ></input>
-                      <input
-                        className={classes.input}
-                        placeholder="Amount"
-                        type="text"
-                        id="amount"
-                        name="amount"
-                        // value={data.amount}
-                        onChange={(event) => {
-                          setData({
-                            ...data,
-                            amount: parseInt(event.target.value),
-                          });
-                        }}
-                      ></input>
-                      <input
-                        className={classes.input}
-                        placeholder="Decimal"
-                        type="text"
-                        id="decimal"
-                        name="decimal"
-                        // value={data.decimal}
-                        onChange={(event) => {
-                          setData({
-                            ...data,
-                            decimal: parseInt(event.target.value),
-                          });
-                        }}
-                      ></input>
+                  <form onSubmit={handleSubmit}>
+                    <Grid item>
+                      <Stack spacing={2} maxWidth={"400px"} marginTop={4}>
+                        <input
+                          className={classes.input}
+                          placeholder="Name"
+                          type="text"
+                          id="name"
+                          name="name"
+                          value={data.name}
+                          onChange={(event) => {
+                            setData({
+                              ...data,
+                              name: event.target.value,
+                            });
 
-                      <Grid direction={"column"} container justifyContent={"center"}>
-                        <Grid container className={classes.buttonContainer}>
-                          <Grid item>
-                            <label>Pausable Contract : </label>
-                          </Grid>
-                          <Grid item>
-                            <Switch
-                              onChange={() => {
-                                setData({
-                                  ...data,
-                                  isPausable: !data.isPausable,
-                                });
-                              }}
-                            ></Switch>
-                          </Grid>
-                        </Grid>
-                        <Grid container className={classes.buttonContainer}>
-                          <Grid item>
-                            <label>Stackable Contract : </label>
-                          </Grid>
-                          <Grid item>
-                            <Switch
-                              onChange={() => {
-                                setData({
-                                  ...data,
-                                  isStackable: !data.isStackable,
-                                });
-                              }}
-                            ></Switch>
-                          </Grid>
-                        </Grid>
-                        <Grid container className={classes.buttonContainer}>
-                          <Grid item justifyContent={"flex-start"}>
-                            <label>Collection Image : </label>
-                          </Grid>
-                          <Grid item justifyContent={"flex-start"}>
-                            <ImageUpload onChange={() => {}} onClear={() => {}}></ImageUpload>
-                          </Grid>
-                        </Grid>
-                      </Grid>
-                      <Grid paddingTop={2} container justifyContent={"center"}>
-                        <button
-                          className={classes.button}
-                          onClick={() => {
-                            generateToken();
                           }}
-                        >
-                          Mint Token
-                        </button>
-                      </Grid>
-                    </Stack>
-                  </Grid>
+                          required
+                          onInvalid={e => (e.target as HTMLInputElement).setCustomValidity('Please enter token name')}
+                          onInput={e => (e.target as HTMLInputElement).setCustomValidity('')}
+                        ></input>
+                        <input
+                          className={classes.input}
+                          placeholder="Description"
+                          type="text"
+                          id="description"
+                          name="description"
+                          value={data.description}
+                          onChange={(event) => {
+                            setData({
+                              ...data,
+                              description: event.target.value,
+                            });
+                          }}
+                          required
+                          onInvalid={e => (e.target as HTMLInputElement).setCustomValidity('Please enter token description')}
+                          onInput={e => (e.target as HTMLInputElement).setCustomValidity('')}
+                        ></input>
+                        <input
+                          className={classes.input}
+                          placeholder="Symbol"
+                          type="text"
+                          id="symbol"
+                          name="symbol"
+                          value={data.symbol}
+                          onChange={(event) => {
+                            setData({
+                              ...data,
+                              symbol: event.target.value,
+                            });
+                          }}
+                          required
+                          onInvalid={e => (e.target as HTMLInputElement).setCustomValidity('Please enter token symbol')}
+                          onInput={e => (e.target as HTMLInputElement).setCustomValidity('')}
+                        ></input>
+                        <input
+                          className={classes.input}
+                          placeholder="Amount"
+                          type="text"
+                          id="amount"
+                          name="amount"
+                          // value={data.amount}
+                          onChange={(event) => {
+                            setData({
+                              ...data,
+                              amount: parseInt(event.target.value),
+                            });
+                          }}
+                          required
+                          onInvalid={e => (e.target as HTMLInputElement).setCustomValidity('Please enter token description')}
+                          onInput={e => (e.target as HTMLInputElement).setCustomValidity('')}
+                        ></input>
+                        <input
+                          className={classes.input}
+                          placeholder="Decimal"
+                          type="text"
+                          id="decimal"
+                          name="decimal"
+                          // value={data.decimal}
+                          onChange={(event) => {
+                            setData({
+                              ...data,
+                              decimal: parseInt(event.target.value),
+                            });
+                          }}
+                          required
+                          onInvalid={e => (e.target as HTMLInputElement).setCustomValidity('Please enter decimal value')}
+                          onInput={e => (e.target as HTMLInputElement).setCustomValidity('')}
+                        ></input>
+
+                        <Grid direction={"column"} container justifyContent={"center"}>
+                          <Grid container className={classes.buttonContainer}>
+                            <Grid item>
+                              <label>Pausable Contract : </label>
+                            </Grid>
+                            <Grid item>
+                              <Switch
+                                onChange={() => {
+                                  setData({
+                                    ...data,
+                                    isPausable: !data.isPausable,
+                                  });
+                                }}
+                              ></Switch>
+                            </Grid>
+                          </Grid>
+                          <Grid container className={classes.buttonContainer}>
+                            <Grid item>
+                              <label>Stackable Contract : </label>
+                            </Grid>
+                            <Grid item>
+                              <Switch
+                                onChange={() => {
+                                  setData({
+                                    ...data,
+                                    isStackable: !data.isStackable,
+                                  });
+                                }}
+                              ></Switch>
+                            </Grid>
+                          </Grid>
+                          <Grid container className={classes.buttonContainer}>
+                            <Grid item justifyContent={"flex-start"}>
+                              <label>Collection Image : </label>
+                            </Grid>
+                            <Grid item justifyContent={"flex-start"}>
+                              <ImageUpload onChange={() => { }} onClear={() => { }}></ImageUpload>
+                            </Grid>
+                          </Grid>
+                        </Grid>
+                        <Grid paddingTop={2} container justifyContent={"center"}>
+                          <button type="submit" className={classes.button}>
+                            Mint Token
+                          </button>
+                        </Grid>
+                      </Stack>
+                    </Grid>
+                  </form>
                 </Grid>
                 <Grid item lg={2} md={2} sm={0} xs={0}></Grid>
               </Grid>

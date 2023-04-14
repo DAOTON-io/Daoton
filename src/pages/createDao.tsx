@@ -140,7 +140,7 @@ const useStyles = makeStyles((theme) => ({
 
 export default function CreateDao() {
   const classes = useStyles();
-  const [data, setData] = useState({ name: "", type: "1", desc: "Sample Desc", isPauseable: true, tokenContract: "", nftCollectionContract: "", image: "" });
+  const [data, setData] = useState({ name: "", type: "1", desc: "", isPauseable: true, tokenContract: "", nftCollectionContract: "", image: "" });
   const [tonConnectUi] = useTonConnectUI();
   const address = useTonAddress();
   const [tokens, setTokens] = useState([]);
@@ -155,11 +155,11 @@ export default function CreateDao() {
         try {
           const tokenList = await fetchTokens(address);
           setTokens(tokenList.balances);
-        } catch {}
+        } catch { }
         try {
           const nftList = await fetchNfts(address);
           setNftCollections(nftList.collections as any);
-        } catch {}
+        } catch { }
       };
 
       fetchInitData();
@@ -247,6 +247,12 @@ export default function CreateDao() {
     });
   };
 
+
+  function handleSubmit(event: any) {
+    event.preventDefault();
+    if (data) { createDao(); }
+  }
+
   return (
     <Grid container spacing={2}>
       <Grid item lg={2} md={3}>
@@ -271,82 +277,86 @@ export default function CreateDao() {
                 <Grid direction={"column"} item lg={9} md={8} sm={11} xs={12} className={classes.center}>
                   <h5 className={classes.title}>Create DAO</h5>
 
-                  <Grid item>
-                    <Stack spacing={2} maxWidth={"400px"} marginTop={4}>
-                      <select className={classes.select} id="type" name="type" value={data.type} onChange={(e) => setData({ ...data, type: e.target.value })}>
-                        <option value="1">Token</option>
-                        <option value="2">NFT</option>
-                      </select>
+                  <form onSubmit={handleSubmit}>
+                    <Grid item>
+                      <Stack spacing={2} maxWidth={"400px"} marginTop={4}>
 
-                      {Number(data.type) === 1 ? (
-                        <select className={classes.select} placeholder="Token">
-                          {tokens.map((tk: any) => {
-                            return <option value={tk.jetton_address}>{tk.metadata.name + "(" + tk.metadata.symbol + ")"}</option>;
-                          })}
+                        <select className={classes.select} id="type" name="type" value={data.type} onChange={(e) => setData({ ...data, type: e.target.value })}>
+                          <option value="1">Token</option>
+                          <option value="2">NFT</option>
                         </select>
-                      ) : (
-                        <select className={classes.select} placeholder="NFT">
-                          {nftCollections.map((nft: any) => {
-                            return <option value={nft.address}>{nft.name}</option>;
-                          })}
-                        </select>
-                      )}
 
-                      <input
-                        className={classes.input}
-                        placeholder="DAO Name"
-                        type="text"
-                        id="name"
-                        name="name"
-                        value={data.name}
-                        onChange={(e) => setData({ ...data, name: e.target.value })}
-                      ></input>
-                      <input
-                        className={classes.input}
-                        placeholder="Description"
-                        type="text"
-                        id="desc"
-                        name="desc"
-                        value={data.desc}
-                        onChange={(e) => setData({ ...data, desc: e.target.value })}
-                      ></input>
+                        {Number(data.type) === 1 ? (
+                          <select className={classes.select} placeholder="Token">
+                            {tokens.map((tk: any) => {
+                              return <option value={tk.jetton_address}>{tk.metadata.name + "(" + tk.metadata.symbol + ")"}</option>;
+                            })}
+                          </select>
+                        ) : (
+                          <select className={classes.select} placeholder="NFT">
+                            {nftCollections.map((nft: any) => {
+                              return <option value={nft.address}>{nft.name}</option>;
+                            })}
+                          </select>
+                        )}
 
-                      <Grid direction={"column"} container justifyContent={"center"}>
-                        <Grid container className={classes.buttonContainer}>
-                          <Grid item>
-                            <label>Pausable : </label>
+                        <input
+                          className={classes.input}
+                          placeholder="DAO Name"
+                          type="text"
+                          id="name"
+                          name="name"
+                          value={data.name}
+                          onChange={(e) => setData({ ...data, name: e.target.value })}
+                          required
+                          onInvalid={e => (e.target as HTMLInputElement).setCustomValidity('Please enter DAO name')}
+                          onInput={e => (e.target as HTMLInputElement).setCustomValidity('')}
+                        ></input>
+                        <input
+                          className={classes.input}
+                          placeholder="Description"
+                          type="text"
+                          id="desc"
+                          name="desc"
+                          value={data.desc}
+                          onChange={(e) => setData({ ...data, desc: e.target.value })}
+                          required
+                          onInvalid={e => (e.target as HTMLInputElement).setCustomValidity('Please enter DAO description')}
+                          onInput={e => (e.target as HTMLInputElement).setCustomValidity('')}
+                        ></input>
+
+                        <Grid direction={"column"} container justifyContent={"center"}>
+                          <Grid container className={classes.buttonContainer}>
+                            <Grid item>
+                              <label>Pausable : </label>
+                            </Grid>
+                            <Grid item>
+                              <Switch
+                                checked={data.isPauseable}
+                                name="isPauseable"
+                                inputProps={{ "aria-label": "secondary checkbox" }}
+                                onChange={(e) => setData({ ...data, isPauseable: e.target.checked })}
+                              ></Switch>
+                            </Grid>
                           </Grid>
-                          <Grid item>
-                            <Switch
-                              checked={data.isPauseable}
-                              name="isPauseable"
-                              inputProps={{ "aria-label": "secondary checkbox" }}
-                              onChange={(e) => setData({ ...data, isPauseable: e.target.checked })}
-                            ></Switch>
+                          <Grid container className={classes.buttonContainer}>
+                            <Grid item justifyContent={"flex-start"}>
+                              <label>DAO Image : </label>
+                            </Grid>
+                            <Grid item justifyContent={"flex-start"}>
+                              <ImageUpload onChange={() => { }} onClear={() => { }}></ImageUpload>
+                            </Grid>
                           </Grid>
                         </Grid>
-                        <Grid container className={classes.buttonContainer}>
-                          <Grid item justifyContent={"flex-start"}>
-                            <label>DAO Image : </label>
-                          </Grid>
-                          <Grid item justifyContent={"flex-start"}>
-                            <ImageUpload onChange={() => {}} onClear={() => {}}></ImageUpload>
-                          </Grid>
-                        </Grid>
-                      </Grid>
 
-                      <Grid paddingTop={2} container justifyContent={"center"}>
-                        <button
-                          className={classes.button}
-                          onClick={() => {
-                            createDao();
-                          }}
-                        >
-                          Generate
-                        </button>
-                      </Grid>
-                    </Stack>
-                  </Grid>
+                        <Grid paddingTop={2} container justifyContent={"center"}>
+                          <button type="submit" className={classes.button}>
+                            Generate
+                          </button>
+                        </Grid>
+                      </Stack>
+                    </Grid>
+                  </form>
                 </Grid>
                 <Grid item lg={2} md={2} sm={0} xs={0}></Grid>
               </Grid>

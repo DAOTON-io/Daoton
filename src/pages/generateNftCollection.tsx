@@ -149,6 +149,11 @@ export default function GenerateNftCollection() {
     }
   };
 
+  function handleSubmit(event: any) {
+    event.preventDefault()
+    if (collectionData) { generateCollection() }
+  }
+
   return (
     <Grid container spacing={2}>
       <Grid item lg={2} md={3}>
@@ -171,52 +176,51 @@ export default function GenerateNftCollection() {
                 <Grid item lg={9} md={8} sm={11} xs={12} direction={"column"} className={classes.center}>
                   <h5 className={classes.title}>Create Collection</h5>
 
-                  <Grid item>
-                    <Stack spacing={2} maxWidth={"400px"} marginTop={4}>
-                      <input
-                        className={classes.input}
-                        placeholder="Name"
-                        onChange={(event) => {
-                          setCollectionData({ ...collectionData, collectionName: event.target.value });
-                        }}
-                      ></input>
-                      <input
-                        className={classes.input}
-                        placeholder="Description"
-                        onChange={(event) => {
-                          setCollectionData({ ...collectionData, collectionDescription: event.target.value });
-                        }}
-                      ></input>
-
-                      {/* <input className={classes.inputImage} placeholder="Image*"
-                        onChange={(event) => {
-                          setCollectionData({ ...collectionData, collectionImage: event.target.value });
-                        }}></input> */}
-
-                      <Grid direction={"column"} container justifyContent={"center"}>
-                        <Grid container className={classes.buttonContainer}>
-                          <Grid item justifyContent={"flex-start"}>
-                            <label>Collection Image : </label>
-                          </Grid>
-                          <Grid item justifyContent={"flex-start"}>
-                            <ImageUpload onChange={() => {}} onClear={() => {}}></ImageUpload>
+                  <form onSubmit={handleSubmit}>
+                    <Grid item>
+                      <Stack spacing={2} maxWidth={"400px"} marginTop={4}>
+                        <input
+                          className={classes.input}
+                          placeholder="Name"
+                          onChange={(event) => {
+                            setCollectionData({ ...collectionData, collectionName: event.target.value });
+                          }}
+                          required
+                          onInvalid={e => (e.target as HTMLInputElement).setCustomValidity('Please enter collection name')}
+                          onInput={e => (e.target as HTMLInputElement).setCustomValidity('')}
+                        ></input>
+                        <input
+                          className={classes.input}
+                          placeholder="Description"
+                          onChange={(event) => {
+                            setCollectionData({ ...collectionData, collectionDescription: event.target.value });
+                          }}
+                          required
+                          onInvalid={e => (e.target as HTMLInputElement).setCustomValidity('Please enter collection description')}
+                          onInput={e => (e.target as HTMLInputElement).setCustomValidity('')}
+                        ></input>
+                        <Grid direction={"column"} container justifyContent={"center"}>
+                          <Grid container className={classes.buttonContainer}>
+                            <Grid item justifyContent={"flex-start"}>
+                              <label>Collection Image : </label>
+                            </Grid>
+                            <Grid item justifyContent={"flex-start"}>
+                              <ImageUpload onChange={() => { }} onClear={() => { }}></ImageUpload>
+                            </Grid>
                           </Grid>
                         </Grid>
-                      </Grid>
 
-                      <Grid paddingTop={2} container justifyContent={"center"}>
-                        <button
-                          className={classes.button}
-                          onClick={() => {
-                            generateCollection();
-                            console.log(collectionData);
-                          }}
-                        >
-                          Create
-                        </button>
-                      </Grid>
-                    </Stack>
-                  </Grid>
+                        <Grid paddingTop={2} container justifyContent={"center"}>
+                          <button
+                            className={classes.button}
+                            type="submit">
+                            Create
+                          </button>
+                        </Grid>
+                      </Stack>
+                    </Grid>
+                  </form>
+
                 </Grid>
                 <Grid item lg={2} md={2} sm={0} xs={0}></Grid>
               </Grid>

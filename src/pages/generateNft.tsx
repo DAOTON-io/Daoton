@@ -160,6 +160,11 @@ export default function GenerateNft() {
     }
   };
 
+  function handleSubmit(event: any) {
+    event.preventDefault();
+    if (nftData) { generateNFT(); }
+  }
+
   return (
     <Grid container spacing={2}>
       <Grid item lg={2} md={3}>
@@ -182,65 +187,69 @@ export default function GenerateNft() {
                 <Grid item lg={9} md={8} sm={11} xs={12} className={classes.center}>
                   <h5 className={classes.title}>Create NFT</h5>
 
-                  <Grid item>
-                    <Stack spacing={2} maxWidth={"400px"} marginTop={4}>
-                      <input
-                        className={classes.input}
-                        placeholder="Name"
-                        onChange={(event) => {
-                          setNftData({ ...nftData, nftName: event.target.value });
-                        }}
-                      ></input>
-                      <input
-                        className={classes.input}
-                        placeholder="Description"
-                        onChange={(event) => {
-                          setNftData({ ...nftData, nftDescription: event.target.value });
-                        }}
-                      ></input>
-                      <input
-                        className={classes.input}
-                        placeholder="Level"
-                        onChange={(event) => {
-                          setNftData({ ...nftData, value: event.target.value });
-                        }}
-                      ></input>
-                      <input
-                        className={classes.input}
-                        placeholder="Collection Address"
-                        onChange={(event) => {
-                          setNftData({ ...nftData, collectionAddress: event.target.value });
-                        }}
-                      ></input>
-                      {/* <input className={classes.inputImage} placeholder="Image*"
-                        onChange={(event) => {
-                          setNftData({ ...nftData, nftImage: event.target.value });
-                        }}></input> */}
+                  <form>
+                    <Grid item>
+                      <Stack spacing={2} maxWidth={"400px"} marginTop={4}>
+                        <input
+                          className={classes.input}
+                          placeholder="Name"
+                          onChange={(event) => {
+                            setNftData({ ...nftData, nftName: event.target.value });
+                          }}
+                          required
+                          onInvalid={e => (e.target as HTMLInputElement).setCustomValidity('Please enter NFT name')}
+                          onInput={e => (e.target as HTMLInputElement).setCustomValidity('')}
+                        ></input>
+                        <input
+                          className={classes.input}
+                          placeholder="Description"
+                          onChange={(event) => {
+                            setNftData({ ...nftData, nftDescription: event.target.value });
+                          }}
+                          required
+                          onInvalid={e => (e.target as HTMLInputElement).setCustomValidity('Please enter NFT description')}
+                          onInput={e => (e.target as HTMLInputElement).setCustomValidity('')}
+                        ></input>
+                        <input
+                          className={classes.input}
+                          placeholder="Level"
+                          onChange={(event) => {
+                            setNftData({ ...nftData, value: event.target.value });
+                          }}
+                          required
+                          onInvalid={e => (e.target as HTMLInputElement).setCustomValidity('Please enter NFT level')}
+                          onInput={e => (e.target as HTMLInputElement).setCustomValidity('')}
+                        ></input>
+                        <input
+                          className={classes.input}
+                          placeholder="Collection Address"
+                          onChange={(event) => {
+                            setNftData({ ...nftData, collectionAddress: event.target.value });
+                          }}
+                          required
+                          onInvalid={e => (e.target as HTMLInputElement).setCustomValidity('Please enter collection address')}
+                          onInput={e => (e.target as HTMLInputElement).setCustomValidity('')}
+                        ></input>
 
-                      <Grid direction={"column"} container justifyContent={"center"}>
-                        <Grid container className={classes.buttonContainer}>
-                          <Grid item justifyContent={"flex-start"}>
-                            <label>NFT Image : </label>
-                          </Grid>
-                          <Grid item justifyContent={"flex-start"}>
-                            <ImageUpload onChange={() => {}} onClear={() => {}}></ImageUpload>
+                        <Grid direction={"column"} container justifyContent={"center"}>
+                          <Grid container className={classes.buttonContainer}>
+                            <Grid item justifyContent={"flex-start"}>
+                              <label>NFT Image : </label>
+                            </Grid>
+                            <Grid item justifyContent={"flex-start"}>
+                              <ImageUpload onChange={() => { }} onClear={() => { }}></ImageUpload>
+                            </Grid>
                           </Grid>
                         </Grid>
-                      </Grid>
 
-                      <Grid paddingTop={2} container justifyContent={"center"}>
-                        <button
-                          className={classes.button}
-                          onClick={() => {
-                            generateNFT();
-                            console.log(nftData);
-                          }}
-                        >
-                          Create
-                        </button>
-                      </Grid>
-                    </Stack>
-                  </Grid>
+                        <Grid paddingTop={2} container justifyContent={"center"}>
+                          <button type="submit" className={classes.button}>
+                            Create
+                          </button>
+                        </Grid>
+                      </Stack>
+                    </Grid>
+                  </form>
                 </Grid>
                 <Grid item lg={2} md={2} sm={0} xs={0}></Grid>
               </Grid>
