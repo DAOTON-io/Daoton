@@ -16,29 +16,29 @@ import { ProtectedRoute } from "./route/ProtectedRoute";
 import { Login } from "./pages/Login";
 
 const theme = createTheme();
-// const TonProofDemoApi = {
-//   connectWalletRequest: {
-//     permissions: [
-//       {
-//         name: "https://demo.tonconnect.dev",
-//         params: {
-//           message: "Hello, TonConnect!",
-//         },
-//       },
-//     ],
-//   },
-// };
+const TonProofDemoApi = {
+  connectWalletRequest: {
+    permissions: [
+      {
+        name: "https://demo.tonconnect.dev",
+        params: {
+          message: "Hello, TonConnect!",
+        },
+      },
+    ],
+  },
+};
 
 function App() {
   return (
     <ThemeProvider theme={theme}>
       <TonConnectUIProvider
         manifestUrl="https://ton-connect.github.io/demo-dapp-with-react-ui/tonconnect-manifest.json"
-        // getConnectParameters={() => TonProofDemoApi.connectWalletRequest}
+        getConnectParameters={() => TonProofDemoApi.connectWalletRequest as any}
         uiPreferences={{ theme: THEME.DARK }}
       >
         {/* <BrowserRouter basename="/Daoton"> */}
-        <BrowserRouter>
+        <BrowserRouter basename="/">
           <Routes>
             <Route element={<ProtectedRoute />}>
               <Route path="/" index element={<ViewDao />} />

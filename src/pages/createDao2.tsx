@@ -1,7 +1,7 @@
 import { Card, CardActionArea, CardContent, Grid, Typography } from "@mui/material";
-import { CustomStep } from "components/customStep";
-import DrawerAppBar from "components/mobilMenu";
-import SideMenu from "components/sideMenu";
+import { CustomStep } from "../components/customStep";
+import DrawerAppBar from "../components/mobilMenu";
+import SideMenu from "../components/sideMenu";
 import { makeStyles } from "@mui/styles";
 import BusinessIcon from "@mui/icons-material/Business";
 import AssuredWorkloadIcon from "@mui/icons-material/AssuredWorkload";

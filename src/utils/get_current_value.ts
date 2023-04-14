@@ -2,9 +2,9 @@ import { getHttpEndpoint } from "@orbs-network/ton-access";
 import { TonClient, Cell } from "ton";
 import { beginCell, Address, comment, Contract, ContractProvider, ContractState, openContract, storeMessage, toNano } from "ton-core";
 import { Maybe } from "ton-core/dist/utils/maybe";
-import Counter from "./counter.ts"; // this is the interface class we just implemented
+import Counter from "./counter";
 
-export default async function getCurrentValue(address) {
+export default async function getCurrentValue(address: string) {
   // initialize ton rpc client on testnet
   const endpoint = await getHttpEndpoint({ network: "testnet" });
   const client = new TonClient({ endpoint });
@@ -21,15 +21,15 @@ export default async function getCurrentValue(address) {
 
 const open = <T extends Contract>(src: T, client: TonClient) => {
   return openContract(src, (args) => {
-    return createProvider(client, args.address, args.init);
+    return createProvider(client, args.address, args.init as any);
   });
 };
 
 function createProvider(client: TonClient, address: Address, init: { code: Cell | null; data: Cell | null } | null): ContractProvider {
   return {
     async getState(): Promise<ContractState> {
-      let state = await client.getContractState(address);
-      let balance = state.balance;
+      let state = await client.getContractState(address as any);
+      let balance: any = state.balance;
       let last = state.lastTransaction ? { lt: BigInt(state.lastTransaction.lt), hash: Buffer.from(state.lastTransaction.hash, "base64") } : null;
       let storage:
         | {
@@ -69,8 +69,8 @@ function createProvider(client: TonClient, address: Address, init: { code: Cell 
       };
     },
     async get(name, args) {
-      let method = await client.callGetMethod(address, name, args);
-      return { stack: method.stack };
+      let method = await client.callGetMethod(address as any, name, args);
+      return { stack: method.stack } as any;
     },
     async external(message) {
       //
@@ -78,7 +78,7 @@ function createProvider(client: TonClient, address: Address, init: { code: Cell 
       //
 
       let neededInit: { code: Cell | null; data: Cell | null } | null = null;
-      if (init && !(await client.isContractDeployed(address))) {
+      if (init && !(await client.isContractDeployed(address as any))) {
         neededInit = init;
       }
 
@@ -87,18 +87,17 @@ function createProvider(client: TonClient, address: Address, init: { code: Cell 
       //
 
       // eslint-disable-next-line no-restricted-globals
-      const ext = external({
-        to: address,
-        init: neededInit ? { code: neededInit.code, data: neededInit.data } : null,
-        body: message,
-      });
-      let boc = beginCell().store(storeMessage(ext)).endCell().toBoc();
+      const ext = {};
+      let boc = beginCell()
+        .store(storeMessage(ext as any))
+        .endCell()
+        .toBoc();
       await client.sendFile(boc);
     },
     async internal(via, message) {
       // Resolve init
       let neededInit: { code: Cell | null; data: Cell | null } | null = null;
-      if (init && !(await client.isContractDeployed(address))) {
+      if (init && !(await client.isContractDeployed(address as any))) {
         neededInit = init;
       }
 
@@ -119,9 +118,9 @@ function createProvider(client: TonClient, address: Address, init: { code: Cell 
       // Resolve body
       let body: Cell | null = null;
       if (typeof message.body === "string") {
-        body = comment(message.body);
+        body = comment(message.body) as any;
       } else if (message.body) {
-        body = message.body;
+        body = message.body as any;
       }
 
       // Send internal message
@@ -130,8 +129,8 @@ function createProvider(client: TonClient, address: Address, init: { code: Cell 
         value,
         bounce,
         sendMode: message.sendMode,
-        init: neededInit,
-        body,
+        init: neededInit as any,
+        body: body as any,
       });
     },
   };

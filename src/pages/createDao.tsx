@@ -12,7 +12,7 @@ import DrawerAppBar from "../components/mobilMenu";
 import FileBase64 from "react-file-base64";
 
 import UploadIcon from "@mui/icons-material/Upload";
-import { ImageUpload } from "components/imageUpload";
+import { ImageUpload } from "../components/imageUpload";
 
 const useStyles = makeStyles((theme) => ({
   card: {
