@@ -10,7 +10,6 @@ import MenuIcon from "@mui/icons-material/Menu";
 import Toolbar from "@mui/material/Toolbar";
 import Typography from "@mui/material/Typography";
 import SummarizeIcon from "@mui/icons-material/Summarize";
-import RemoveRedEyeIcon from "@mui/icons-material/RemoveRedEye";
 import ViewHeadlineIcon from "@mui/icons-material/ViewHeadline";
 import AddCircleIcon from "@mui/icons-material/AddCircle";
 import LogoutIcon from "@mui/icons-material/Logout";
@@ -171,12 +170,12 @@ function DrawerAppBar(props: { window: any }) {
             <Grid item>
               <Typography>
                 <a className={classes.item} href="view-dao">
-                  All DAOs
+                  View DAOs
                 </a>
               </Typography>
             </Grid>
           </Grid>
-          <Grid onClick={handleDrawerToggle} className={classes.listItemSmall} container spacing={1}>
+          {/* <Grid onClick={handleDrawerToggle} className={classes.listItemSmall} container spacing={1}>
             <Grid item>
               <RemoveRedEyeIcon />
             </Grid>
@@ -187,7 +186,7 @@ function DrawerAppBar(props: { window: any }) {
                 </a>
               </Typography>
             </Grid>
-          </Grid>
+          </Grid> */}
           <Grid onClick={handleDrawerToggle} className={classes.listItemSmall} container spacing={1}>
             <Grid item>
               {" "}
@@ -283,7 +282,19 @@ function DrawerAppBar(props: { window: any }) {
             <Grid item>
               <Typography className={classes.item}>
                 <a className={classes.item} href="https://docs.daoton.io" target="_blank" rel="noreferrer">
-                  Our Docs
+                  Documentation
+                </a>
+              </Typography>
+            </Grid>
+          </Grid>
+          <Grid className={classes.listItemSmall} container spacing={1}>
+            <Grid item>
+              <SummarizeIcon />
+            </Grid>
+            <Grid item>
+              <Typography className={classes.item}>
+                <a className={classes.item} href="https://drive.google.com/file/d/1BhY6hriK72TEqH2ytaNl2ny_8Tgwna1g/view?usp=sharing" target="_blank" rel="noreferrer">
+                  Litepaper
                 </a>
               </Typography>
             </Grid>

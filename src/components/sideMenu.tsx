@@ -10,7 +10,6 @@ import Grid from "@mui/material/Grid";
 import GoogleFontLoader from "react-google-font-loader";
 import { makeStyles } from "@mui/styles";
 import SummarizeIcon from "@mui/icons-material/Summarize";
-import RemoveRedEyeIcon from "@mui/icons-material/RemoveRedEye";
 import Avatar from "@mui/material/Avatar";
 import { useTonAddress, useTonConnectUI } from "@tonconnect/ui-react";
 import ArrowBackIcon from "@mui/icons-material/ArrowBack";
@@ -74,12 +73,12 @@ export default function SideMenu() {
                 <Grid item>
                   <Typography>
                     <a className={classes.item} href="view-dao">
-                      All DAOs
+                      View DAOs
                     </a>
                   </Typography>
                 </Grid>
               </Grid>
-              <Grid className={classes.listItemSmall} container spacing={1}>
+              {/* <Grid className={classes.listItemSmall} container spacing={1}>
                 <Grid item>
                   <RemoveRedEyeIcon />
                 </Grid>
@@ -90,7 +89,7 @@ export default function SideMenu() {
                     </a>
                   </Typography>
                 </Grid>
-              </Grid>
+              </Grid> */}
               <Grid className={classes.listItemSmall} container spacing={1}>
                 <Grid item>
                   {" "}
@@ -197,7 +196,19 @@ export default function SideMenu() {
                 <Grid item>
                   <Typography className={classes.item}>
                     <a className={classes.item} href="https://docs.daoton.io" target="_blank" rel="noreferrer">
-                      Our Docs
+                      Documentation
+                    </a>
+                  </Typography>
+                </Grid>
+              </Grid>
+              <Grid className={classes.listItemSmall} container spacing={1}>
+                <Grid item>
+                  <SummarizeIcon />
+                </Grid>
+                <Grid item>
+                  <Typography className={classes.item}>
+                    <a className={classes.item} href="https://drive.google.com/file/d/1BhY6hriK72TEqH2ytaNl2ny_8Tgwna1g/view?usp=sharing" target="_blank" rel="noreferrer">
+                      Litepaper
                     </a>
                   </Typography>
                 </Grid>
