@@ -15,7 +15,9 @@ import {
   Typography,
 } from '@mui/material';
 
-const types = [
+type categoryType = {id: number; label: string; icon: any}[];
+
+const types: categoryType = [
   {
     id: 1,
     label: 'Company',
@@ -104,9 +106,13 @@ const useStyles = makeStyles(theme => ({
 
 type Props = {
   activeStepOnChange: (activeStep: number) => void;
+  selectedCategoryOnChange: (selectedCategory: number) => void;
 };
 
-export const DaoTypes: React.FC<Props> = ({activeStepOnChange}) => {
+export const DaoCategories: React.FC<Props> = ({
+  activeStepOnChange,
+  selectedCategoryOnChange,
+}) => {
   const [selectedCategory, setSelectedCategory] = useState<number>(0);
 
   const classes = useStyles();
@@ -123,6 +129,7 @@ export const DaoTypes: React.FC<Props> = ({activeStepOnChange}) => {
                 onClick={() => {
                   setSelectedCategory(type.id);
                   activeStepOnChange(2);
+                  selectedCategoryOnChange(type.id);
                 }}>
                 <CardActionArea>
                   <CardContent className={classes.cardItem}>
