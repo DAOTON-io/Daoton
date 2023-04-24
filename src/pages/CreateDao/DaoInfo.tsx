@@ -74,13 +74,19 @@ const useStyles = makeStyles(theme => ({
 
 type Props = {
   activeStepOnChange: (activeStep: number) => void;
+  selectedCategory: number;
 };
-export const DaoInfo: React.FC<Props> = ({activeStepOnChange}) => {
+
+export const DaoInfo: React.FC<Props> = ({
+  activeStepOnChange,
+  selectedCategory,
+}) => {
   const [data, setData] = useState({name: '', desc: '', image: ''});
 
   const classes = useStyles();
 
   const createDao = () => {
+    console.log('selected category', selectedCategory);
     console.log(data);
   };
 

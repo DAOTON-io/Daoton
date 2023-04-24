@@ -1,12 +1,12 @@
 import React, {useState} from 'react';
-import {Card, Grid, Stack} from '@mui/material';
+import {Card, Grid} from '@mui/material';
 import DrawerAppBar from '../components/mobilMenu';
 import SideMenu from '../components/sideMenu';
 import {makeStyles} from '@mui/styles';
-import {DaoTypes} from './CreateDao/DaoTypes';
 import {Steps} from './CreateDao/Steps';
 import {DaoInfo} from './CreateDao/DaoInfo';
 import GoogleFontLoader from 'react-google-font-loader';
+import {DaoCategories} from './CreateDao/DaoCategories';
 
 const useStyles = makeStyles(theme => ({
   cardDiv: {
@@ -19,6 +19,8 @@ const useStyles = makeStyles(theme => ({
 
 export const CreateDao2: React.FC = () => {
   const [activeStep, setActiveStep] = useState<number>(1);
+  const [selectedCategory, setSelectedCategory] = useState<number>(0);
+
   const classes = useStyles();
 
   return (
@@ -61,13 +63,19 @@ export const CreateDao2: React.FC = () => {
                     {activeStep === 1 && (
                       <>
                         {' '}
-                        <DaoTypes activeStepOnChange={setActiveStep} />
+                        <DaoCategories
+                          activeStepOnChange={setActiveStep}
+                          selectedCategoryOnChange={setSelectedCategory}
+                        />
                       </>
                     )}
                     {activeStep === 2 && (
                       <>
                         {' '}
-                        <DaoInfo activeStepOnChange={setActiveStep} />
+                        <DaoInfo
+                          activeStepOnChange={setActiveStep}
+                          selectedCategory={selectedCategory}
+                        />
                       </>
                     )}
                   </div>
