@@ -88,7 +88,7 @@ export default function SideMenu() {
                   </Typography>
                 </Grid>
               </Grid> */}
-              <Grid className={classes.listItemSmall} container spacing={1}>
+              {/* <Grid className={classes.listItemSmall} container spacing={1}>
                 <Grid item>
                   {' '}
                   <AddCircleIcon />
@@ -101,16 +101,16 @@ export default function SideMenu() {
                     </a>
                   </Typography>
                 </Grid>
-              </Grid>
+              </Grid> */}
 
               <Grid className={classes.listItemSmall} container spacing={1}>
                 <Grid item>
-                  <ViewHeadlineIcon />
+                  <AddCircleIcon />
                 </Grid>
                 <Grid item>
                   <Typography>
                     <a className={classes.item} href="create-dao2">
-                      create dao2
+                      Create Dao
                     </a>
                   </Typography>
                 </Grid>
