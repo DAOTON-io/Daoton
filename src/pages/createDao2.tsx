@@ -8,11 +8,24 @@ import {DaoInfo} from './CreateDao/DaoInfo';
 import GoogleFontLoader from 'react-google-font-loader';
 import {DaoCategories} from './CreateDao/DaoCategories';
 import {TokenDetail} from './CreateDao/TokenDetail';
+import {Review} from './CreateDao/Review';
+
+enum TOKEN_TYPES {
+  NEW_TOKEN = 'New Token',
+  TOKEN_FROM_WALLET = 'Token from Wallet',
+}
 
 type InfoType = {
   name: string;
   desc: string;
   image: string;
+};
+
+type TokenDetailType = {
+  name: string;
+  type: TOKEN_TYPES;
+  symbol: string;
+  mintable: boolean;
 };
 
 const useStyles = makeStyles((theme: Theme) => ({
@@ -31,6 +44,12 @@ export const CreateDao2: React.FC = () => {
     name: '',
     desc: '',
     image: '',
+  });
+  const [tokenDetail, setTokenDetail] = useState<TokenDetailType>({
+    name: '',
+    type: TOKEN_TYPES.NEW_TOKEN,
+    symbol: '',
+    mintable: true,
   });
 
   const classes = useStyles();
@@ -98,6 +117,17 @@ export const CreateDao2: React.FC = () => {
                           activeStepOnChange={setActiveStep}
                           selectedCategory={selectedCategory}
                           daoInfo={daoInfo}
+                          tokenDetailOnChange={setTokenDetail}
+                        />
+                      </>
+                    )}
+                    {activeStep === 4 && (
+                      <>
+                        {' '}
+                        <Review
+                          selectedCategory={selectedCategory}
+                          daoInfo={daoInfo}
+                          tokenDetail={tokenDetail}
                         />
                       </>
                     )}

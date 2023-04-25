@@ -96,8 +96,6 @@ export const DaoInfo: React.FC<Props> = ({
   const createDao = () => {
     activeStepOnChange(3);
     daoInfoOnChange(data);
-    console.log('selected category', selectedCategory);
-    console.log(data);
   };
 
   return (
