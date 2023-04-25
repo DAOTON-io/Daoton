@@ -7,6 +7,7 @@ import {Steps} from './CreateDao/Steps';
 import {DaoInfo} from './CreateDao/DaoInfo';
 import GoogleFontLoader from 'react-google-font-loader';
 import {DaoCategories} from './CreateDao/DaoCategories';
+import {TokenDetail} from './CreateDao/TokenDetail';
 
 const useStyles = makeStyles(theme => ({
   cardDiv: {
@@ -76,6 +77,12 @@ export const CreateDao2: React.FC = () => {
                           activeStepOnChange={setActiveStep}
                           selectedCategory={selectedCategory}
                         />
+                      </>
+                    )}
+                    {activeStep === 3 && (
+                      <>
+                        {' '}
+                        <TokenDetail activeStepOnChange={setActiveStep} />
                       </>
                     )}
                   </div>
