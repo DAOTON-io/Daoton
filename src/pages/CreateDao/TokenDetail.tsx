@@ -10,13 +10,11 @@ import {
 } from '@mui/material';
 import {fetchTokens} from '../../lib/api';
 import {useTonAddress} from '@tonconnect/ui-react';
-import {InfoType, TokenDetailType, TokensType} from '../../utils/types';
+import {TokenDetailType, TokensType} from '../../utils/types';
 import {TOKEN_TYPES} from '../../utils/enums';
 
 type Props = {
   activeStepOnChange: (activeStep: number) => void;
-  selectedCategory: number;
-  daoInfo: InfoType;
   tokenDetailOnChange: (tokenDetail: TokenDetailType) => void;
 };
 
@@ -85,8 +83,6 @@ const useStyles = makeStyles((theme: Theme) => ({
 
 export const TokenDetail: React.FC<Props> = ({
   activeStepOnChange,
-  selectedCategory,
-  daoInfo,
   tokenDetailOnChange,
 }) => {
   const [tokenType, setTokenType] = useState<TOKEN_TYPES>(

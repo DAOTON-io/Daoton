@@ -6,7 +6,6 @@ import {InfoType} from '../../utils/types';
 
 type Props = {
   activeStepOnChange: (activeStep: number) => void;
-  selectedCategory: number;
   daoInfoOnChange: (daoInfo: InfoType) => void;
 };
 
@@ -81,7 +80,6 @@ const useStyles = makeStyles((theme: Theme) => ({
 
 export const DaoInfo: React.FC<Props> = ({
   activeStepOnChange,
-  selectedCategory,
   daoInfoOnChange,
 }) => {
   const [data, setData] = useState<InfoType>({name: '', desc: '', image: ''});

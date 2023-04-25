@@ -89,7 +89,6 @@ export const CreateDao2: React.FC = () => {
                         {' '}
                         <DaoInfo
                           activeStepOnChange={setActiveStep}
-                          selectedCategory={selectedCategory}
                           daoInfoOnChange={setDaoInfo}
                         />
                       </>
@@ -99,8 +98,6 @@ export const CreateDao2: React.FC = () => {
                         {' '}
                         <TokenDetail
                           activeStepOnChange={setActiveStep}
-                          selectedCategory={selectedCategory}
-                          daoInfo={daoInfo}
                           tokenDetailOnChange={setTokenDetail}
                         />
                       </>
