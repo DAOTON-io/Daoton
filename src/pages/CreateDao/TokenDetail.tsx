@@ -1,10 +1,50 @@
 import React, {useEffect, useState} from 'react';
 import {makeStyles} from '@mui/styles';
-import {Grid, Switch} from '@mui/material';
+import {
+  Grid,
+  MenuItem,
+  Select,
+  SelectChangeEvent,
+  Switch,
+  Theme,
+} from '@mui/material';
 import {fetchTokens} from '../../lib/api';
 import {useTonAddress} from '@tonconnect/ui-react';
 
-const useStyles = makeStyles(theme => ({
+enum TOKEN_TYPES {
+  NEW_TOKEN = 'New Token',
+  TOKEN_FROM_WALLET = 'Token from Wallet',
+}
+
+type TokenDetailType = {
+  name: string;
+  type: TOKEN_TYPES;
+  symbol: string;
+  mintable: boolean;
+};
+
+type TokensType = {
+  balance: string;
+  jetton_address: string;
+  metadata: {
+    address: string;
+    decimals: number;
+    name: string;
+    symbol: string;
+  };
+  verification: string;
+  wallet_address: {
+    address: string;
+    is_scam: boolean;
+  };
+};
+
+type Props = {
+  activeStepOnChange: (activeStep: number) => void;
+  selectedCategory: number;
+};
+
+const useStyles = makeStyles((theme: Theme) => ({
   button: {
     padding: '10px',
     backgroundColor: '#2D6495',
@@ -67,18 +107,19 @@ const useStyles = makeStyles(theme => ({
   },
 }));
 
-type Props = {
-  activeStepOnChange: (activeStep: number) => void;
-};
-
-export const TokenDetail: React.FC<Props> = ({activeStepOnChange}) => {
-  const [tokenType, setTokenType] = useState<number>(1);
-  const [tokens, setTokens] = useState([]);
-  const [data, setData] = useState({
+export const TokenDetail: React.FC<Props> = ({
+  activeStepOnChange,
+  selectedCategory,
+}) => {
+  const [tokenType, setTokenType] = useState<TOKEN_TYPES>(
+    TOKEN_TYPES.NEW_TOKEN,
+  );
+  const [tokens, setTokens] = useState<TokensType[]>([]);
+  const [data, setData] = useState<TokenDetailType>({
     name: '',
     type: tokenType,
     symbol: '',
-    mintable: false,
+    mintable: true,
   });
 
   const classes = useStyles();
@@ -86,7 +127,6 @@ export const TokenDetail: React.FC<Props> = ({activeStepOnChange}) => {
 
   useEffect(() => {
     if (address) {
-      //TODO will fix nft collection
       const fetchInitData = async () => {
         try {
           const tokenList = await fetchTokens(address);
@@ -102,8 +142,20 @@ export const TokenDetail: React.FC<Props> = ({activeStepOnChange}) => {
     }
   }, [address]);
 
+  const selectToken = (e: SelectChangeEvent) => {
+    e.preventDefault();
+    const tokenValue = JSON.parse(e.target.value);
+    setData({
+      ...data,
+      name: tokenValue.metadata.name,
+      symbol: tokenValue.metadata.symbol,
+    });
+  };
+
   const createDao = () => {
+    activeStepOnChange(4);
     console.log('data token detail', data);
+    console.log('selected category', selectedCategory);
   };
 
   return (
@@ -114,14 +166,16 @@ export const TokenDetail: React.FC<Props> = ({activeStepOnChange}) => {
           id="type"
           name="type"
           value={tokenType}
-          onChange={e => setTokenType(Number(e.target.value))}>
-          <option value="1">New Token</option>
-          <option value="2">Token From Wallet</option>
+          onChange={e => setTokenType(e.target.value as TOKEN_TYPES)}>
+          <option value={TOKEN_TYPES.NEW_TOKEN}>{TOKEN_TYPES.NEW_TOKEN}</option>
+          <option value={TOKEN_TYPES.TOKEN_FROM_WALLET}>
+            {TOKEN_TYPES.TOKEN_FROM_WALLET}
+          </option>
         </select>
       </Grid>
 
       <Grid item>
-        {tokenType === 1 ? (
+        {tokenType === TOKEN_TYPES.NEW_TOKEN ? (
           <Grid item>
             <input
               className={classes.input}
@@ -148,16 +202,25 @@ export const TokenDetail: React.FC<Props> = ({activeStepOnChange}) => {
               />
             </Grid>
           </Grid>
-        ) : tokenType === 2 ? (
-          <select className={classes.select} placeholder="Token">
-            {tokens.map((tk: any) => {
+        ) : tokenType === TOKEN_TYPES.TOKEN_FROM_WALLET ? (
+          <Select
+            className={classes.select}
+            placeholder="Token"
+            onChange={selectToken}>
+            {tokens.map((tk: TokensType) => {
               return (
-                <option value={tk.jetton_address}>
+                <MenuItem
+                  key={tk.jetton_address}
+                  value={JSON.stringify({
+                    ...tk,
+                    name: tk?.metadata.name,
+                    symbol: tk?.metadata.symbol,
+                  })}>
                   {tk.metadata.name + '(' + tk.metadata.symbol + ')'}
-                </option>
+                </MenuItem>
               );
             })}
-          </select>
+          </Select>
         ) : undefined}
       </Grid>
 
@@ -166,7 +229,6 @@ export const TokenDetail: React.FC<Props> = ({activeStepOnChange}) => {
           className={classes.button}
           onClick={() => {
             createDao();
-            activeStepOnChange(4);
           }}>
           Generate
         </button>
