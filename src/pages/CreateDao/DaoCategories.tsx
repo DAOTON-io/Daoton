@@ -15,8 +15,9 @@ import {
   Theme,
   Typography,
 } from '@mui/material';
+import {CategoryType} from '../../utils/types';
 
-const categories: CategoryType = [
+const categories: CategoryType[] = [
   {
     id: 1,
     label: 'Company',
@@ -85,8 +86,6 @@ const categories: CategoryType = [
     ),
   },
 ];
-
-type CategoryType = {id: number; label: string; icon: any}[];
 
 type Props = {
   activeStepOnChange: (activeStep: number) => void;

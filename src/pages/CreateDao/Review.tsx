@@ -1,22 +1,5 @@
 import React from 'react';
-
-enum TOKEN_TYPES {
-  NEW_TOKEN = 'New Token',
-  TOKEN_FROM_WALLET = 'Token from Wallet',
-}
-
-type TokenDetailType = {
-  name: string;
-  type: TOKEN_TYPES;
-  symbol: string;
-  mintable: boolean;
-};
-
-type InfoType = {
-  name: string;
-  desc: string;
-  image: string;
-};
+import {InfoType, TokenDetailType} from '../../utils/types';
 
 type Props = {
   selectedCategory: number;

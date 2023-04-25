@@ -9,24 +9,8 @@ import GoogleFontLoader from 'react-google-font-loader';
 import {DaoCategories} from './CreateDao/DaoCategories';
 import {TokenDetail} from './CreateDao/TokenDetail';
 import {Review} from './CreateDao/Review';
-
-enum TOKEN_TYPES {
-  NEW_TOKEN = 'New Token',
-  TOKEN_FROM_WALLET = 'Token from Wallet',
-}
-
-type InfoType = {
-  name: string;
-  desc: string;
-  image: string;
-};
-
-type TokenDetailType = {
-  name: string;
-  type: TOKEN_TYPES;
-  symbol: string;
-  mintable: boolean;
-};
+import {InfoType, TokenDetailType} from '../utils/types';
+import {TOKEN_TYPES} from '../utils/enums';
 
 const useStyles = makeStyles((theme: Theme) => ({
   cardDiv: {

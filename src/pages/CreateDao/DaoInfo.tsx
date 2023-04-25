@@ -2,12 +2,7 @@ import React, {useState} from 'react';
 import {makeStyles} from '@mui/styles';
 import {Grid, Stack, Theme} from '@mui/material';
 import {ImageUpload} from '../../components/imageUpload';
-
-type InfoType = {
-  name: string;
-  desc: string;
-  image: string;
-};
+import {InfoType} from '../../utils/types';
 
 type Props = {
   activeStepOnChange: (activeStep: number) => void;

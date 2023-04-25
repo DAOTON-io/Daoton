@@ -10,40 +10,8 @@ import {
 } from '@mui/material';
 import {fetchTokens} from '../../lib/api';
 import {useTonAddress} from '@tonconnect/ui-react';
-
-enum TOKEN_TYPES {
-  NEW_TOKEN = 'New Token',
-  TOKEN_FROM_WALLET = 'Token from Wallet',
-}
-
-type TokenDetailType = {
-  name: string;
-  type: TOKEN_TYPES;
-  symbol: string;
-  mintable: boolean;
-};
-
-type TokensType = {
-  balance: string;
-  jetton_address: string;
-  metadata: {
-    address: string;
-    decimals: number;
-    name: string;
-    symbol: string;
-  };
-  verification: string;
-  wallet_address: {
-    address: string;
-    is_scam: boolean;
-  };
-};
-
-type InfoType = {
-  name: string;
-  desc: string;
-  image: string;
-};
+import {InfoType, TokenDetailType, TokensType} from '../../utils/types';
+import {TOKEN_TYPES} from '../../utils/enums';
 
 type Props = {
   activeStepOnChange: (activeStep: number) => void;
