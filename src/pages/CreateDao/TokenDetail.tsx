@@ -39,9 +39,16 @@ type TokensType = {
   };
 };
 
+type InfoType = {
+  name: string;
+  desc: string;
+  image: string;
+};
+
 type Props = {
   activeStepOnChange: (activeStep: number) => void;
   selectedCategory: number;
+  daoInfo: InfoType;
 };
 
 const useStyles = makeStyles((theme: Theme) => ({
@@ -110,6 +117,7 @@ const useStyles = makeStyles((theme: Theme) => ({
 export const TokenDetail: React.FC<Props> = ({
   activeStepOnChange,
   selectedCategory,
+  daoInfo,
 }) => {
   const [tokenType, setTokenType] = useState<TOKEN_TYPES>(
     TOKEN_TYPES.NEW_TOKEN,
@@ -156,6 +164,7 @@ export const TokenDetail: React.FC<Props> = ({
     activeStepOnChange(4);
     console.log('data token detail', data);
     console.log('selected category', selectedCategory);
+    console.log('dao Info in token detail', daoInfo);
   };
 
   return (

@@ -9,6 +9,12 @@ import GoogleFontLoader from 'react-google-font-loader';
 import {DaoCategories} from './CreateDao/DaoCategories';
 import {TokenDetail} from './CreateDao/TokenDetail';
 
+type InfoType = {
+  name: string;
+  desc: string;
+  image: string;
+};
+
 const useStyles = makeStyles((theme: Theme) => ({
   cardDiv: {
     marginTop: '8rem',
@@ -21,6 +27,11 @@ const useStyles = makeStyles((theme: Theme) => ({
 export const CreateDao2: React.FC = () => {
   const [activeStep, setActiveStep] = useState<number>(1);
   const [selectedCategory, setSelectedCategory] = useState<number>(0);
+  const [daoInfo, setDaoInfo] = useState<InfoType>({
+    name: '',
+    desc: '',
+    image: '',
+  });
 
   const classes = useStyles();
 
@@ -76,6 +87,7 @@ export const CreateDao2: React.FC = () => {
                         <DaoInfo
                           activeStepOnChange={setActiveStep}
                           selectedCategory={selectedCategory}
+                          daoInfoOnChange={setDaoInfo}
                         />
                       </>
                     )}
@@ -85,6 +97,7 @@ export const CreateDao2: React.FC = () => {
                         <TokenDetail
                           activeStepOnChange={setActiveStep}
                           selectedCategory={selectedCategory}
+                          daoInfo={daoInfo}
                         />
                       </>
                     )}
