@@ -1,11 +1,13 @@
 import React, {useEffect, useState} from 'react';
 import {makeStyles} from '@mui/styles';
 import {
+  Button,
   Grid,
   MenuItem,
   Select,
   SelectChangeEvent,
   Switch,
+  TextField,
   Theme,
 } from '@mui/material';
 import {fetchTokens} from '../../lib/api';
@@ -134,38 +136,42 @@ export const TokenDetail: React.FC<Props> = ({
   return (
     <Grid item>
       <Grid item>
-        <select
+        <Select
           className={classes.select}
           id="type"
           name="type"
           value={tokenType}
           onChange={e => setTokenType(e.target.value as TOKEN_TYPES)}>
-          <option value={TOKEN_TYPES.NEW_TOKEN}>{TOKEN_TYPES.NEW_TOKEN}</option>
-          <option value={TOKEN_TYPES.TOKEN_FROM_WALLET}>
+          <MenuItem value={TOKEN_TYPES.NEW_TOKEN}>
+            {TOKEN_TYPES.NEW_TOKEN}
+          </MenuItem>
+          <MenuItem value={TOKEN_TYPES.TOKEN_FROM_WALLET}>
             {TOKEN_TYPES.TOKEN_FROM_WALLET}
-          </option>
-        </select>
+          </MenuItem>
+        </Select>
       </Grid>
 
       <Grid item>
         {tokenType === TOKEN_TYPES.NEW_TOKEN ? (
           <Grid item>
-            <input
+            <TextField
               className={classes.input}
               placeholder="Token Name"
               id="name"
               name="name"
               value={data.name}
-              onChange={e => setData({...data, name: e.target.value})}></input>
-            <input
+              onChange={e => setData({...data, name: e.target.value})}
+              required
+            />
+            <TextField
               className={classes.input}
               placeholder="Token Symbol"
               id="symbol"
               name="symbol"
               value={data.symbol}
-              onChange={e =>
-                setData({...data, symbol: e.target.value})
-              }></input>
+              onChange={e => setData({...data, symbol: e.target.value})}
+              required
+            />
             <Grid item>
               <span>Token non-mintable ise bu anahtarı kapatın.</span>
               <Switch
@@ -198,13 +204,15 @@ export const TokenDetail: React.FC<Props> = ({
       </Grid>
 
       <Grid paddingTop={2} container justifyContent={'center'}>
-        <button
+        <Button
+          variant="contained"
           className={classes.button}
           onClick={() => {
             createDao();
-          }}>
+          }}
+          disabled={!(data.name && data.symbol)}>
           Generate
-        </button>
+        </Button>
       </Grid>
     </Grid>
   );
