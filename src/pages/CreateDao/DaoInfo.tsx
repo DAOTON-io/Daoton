@@ -1,6 +1,6 @@
 import React, {useState} from 'react';
 import {makeStyles} from '@mui/styles';
-import {Grid, Stack, Theme} from '@mui/material';
+import {Button, Grid, Stack, TextField, Theme} from '@mui/material';
 import {ImageUpload} from '../../components/imageUpload';
 import {InfoType} from '../../utils/types';
 
@@ -94,22 +94,26 @@ export const DaoInfo: React.FC<Props> = ({
   return (
     <Grid item>
       <Stack spacing={2} maxWidth={'400px'} marginTop={4}>
-        <input
+        <TextField
           className={classes.input}
           placeholder="DAO Name"
           type="text"
           id="name"
           name="name"
           value={data.name}
-          onChange={e => setData({...data, name: e.target.value})}></input>
-        <input
+          onChange={e => setData({...data, name: e.target.value})}
+          required
+        />
+        <TextField
           className={classes.input}
           placeholder="Description"
           type="text"
           id="desc"
           name="desc"
           value={data.desc}
-          onChange={e => setData({...data, desc: e.target.value})}></input>
+          onChange={e => setData({...data, desc: e.target.value})}
+          required
+        />
         <Grid container className={classes.buttonContainer}>
           <Grid item justifyContent={'flex-start'}>
             <label>DAO Image : </label>
@@ -119,9 +123,13 @@ export const DaoInfo: React.FC<Props> = ({
           </Grid>
         </Grid>
         <Grid paddingTop={2} container justifyContent={'center'}>
-          <button className={classes.button} onClick={createDao}>
+          <Button
+            variant="contained"
+            className={classes.button}
+            onClick={createDao}
+            disabled={!(data.name && data.desc)}>
             Generate
-          </button>
+          </Button>
         </Grid>
       </Stack>
     </Grid>
