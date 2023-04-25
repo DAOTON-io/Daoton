@@ -1,5 +1,5 @@
 import React, {useState} from 'react';
-import {Card, Grid} from '@mui/material';
+import {Card, Grid, Theme} from '@mui/material';
 import DrawerAppBar from '../components/mobilMenu';
 import SideMenu from '../components/sideMenu';
 import {makeStyles} from '@mui/styles';
@@ -9,7 +9,7 @@ import GoogleFontLoader from 'react-google-font-loader';
 import {DaoCategories} from './CreateDao/DaoCategories';
 import {TokenDetail} from './CreateDao/TokenDetail';
 
-const useStyles = makeStyles(theme => ({
+const useStyles = makeStyles((theme: Theme) => ({
   cardDiv: {
     marginTop: '8rem',
     display: 'flex',
@@ -82,7 +82,10 @@ export const CreateDao2: React.FC = () => {
                     {activeStep === 3 && (
                       <>
                         {' '}
-                        <TokenDetail activeStepOnChange={setActiveStep} />
+                        <TokenDetail
+                          activeStepOnChange={setActiveStep}
+                          selectedCategory={selectedCategory}
+                        />
                       </>
                     )}
                   </div>

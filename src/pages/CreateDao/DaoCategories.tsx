@@ -1,4 +1,4 @@
-import React, {useState} from 'react';
+import React from 'react';
 import BusinessIcon from '@mui/icons-material/Business';
 import AssuredWorkloadIcon from '@mui/icons-material/AssuredWorkload';
 import ForumIcon from '@mui/icons-material/Forum';
@@ -12,12 +12,11 @@ import {
   CardActionArea,
   CardContent,
   Grid,
+  Theme,
   Typography,
 } from '@mui/material';
 
-type categoryType = {id: number; label: string; icon: any}[];
-
-const types: categoryType = [
+const categories: CategoryType = [
   {
     id: 1,
     label: 'Company',
@@ -87,7 +86,14 @@ const types: categoryType = [
   },
 ];
 
-const useStyles = makeStyles(theme => ({
+type CategoryType = {id: number; label: string; icon: any}[];
+
+type Props = {
+  activeStepOnChange: (activeStep: number) => void;
+  selectedCategoryOnChange: (selectedCategory: number) => void;
+};
+
+const useStyles = makeStyles((theme: Theme) => ({
   card: {
     backgroundImage: "url('/images/bluebg2.jpg') !important",
     backgroundSize: 'cover',
@@ -104,43 +110,35 @@ const useStyles = makeStyles(theme => ({
   },
 }));
 
-type Props = {
-  activeStepOnChange: (activeStep: number) => void;
-  selectedCategoryOnChange: (selectedCategory: number) => void;
-};
-
 export const DaoCategories: React.FC<Props> = ({
   activeStepOnChange,
   selectedCategoryOnChange,
 }) => {
-  const [selectedCategory, setSelectedCategory] = useState<number>(0);
-
   const classes = useStyles();
 
   return (
     <div>
       <Grid container spacing={2}>
-        {types.map(type => {
+        {categories.map(category => {
           return (
             <Grid item xs={12} sm={6}>
               <Card
-                id={type.id.toString()}
+                id={category.id.toString()}
                 className={classes.card}
                 onClick={() => {
-                  setSelectedCategory(type.id);
                   activeStepOnChange(2);
-                  selectedCategoryOnChange(type.id);
+                  selectedCategoryOnChange(category.id);
                 }}>
                 <CardActionArea>
                   <CardContent className={classes.cardItem}>
-                    {type.icon}
+                    {category.icon}
                     <Typography
                       color={'white'}
                       fontSize={30}
                       gutterBottom
                       variant="h5"
                       component="div">
-                      {type.label}
+                      {category.label}
                     </Typography>
                   </CardContent>
                 </CardActionArea>

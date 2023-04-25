@@ -1,9 +1,20 @@
 import React, {useState} from 'react';
 import {makeStyles} from '@mui/styles';
-import {Grid, Stack} from '@mui/material';
+import {Grid, Stack, Theme} from '@mui/material';
 import {ImageUpload} from '../../components/imageUpload';
 
-const useStyles = makeStyles(theme => ({
+type InfoType = {
+  name: string;
+  desc: string;
+  image: string;
+};
+
+type Props = {
+  activeStepOnChange: (activeStep: number) => void;
+  selectedCategory: number;
+};
+
+const useStyles = makeStyles((theme: Theme) => ({
   label: {
     color: 'grey',
     fontSize: '14px',
@@ -72,20 +83,16 @@ const useStyles = makeStyles(theme => ({
   },
 }));
 
-type Props = {
-  activeStepOnChange: (activeStep: number) => void;
-  selectedCategory: number;
-};
-
 export const DaoInfo: React.FC<Props> = ({
   activeStepOnChange,
   selectedCategory,
 }) => {
-  const [data, setData] = useState({name: '', desc: '', image: ''});
+  const [data, setData] = useState<InfoType>({name: '', desc: '', image: ''});
 
   const classes = useStyles();
 
   const createDao = () => {
+    activeStepOnChange(3);
     console.log('selected category', selectedCategory);
     console.log(data);
   };
@@ -118,12 +125,7 @@ export const DaoInfo: React.FC<Props> = ({
           </Grid>
         </Grid>
         <Grid paddingTop={2} container justifyContent={'center'}>
-          <button
-            className={classes.button}
-            onClick={() => {
-              createDao();
-              activeStepOnChange(3);
-            }}>
+          <button className={classes.button} onClick={createDao}>
             Generate
           </button>
         </Grid>
