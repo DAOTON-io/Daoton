@@ -72,6 +72,7 @@ export const CreateDao2: React.FC = () => {
                     justifyContent: 'center',
                     display: 'flex',
                     height: '80vh',
+                    margin: '1rem',
                   }}>
                   <Steps activeStep={activeStep} />
                   <div className={classes.cardDiv}>

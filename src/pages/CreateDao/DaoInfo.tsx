@@ -34,7 +34,7 @@ const useStyles = makeStyles((theme: Theme) => ({
     borderRadius: '16px',
     borderColor: '#A2C5E3',
     borderWidth: '1px',
-    maxWidth: '400px',
+    width: '19rem',
     color: '#767D86',
     minHeight: '44px',
     padding: '12px',
@@ -65,16 +65,16 @@ const useStyles = makeStyles((theme: Theme) => ({
     },
   },
   buttonContainer: {
-    paddingRight: '32px',
-    paddingLeft: '32px',
+    //   paddingRight: '32px',
+    //   paddingLeft: '32px',
     textAlign: 'start',
     justifyContent: 'space-between',
     alignItems: 'center',
     marginTop: '8px',
-    [theme.breakpoints.down('sm')]: {
-      paddingRight: '16px',
-      paddingLeft: '16px',
-    },
+    // [theme.breakpoints.down('sm')]: {
+    //   paddingRight: '16px',
+    //   paddingLeft: '16px',
+    // },
   },
 }));
 

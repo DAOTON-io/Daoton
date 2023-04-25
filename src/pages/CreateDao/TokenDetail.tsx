@@ -46,6 +46,8 @@ const useStyles = makeStyles((theme: Theme) => ({
     backgroundColor: '#A2C5E3',
     padding: '10px',
     borderRadius: '0.5rem',
+    height: '3rem',
+    marginBottom: '1rem',
   },
   input: {
     borderRadius: '16px',
@@ -156,6 +158,7 @@ export const TokenDetail: React.FC<Props> = ({
           <Grid item>
             <TextField
               className={classes.input}
+              style={{marginRight: '1rem'}}
               placeholder="Token Name"
               id="name"
               name="name"
@@ -173,7 +176,9 @@ export const TokenDetail: React.FC<Props> = ({
               required
             />
             <Grid item>
-              <span>Token non-mintable ise bu anahtarı kapatın.</span>
+              <span style={{marginTop: '1rem'}}>
+                Token non-mintable ise bu anahtarı kapatın.
+              </span>
               <Switch
                 checked={data.mintable}
                 onChange={e => setData({...data, mintable: e.target.checked})}
@@ -184,8 +189,10 @@ export const TokenDetail: React.FC<Props> = ({
         ) : tokenType === TOKEN_TYPES.TOKEN_FROM_WALLET ? (
           <Select
             className={classes.select}
-            placeholder="Token"
-            onChange={selectToken}>
+            onChange={selectToken}
+            variant="outlined"
+            size="small"
+            fullWidth>
             {tokens.map((tk: TokensType) => {
               return (
                 <MenuItem
