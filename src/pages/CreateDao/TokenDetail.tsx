@@ -1,7 +1,6 @@
 import React, {useEffect, useState} from 'react';
 import {makeStyles} from '@mui/styles';
 import {
-  Button,
   Grid,
   MenuItem,
   Select,
@@ -14,6 +13,7 @@ import {useTonAddress} from '@tonconnect/ui-react';
 import {TokenDetailType, TokensType} from '../../utils/types';
 import {TOKEN_TYPES} from '../../utils/enums';
 import {CustomInput} from '../../components/CustomInput';
+import {CustomButton} from '../../components/CustomButton';
 
 type Props = {
   activeStepOnChange: (activeStep: number) => void;
@@ -21,20 +21,6 @@ type Props = {
 };
 
 const useStyles = makeStyles((theme: Theme) => ({
-  button: {
-    padding: '10px',
-    backgroundColor: '#2D6495',
-    color: '#E7F4FF',
-    border: 'none',
-    borderRadius: '16px',
-    minWidth: '235px',
-    minHeight: '44px',
-    fontFamily: 'Raleway',
-    fontWeight: 500,
-    [theme.breakpoints.down('sm')]: {
-      minWidth: '200px',
-    },
-  },
   select: {
     fontFamily: 'Raleway',
     width: '100%',
@@ -48,22 +34,6 @@ const useStyles = makeStyles((theme: Theme) => ({
     borderRadius: '0.5rem',
     height: '3rem',
     marginBottom: '1rem',
-  },
-  input: {
-    borderRadius: '16px',
-    borderColor: '#A2C5E3',
-    borderWidth: '1px',
-    maxWidth: '400px',
-    color: '#767D86',
-    minHeight: '44px',
-    padding: '12px',
-    boxShadow: 'none',
-    fontSize: '16px',
-    fontFamily: 'Raleway',
-    fontWeight: 500,
-    [theme.breakpoints.down('sm')]: {
-      minWidth: '300px',
-    },
   },
   center: {
     [theme.breakpoints.down('sm')]: {
@@ -206,15 +176,11 @@ export const TokenDetail: React.FC<Props> = ({
       </Grid>
 
       <Grid paddingTop={2} container justifyContent={'center'}>
-        <Button
-          variant="contained"
-          className={classes.button}
-          onClick={() => {
-            createDao();
-          }}
-          disabled={!(data.name && data.symbol)}>
-          Generate
-        </Button>
+        <CustomButton
+          onClick={createDao}
+          disabled={!(data.name && data.symbol)}
+          label="NEXT"
+        />
       </Grid>
     </Grid>
   );

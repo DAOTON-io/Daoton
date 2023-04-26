@@ -1,9 +1,10 @@
 import React, {useState} from 'react';
 import {makeStyles} from '@mui/styles';
-import {Button, Grid, Stack, Theme} from '@mui/material';
+import {Grid, Stack, Theme} from '@mui/material';
 import {ImageUpload} from '../../components/imageUpload';
 import {InfoType} from '../../utils/types';
 import {CustomInput} from '../../components/CustomInput';
+import {CustomButton} from '../../components/CustomButton';
 
 type Props = {
   activeStepOnChange: (activeStep: number) => void;
@@ -16,36 +17,6 @@ const useStyles = makeStyles((theme: Theme) => ({
     fontSize: '14px',
     fontWeight: 'bold',
     fontFamily: 'Raleway',
-  },
-  button: {
-    padding: '10px',
-    backgroundColor: '#2D6495',
-    color: '#E7F4FF',
-    border: 'none',
-    borderRadius: '16px',
-    minWidth: '235px',
-    minHeight: '44px',
-    fontFamily: 'Raleway',
-    fontWeight: 500,
-    [theme.breakpoints.down('sm')]: {
-      minWidth: '200px',
-    },
-  },
-  input: {
-    borderRadius: '16px',
-    borderColor: '#A2C5E3',
-    borderWidth: '1px',
-    width: '19rem',
-    color: '#767D86',
-    minHeight: '44px',
-    padding: '12px',
-    boxShadow: 'none',
-    fontSize: '16px',
-    fontFamily: 'Raleway',
-    fontWeight: 500,
-    [theme.breakpoints.down('sm')]: {
-      minWidth: '300px',
-    },
   },
   center: {
     [theme.breakpoints.down('sm')]: {
@@ -118,13 +89,11 @@ export const DaoInfo: React.FC<Props> = ({
           </Grid>
         </Grid>
         <Grid paddingTop={2} container justifyContent={'center'}>
-          <Button
-            variant="contained"
-            className={classes.button}
+          <CustomButton
             onClick={createDao}
-            disabled={!(data.name && data.desc)}>
-            Generate
-          </Button>
+            disabled={!(data.name && data.desc)}
+            label="NEXT"
+          />
         </Grid>
       </Stack>
     </Grid>
