@@ -7,13 +7,13 @@ import {
   Select,
   SelectChangeEvent,
   Switch,
-  TextField,
   Theme,
 } from '@mui/material';
 import {fetchTokens} from '../../lib/api';
 import {useTonAddress} from '@tonconnect/ui-react';
 import {TokenDetailType, TokensType} from '../../utils/types';
 import {TOKEN_TYPES} from '../../utils/enums';
+import {CustomInput} from '../../components/CustomInput';
 
 type Props = {
   activeStepOnChange: (activeStep: number) => void;
@@ -156,24 +156,19 @@ export const TokenDetail: React.FC<Props> = ({
       <Grid item>
         {tokenType === TOKEN_TYPES.NEW_TOKEN ? (
           <Grid item>
-            <TextField
-              className={classes.input}
-              style={{marginRight: '1rem'}}
+            <CustomInput
               placeholder="Token Name"
               id="name"
               name="name"
               value={data.name}
-              onChange={e => setData({...data, name: e.target.value})}
-              required
+              onChange={(e: any) => setData({...data, name: e.target.value})}
             />
-            <TextField
-              className={classes.input}
+            <CustomInput
               placeholder="Token Symbol"
               id="symbol"
               name="symbol"
               value={data.symbol}
-              onChange={e => setData({...data, symbol: e.target.value})}
-              required
+              onChange={(e: any) => setData({...data, symbol: e.target.value})}
             />
             <Grid item>
               <span style={{marginTop: '1rem'}}>

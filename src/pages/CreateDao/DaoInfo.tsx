@@ -1,8 +1,9 @@
 import React, {useState} from 'react';
 import {makeStyles} from '@mui/styles';
-import {Button, Grid, Stack, TextField, Theme} from '@mui/material';
+import {Button, Grid, Stack, Theme} from '@mui/material';
 import {ImageUpload} from '../../components/imageUpload';
 import {InfoType} from '../../utils/types';
+import {CustomInput} from '../../components/CustomInput';
 
 type Props = {
   activeStepOnChange: (activeStep: number) => void;
@@ -92,27 +93,21 @@ export const DaoInfo: React.FC<Props> = ({
   };
 
   return (
-    <Grid item>
-      <Stack spacing={2} maxWidth={'400px'} marginTop={4}>
-        <TextField
-          className={classes.input}
+    <Grid container className={classes.container}>
+      <Stack direction="column" spacing={2} maxWidth={'400px'} marginTop={4}>
+        <CustomInput
           placeholder="DAO Name"
-          type="text"
           id="name"
           name="name"
           value={data.name}
-          onChange={e => setData({...data, name: e.target.value})}
-          required
+          onChange={(e: any) => setData({...data, name: e.target.value})}
         />
-        <TextField
-          className={classes.input}
+        <CustomInput
           placeholder="Description"
-          type="text"
-          id="desc"
-          name="desc"
+          id="description"
+          name="description"
           value={data.desc}
-          onChange={e => setData({...data, desc: e.target.value})}
-          required
+          onChange={(e: any) => setData({...data, desc: e.target.value})}
         />
         <Grid container className={classes.buttonContainer}>
           <Grid item justifyContent={'flex-start'}>
