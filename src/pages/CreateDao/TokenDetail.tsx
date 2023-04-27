@@ -23,6 +23,12 @@ const useStyles = makeStyles((theme: Theme) => ({
   container: {
     display: 'flex',
     justifyContent: 'center',
+    [theme.breakpoints.down('sm')]: {
+      marginBottom: 2,
+      marginTop: 2,
+      padding: '24px',
+      minWidth: '15rem',
+    },
   },
   buttonContainer: {
     textAlign: 'start',

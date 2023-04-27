@@ -8,6 +8,9 @@ const useStyles = makeStyles((theme: Theme) => ({
     position: 'fixed',
     marginTop: '2rem',
     width: '90%',
+    [theme.breakpoints.down('sm')]: {
+      marginTop: '2rem',
+    },
   },
   cardDiv: {
     marginTop: '8rem',

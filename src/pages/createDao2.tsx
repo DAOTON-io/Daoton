@@ -24,6 +24,11 @@ const useStyles = makeStyles((theme: Theme) => ({
     display: 'flex',
     alignItem: 'center',
     width: '100%',
+    [theme.breakpoints.down('sm')]: {
+      marginBottom: 2,
+      marginTop: '9rem',
+      overflow: 'auto',
+    },
   },
 }));
 
@@ -102,6 +107,7 @@ export const CreateDao2: React.FC = () => {
                     display: 'flex',
                     height: '80vh',
                     marginBottom: '1rem',
+                    minWidth: '21rem',
                   }}>
                   <Steps activeStep={activeStep} />
                   <div className={classes.cardDiv}>
