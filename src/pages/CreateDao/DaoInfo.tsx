@@ -12,20 +12,6 @@ type Props = {
 };
 
 const useStyles = makeStyles((theme: Theme) => ({
-  label: {
-    color: 'grey',
-    fontSize: '14px',
-    fontWeight: 'bold',
-    fontFamily: 'Raleway',
-  },
-  center: {
-    [theme.breakpoints.down('sm')]: {
-      display: 'flex',
-      alignItems: 'center',
-      justifyContent: 'center',
-      textAlign: 'center',
-    },
-  },
   container: {
     marginBottom: 6,
     marginTop: 6,
