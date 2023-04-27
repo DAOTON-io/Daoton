@@ -1,4 +1,4 @@
-import React from 'react';
+import React, {useEffect, useState} from 'react';
 import BusinessIcon from '@mui/icons-material/Business';
 import AssuredWorkloadIcon from '@mui/icons-material/AssuredWorkload';
 import ForumIcon from '@mui/icons-material/Forum';
@@ -89,7 +89,8 @@ const categories: CategoryType[] = [
 
 type Props = {
   activeStepOnChange: (activeStep: number) => void;
-  selectedCategoryOnChange: (selectedCategory: number) => void;
+  selectedCategoryOnChange: (selectedCategory: CategoryType) => void;
+  selectedCategory: CategoryType;
 };
 
 const useStyles = makeStyles((theme: Theme) => ({
@@ -100,6 +101,9 @@ const useStyles = makeStyles((theme: Theme) => ({
     // "&:hover": {
     //   backgroundColor: "#A2C5E3 !important",
     // },
+    '&.active': {
+      background: 'yellow',
+    },
   },
   cardItem: {
     display: 'flex',
@@ -112,24 +116,35 @@ const useStyles = makeStyles((theme: Theme) => ({
 export const DaoCategories: React.FC<Props> = ({
   activeStepOnChange,
   selectedCategoryOnChange,
+  selectedCategory,
 }) => {
+  const [data, setData] = useState<CategoryType>(categories[0]);
+
   const classes = useStyles();
+
+  useEffect(() => {
+    if (selectedCategory) setData(categories[selectedCategory.id - 1]);
+  }, [selectedCategory]);
 
   return (
     <div>
       <Grid container spacing={2}>
         {categories.map(category => {
           return (
-            <Grid item xs={12} sm={6}>
+            <Grid item xs={12} sm={6} key={category.id.toString()}>
               <Card
                 id={category.id.toString()}
                 className={classes.card}
                 onClick={() => {
                   activeStepOnChange(2);
-                  selectedCategoryOnChange(category.id);
-                }}>
-                <CardActionArea>
-                  <CardContent className={classes.cardItem}>
+                  selectedCategoryOnChange(category);
+                  setData(categories[category.id - 1]);
+                }}
+                key={category.id.toString()}>
+                <CardActionArea key={category.id.toString()}>
+                  <CardContent
+                    className={classes.cardItem}
+                    key={category.id.toString()}>
                     {category.icon}
                     <Typography
                       color={'white'}

@@ -1,5 +1,6 @@
 import React, {useState} from 'react';
 import {Card, Grid, Theme} from '@mui/material';
+import BusinessIcon from '@mui/icons-material/Business';
 import DrawerAppBar from '../components/mobilMenu';
 import SideMenu from '../components/sideMenu';
 import {makeStyles} from '@mui/styles';
@@ -9,7 +10,12 @@ import GoogleFontLoader from 'react-google-font-loader';
 import {DaoCategories} from './CreateDao/DaoCategories';
 import {TokenDetail} from './CreateDao/TokenDetail';
 import {Review} from './CreateDao/Review';
-import {InfoType, NftDetailType, TokenDetailType} from '../utils/types';
+import {
+  CategoryType,
+  InfoType,
+  NftDetailType,
+  TokenDetailType,
+} from '../utils/types';
 import {TOKEN_TYPES} from '../utils/enums';
 
 const useStyles = makeStyles((theme: Theme) => ({
@@ -23,7 +29,16 @@ const useStyles = makeStyles((theme: Theme) => ({
 
 export const CreateDao2: React.FC = () => {
   const [activeStep, setActiveStep] = useState<number>(1);
-  const [selectedCategory, setSelectedCategory] = useState<number>(0);
+  const [selectedCategory, setSelectedCategory] = useState<CategoryType>({
+    id: 1,
+    label: 'Company',
+    icon: (
+      <BusinessIcon
+        style={{color: 'white', marginRight: '1rem'}}
+        fontSize="large"
+      />
+    ),
+  });
   const [daoInfo, setDaoInfo] = useState<InfoType>({
     name: '',
     desc: '',
@@ -96,6 +111,7 @@ export const CreateDao2: React.FC = () => {
                         <DaoCategories
                           activeStepOnChange={setActiveStep}
                           selectedCategoryOnChange={setSelectedCategory}
+                          selectedCategory={selectedCategory}
                         />
                       </>
                     )}

@@ -1,11 +1,16 @@
 import React from 'react';
-import {InfoType, NftDetailType, TokenDetailType} from '../../utils/types';
+import {
+  CategoryType,
+  InfoType,
+  NftDetailType,
+  TokenDetailType,
+} from '../../utils/types';
 import {Grid, Stack, Theme} from '@mui/material';
 import {CustomButton} from '../../components/CustomButton';
 import {makeStyles} from '@mui/styles';
 
 type Props = {
-  selectedCategory: number;
+  selectedCategory: CategoryType;
   daoInfo: InfoType;
   tokenDetail: TokenDetailType;
   nftDetail: NftDetailType;
