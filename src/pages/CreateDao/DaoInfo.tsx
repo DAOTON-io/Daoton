@@ -66,6 +66,7 @@ export const DaoInfo: React.FC<Props> = ({
       <Stack direction="column" spacing={2} maxWidth={'400px'} marginTop={4}>
         <CustomInput
           placeholder="DAO Name"
+          label="DAO Name"
           id="name"
           name="name"
           value={data.name}
@@ -76,6 +77,7 @@ export const DaoInfo: React.FC<Props> = ({
         />
         <CustomInput
           placeholder="Description"
+          label="Description"
           id="description"
           name="description"
           value={data.desc}

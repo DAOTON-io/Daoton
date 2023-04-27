@@ -13,7 +13,7 @@ const useStyles = makeStyles((theme: Theme) => ({
     fontSize: '1rem',
     fontFamily: 'Raleway',
     // left: '0px',
-    // top: '0px',
+    //marginTop: '1rem',
     // padding: '10px 20px 10px 20px',
     // boxSizing: 'border-box',
     // display: 'flex',
@@ -31,6 +31,7 @@ const useStyles = makeStyles((theme: Theme) => ({
 
 type Props = {
   placeholder: string;
+  label: string;
   id: string;
   name: string;
   value: string;
@@ -39,6 +40,7 @@ type Props = {
 
 export const CustomInput: React.FC<Props> = ({
   placeholder,
+  label,
   id,
   name,
   value,
@@ -52,6 +54,7 @@ export const CustomInput: React.FC<Props> = ({
       placeholder={placeholder}
       id={id}
       name={name}
+      label={label}
       value={value}
       onChange={onChange}
       required
