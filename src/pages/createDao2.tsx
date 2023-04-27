@@ -30,10 +30,15 @@ export const CreateDao2: React.FC = () => {
     image: '',
   });
   const [tokenDetail, setTokenDetail] = useState<TokenDetailType>({
-    name: '',
     type: TOKEN_TYPES.NEW_TOKEN,
+    name: '',
+    description: '',
     symbol: '',
-    mintable: true,
+    amount: '',
+    decimal: '',
+    pausableContract: false,
+    stackableContract: false,
+    image: '',
   });
 
   const classes = useStyles();
@@ -73,7 +78,7 @@ export const CreateDao2: React.FC = () => {
                     justifyContent: 'center',
                     display: 'flex',
                     height: '80vh',
-                    margin: '1rem',
+                    marginBottom: '1rem',
                   }}>
                   <Steps activeStep={activeStep} />
                   <div className={classes.cardDiv}>

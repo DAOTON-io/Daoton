@@ -7,10 +7,15 @@ export type InfoType = {
 };
 
 export type TokenDetailType = {
-  name: string;
   type: TOKEN_TYPES;
+  name: string;
+  description: string;
   symbol: string;
-  mintable: boolean;
+  amount: string;
+  decimal: string;
+  pausableContract: boolean;
+  stackableContract: boolean;
+  image: string;
 };
 
 export type CategoryType = {id: number; label: string; icon: any};

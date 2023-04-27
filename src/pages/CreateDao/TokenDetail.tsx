@@ -9,6 +9,7 @@ import {CustomInput} from '../../components/CustomInput';
 import {CustomButton} from '../../components/CustomButton';
 import {CustomSelect} from '../../components/CustomSelect';
 import {CustomSwitch} from '../../components/CustomSwitch';
+import {ImageUpload} from '../../components/imageUpload';
 
 type Props = {
   activeStepOnChange: (activeStep: number) => void;
@@ -18,15 +19,13 @@ type Props = {
 
 const useStyles = makeStyles((theme: Theme) => ({
   container: {
-    marginBottom: 6,
-    marginTop: 6,
-    [theme.breakpoints.down('sm')]: {
-      marginBottom: 2,
-      marginTop: 2,
-      padding: '24px',
-    },
     display: 'flex',
     justifyContent: 'center',
+  },
+  buttonContainer: {
+    textAlign: 'start',
+    justifyContent: 'space-between',
+    alignItems: 'center',
   },
 }));
 
@@ -40,10 +39,15 @@ export const TokenDetail: React.FC<Props> = ({
   );
   const [tokens, setTokens] = useState<TokensType[]>([]);
   const [data, setData] = useState<TokenDetailType>({
-    name: '',
     type: tokenType,
+    name: '',
+    description: '',
     symbol: '',
-    mintable: true,
+    amount: '',
+    decimal: '',
+    pausableContract: true,
+    stackableContract: true,
+    image: '',
   });
 
   const address = useTonAddress();
@@ -90,10 +94,18 @@ export const TokenDetail: React.FC<Props> = ({
     tokenDetailOnChange(data);
   };
 
+  const disabled = !(
+    data.name &&
+    data.description &&
+    data.symbol &&
+    data.amount &&
+    data.decimal
+  );
+
   return (
-    <Grid container className={classes.container}>
-      <Stack direction="column" spacing={2} maxWidth={'400px'} marginTop={4}>
-        <Grid item>
+    <Grid container className={classes.container} overflow={'auto'}>
+      <Stack direction="column" spacing={2} marginTop={4}>
+        <Stack>
           <CustomSelect
             onChange={(e: any) => setTokenType(e.target.value as TOKEN_TYPES)}
             values={tokenType}>
@@ -105,39 +117,98 @@ export const TokenDetail: React.FC<Props> = ({
               {TOKEN_TYPES.TOKEN_FROM_WALLET}
             </MenuItem>
           </CustomSelect>
-        </Grid>
+        </Stack>
 
         <Grid item>
           {tokenType === TOKEN_TYPES.NEW_TOKEN ? (
-            <Grid item>
-              <CustomInput
-                placeholder="Token Name"
-                id="name"
-                name="name"
-                value={data.name}
-                onChange={(e: any) => setData({...data, name: e.target.value})}
-              />
-              <CustomInput
-                placeholder="Token Symbol"
-                id="symbol"
-                name="symbol"
-                value={data.symbol}
-                onChange={(e: any) =>
-                  setData({...data, symbol: e.target.value})
-                }
-              />
-              <Grid item>
-                <span style={{marginTop: '1rem'}}>
-                  Token non-mintable ise bu anahtarı kapatın.
-                </span>
-                <CustomSwitch
-                  checked={data.mintable}
+            <Stack direction="column" spacing={2}>
+              <Stack direction="row" spacing={2}>
+                <CustomInput
+                  placeholder="Token Name"
+                  label="Token Name"
+                  id="name"
+                  name="name"
+                  value={data.name}
                   onChange={(e: any) =>
-                    setData({...data, mintable: e.target.checked})
+                    setData({...data, name: e.target.value})
                   }
                 />
+                <CustomInput
+                  placeholder="Token Description"
+                  label="Token Description"
+                  id="description"
+                  name="description"
+                  value={data.description}
+                  onChange={(e: any) =>
+                    setData({...data, description: e.target.value})
+                  }
+                />
+              </Stack>
+              <Stack direction="row" spacing={2}>
+                <CustomInput
+                  placeholder="Token Symbol"
+                  label="Token Symbol"
+                  id="symbol"
+                  name="symbol"
+                  value={data.symbol}
+                  onChange={(e: any) =>
+                    setData({...data, symbol: e.target.value})
+                  }
+                />
+                <CustomInput
+                  placeholder="Token Amount"
+                  label="Token Amount"
+                  id="amount"
+                  name="amount"
+                  value={data.amount}
+                  onChange={(e: any) =>
+                    setData({...data, amount: e.target.value})
+                  }
+                />
+              </Stack>
+              <Stack direction="row" spacing={2}>
+                <CustomInput
+                  placeholder="Token Decimal"
+                  label="Token Decimal"
+                  id="decimal"
+                  name="decimal"
+                  value={data.decimal}
+                  onChange={(e: any) =>
+                    setData({...data, decimal: e.target.value})
+                  }
+                />
+              </Stack>
+              <Stack direction="row" spacing={2} paddingTop={1}>
+                <Grid item>
+                  <span style={{marginTop: '1rem'}}>Pausable Contract:</span>
+                  <CustomSwitch
+                    checked={data.pausableContract}
+                    onChange={(e: any) =>
+                      setData({...data, pausableContract: e.target.checked})
+                    }
+                  />
+                </Grid>
+                <Grid item>
+                  <span style={{marginTop: '1rem'}}>Stackable Contract:</span>
+                  <CustomSwitch
+                    checked={data.stackableContract}
+                    onChange={(e: any) =>
+                      setData({...data, stackableContract: e.target.checked})
+                    }
+                  />
+                </Grid>
+              </Stack>
+              <Grid container className={classes.buttonContainer}>
+                <Grid item justifyContent={'flex-start'}>
+                  <label>Collection Image : </label>
+                </Grid>
+                <Grid item justifyContent={'flex-end'}>
+                  <ImageUpload
+                    onChange={() => {}}
+                    onClear={() => {}}></ImageUpload>
+                </Grid>
               </Grid>
-            </Grid>
+            </Stack>
           ) : tokenType === TOKEN_TYPES.TOKEN_FROM_WALLET ? (
             <CustomSelect onChange={selectToken}>
               {tokens.map((tk: TokensType) => {
@@ -163,11 +234,7 @@ export const TokenDetail: React.FC<Props> = ({
           justifyContent={'space-between'}
           width={'100%'}>
           <CustomButton onClick={backStep} disabled={false} label="BACK" />
-          <CustomButton
-            onClick={createDao}
-            disabled={!(data.name && data.symbol)}
-            label="NEXT"
-          />
+          <CustomButton onClick={createDao} disabled={disabled} label="NEXT" />
         </Grid>
       </Stack>
     </Grid>
