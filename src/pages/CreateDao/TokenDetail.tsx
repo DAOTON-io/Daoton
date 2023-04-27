@@ -1,59 +1,17 @@
 import React, {useEffect, useState} from 'react';
-import {makeStyles} from '@mui/styles';
-import {
-  Grid,
-  MenuItem,
-  Select,
-  SelectChangeEvent,
-  Switch,
-  Theme,
-} from '@mui/material';
+import {Grid, MenuItem, SelectChangeEvent, Switch} from '@mui/material';
 import {fetchTokens} from '../../lib/api';
 import {useTonAddress} from '@tonconnect/ui-react';
 import {TokenDetailType, TokensType} from '../../utils/types';
 import {TOKEN_TYPES} from '../../utils/enums';
 import {CustomInput} from '../../components/CustomInput';
 import {CustomButton} from '../../components/CustomButton';
+import {CustomSelect} from '../../components/CustomSelect';
 
 type Props = {
   activeStepOnChange: (activeStep: number) => void;
   tokenDetailOnChange: (tokenDetail: TokenDetailType) => void;
 };
-
-const useStyles = makeStyles((theme: Theme) => ({
-  select: {
-    fontFamily: 'Raleway',
-    width: '100%',
-    fontSize: '14px',
-    fontWeight: 'bold',
-    color: '#1D252C',
-    border: 'none',
-    boxShadow: '0 0 10px 0 rgba(0,0,0,0.1)',
-    backgroundColor: '#A2C5E3',
-    padding: '10px',
-    borderRadius: '0.5rem',
-    height: '3rem',
-    marginBottom: '1rem',
-  },
-  center: {
-    [theme.breakpoints.down('sm')]: {
-      display: 'flex',
-      alignItems: 'center',
-      justifyContent: 'center',
-      textAlign: 'center',
-    },
-  },
-  container: {
-    marginBottom: 6,
-    marginTop: 6,
-    padding: '64px',
-    [theme.breakpoints.down('sm')]: {
-      marginBottom: 2,
-      marginTop: 2,
-      padding: '24px',
-    },
-  },
-}));
 
 export const TokenDetail: React.FC<Props> = ({
   activeStepOnChange,
@@ -70,7 +28,6 @@ export const TokenDetail: React.FC<Props> = ({
     mintable: true,
   });
 
-  const classes = useStyles();
   const address = useTonAddress();
 
   useEffect(() => {
@@ -108,19 +65,17 @@ export const TokenDetail: React.FC<Props> = ({
   return (
     <Grid item>
       <Grid item>
-        <Select
-          className={classes.select}
-          id="type"
-          name="type"
-          value={tokenType}
-          onChange={e => setTokenType(e.target.value as TOKEN_TYPES)}>
+        <CustomSelect
+          onChange={(e: any) => setTokenType(e.target.value as TOKEN_TYPES)}
+          values={tokenType}>
+          {' '}
           <MenuItem value={TOKEN_TYPES.NEW_TOKEN}>
             {TOKEN_TYPES.NEW_TOKEN}
           </MenuItem>
           <MenuItem value={TOKEN_TYPES.TOKEN_FROM_WALLET}>
             {TOKEN_TYPES.TOKEN_FROM_WALLET}
           </MenuItem>
-        </Select>
+        </CustomSelect>
       </Grid>
 
       <Grid item>
@@ -152,12 +107,7 @@ export const TokenDetail: React.FC<Props> = ({
             </Grid>
           </Grid>
         ) : tokenType === TOKEN_TYPES.TOKEN_FROM_WALLET ? (
-          <Select
-            className={classes.select}
-            onChange={selectToken}
-            variant="outlined"
-            size="small"
-            fullWidth>
+          <CustomSelect onChange={selectToken}>
             {tokens.map((tk: TokensType) => {
               return (
                 <MenuItem
@@ -171,7 +121,7 @@ export const TokenDetail: React.FC<Props> = ({
                 </MenuItem>
               );
             })}
-          </Select>
+          </CustomSelect>
         ) : undefined}
       </Grid>
 
