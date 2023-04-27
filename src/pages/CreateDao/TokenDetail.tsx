@@ -7,6 +7,7 @@ import {TOKEN_TYPES} from '../../utils/enums';
 import {CustomInput} from '../../components/CustomInput';
 import {CustomButton} from '../../components/CustomButton';
 import {CustomSelect} from '../../components/CustomSelect';
+import {CustomSwitch} from '../../components/CustomSwitch';
 
 type Props = {
   activeStepOnChange: (activeStep: number) => void;
@@ -99,10 +100,11 @@ export const TokenDetail: React.FC<Props> = ({
               <span style={{marginTop: '1rem'}}>
                 Token non-mintable ise bu anahtarı kapatın.
               </span>
-              <Switch
+              <CustomSwitch
                 checked={data.mintable}
-                onChange={e => setData({...data, mintable: e.target.checked})}
-                defaultChecked
+                onChange={(e: any) =>
+                  setData({...data, mintable: e.target.checked})
+                }
               />
             </Grid>
           </Grid>
