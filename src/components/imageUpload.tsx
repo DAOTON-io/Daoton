@@ -33,7 +33,7 @@ const useStyles = makeStyles(theme => ({
 }));
 
 type Props = {
-  onChange: (image: any) => void;
+  onChange: (image: string) => void;
   onClear: () => void;
 };
 
@@ -44,10 +44,12 @@ export const ImageUpload: React.FC<Props> = ({onChange, onClear}) => {
 
   const handleFileInputChange = (event: any) => {
     const file = event.target.files[0];
+
     console.log(Buffer.from(JSON.stringify(file)).toString('base64'));
     console.log(window.btoa(JSON.stringify(file)));
+
     setFile(file);
-    onChange(file);
+    onChange(Buffer.from(JSON.stringify(file)).toString('base64'));
   };
 
   const handleClearButtonClick = () => {

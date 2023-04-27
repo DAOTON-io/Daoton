@@ -91,7 +91,14 @@ export const DaoInfo: React.FC<Props> = ({
             <label>DAO Image : </label>
           </Grid>
           <Grid item justifyContent={'flex-end'}>
-            <ImageUpload onChange={() => {}} onClear={() => {}}></ImageUpload>
+            <ImageUpload
+              onChange={(value: string) =>
+                setData({
+                  ...data,
+                  image: value,
+                })
+              }
+              onClear={() => {}}></ImageUpload>
           </Grid>
         </Grid>
         <Grid

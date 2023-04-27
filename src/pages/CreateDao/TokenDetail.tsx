@@ -274,8 +274,13 @@ export const TokenDetail: React.FC<Props> = ({
                 </Grid>
                 <Grid item justifyContent={'flex-end'}>
                   <ImageUpload
-                    onChange={() => {}}
-                    onClear={() => {}}></ImageUpload>
+                    onClear={() => {}}
+                    onChange={(value: string) =>
+                      setTokenData({
+                        ...tokenData,
+                        image: value,
+                      })
+                    }></ImageUpload>
                 </Grid>
               </Grid>
             </Stack>
@@ -351,8 +356,13 @@ export const TokenDetail: React.FC<Props> = ({
                 </Grid>
                 <Grid item justifyContent={'flex-end'}>
                   <ImageUpload
-                    onChange={() => {}}
-                    onClear={() => {}}></ImageUpload>
+                    onClear={() => {}}
+                    onChange={(value: string) =>
+                      setNftData({
+                        ...nftData,
+                        image: value,
+                      })
+                    }></ImageUpload>
                 </Grid>
               </Grid>
             </Stack>
