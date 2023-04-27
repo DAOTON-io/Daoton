@@ -17,7 +17,7 @@ const useStyles = makeStyles((theme: Theme) => ({
     marginTop: '8rem',
     display: 'flex',
     alignItem: 'center',
-    justifyContent: 'center',
+    width: '100%',
   },
 }));
 
@@ -55,6 +55,7 @@ export const CreateDao2: React.FC = () => {
             </Grid>
             <Grid item>
               <Card
+                style={{width: '100%'}}
                 sx={{
                   borderRadius: '40px',
                 }}>

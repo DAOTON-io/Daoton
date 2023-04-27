@@ -22,6 +22,8 @@ const useStyles = makeStyles((theme: Theme) => ({
       marginTop: 2,
       padding: '24px',
     },
+    display: 'flex',
+    justifyContent: 'center',
   },
   buttonContainer: {
     //   paddingRight: '32px',
@@ -91,7 +93,11 @@ export const DaoInfo: React.FC<Props> = ({
             <ImageUpload onChange={() => {}} onClear={() => {}}></ImageUpload>
           </Grid>
         </Grid>
-        <Grid paddingTop={2} container justifyContent={'center'}>
+        <Grid
+          paddingTop={2}
+          container
+          justifyContent={'space-between'}
+          width={'100%'}>
           <CustomButton onClick={backStep} disabled={false} label="BACK" />
           <CustomButton
             onClick={createDao}

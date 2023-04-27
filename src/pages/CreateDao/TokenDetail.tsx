@@ -1,5 +1,6 @@
 import React, {useEffect, useState} from 'react';
-import {Grid, MenuItem, SelectChangeEvent, Switch} from '@mui/material';
+import {Grid, MenuItem, SelectChangeEvent, Stack, Theme} from '@mui/material';
+import {makeStyles} from '@mui/styles';
 import {fetchTokens} from '../../lib/api';
 import {useTonAddress} from '@tonconnect/ui-react';
 import {TokenDetailType, TokensType} from '../../utils/types';
@@ -14,6 +15,21 @@ type Props = {
   tokenDetailOnChange: (tokenDetail: TokenDetailType) => void;
   tokenDetail: TokenDetailType;
 };
+
+const useStyles = makeStyles((theme: Theme) => ({
+  container: {
+    marginBottom: 6,
+    marginTop: 6,
+    padding: '64px',
+    [theme.breakpoints.down('sm')]: {
+      marginBottom: 2,
+      marginTop: 2,
+      padding: '24px',
+    },
+    display: 'flex',
+    justifyContent: 'center',
+  },
+}));
 
 export const TokenDetail: React.FC<Props> = ({
   activeStepOnChange,
@@ -32,6 +48,7 @@ export const TokenDetail: React.FC<Props> = ({
   });
 
   const address = useTonAddress();
+  const classes = useStyles();
 
   useEffect(() => {
     if (address) {
@@ -75,77 +92,85 @@ export const TokenDetail: React.FC<Props> = ({
   };
 
   return (
-    <Grid item>
-      <Grid item>
-        <CustomSelect
-          onChange={(e: any) => setTokenType(e.target.value as TOKEN_TYPES)}
-          values={tokenType}>
-          {' '}
-          <MenuItem value={TOKEN_TYPES.NEW_TOKEN}>
-            {TOKEN_TYPES.NEW_TOKEN}
-          </MenuItem>
-          <MenuItem value={TOKEN_TYPES.TOKEN_FROM_WALLET}>
-            {TOKEN_TYPES.TOKEN_FROM_WALLET}
-          </MenuItem>
-        </CustomSelect>
-      </Grid>
+    <Grid container className={classes.container}>
+      <Stack direction="column" spacing={2} maxWidth={'400px'} marginTop={4}>
+        <Grid item>
+          <CustomSelect
+            onChange={(e: any) => setTokenType(e.target.value as TOKEN_TYPES)}
+            values={tokenType}>
+            {' '}
+            <MenuItem value={TOKEN_TYPES.NEW_TOKEN}>
+              {TOKEN_TYPES.NEW_TOKEN}
+            </MenuItem>
+            <MenuItem value={TOKEN_TYPES.TOKEN_FROM_WALLET}>
+              {TOKEN_TYPES.TOKEN_FROM_WALLET}
+            </MenuItem>
+          </CustomSelect>
+        </Grid>
 
-      <Grid item>
-        {tokenType === TOKEN_TYPES.NEW_TOKEN ? (
-          <Grid item>
-            <CustomInput
-              placeholder="Token Name"
-              id="name"
-              name="name"
-              value={data.name}
-              onChange={(e: any) => setData({...data, name: e.target.value})}
-            />
-            <CustomInput
-              placeholder="Token Symbol"
-              id="symbol"
-              name="symbol"
-              value={data.symbol}
-              onChange={(e: any) => setData({...data, symbol: e.target.value})}
-            />
+        <Grid item>
+          {tokenType === TOKEN_TYPES.NEW_TOKEN ? (
             <Grid item>
-              <span style={{marginTop: '1rem'}}>
-                Token non-mintable ise bu anahtarı kapatın.
-              </span>
-              <CustomSwitch
-                checked={data.mintable}
+              <CustomInput
+                placeholder="Token Name"
+                id="name"
+                name="name"
+                value={data.name}
+                onChange={(e: any) => setData({...data, name: e.target.value})}
+              />
+              <CustomInput
+                placeholder="Token Symbol"
+                id="symbol"
+                name="symbol"
+                value={data.symbol}
                 onChange={(e: any) =>
-                  setData({...data, mintable: e.target.checked})
+                  setData({...data, symbol: e.target.value})
                 }
               />
+              <Grid item>
+                <span style={{marginTop: '1rem'}}>
+                  Token non-mintable ise bu anahtarı kapatın.
+                </span>
+                <CustomSwitch
+                  checked={data.mintable}
+                  onChange={(e: any) =>
+                    setData({...data, mintable: e.target.checked})
+                  }
+                />
+              </Grid>
             </Grid>
-          </Grid>
-        ) : tokenType === TOKEN_TYPES.TOKEN_FROM_WALLET ? (
-          <CustomSelect onChange={selectToken}>
-            {tokens.map((tk: TokensType) => {
-              return (
-                <MenuItem
-                  key={tk.jetton_address}
-                  value={JSON.stringify({
-                    ...tk,
-                    name: tk?.metadata.name,
-                    symbol: tk?.metadata.symbol,
-                  })}>
-                  {tk.metadata.name + '(' + tk.metadata.symbol + ')'}
-                </MenuItem>
-              );
-            })}
-          </CustomSelect>
-        ) : undefined}
-      </Grid>
+          ) : tokenType === TOKEN_TYPES.TOKEN_FROM_WALLET ? (
+            <CustomSelect onChange={selectToken}>
+              {tokens.map((tk: TokensType) => {
+                return (
+                  <MenuItem
+                    key={tk.jetton_address}
+                    value={JSON.stringify({
+                      ...tk,
+                      name: tk?.metadata.name,
+                      symbol: tk?.metadata.symbol,
+                    })}>
+                    {tk.metadata.name + '(' + tk.metadata.symbol + ')'}
+                  </MenuItem>
+                );
+              })}
+            </CustomSelect>
+          ) : undefined}
+        </Grid>
 
-      <Grid paddingTop={2} container justifyContent={'center'}>
-        <CustomButton onClick={backStep} disabled={false} label="BACK" />
-        <CustomButton
-          onClick={createDao}
-          disabled={!(data.name && data.symbol)}
-          label="NEXT"
-        />
-      </Grid>
+        <Grid
+          paddingTop={2}
+          container
+          justifyContent={'space-between'}
+          width={'100%'}>
+          <CustomButton onClick={backStep} disabled={false} label="BACK" />
+          <CustomButton
+            onClick={createDao}
+            disabled={!(data.name && data.symbol)}
+            label="NEXT"
+          />
+        </Grid>
+      </Stack>
     </Grid>
   );
 };
