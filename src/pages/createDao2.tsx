@@ -35,14 +35,9 @@ const useStyles = makeStyles((theme: Theme) => ({
 export const CreateDao2: React.FC = () => {
   const [activeStep, setActiveStep] = useState<number>(1);
   const [selectedCategory, setSelectedCategory] = useState<CategoryType>({
-    id: 1,
-    label: 'Company',
-    icon: (
-      <BusinessIcon
-        style={{color: 'white', marginRight: '1rem'}}
-        fontSize="large"
-      />
-    ),
+    id: 0,
+    label: '',
+    icon: undefined,
   });
   const [daoInfo, setDaoInfo] = useState<InfoType>({
     name: '',
