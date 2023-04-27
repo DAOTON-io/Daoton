@@ -8,6 +8,7 @@ import SportsEsportsIcon from '@mui/icons-material/SportsEsports';
 import RocketLaunchIcon from '@mui/icons-material/RocketLaunch';
 import {makeStyles} from '@mui/styles';
 import {
+  Box,
   Card,
   CardActionArea,
   CardContent,
@@ -101,8 +102,8 @@ const useStyles = makeStyles((theme: Theme) => ({
     // "&:hover": {
     //   backgroundColor: "#A2C5E3 !important",
     // },
-    '&.active': {
-      background: 'yellow',
+    '&:active': {
+      background: 'yellow !important',
     },
   },
   cardItem: {
@@ -132,31 +133,41 @@ export const DaoCategories: React.FC<Props> = ({
         {categories.map(category => {
           return (
             <Grid item xs={12} sm={6} key={category.id.toString()}>
-              <Card
-                id={category.id.toString()}
-                className={classes.card}
-                onClick={() => {
-                  activeStepOnChange(2);
-                  selectedCategoryOnChange(category);
-                  setData(categories[category.id - 1]);
-                }}
-                key={category.id.toString()}>
-                <CardActionArea key={category.id.toString()}>
-                  <CardContent
-                    className={classes.cardItem}
-                    key={category.id.toString()}>
-                    {category.icon}
-                    <Typography
-                      color={'white'}
-                      fontSize={30}
-                      gutterBottom
-                      variant="h5"
-                      component="div">
-                      {category.label}
-                    </Typography>
-                  </CardContent>
-                </CardActionArea>
-              </Card>
+              <Box
+                sx={[
+                  {
+                    '&:active': {
+                      color: 'red',
+                      backgroundColor: 'white',
+                    },
+                  },
+                ]}>
+                <Card
+                  id={category.id.toString()}
+                  className={classes.card}
+                  onClick={() => {
+                    activeStepOnChange(2);
+                    selectedCategoryOnChange(category);
+                    setData(categories[category.id - 1]);
+                  }}
+                  key={category.id.toString()}>
+                  <CardActionArea key={category.id.toString()}>
+                    <CardContent
+                      className={classes.cardItem}
+                      key={category.id.toString()}>
+                      {category.icon}
+                      <Typography
+                        color={'white'}
+                        fontSize={30}
+                        gutterBottom
+                        variant="h5"
+                        component="div">
+                        {category.label}
+                      </Typography>
+                    </CardContent>
+                  </CardActionArea>
+                </Card>
+              </Box>
             </Grid>
           );
         })}
