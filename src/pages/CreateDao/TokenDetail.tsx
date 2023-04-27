@@ -20,7 +20,6 @@ const useStyles = makeStyles((theme: Theme) => ({
   container: {
     marginBottom: 6,
     marginTop: 6,
-    padding: '64px',
     [theme.breakpoints.down('sm')]: {
       marginBottom: 2,
       marginTop: 2,
