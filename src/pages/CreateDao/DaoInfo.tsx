@@ -1,4 +1,4 @@
-import React, {useState} from 'react';
+import React, {useEffect, useState} from 'react';
 import {makeStyles} from '@mui/styles';
 import {Grid, Stack, Theme} from '@mui/material';
 import {ImageUpload} from '../../components/imageUpload';
@@ -9,6 +9,7 @@ import {CustomButton} from '../../components/CustomButton';
 type Props = {
   activeStepOnChange: (activeStep: number) => void;
   daoInfoOnChange: (daoInfo: InfoType) => void;
+  daoInfo: InfoType;
 };
 
 const useStyles = makeStyles((theme: Theme) => ({
@@ -39,13 +40,23 @@ const useStyles = makeStyles((theme: Theme) => ({
 export const DaoInfo: React.FC<Props> = ({
   activeStepOnChange,
   daoInfoOnChange,
+  daoInfo,
 }) => {
   const [data, setData] = useState<InfoType>({name: '', desc: '', image: ''});
 
   const classes = useStyles();
 
+  useEffect(() => {
+    if (daoInfo) setData(daoInfo);
+  }, [daoInfo]);
+
   const createDao = () => {
     activeStepOnChange(3);
+    daoInfoOnChange(data);
+  };
+
+  const backStep = () => {
+    activeStepOnChange(1);
     daoInfoOnChange(data);
   };
 
@@ -57,14 +68,20 @@ export const DaoInfo: React.FC<Props> = ({
           id="name"
           name="name"
           value={data.name}
-          onChange={(e: any) => setData({...data, name: e.target.value})}
+          onChange={(e: any) => {
+            setData({...data, name: e.target.value});
+            daoInfoOnChange({...data, name: e.target.value});
+          }}
         />
         <CustomInput
           placeholder="Description"
           id="description"
           name="description"
           value={data.desc}
-          onChange={(e: any) => setData({...data, desc: e.target.value})}
+          onChange={(e: any) => {
+            setData({...data, desc: e.target.value});
+            daoInfoOnChange({...data, desc: e.target.value});
+          }}
         />
         <Grid container className={classes.buttonContainer}>
           <Grid item justifyContent={'flex-start'}>
@@ -75,6 +92,7 @@ export const DaoInfo: React.FC<Props> = ({
           </Grid>
         </Grid>
         <Grid paddingTop={2} container justifyContent={'center'}>
+          <CustomButton onClick={backStep} disabled={false} label="BACK" />
           <CustomButton
             onClick={createDao}
             disabled={!(data.name && data.desc)}

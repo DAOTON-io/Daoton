@@ -12,11 +12,13 @@ import {CustomSwitch} from '../../components/CustomSwitch';
 type Props = {
   activeStepOnChange: (activeStep: number) => void;
   tokenDetailOnChange: (tokenDetail: TokenDetailType) => void;
+  tokenDetail: TokenDetailType;
 };
 
 export const TokenDetail: React.FC<Props> = ({
   activeStepOnChange,
   tokenDetailOnChange,
+  tokenDetail,
 }) => {
   const [tokenType, setTokenType] = useState<TOKEN_TYPES>(
     TOKEN_TYPES.NEW_TOKEN,
@@ -48,6 +50,10 @@ export const TokenDetail: React.FC<Props> = ({
     }
   }, [address]);
 
+  useEffect(() => {
+    if (tokenDetail) setData(tokenDetail);
+  }, [tokenDetail]);
+
   const selectToken = (e: SelectChangeEvent) => {
     e.preventDefault();
     const tokenValue = JSON.parse(e.target.value);
@@ -60,6 +66,11 @@ export const TokenDetail: React.FC<Props> = ({
 
   const createDao = () => {
     activeStepOnChange(4);
+    tokenDetailOnChange(data);
+  };
+
+  const backStep = () => {
+    activeStepOnChange(2);
     tokenDetailOnChange(data);
   };
 
@@ -128,6 +139,7 @@ export const TokenDetail: React.FC<Props> = ({
       </Grid>
 
       <Grid paddingTop={2} container justifyContent={'center'}>
+        <CustomButton onClick={backStep} disabled={false} label="BACK" />
         <CustomButton
           onClick={createDao}
           disabled={!(data.name && data.symbol)}
