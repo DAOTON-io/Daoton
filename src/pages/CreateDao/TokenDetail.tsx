@@ -91,8 +91,14 @@ export const TokenDetail: React.FC<Props> = ({
   }, [address]);
 
   useEffect(() => {
-    if (tokenDetail) setTokenData(tokenDetail);
-    if (nftDetail) setNftData(nftDetail);
+    if (tokenDetail) {
+      setTokenData(tokenDetail);
+      setTokenType(tokenDetail.type);
+    }
+    if (nftDetail) {
+      setNftData(nftDetail);
+      setTokenType(tokenDetail.type);
+    }
   }, [tokenDetail, nftDetail]);
 
   const selectToken = (e: SelectChangeEvent) => {
@@ -117,7 +123,7 @@ export const TokenDetail: React.FC<Props> = ({
   const selectType = (e: any) => {
     setTokenType(e.target.value as TOKEN_TYPES);
     setTokenData({
-      type: tokenType,
+      type: e.target.value,
       name: '',
       description: '',
       symbol: '',
@@ -128,7 +134,7 @@ export const TokenDetail: React.FC<Props> = ({
       image: '',
     });
     setNftData({
-      type: tokenType,
+      type: e.target.value,
       name: '',
       description: '',
       level: '',

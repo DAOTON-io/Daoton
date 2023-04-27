@@ -23,18 +23,13 @@ const useStyles = makeStyles((theme: Theme) => ({
     },
     display: 'flex',
     justifyContent: 'center',
+    overflow: 'auto',
   },
   buttonContainer: {
-    //   paddingRight: '32px',
-    //   paddingLeft: '32px',
     textAlign: 'start',
     justifyContent: 'space-between',
     alignItems: 'center',
     marginTop: '8px',
-    // [theme.breakpoints.down('sm')]: {
-    //   paddingRight: '16px',
-    //   paddingLeft: '16px',
-    // },
   },
 }));
 
@@ -70,10 +65,7 @@ export const DaoInfo: React.FC<Props> = ({
           id="name"
           name="name"
           value={data.name}
-          onChange={(e: any) => {
-            setData({...data, name: e.target.value});
-            daoInfoOnChange({...data, name: e.target.value});
-          }}
+          onChange={(e: any) => setData({...data, name: e.target.value})}
         />
         <CustomInput
           placeholder="Description"
@@ -81,10 +73,7 @@ export const DaoInfo: React.FC<Props> = ({
           id="description"
           name="description"
           value={data.desc}
-          onChange={(e: any) => {
-            setData({...data, desc: e.target.value});
-            daoInfoOnChange({...data, desc: e.target.value});
-          }}
+          onChange={(e: any) => setData({...data, desc: e.target.value})}
         />
         <Grid container className={classes.buttonContainer}>
           <Grid item justifyContent={'flex-start'}>
