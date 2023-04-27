@@ -108,6 +108,7 @@ export const CreateDao2: React.FC = () => {
                     height: '80vh',
                     marginBottom: '1rem',
                     minWidth: '21rem',
+                    padding: '1rem',
                   }}>
                   <Steps activeStep={activeStep} />
                   <div className={classes.cardDiv}>
