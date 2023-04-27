@@ -9,7 +9,7 @@ import GoogleFontLoader from 'react-google-font-loader';
 import {DaoCategories} from './CreateDao/DaoCategories';
 import {TokenDetail} from './CreateDao/TokenDetail';
 import {Review} from './CreateDao/Review';
-import {InfoType, TokenDetailType} from '../utils/types';
+import {InfoType, NftDetailType, TokenDetailType} from '../utils/types';
 import {TOKEN_TYPES} from '../utils/enums';
 
 const useStyles = makeStyles((theme: Theme) => ({
@@ -38,6 +38,14 @@ export const CreateDao2: React.FC = () => {
     decimal: '',
     pausableContract: false,
     stackableContract: false,
+    image: '',
+  });
+  const [nftDetail, setNftDetail] = useState<NftDetailType>({
+    type: TOKEN_TYPES.NEW_NFT,
+    name: '',
+    description: '',
+    level: '',
+    collectionAddress: '',
     image: '',
   });
 
@@ -108,6 +116,8 @@ export const CreateDao2: React.FC = () => {
                           activeStepOnChange={setActiveStep}
                           tokenDetailOnChange={setTokenDetail}
                           tokenDetail={tokenDetail}
+                          nftDetailOnChange={setNftDetail}
+                          nftDetail={nftDetail}
                         />
                       </>
                     )}
@@ -118,6 +128,7 @@ export const CreateDao2: React.FC = () => {
                           selectedCategory={selectedCategory}
                           daoInfo={daoInfo}
                           tokenDetail={tokenDetail}
+                          nftDetail={nftDetail}
                           activeStepOnChange={setActiveStep}
                         />
                       </>

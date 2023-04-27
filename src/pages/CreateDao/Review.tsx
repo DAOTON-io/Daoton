@@ -1,5 +1,5 @@
 import React from 'react';
-import {InfoType, TokenDetailType} from '../../utils/types';
+import {InfoType, NftDetailType, TokenDetailType} from '../../utils/types';
 import {Grid, Stack, Theme} from '@mui/material';
 import {CustomButton} from '../../components/CustomButton';
 import {makeStyles} from '@mui/styles';
@@ -8,6 +8,7 @@ type Props = {
   selectedCategory: number;
   daoInfo: InfoType;
   tokenDetail: TokenDetailType;
+  nftDetail: NftDetailType;
   activeStepOnChange: (activeStep: number) => void;
 };
 
@@ -29,6 +30,7 @@ export const Review: React.FC<Props> = ({
   selectedCategory,
   daoInfo,
   tokenDetail,
+  nftDetail,
   activeStepOnChange,
 }) => {
   const classes = useStyles();
@@ -36,11 +38,13 @@ export const Review: React.FC<Props> = ({
   console.log('category in review', selectedCategory);
   console.log('daoInfo in review', daoInfo);
   console.log('tokenDetail in review', tokenDetail);
+  console.log('nftDetail in review', nftDetail);
 
   const save = () => {
     console.log('category in review', selectedCategory);
     console.log('daoInfo in review', daoInfo);
     console.log('tokenDetail in review', tokenDetail);
+    console.log('nftDetail in review', nftDetail);
   };
 
   const backStep = () => {
