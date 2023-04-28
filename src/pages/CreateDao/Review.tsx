@@ -5,7 +5,7 @@ import {
   NftDetailType,
   TokenDetailType,
 } from '../../utils/types';
-import {Grid, Stack, Theme} from '@mui/material';
+import {Grid, Paper, Stack, Theme, Typography} from '@mui/material';
 import {CustomButton} from '../../components/CustomButton';
 import {makeStyles} from '@mui/styles';
 
@@ -28,6 +28,7 @@ const useStyles = makeStyles((theme: Theme) => ({
     },
     display: 'flex',
     justifyContent: 'center',
+    width: '100% !important',
   },
 }));
 
@@ -39,11 +40,6 @@ export const Review: React.FC<Props> = ({
   activeStepOnChange,
 }) => {
   const classes = useStyles();
-
-  console.log('category in review', selectedCategory);
-  console.log('daoInfo in review', daoInfo);
-  console.log('tokenDetail in review', tokenDetail);
-  console.log('nftDetail in review', nftDetail);
 
   const save = () => {
     console.log('category in review', selectedCategory);
@@ -58,7 +54,104 @@ export const Review: React.FC<Props> = ({
 
   return (
     <Grid container className={classes.container}>
-      <Stack direction="column" spacing={2} maxWidth={'400px'} marginTop={4}>
+      <Stack direction="column" spacing={2} marginTop={4}>
+        <Grid item>
+          <Stack
+            direction="row"
+            spacing={2}
+            style={{
+              display: 'flex',
+              justifyContent: 'center',
+            }}>
+            <Stack direction="column" spacing={2}>
+              <Paper elevation={3} style={{padding: '1rem'}}>
+                <Typography variant="body1">
+                  <div>
+                    <b>Category: </b>
+                    {selectedCategory.label}
+                  </div>
+                </Typography>
+                <Typography variant="body1">
+                  <div>
+                    <b> DAO Name: </b>
+                    {daoInfo.name}
+                  </div>
+                </Typography>
+                <Typography variant="body1">
+                  <div>
+                    <b>DAO Description: </b>
+                    {daoInfo.desc}
+                  </div>
+                </Typography>
+              </Paper>
+            </Stack>
+            {tokenDetail ? (
+              <Stack direction="column" spacing={2}>
+                <Paper elevation={3} style={{padding: '1rem'}}>
+                  <Typography variant="body1">
+                    <div>
+                      <b>Token Name: </b>
+                      {tokenDetail.name}
+                    </div>
+                  </Typography>
+                  <Typography variant="body1">
+                    <div>
+                      <b>Token Symbol: </b>
+                      {tokenDetail.symbol}
+                    </div>
+                  </Typography>
+                  <Typography variant="body1">
+                    <div>
+                      <b>Token Description: </b>
+                      {tokenDetail.description}
+                    </div>
+                  </Typography>
+                  <Typography variant="body1">
+                    <div>
+                      <b>Token Amount: </b>
+                      {tokenDetail.amount}
+                    </div>
+                  </Typography>
+                  <Typography variant="body1">
+                    <div>
+                      <b>Token Decimal: </b>
+                      {tokenDetail.decimal}
+                    </div>
+                  </Typography>
+                  <Typography variant="body1">
+                    <div>
+                      <b>Pausable Contract: </b>
+                      {tokenDetail.pausableContract.toString()}
+                    </div>
+                  </Typography>
+                  <Typography variant="body1">
+                    <div>
+                      <b>Stackable Contract: </b>
+                      {tokenDetail.stackableContract.toString()}
+                    </div>
+                  </Typography>
+                </Paper>
+              </Stack>
+            ) : nftDetail ? (
+              <Stack direction="column" spacing={2}>
+                <Paper elevation={3}>
+                  <Typography variant="body1">
+                    Nft Name: {nftDetail.name}
+                  </Typography>
+                  <Typography variant="body1">
+                    Token Description: {nftDetail.description}
+                  </Typography>
+                  <Typography variant="body1">
+                    Nft Level: {nftDetail.level}
+                  </Typography>
+                  <Typography variant="body1">
+                    Collection Address: {nftDetail.collectionAddress}
+                  </Typography>
+                </Paper>
+              </Stack>
+            ) : undefined}
+          </Stack>
+        </Grid>
         <Grid
           paddingTop={2}
           container
