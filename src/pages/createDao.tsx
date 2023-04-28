@@ -9,9 +9,6 @@ import GoogleFontLoader from "react-google-font-loader";
 import { fetchTokens, fetchNfts } from "../lib/api/index";
 import axios from "axios";
 import DrawerAppBar from "../components/mobilMenu";
-import FileBase64 from "react-file-base64";
-
-import UploadIcon from "@mui/icons-material/Upload";
 import { ImageUpload } from "../components/imageUpload";
 
 const useStyles = makeStyles((theme) => ({

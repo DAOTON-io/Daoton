@@ -3,7 +3,6 @@ import { makeStyles } from "@mui/styles";
 import React from "react";
 
 import ResponsiveAppBar from "./header";
-import { StickyHeadTable } from "./table";
 import SideMenu from "./sideMenu";
 
 const useStyles = makeStyles({
