@@ -1,5 +1,5 @@
 /* eslint-disable jsx-a11y/alt-text */
-import * as React from "react";
+import React from "react";
 import Box from "@mui/material/Box";
 import Typography from "@mui/material/Typography";
 import Container from "@mui/material/Container";
@@ -29,7 +29,7 @@ export const Login = () => {
 
   return (
     <ThemeProvider theme={theme}>
-      <Container component="main" style={{ background: "linear-gradient(#EC7D31, #20A8E7)", height: "100vh", padding: 0, margin: 0, maxWidth:'100%' }}>
+      <Container component="main" style={{ background: "linear-gradient(#EC7D31, #20A8E7)", height: "100vh", padding: 0, margin: 0, maxWidth: "100%" }}>
         <Box
           sx={{
             display: "flex",

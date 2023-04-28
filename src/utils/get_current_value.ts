@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/no-unused-vars */
 import { getHttpEndpoint } from "@orbs-network/ton-access";
 import { TonClient, Cell } from "ton";
 import { beginCell, Address, comment, Contract, ContractProvider, ContractState, openContract, storeMessage, toNano } from "ton-core";

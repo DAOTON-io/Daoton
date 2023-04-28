@@ -1,4 +1,6 @@
+/* eslint-disable @typescript-eslint/no-unused-vars */
 /* eslint-disable jsx-a11y/anchor-is-valid */
+import React from "react";
 import { Grid, Card, Typography, Box, CircularProgress } from "@mui/material";
 import SideMenu from "../components/sideMenu";
 import { makeStyles } from "@mui/styles";

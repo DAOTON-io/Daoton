@@ -1,7 +1,7 @@
-import { Grid, Switch, Card, Stack, Button, Input } from "@mui/material";
+import React, { useState, useEffect } from "react";
+import { Grid, Switch, Card, Stack } from "@mui/material";
 
 import { makeStyles } from "@mui/styles";
-import React, { useState, useEffect } from "react";
 import SideMenu from "../components/sideMenu";
 import { useTonConnectUI, useTonAddress } from "@tonconnect/ui-react";
 import TonWeb from "tonweb";
@@ -142,7 +142,7 @@ export default function CreateDao() {
   const address = useTonAddress();
   const [tokens, setTokens] = useState([]);
   const [nftCollections, setNftCollections] = useState([]);
-  // eslint-disable-next-line no-unused-vars
+  // eslint-disable-next-line no-unused-vars, @typescript-eslint/no-unused-vars
   const [loading, setLoading] = useState(true);
 
   useEffect(() => {

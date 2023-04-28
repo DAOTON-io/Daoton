@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/no-unused-vars */
 import { Grid, Typography } from "@mui/material";
 import { makeStyles } from "@mui/styles";
 import React, { useEffect } from "react";

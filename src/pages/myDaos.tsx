@@ -1,6 +1,7 @@
+/* eslint-disable @typescript-eslint/no-unused-vars */
+import React from "react";
 import { Grid, Typography } from "@mui/material";
 import { makeStyles } from "@mui/styles";
-import React from "react";
 import { Card } from "reactstrap";
 import { DaoCard } from "../components/dao-card";
 import SideMenu from "../components/sideMenu";

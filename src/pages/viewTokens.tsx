@@ -1,6 +1,6 @@
+import React, { useEffect, useState } from "react";
 import { Grid, Box, CircularProgress, Card, Typography } from "@mui/material";
 import { makeStyles } from "@mui/styles";
-import React, { useEffect, useState } from "react";
 import { useTonAddress } from "@tonconnect/ui-react";
 import { TokenItem } from "../components/token-item";
 import SideMenu from "../components/sideMenu";
@@ -43,6 +43,7 @@ const useStyles = makeStyles((theme) => ({
 }));
 
 export default function ViewTokens() {
+  // eslint-disable-next-line @typescript-eslint/no-unused-vars
   const classes = useStyles();
 
   const [tokens, setTokens] = useState([]);

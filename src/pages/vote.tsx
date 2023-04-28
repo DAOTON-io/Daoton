@@ -1,8 +1,8 @@
+import React, { useEffect, useState } from "react";
 import { Grid } from "@mui/material";
 import { makeStyles } from "@mui/styles";
 import { useTonConnectUI } from "@tonconnect/ui-react";
 import axios from "axios";
-import React, { useEffect, useState } from "react";
 import GoogleFontLoader from "react-google-font-loader";
 import { useParams } from "react-router-dom";
 import { Button, Card } from "reactstrap";
