@@ -1,118 +1,161 @@
-import { Card, CardActionArea, CardContent, Grid, Typography } from "@mui/material";
-import { CustomStep } from "../components/customStep";
-import DrawerAppBar from "../components/mobilMenu";
-import SideMenu from "../components/sideMenu";
-import { makeStyles } from "@mui/styles";
-import BusinessIcon from "@mui/icons-material/Business";
-import AssuredWorkloadIcon from "@mui/icons-material/AssuredWorkload";
-import ForumIcon from "@mui/icons-material/Forum";
-import GavelIcon from "@mui/icons-material/Gavel";
-import PixIcon from "@mui/icons-material/Pix";
-import SportsEsportsIcon from "@mui/icons-material/SportsEsports";
-import RocketLaunchIcon from "@mui/icons-material/RocketLaunch";
+import React, {useState} from 'react';
+import {Card, Grid, Theme} from '@mui/material';
+import BusinessIcon from '@mui/icons-material/Business';
+import DrawerAppBar from '../components/mobilMenu';
+import SideMenu from '../components/sideMenu';
+import {makeStyles} from '@mui/styles';
+import {Steps} from './CreateDao/Steps';
+import {DaoInfo} from './CreateDao/DaoInfo';
+import GoogleFontLoader from 'react-google-font-loader';
+import {DaoCategories} from './CreateDao/DaoCategories';
+import {TokenDetail} from './CreateDao/TokenDetail';
+import {Review} from './CreateDao/Review';
+import {
+  CategoryType,
+  InfoType,
+  NftDetailType,
+  TokenDetailType,
+} from '../utils/types';
+import {TOKEN_TYPES} from '../utils/enums';
 
-import React, { useState } from "react";
-
-const steps = ["Choose DAO Type", "Your Dao Informations", "Token Detail", "Review"];
-const categories = [
-  { id: 1, label: "Company", icon: <BusinessIcon style={{ color: "white", marginRight: "1rem" }} fontSize="large" /> },
-  { id: 2, label: "Governance", icon: <AssuredWorkloadIcon style={{ color: "white", marginRight: "1rem" }} fontSize="large" /> },
-  { id: 3, label: "Community", icon: <ForumIcon style={{ color: "white", marginRight: "1rem" }} fontSize="large" /> },
-  { id: 4, label: "Election", icon: <GavelIcon style={{ color: "white", marginRight: "1rem" }} fontSize="large" /> },
-  { id: 5, label: "Venture Capital", icon: <PixIcon style={{ color: "white", marginRight: "1rem" }} fontSize="large" /> },
-  { id: 6, label: "Game-Fi", icon: <SportsEsportsIcon style={{ color: "white", marginRight: "1rem" }} fontSize="large" /> },
-  { id: 7, label: "Start-Up", icon: <RocketLaunchIcon style={{ color: "white", marginRight: "1rem" }} fontSize="large" /> },
-];
-
-const useStyles = makeStyles((theme) => ({
-  appBar: {
-    position: "fixed",
-    marginTop: "2rem",
-    width: "90%",
-  },
+const useStyles = makeStyles((theme: Theme) => ({
   cardDiv: {
-    marginTop: "8rem",
-    display: "flex",
-    alignItem: "center",
-    justifyContent: "center",
-  },
-  card: {
-    backgroundImage: "url('/images/bluebg2.jpg') !important",
-    backgroundSize: "cover",
-    // backgroundColor: "#2D6495 !important",
-    // "&:hover": {
-    //   backgroundColor: "#A2C5E3 !important",
-    // },
-  },
-  cardItem: {
-    display: "flex",
-    alignItem: "center",
-    justifyContent: "center",
-    height: "5rem",
+    marginTop: '8rem',
+    display: 'flex',
+    alignItem: 'center',
+    width: '100%',
+    [theme.breakpoints.down('sm')]: {
+      marginBottom: 2,
+      marginTop: '9rem',
+      overflow: 'auto',
+    },
   },
 }));
 
-export const CreateDao2 = () => {
+export const CreateDao2: React.FC = () => {
   const [activeStep, setActiveStep] = useState<number>(1);
-  const [selectedCategory, setSelectedCategory] = useState<number>(0);
+  const [selectedCategory, setSelectedCategory] = useState<CategoryType>({
+    id: 0,
+    label: '',
+    icon: undefined,
+  });
+  const [daoInfo, setDaoInfo] = useState<InfoType>({
+    name: '',
+    desc: '',
+    image: '',
+  });
+  const [tokenDetail, setTokenDetail] = useState<TokenDetailType>({
+    type: TOKEN_TYPES.NEW_TOKEN,
+    name: '',
+    description: '',
+    symbol: '',
+    amount: '',
+    decimal: '',
+    pausableContract: false,
+    stackableContract: false,
+    image: '',
+  });
+  const [nftDetail, setNftDetail] = useState<NftDetailType>({
+    type: TOKEN_TYPES.NEW_NFT,
+    name: '',
+    description: '',
+    level: '',
+    collectionAddress: '',
+    image: '',
+  });
+
   const classes = useStyles();
 
   return (
     <div
       style={{
-        backgroundColor: "#E7EBF1",
-        height: "100%",
-      }}
-    >
+        backgroundColor: '#E7EBF1',
+        height: '100%',
+      }}>
       <Grid container spacing={2}>
         <Grid item md={2}>
           <SideMenu />
         </Grid>
         <Grid item md={10}>
-          <DrawerAppBar />
-          <div
-            style={{
-              justifyContent: "center",
-              display: "flex",
-              height: "80vh",
-            }}
-          >
-            <div className={classes.appBar}>
-              <CustomStep steps={steps} activeStep={activeStep} />
-            </div>
-            <div className={classes.cardDiv}>
-              {activeStep === 1 && (
-                <>
-                  {" "}
-                  <Grid container spacing={2}>
-                    {categories.map((ct) => {
-                      return (
-                        <Grid item xs={12} sm={6}>
-                          <Card
-                            id={ct.id.toString()}
-                            className={classes.card}
-                            onClick={() => {
-                              setActiveStep(2);
-                              setSelectedCategory(ct.id);
-                            }}
-                          >
-                            <CardActionArea>
-                              <CardContent className={classes.cardItem}>
-                                {ct.icon}
-                                <Typography color={"white"} fontSize={30} gutterBottom variant="h5" component="div">
-                                  {ct.label}
-                                </Typography>
-                              </CardContent>
-                            </CardActionArea>
-                          </Card>
-                        </Grid>
-                      );
-                    })}
-                  </Grid>
-                </>
-              )}
-            </div>
-          </div>
+          <Grid container direction={'column'} spacing={2}>
+            <Grid item>
+              <DrawerAppBar />
+            </Grid>
+            <Grid item>
+              <Card
+                style={{width: '100%'}}
+                sx={{
+                  borderRadius: '40px',
+                }}>
+                <GoogleFontLoader
+                  fonts={[
+                    {
+                      font: 'Raleway',
+                      weights: [700, '700i', 500, '500i'],
+                    },
+                  ]}
+                  subsets={['cyrillic-ext', 'greek']}
+                />
+                <div
+                  style={{
+                    justifyContent: 'center',
+                    display: 'flex',
+                    height: '80vh',
+                    marginBottom: '1rem',
+                    minWidth: '21rem',
+                    padding: '1rem',
+                  }}>
+                  <Steps activeStep={activeStep} />
+                  <div className={classes.cardDiv}>
+                    {activeStep === 1 && (
+                      <>
+                        {' '}
+                        <DaoCategories
+                          activeStepOnChange={setActiveStep}
+                          selectedCategoryOnChange={setSelectedCategory}
+                          selectedCategory={selectedCategory}
+                        />
+                      </>
+                    )}
+                    {activeStep === 2 && (
+                      <>
+                        {' '}
+                        <DaoInfo
+                          activeStepOnChange={setActiveStep}
+                          daoInfoOnChange={setDaoInfo}
+                          daoInfo={daoInfo}
+                        />
+                      </>
+                    )}
+                    {activeStep === 3 && (
+                      <>
+                        {' '}
+                        <TokenDetail
+                          activeStepOnChange={setActiveStep}
+                          tokenDetailOnChange={setTokenDetail}
+                          tokenDetail={tokenDetail}
+                          nftDetailOnChange={setNftDetail}
+                          nftDetail={nftDetail}
+                        />
+                      </>
+                    )}
+                    {activeStep === 4 && (
+                      <>
+                        {' '}
+                        <Review
+                          selectedCategory={selectedCategory}
+                          daoInfo={daoInfo}
+                          tokenDetail={tokenDetail}
+                          nftDetail={nftDetail}
+                          activeStepOnChange={setActiveStep}
+                        />
+                      </>
+                    )}
+                  </div>
+                </div>
+              </Card>
+            </Grid>
+          </Grid>
         </Grid>
       </Grid>
     </div>
