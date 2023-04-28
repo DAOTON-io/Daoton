@@ -5,7 +5,7 @@ import {
   NftDetailType,
   TokenDetailType,
 } from '../../utils/types';
-import {Grid, Paper, Stack, Theme, Typography} from '@mui/material';
+import {Grid, Stack, Theme, Typography} from '@mui/material';
 import {CustomButton} from '../../components/CustomButton';
 import {makeStyles} from '@mui/styles';
 
@@ -29,6 +29,8 @@ const useStyles = makeStyles((theme: Theme) => ({
     display: 'flex',
     justifyContent: 'center',
     width: '100% !important',
+    padding: theme.spacing(2),
+    borderRadius: theme.spacing(1),
   },
 }));
 
@@ -64,7 +66,13 @@ export const Review: React.FC<Props> = ({
               justifyContent: 'center',
             }}>
             <Stack direction="column" spacing={2}>
-              <Paper elevation={3} style={{padding: '1rem'}}>
+              <Grid
+                style={{
+                  padding: '1rem',
+                  backgroundColor: '#2C6495',
+                  borderRadius: '1rem',
+                  color: 'beige',
+                }}>
                 <Typography variant="body1">
                   <div>
                     <b>Category: </b>
@@ -83,11 +91,18 @@ export const Review: React.FC<Props> = ({
                     {daoInfo.desc}
                   </div>
                 </Typography>
-              </Paper>
+              </Grid>
             </Stack>
             {tokenDetail ? (
               <Stack direction="column" spacing={2}>
-                <Paper elevation={3} style={{padding: '1rem'}}>
+                <Grid
+                  item
+                  style={{
+                    padding: '1rem',
+                    backgroundColor: '#2C6495',
+                    borderRadius: '1rem',
+                    color: 'beige',
+                  }}>
                   <Typography variant="body1">
                     <div>
                       <b>Token Name: </b>
@@ -130,11 +145,18 @@ export const Review: React.FC<Props> = ({
                       {tokenDetail.stackableContract.toString()}
                     </div>
                   </Typography>
-                </Paper>
+                </Grid>
               </Stack>
             ) : nftDetail ? (
               <Stack direction="column" spacing={2}>
-                <Paper elevation={3}>
+                <Grid
+                  item
+                  style={{
+                    padding: '1rem',
+                    backgroundColor: '#2C6495',
+                    borderRadius: '1rem',
+                    color: 'beige',
+                  }}>
                   <Typography variant="body1">
                     Nft Name: {nftDetail.name}
                   </Typography>
@@ -147,7 +169,7 @@ export const Review: React.FC<Props> = ({
                   <Typography variant="body1">
                     Collection Address: {nftDetail.collectionAddress}
                   </Typography>
-                </Paper>
+                </Grid>
               </Stack>
             ) : undefined}
           </Stack>
@@ -158,7 +180,7 @@ export const Review: React.FC<Props> = ({
           justifyContent={'space-between'}
           width={'100%'}>
           <CustomButton onClick={backStep} disabled={false} label="BACK" />
-          <CustomButton onClick={save} disabled={false} label="NEXT" />
+          <CustomButton onClick={save} disabled={false} label="SAVE" />
         </Grid>
       </Stack>
     </Grid>
