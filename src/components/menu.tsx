@@ -1,6 +1,6 @@
+import React from "react";
 import { Grid } from "@mui/material";
 import { makeStyles } from "@mui/styles";
-import React from "react";
 
 import ResponsiveAppBar from "./header";
 import SideMenu from "./sideMenu";

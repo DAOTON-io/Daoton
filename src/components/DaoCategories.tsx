@@ -8,7 +8,7 @@ import SportsEsportsIcon from "@mui/icons-material/SportsEsports";
 import RocketLaunchIcon from "@mui/icons-material/RocketLaunch";
 import { makeStyles } from "@mui/styles";
 import { Box, Card, CardActionArea, CardContent, Grid, Theme, Typography } from "@mui/material";
-import { CategoryType } from "../../utils/types";
+import { CategoryType } from "../utils/types";
 
 const categories: CategoryType[] = [
   {

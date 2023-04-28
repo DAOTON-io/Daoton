@@ -3,14 +3,14 @@ import { Card, Grid, Theme } from "@mui/material";
 import DrawerAppBar from "../components/mobilMenu";
 import SideMenu from "../components/sideMenu";
 import { makeStyles } from "@mui/styles";
-import { Steps } from "./CreateDao/Steps";
-import { DaoInfo } from "./CreateDao/DaoInfo";
 import GoogleFontLoader from "react-google-font-loader";
-import { DaoCategories } from "./CreateDao/DaoCategories";
-import { TokenDetail } from "./CreateDao/TokenDetail";
-import { Review } from "./CreateDao/Review";
+import { DaoCategories } from "../components/DaoCategories";
 import { CategoryType, InfoType, NftDetailType, TokenDetailType } from "../utils/types";
 import { TOKEN_TYPES } from "../utils/enums";
+import { TokenDetail } from "../components/TokenDetail";
+import { DaoInfo } from "../components/DaoInfo";
+import { Steps } from "../components/Steps";
+import { Review } from "../components/Review";
 
 const useStyles = makeStyles((theme: Theme) => ({
   cardDiv: {

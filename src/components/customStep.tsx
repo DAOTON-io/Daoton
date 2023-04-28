@@ -1,6 +1,6 @@
+import React from "react";
 import { Check } from "@mui/icons-material";
 import { Step, StepConnector, StepIconProps, StepLabel, Stepper, stepConnectorClasses, styled } from "@mui/material";
-import React from "react";
 
 const QontoConnector = styled(StepConnector)(({ theme }) => ({
   [`&.${stepConnectorClasses.alternativeLabel}`]: {

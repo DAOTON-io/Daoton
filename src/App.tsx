@@ -1,5 +1,6 @@
 import { THEME, TonConnectUIProvider } from "@tonconnect/ui-react";
 import { Routes, Route, BrowserRouter } from "react-router-dom";
+// import CreateDao from "./pages/createDao";
 import ContractList from "./pages/contractList";
 import ViewDao from "./pages/viewDAO";
 import ViewTokens from "./pages/viewTokens";

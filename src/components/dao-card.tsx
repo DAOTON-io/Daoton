@@ -1,7 +1,7 @@
 /* eslint-disable jsx-a11y/alt-text */
+import React from "react";
 import { Grid } from "@mui/material";
 import { makeStyles } from "@mui/styles";
-import React from "react";
 import GoogleFontLoader from "react-google-font-loader";
 import { Card } from "reactstrap";
 

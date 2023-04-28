@@ -1,10 +1,10 @@
 import React, { useEffect, useState } from "react";
 import { makeStyles } from "@mui/styles";
 import { Grid, Stack, Theme } from "@mui/material";
-import { ImageUpload } from "../../components/imageUpload";
-import { InfoType } from "../../utils/types";
-import { CustomInput } from "../../components/CustomInput";
-import { CustomButton } from "../../components/CustomButton";
+import { InfoType } from "../utils/types";
+import { CustomButton } from "./CustomButton";
+import { CustomInput } from "./CustomInput";
+import { ImageUpload } from "./imageUpload";
 
 type Props = {
   activeStepOnChange: (activeStep: number) => void;

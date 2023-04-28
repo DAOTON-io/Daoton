@@ -1,15 +1,15 @@
 import React, { useEffect, useState } from "react";
 import { Grid, MenuItem, SelectChangeEvent, Stack, Theme } from "@mui/material";
 import { makeStyles } from "@mui/styles";
-import { fetchNfts, fetchTokens } from "../../lib/api";
 import { useTonAddress } from "@tonconnect/ui-react";
-import { NftDetailType, TokenDetailType, TokensType } from "../../utils/types";
-import { TOKEN_TYPES } from "../../utils/enums";
-import { CustomInput } from "../../components/CustomInput";
-import { CustomButton } from "../../components/CustomButton";
-import { CustomSelect } from "../../components/CustomSelect";
-import { CustomSwitch } from "../../components/CustomSwitch";
-import { ImageUpload } from "../../components/imageUpload";
+import { fetchTokens, fetchNfts } from "../lib/api";
+import { TOKEN_TYPES } from "../utils/enums";
+import { TokenDetailType, NftDetailType, TokensType } from "../utils/types";
+import { CustomButton } from "./CustomButton";
+import { CustomInput } from "./CustomInput";
+import { CustomSelect } from "./CustomSelect";
+import { CustomSwitch } from "./CustomSwitch";
+import { ImageUpload } from "./imageUpload";
 
 type Props = {
   activeStepOnChange: (activeStep: number) => void;
