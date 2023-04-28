@@ -326,7 +326,7 @@ export default function CreateDao() {
                           </Grid>
                         </Grid>
                         <Grid container className={classes.buttonContainer}>
-                          <Grid item justifyContent={"flex-start"}>
+                          <Grid item justifyContent={"flex-start"} style={{ marginRight: "1rem" }}>
                             <label>DAO Image : </label>
                           </Grid>
                           <Grid item justifyContent={"flex-start"}>
