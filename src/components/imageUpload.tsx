@@ -1,4 +1,4 @@
-import React, {useState, useRef} from 'react';
+import React, {useState, useRef, ChangeEvent} from 'react';
 import {Button, IconButton} from '@mui/material';
 import {makeStyles} from '@mui/styles';
 import CloseIcon from '@mui/icons-material/Close';
@@ -39,17 +39,19 @@ type Props = {
 
 export const ImageUpload: React.FC<Props> = ({onChange, onClear}) => {
   const classes = useStyles();
-  const [file, setFile] = useState();
+  const [file, setFile] = useState<File>();
   const inputRef = useRef<HTMLInputElement>(null);
 
-  const handleFileInputChange = (event: any) => {
-    const file = event.target.files[0];
+  const handleFileInputChange = (event: ChangeEvent<HTMLInputElement>) => {
+    if (event.target.files) {
+      const file = event.target.files[0];
 
-    console.log(Buffer.from(JSON.stringify(file)).toString('base64'));
-    console.log(window.btoa(JSON.stringify(file)));
+      console.log(Buffer.from(JSON.stringify(file)).toString('base64'));
+      console.log(window.btoa(JSON.stringify(file)));
 
-    setFile(file);
-    onChange(Buffer.from(JSON.stringify(file)).toString('base64'));
+      setFile(file);
+      onChange(Buffer.from(JSON.stringify(file)).toString('base64'));
+    }
   };
 
   const handleClearButtonClick = () => {
