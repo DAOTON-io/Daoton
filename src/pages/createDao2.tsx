@@ -75,7 +75,7 @@ export const CreateDao2: React.FC = () => {
         <Grid item md={2}>
           <SideMenu />
         </Grid>
-        <Grid item md={10}>
+        <Grid item md={10} sx={{width: '100%'}}>
           <Grid container direction={'column'} spacing={2}>
             <Grid item>
               <DrawerAppBar />
