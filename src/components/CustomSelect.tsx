@@ -35,10 +35,11 @@ export const CustomSelect: React.FC<Props> = ({onChange, values, children}) => {
         '& .css-jedpe8-MuiSelect-select-MuiInputBase-input-MuiOutlinedInput-input.MuiSelect-select':
           {
             height: '27px',
+            borderRadius: '1rem',
           },
         '& .MuiOutlinedInput-notchedOutline': {
-          borderRadius: '1rem',
           border: '1px solid #A2C5E3',
+          borderRadius: '1rem',
         },
       }}
       onChange={onChange}
