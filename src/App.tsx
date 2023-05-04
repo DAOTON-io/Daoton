@@ -7,7 +7,7 @@ import ViewTokens from './pages/viewTokens';
 import CreateContract from './pages/createContract';
 import GenerateToken from './pages/GenerateToken';
 import GenerateNft from './pages/generateNft';
-import GenerateNftCollection from './pages/generateNftCollection';
+import GenerateCollection from './pages/GenerateCollection';
 import Vote from './pages/vote';
 import {ThemeProvider} from '@mui/styles';
 import {createTheme} from '@mui/material';
@@ -68,7 +68,7 @@ function App() {
               <Route
                 path="/generate-nft-collection"
                 index
-                element={<GenerateNftCollection />}
+                element={<GenerateCollection />}
               />
               <Route path="/view-nfts" index element={<ViewNft />} />
             </Route>
