@@ -251,7 +251,7 @@ const GenerateToken: React.FC = () => {
                           onChange={(e: any) =>
                             setData({
                               ...data,
-                              amount: parseInt(e.target.value),
+                              amount: e.target.value,
                             })
                           }
                         />
@@ -264,7 +264,7 @@ const GenerateToken: React.FC = () => {
                           onChange={(e: any) =>
                             setData({
                               ...data,
-                              decimal: parseInt(e.target.value),
+                              decimal: e.target.value,
                             })
                           }
                         />
