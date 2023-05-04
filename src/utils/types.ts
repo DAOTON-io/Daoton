@@ -55,3 +55,9 @@ export type GenerateTokenType = {
   isStackable: boolean;
   offchainUri: string;
 };
+
+export type CollectionDataType = {
+  collectionName: string;
+  collectionDescription: string;
+  collectionImage: string;
+};
