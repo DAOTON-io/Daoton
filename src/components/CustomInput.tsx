@@ -22,7 +22,7 @@ type Props = {
   label: string;
   id: string;
   name: string;
-  value: string;
+  value: string | number;
   onChange: any;
   style?: any;
 };
