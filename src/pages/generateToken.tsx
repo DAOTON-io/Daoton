@@ -48,15 +48,15 @@ const useStyles = makeStyles((theme: Theme) => ({
     },
   },
   buttonContainer: {
-    paddingRight: '32px',
-    paddingLeft: '32px',
+    paddingRight: '2rem',
+    paddingLeft: '2rem',
     textAlign: 'start',
     justifyContent: 'space-between',
     alignItems: 'center',
-    marginTop: '8px',
+    marginTop: '0.5rem',
     [theme.breakpoints.down('sm')]: {
-      paddingRight: '16px',
-      paddingLeft: '16px',
+      paddingRight: '1rem',
+      paddingLeft: '1rem',
     },
   },
   stackContainer: {
@@ -184,13 +184,7 @@ const GenerateToken: React.FC = () => {
                   padding: '1rem',
                 }}>
                 <Grid container className={classes.container}>
-                  <Grid
-                    container
-                    lg={9}
-                    md={8}
-                    sm={11}
-                    xs={12}
-                    className={classes.center}>
+                  <Grid container className={classes.center}>
                     <h5 className={classes.title}>Generate Token</h5>
 
                     <Grid container className={classes.gridContainer}>
@@ -304,7 +298,7 @@ const GenerateToken: React.FC = () => {
                             <Grid item justifyContent={'flex-start'}>
                               <label>Collection Image : </label>
                             </Grid>
-                            <Grid item justifyContent={'flex-start'}>
+                            <Grid item justifyContent={'flex-end'}>
                               <ImageUpload
                                 onChange={() => {}}
                                 onClear={() => {}}></ImageUpload>
