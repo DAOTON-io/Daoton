@@ -1,94 +1,33 @@
 import React, {useState} from 'react';
+import {useNavigate} from 'react-router-dom';
 import {Grid, Stack, Card} from '@mui/material';
 import {makeStyles} from '@mui/styles';
-import SideMenu from '../components/sideMenu';
-import {useTonConnectUI, useTonAddress} from '@tonconnect/ui-react';
-import NftMinter from '../lib/nft-minter';
-import {create} from 'ipfs';
-import {useNavigate} from 'react-router-dom';
-import DrawerAppBar from '../components/mobilMenu';
 import GoogleFontLoader from 'react-google-font-loader';
+import {useTonConnectUI, useTonAddress} from '@tonconnect/ui-react';
+import {create} from 'ipfs';
+import SideMenu from '../components/sideMenu';
+import NftMinter from '../lib/nft-minter';
+import DrawerAppBar from '../components/mobilMenu';
 import {ImageUpload} from '../components/imageUpload';
+import {CollectionDataType} from '../utils/types';
+import {CustomInput} from '../components/CustomInput';
+import {CustomButton} from '../components/CustomButton';
 
 const useStyles = makeStyles(theme => ({
-  card: {
-    backgroundColor: '#FBFDFF',
-    boxShadow: '0 0 10px 0 rgba(0,0,0,0.1)',
-    color: 'white',
-    padding: '30px',
-    borderRadius: '0.5rem',
-
-    height: '100%',
-    [theme.breakpoints.up('sm')]: {
-      width: '70%',
-      padding: '50px',
-    },
-  },
-
   title: {
     fontFamily: 'Raleway',
     fontWeight: 700,
     fontSize: '26px',
     color: '#0F2233',
-    marginBottom: '0.5rem',
+    paddingBottom: '2rem',
+    position: 'relative',
+    top: '1rem',
   },
-  form: {
-    marginTop: '1rem',
-  },
-  label: {
-    color: 'grey',
-    fontSize: '14px',
-    fontWeight: 'bold',
-    fontFamily: 'Raleway',
-  },
-  button: {
-    padding: '10px',
-    backgroundColor: '#2D6495',
-    color: '#E7F4FF',
-    border: 'none',
-    borderRadius: '16px',
-    minWidth: '235px',
-    minHeight: '44px',
-    fontFamily: 'Raleway',
-    fontWeight: 500,
-    [theme.breakpoints.down('sm')]: {
-      minWidth: '200px',
-    },
-  },
-
-  input: {
-    borderRadius: '16px',
-    borderColor: '#A2C5E3',
-    borderWidth: '1px',
-    maxWidth: '400px',
-    color: '#767D86',
-    minHeight: '44px',
-    padding: '12px',
-    boxShadow: 'none',
-    fontSize: '16px',
-    fontFamily: 'Raleway',
-    fontWeight: 500,
-    [theme.breakpoints.down('sm')]: {
-      minWidth: '300px',
-    },
-  },
-
-  inputImage: {
-    borderRadius: '16px',
-    borderColor: '#A2C5E3',
-    borderWidth: '1px',
-    borderStyle: 'dashed',
-    maxWidth: '400px',
-    color: '#767D86',
-    minHeight: '44px',
-    padding: '12px',
-    boxShadow: 'none',
-    fontSize: '16px',
-    fontFamily: 'Raleway',
-    fontWeight: 500,
-  },
-
   center: {
+    display: 'flex',
+    alignItems: 'center',
+    justifyContent: 'center',
+    textAlign: 'center',
     [theme.breakpoints.down('sm')]: {
       display: 'flex',
       alignItems: 'center',
@@ -96,11 +35,9 @@ const useStyles = makeStyles(theme => ({
       textAlign: 'center',
     },
   },
-
   container: {
-    marginBottom: 6,
-    marginTop: 6,
-    padding: '64px',
+    display: 'flex',
+    justifyContent: 'center',
     [theme.breakpoints.down('sm')]: {
       marginBottom: 2,
       marginTop: 2,
@@ -108,30 +45,45 @@ const useStyles = makeStyles(theme => ({
     },
   },
   buttonContainer: {
-    paddingRight: '32px',
-    paddingLeft: '32px',
+    paddingRight: '2rem',
+    paddingLeft: '2rem',
     textAlign: 'start',
     justifyContent: 'space-between',
     alignItems: 'center',
-    marginTop: '8px',
+    marginTop: '0.5rem',
     [theme.breakpoints.down('sm')]: {
-      paddingRight: '16px',
-      paddingLeft: '16px',
+      paddingRight: '1rem',
+      paddingLeft: '1rem',
     },
+  },
+
+  stackContainer: {
+    minWidth: '25rem',
+    marginTop: '0 !important',
+    [theme.breakpoints.down('sm')]: {
+      minWidth: '10rem',
+    },
+  },
+  gridContainer: {
+    display: 'flex',
+    justifyContent: 'center',
+    height: '65vh',
+    overflow: 'auto',
+    padding: '1rem',
   },
 }));
 
 const GenerateCollection = () => {
-  const classes = useStyles();
-  const navigate = useNavigate();
-
-  let address = useTonAddress(true);
-  const [tonConnectUi] = useTonConnectUI();
-  const [collectionData, setCollectionData] = useState({
+  const [collectionData, setCollectionData] = useState<CollectionDataType>({
     collectionName: '',
     collectionDescription: '',
     collectionImage: '',
   });
+
+  const classes = useStyles();
+  const navigate = useNavigate();
+  let address = useTonAddress(true);
+  const [tonConnectUi] = useTonConnectUI();
 
   const generateCollection = async () => {
     if (address) {
@@ -161,12 +113,12 @@ const GenerateCollection = () => {
   return (
     <Grid container spacing={2}>
       <Grid item lg={2} md={3}>
-        <SideMenu></SideMenu>
+        <SideMenu />
       </Grid>
       <Grid item lg={10} md={9} xs={12}>
         <Grid container direction={'column'} spacing={2}>
           <Grid item>
-            <DrawerAppBar></DrawerAppBar>
+            <DrawerAppBar />
           </Grid>
           <Grid item>
             <Card
@@ -177,75 +129,84 @@ const GenerateCollection = () => {
                 fonts={[{font: 'Raleway', weights: [700, '700i', 500, '500i']}]}
                 subsets={['cyrillic-ext', 'greek']}
               />
-              <Grid container className={classes.container}>
-                <Grid item lg={1} md={2} sm={1} xs={0}></Grid>
-                <Grid
-                  item
-                  lg={9}
-                  md={8}
-                  sm={11}
-                  xs={12}
-                  direction={'column'}
-                  className={classes.center}>
-                  <h5 className={classes.title}>Create Collection</h5>
+              <div
+                style={{
+                  height: '80vh',
+                  minWidth: '21rem',
+                  padding: '1rem',
+                }}>
+                <Grid container className={classes.container}>
+                  <Grid container className={classes.center}>
+                    <h5 className={classes.title}>Generate Collection</h5>
 
-                  <Grid item>
-                    <Stack spacing={2} maxWidth={'400px'} marginTop={4}>
-                      <input
-                        className={classes.input}
-                        placeholder="Name"
-                        onChange={event => {
-                          setCollectionData({
-                            ...collectionData,
-                            collectionName: event.target.value,
-                          });
-                        }}></input>
-                      <input
-                        className={classes.input}
-                        placeholder="Description"
-                        onChange={event => {
-                          setCollectionData({
-                            ...collectionData,
-                            collectionDescription: event.target.value,
-                          });
-                        }}></input>
-
-                      {/* <input className={classes.inputImage} placeholder="Image*"
+                    <Grid container className={classes.gridContainer}>
+                      <Stack
+                        spacing={2}
+                        marginTop={4}
+                        className={classes.stackContainer}
+                        direction={'column'}>
+                        <CustomInput
+                          placeholder="Name"
+                          label="Name"
+                          id="name"
+                          name="name"
+                          value={collectionData.collectionName}
+                          onChange={(event: any) => {
+                            setCollectionData({
+                              ...collectionData,
+                              collectionName: event.target.value,
+                            });
+                          }}
+                        />
+                        <CustomInput
+                          placeholder="Description"
+                          label="Description"
+                          id="description"
+                          name="description"
+                          value={collectionData.collectionDescription}
+                          onChange={(event: any) => {
+                            setCollectionData({
+                              ...collectionData,
+                              collectionDescription: event.target.value,
+                            });
+                          }}
+                        />
+                        {/* <input className={classes.inputImage} placeholder="Image*"
                         onChange={(event) => {
                           setCollectionData({ ...collectionData, collectionImage: event.target.value });
                         }}></input> */}
 
-                      <Grid
-                        direction={'column'}
-                        container
-                        justifyContent={'center'}>
-                        <Grid container className={classes.buttonContainer}>
-                          <Grid item justifyContent={'flex-start'}>
-                            <label>Collection Image : </label>
-                          </Grid>
-                          <Grid item justifyContent={'flex-start'}>
-                            <ImageUpload
-                              onChange={() => {}}
-                              onClear={() => {}}></ImageUpload>
+                        <Grid
+                          direction={'column'}
+                          container
+                          justifyContent={'center'}>
+                          <Grid container className={classes.buttonContainer}>
+                            <Grid item justifyContent={'flex-start'}>
+                              <label>Collection Image : </label>
+                            </Grid>
+                            <Grid item justifyContent={'flex-end'}>
+                              <ImageUpload
+                                onChange={() => {}}
+                                onClear={() => {}}></ImageUpload>
+                            </Grid>
                           </Grid>
                         </Grid>
-                      </Grid>
 
-                      <Grid paddingTop={2} container justifyContent={'center'}>
-                        <button
-                          className={classes.button}
-                          onClick={() => {
-                            generateCollection();
-                            console.log(collectionData);
-                          }}>
-                          Create
-                        </button>
-                      </Grid>
-                    </Stack>
+                        <Grid
+                          paddingTop={2}
+                          container
+                          justifyContent={'center'}>
+                          <CustomButton
+                            onClick={generateCollection}
+                            disabled={false}
+                            label="Generate"
+                          />
+                        </Grid>
+                      </Stack>
+                    </Grid>
                   </Grid>
                 </Grid>
-                <Grid item lg={2} md={2} sm={0} xs={0}></Grid>
-              </Grid>
+              </div>
             </Card>
           </Grid>
         </Grid>
