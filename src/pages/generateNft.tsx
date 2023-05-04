@@ -123,6 +123,15 @@ const GenerateNft = () => {
     }
   };
 
+  const disable = (): boolean => {
+    return !(
+      nftData.collectionAddress &&
+      nftData.nftName &&
+      nftData.nftDescription &&
+      nftData.level
+    );
+  };
+
   return (
     <Grid container spacing={2}>
       <Grid item lg={2} md={3}>
@@ -151,7 +160,7 @@ const GenerateNft = () => {
                 <Grid container className={classes.container}>
                   <Grid item lg={1} md={2} sm={1} xs={0}></Grid>
                   <Grid container className={classes.center}>
-                    <h5 className={classes.title}>Create NFT</h5>
+                    <h5 className={classes.title}>Generate NFT</h5>
 
                     <Grid container className={classes.gridContainer}>
                       <Stack
@@ -239,7 +248,7 @@ const GenerateNft = () => {
                           justifyContent={'center'}>
                           <CustomButton
                             onClick={generateNFT}
-                            disabled={false}
+                            disabled={disable()}
                             label="Generate"
                           />
                         </Grid>

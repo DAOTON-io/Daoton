@@ -198,7 +198,12 @@ const GenerateCollection = () => {
                           justifyContent={'center'}>
                           <CustomButton
                             onClick={generateCollection}
-                            disabled={false}
+                            disabled={
+                              !(
+                                collectionData.collectionName &&
+                                collectionData.collectionDescription
+                              )
+                            }
                             label="Generate"
                           />
                         </Grid>

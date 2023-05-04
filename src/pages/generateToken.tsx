@@ -157,6 +157,16 @@ const GenerateToken: React.FC = () => {
     });
   };
 
+  const disable = (): boolean => {
+    return !(
+      data.name &&
+      data.symbol &&
+      data.amount &&
+      data.decimal &&
+      data.description
+    );
+  };
+
   return (
     <Grid container spacing={2} overflow={'auto'}>
       <Grid item lg={2} md={3}>
@@ -311,7 +321,7 @@ const GenerateToken: React.FC = () => {
                           justifyContent={'center'}>
                           <CustomButton
                             onClick={generateToken}
-                            disabled={false}
+                            disabled={disable()}
                             label="Mint Token"
                           />
                         </Grid>
