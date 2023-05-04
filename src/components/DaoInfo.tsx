@@ -25,6 +25,12 @@ const useStyles = makeStyles((theme: Theme) => ({
     justifyContent: 'center',
     overflow: 'auto',
   },
+  stackContainer: {
+    minWidth: '25rem',
+    [theme.breakpoints.down('sm')]: {
+      minWidth: '10rem',
+    },
+  },
   buttonContainer: {
     textAlign: 'start',
     justifyContent: 'space-between',
@@ -58,7 +64,11 @@ export const DaoInfo: React.FC<Props> = ({
 
   return (
     <Grid container className={classes.container}>
-      <Stack direction="column" spacing={4} minWidth={'400px'} marginTop={4}>
+      <Stack
+        direction="column"
+        spacing={4}
+        marginTop={4}
+        className={classes.stackContainer}>
         <CustomInput
           placeholder="DAO Name"
           label="DAO Name"

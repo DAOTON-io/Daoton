@@ -24,6 +24,7 @@ type Props = {
   name: string;
   value: string;
   onChange: any;
+  style?: any;
 };
 
 export const CustomInput: React.FC<Props> = ({
@@ -33,6 +34,7 @@ export const CustomInput: React.FC<Props> = ({
   name,
   value,
   onChange,
+  style,
 }) => {
   const classes = useStyles();
 
@@ -67,6 +69,7 @@ export const CustomInput: React.FC<Props> = ({
       onChange={onChange}
       required
       type="text"
+      style={style}
     />
   );
 };

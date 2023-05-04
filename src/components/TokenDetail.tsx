@@ -27,7 +27,12 @@ const useStyles = makeStyles((theme: Theme) => ({
       marginBottom: 2,
       marginTop: 2,
       padding: '24px',
-      minWidth: '15rem',
+    },
+  },
+  stackContainer: {
+    minWidth: '25rem',
+    [theme.breakpoints.down('sm')]: {
+      minWidth: '10rem',
     },
   },
   buttonContainer: {
@@ -171,7 +176,12 @@ export const TokenDetail: React.FC<Props> = ({
 
   return (
     <Grid container className={classes.container} overflow={'auto'}>
-      <Stack direction="column" spacing={2} marginTop={4} minWidth={'400px'}>
+      <Stack
+        direction="column"
+        spacing={2}
+        marginTop={4}
+        marginBottom={2}
+        className={classes.stackContainer}>
         <Stack>
           <CustomSelect onChange={selectType} values={tokenType}>
             {' '}
@@ -191,7 +201,7 @@ export const TokenDetail: React.FC<Props> = ({
         </Stack>
         <Grid item>
           {tokenType === TOKEN_TYPES.NEW_TOKEN ? (
-            <Stack direction="column" spacing={4}>
+            <Stack direction="column" spacing={4} marginTop={2}>
               <Stack direction="row" spacing={4}>
                 <CustomInput
                   placeholder="Token Name"
@@ -212,6 +222,7 @@ export const TokenDetail: React.FC<Props> = ({
                   onChange={(e: any) =>
                     setTokenData({...tokenData, description: e.target.value})
                   }
+                  style={{marginLeft: '0.5rem'}}
                 />
               </Stack>
               <Stack direction="row" spacing={4}>
@@ -234,6 +245,7 @@ export const TokenDetail: React.FC<Props> = ({
                   onChange={(e: any) =>
                     setTokenData({...tokenData, amount: e.target.value})
                   }
+                  style={{marginLeft: '0.5rem'}}
                 />
               </Stack>
               <Stack direction="row" spacing={2}>
