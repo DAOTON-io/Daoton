@@ -6,7 +6,6 @@ import ViewDao from './pages/viewDAO';
 import ViewTokens from './pages/viewTokens';
 import CreateContract from './pages/createContract';
 import GenerateToken from './pages/GenerateToken';
-import GenerateNft from './pages/generateNft';
 import GenerateCollection from './pages/GenerateCollection';
 import Vote from './pages/vote';
 import {ThemeProvider} from '@mui/styles';
@@ -15,6 +14,7 @@ import ViewNft from './pages/viewNFT';
 import {ProtectedRoute} from './route/ProtectedRoute';
 import {Login} from './pages/Login';
 import {CreateDao2} from './pages/createDao2';
+import GenerateNft from './pages/GenerateNft';
 
 const theme = createTheme();
 const TonProofDemoApi = {

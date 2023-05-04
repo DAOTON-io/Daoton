@@ -1,161 +1,125 @@
-import React, { useState } from "react";
-import { makeStyles } from "@mui/styles";
-import { useTonConnectUI, useTonAddress } from "@tonconnect/ui-react";
-import NftMinter from "../lib/nft-minter";
-import { create } from "ipfs";
-import { collectionPreview } from "../lib/api/index";
-import { Address } from "ton";
-import { useNavigate } from "react-router-dom";
-import { Card, Grid, Stack } from "@mui/material";
-import SideMenu from "../components/sideMenu";
-import GoogleFontLoader from "react-google-font-loader";
-import DrawerAppBar from "../components/mobilMenu";
-import { ImageUpload } from "../components/imageUpload";
+import React, {useState} from 'react';
+import {useNavigate} from 'react-router-dom';
+import {Card, Grid, Stack} from '@mui/material';
+import {makeStyles} from '@mui/styles';
+import {useTonConnectUI, useTonAddress} from '@tonconnect/ui-react';
+import {Address} from 'ton';
+import {create} from 'ipfs';
+import NftMinter from '../lib/nft-minter';
+import {collectionPreview} from '../lib/api/index';
+import SideMenu from '../components/sideMenu';
+import GoogleFontLoader from 'react-google-font-loader';
+import DrawerAppBar from '../components/mobilMenu';
+import {ImageUpload} from '../components/imageUpload';
+import {CustomInput} from '../components/CustomInput';
+import {CustomButton} from '../components/CustomButton';
+import {GenerateNftType} from '../utils/types';
 
-const useStyles = makeStyles((theme) => ({
-  card: {
-    backgroundColor: "#FBFDFF",
-    boxShadow: "0 0 10px 0 rgba(0,0,0,0.1)",
-    color: "white",
-    padding: "30px",
-    borderRadius: "0.5rem",
-
-    height: "100%",
-    [theme.breakpoints.up("sm")]: {
-      width: "70%",
-      padding: "50px",
-    },
-  },
-
+const useStyles = makeStyles(theme => ({
   title: {
-    fontFamily: "Raleway",
+    fontFamily: 'Raleway',
     fontWeight: 700,
-    fontSize: "26px",
-    color: "#0F2233",
-    marginBottom: "0.5rem",
+    fontSize: '26px',
+    color: '#0F2233',
+    paddingBottom: '2rem',
+    position: 'relative',
+    top: '1rem',
   },
-  form: {
-    marginTop: "1rem",
-  },
-  label: {
-    color: "grey",
-    fontSize: "14px",
-    fontWeight: "bold",
-    fontFamily: "Raleway",
-  },
-  button: {
-    padding: "10px",
-    backgroundColor: "#2D6495",
-    color: "#E7F4FF",
-    border: "none",
-    borderRadius: "16px",
-    minWidth: "235px",
-    minHeight: "44px",
-    fontFamily: "Raleway",
-    fontWeight: 500,
-    [theme.breakpoints.down("sm")]: {
-      minWidth: "200px",
-    },
-  },
-
-  input: {
-    borderRadius: "16px",
-    borderColor: "#A2C5E3",
-    borderWidth: "1px",
-    maxWidth: "400px",
-    color: "#767D86",
-    minHeight: "44px",
-    padding: "12px",
-    boxShadow: "none",
-    fontSize: "16px",
-    fontFamily: "Raleway",
-    fontWeight: 500,
-    [theme.breakpoints.down("sm")]: {
-      minWidth: "300px",
-    },
-  },
-
-  inputImage: {
-    borderRadius: "16px",
-    borderColor: "#A2C5E3",
-    borderWidth: "1px",
-    borderStyle: "dashed",
-    maxWidth: "400px",
-    color: "#767D86",
-    minHeight: "44px",
-    padding: "12px",
-    boxShadow: "none",
-    fontSize: "16px",
-    fontFamily: "Raleway",
-    fontWeight: 500,
-  },
-
   center: {
-    [theme.breakpoints.down("sm")]: {
-      display: "flex",
-      alignItems: "center",
-      justifyContent: "center",
-      textAlign: "center",
+    display: 'flex',
+    alignItems: 'center',
+    justifyContent: 'center',
+    textAlign: 'center',
+    [theme.breakpoints.down('sm')]: {
+      display: 'flex',
+      alignItems: 'center',
+      justifyContent: 'center',
+      textAlign: 'center',
     },
   },
-
   container: {
-    marginBottom: 6,
-    marginTop: 6,
-    padding: "64px",
-    [theme.breakpoints.down("sm")]: {
+    display: 'flex',
+    justifyContent: 'center',
+    [theme.breakpoints.down('sm')]: {
       marginBottom: 2,
       marginTop: 2,
-      padding: "24px",
+      padding: '24px',
     },
   },
   buttonContainer: {
-    paddingRight: "32px",
-    paddingLeft: "32px",
-    textAlign: "start",
-    justifyContent: "space-between",
-    alignItems: "center",
-    marginTop: "8px",
-    [theme.breakpoints.down("sm")]: {
-      paddingRight: "16px",
-      paddingLeft: "16px",
+    paddingRight: '2rem',
+    paddingLeft: '2rem',
+    textAlign: 'start',
+    justifyContent: 'space-between',
+    alignItems: 'center',
+    marginTop: '0.5rem',
+    [theme.breakpoints.down('sm')]: {
+      paddingRight: '1rem',
+      paddingLeft: '1rem',
     },
+  },
+  stackContainer: {
+    minWidth: '25rem',
+    marginTop: '0 !important',
+    [theme.breakpoints.down('sm')]: {
+      minWidth: '10rem',
+    },
+  },
+  gridContainer: {
+    display: 'flex',
+    justifyContent: 'center',
+    height: '65vh',
+    overflow: 'auto',
+    padding: '1rem',
   },
 }));
 
-export default function GenerateNft() {
+const GenerateNft = () => {
+  const [nftData, setNftData] = useState<GenerateNftType>({
+    nftName: '',
+    nftDescription: '',
+    nftImage: '',
+    level: '',
+    collectionAddress: '',
+  });
+
   const classes = useStyles();
   const navigate = useNavigate();
-
   let address = useTonAddress(false);
   const [tonConnectUi] = useTonConnectUI();
-  const [nftData, setNftData] = useState({ nftName: "", nftDescription: "", nftImage: "", value: "", collectionAddress: "" });
 
   const generateNFT = async () => {
+    console.log('generate', nftData);
     if (address) {
       const node = await create();
       const itemContent = await node.add(
         JSON.stringify({
           attributes: [
             {
-              trait_type: "level",
-              value: nftData.value,
+              trait_type: 'level',
+              value: nftData.level,
             },
           ],
           description: nftData.nftDescription,
-          external_url: "example.com",
+          external_url: 'example.com',
           image: nftData.nftImage,
           name: nftData.nftName,
-        })
+        }),
       );
 
       const content = await collectionPreview(nftData.collectionAddress);
 
-      const minter = new NftMinter(Address.parse(content.owner_address).toString(), tonConnectUi, content.collection_content.data);
+      const minter = new NftMinter(
+        Address.parse(content.owner_address).toString(),
+        tonConnectUi,
+        content.collection_content.data,
+      );
 
-      minter.deployNftItem(itemContent.path, content.next_item_index, address).then(() => {
-        navigate("/view-nfts");
-      });
+      minter
+        .deployNftItem(itemContent.path, content.next_item_index, address)
+        .then(() => {
+          navigate('/view-nfts');
+        });
     }
   };
 
@@ -165,88 +129,132 @@ export default function GenerateNft() {
         <SideMenu />
       </Grid>
       <Grid item lg={10} md={9} xs={12}>
-        <Grid container direction={"column"} spacing={2}>
+        <Grid container direction={'column'} spacing={2}>
           <Grid item md={4}>
             <DrawerAppBar />
           </Grid>
-          <Grid item md={8} height={"100%"}>
+          <Grid item md={8} height={'100%'}>
             <Card
               sx={{
-                borderRadius: "40px",
-              }}
-            >
-              <GoogleFontLoader fonts={[{ font: "Raleway", weights: [700, "700i", 500, "500i"] }]} subsets={["cyrillic-ext", "greek"]} />
-              <Grid container className={classes.container}>
-                <Grid item lg={1} md={2} sm={1} xs={0}></Grid>
-                <Grid item lg={9} md={8} sm={11} xs={12} className={classes.center}>
-                  <h5 className={classes.title}>Create NFT</h5>
+                borderRadius: '40px',
+              }}>
+              <GoogleFontLoader
+                fonts={[{font: 'Raleway', weights: [700, '700i', 500, '500i']}]}
+                subsets={['cyrillic-ext', 'greek']}
+              />
+              <div
+                style={{
+                  height: '80vh',
+                  minWidth: '21rem',
+                  padding: '1rem',
+                }}>
+                <Grid container className={classes.container}>
+                  <Grid item lg={1} md={2} sm={1} xs={0}></Grid>
+                  <Grid container className={classes.center}>
+                    <h5 className={classes.title}>Create NFT</h5>
 
-                  <Grid item>
-                    <Stack spacing={2} maxWidth={"400px"} marginTop={4}>
-                      <input
-                        className={classes.input}
-                        placeholder="Name"
-                        onChange={(event) => {
-                          setNftData({ ...nftData, nftName: event.target.value });
-                        }}
-                      ></input>
-                      <input
-                        className={classes.input}
-                        placeholder="Description"
-                        onChange={(event) => {
-                          setNftData({ ...nftData, nftDescription: event.target.value });
-                        }}
-                      ></input>
-                      <input
-                        className={classes.input}
-                        placeholder="Level"
-                        onChange={(event) => {
-                          setNftData({ ...nftData, value: event.target.value });
-                        }}
-                      ></input>
-                      <input
-                        className={classes.input}
-                        placeholder="Collection Address"
-                        onChange={(event) => {
-                          setNftData({ ...nftData, collectionAddress: event.target.value });
-                        }}
-                      ></input>
-                      {/* <input className={classes.inputImage} placeholder="Image*"
+                    <Grid container className={classes.gridContainer}>
+                      <Stack
+                        spacing={2}
+                        marginTop={4}
+                        className={classes.stackContainer}
+                        direction={'column'}>
+                        <CustomInput
+                          placeholder="Name"
+                          label="Name"
+                          id="name"
+                          name="name"
+                          value={nftData.nftName}
+                          onChange={(event: any) => {
+                            setNftData({
+                              ...nftData,
+                              nftName: event.target.value,
+                            });
+                          }}
+                        />
+                        <CustomInput
+                          placeholder="Description"
+                          label="Description"
+                          id="description"
+                          name="description"
+                          value={nftData.nftDescription}
+                          onChange={(event: any) => {
+                            setNftData({
+                              ...nftData,
+                              nftDescription: event.target.value,
+                            });
+                          }}
+                        />
+                        <CustomInput
+                          placeholder="Level"
+                          label="Level"
+                          id="level"
+                          name="level"
+                          value={nftData.level}
+                          onChange={(event: any) => {
+                            setNftData({
+                              ...nftData,
+                              level: event.target.value,
+                            });
+                          }}
+                        />
+                        <CustomInput
+                          placeholder="Collection Address"
+                          label="Collection Address"
+                          id="collectionAddress"
+                          name="collectionAddress"
+                          value={nftData.collectionAddress}
+                          onChange={(event: any) => {
+                            setNftData({
+                              ...nftData,
+                              collectionAddress: event.target.value,
+                            });
+                          }}
+                        />
+
+                        {/* <input className={classes.inputImage} placeholder="Image*"
                         onChange={(event) => {
                           setNftData({ ...nftData, nftImage: event.target.value });
                         }}></input> */}
 
-                      <Grid direction={"column"} container justifyContent={"center"}>
-                        <Grid container className={classes.buttonContainer}>
-                          <Grid item justifyContent={"flex-start"}>
-                            <label>NFT Image : </label>
-                          </Grid>
-                          <Grid item justifyContent={"flex-start"}>
-                            <ImageUpload onChange={() => {}} onClear={() => {}}></ImageUpload>
+                        <Grid
+                          direction={'column'}
+                          container
+                          justifyContent={'center'}>
+                          <Grid container className={classes.buttonContainer}>
+                            <Grid item justifyContent={'flex-start'}>
+                              <label>NFT Image : </label>
+                            </Grid>
+                            <Grid item justifyContent={'flex-start'}>
+                              <ImageUpload
+                                onChange={() => {}}
+                                onClear={() => {}}></ImageUpload>
+                            </Grid>
                           </Grid>
                         </Grid>
-                      </Grid>
 
-                      <Grid paddingTop={2} container justifyContent={"center"}>
-                        <button
-                          className={classes.button}
-                          onClick={() => {
-                            generateNFT();
-                            console.log(nftData);
-                          }}
-                        >
-                          Create
-                        </button>
-                      </Grid>
-                    </Stack>
+                        <Grid
+                          paddingTop={2}
+                          container
+                          justifyContent={'center'}>
+                          <CustomButton
+                            onClick={generateNFT}
+                            disabled={false}
+                            label="Generate"
+                          />
+                        </Grid>
+                      </Stack>
+                    </Grid>
                   </Grid>
+                  <Grid item lg={2} md={2} sm={0} xs={0}></Grid>
                 </Grid>
-                <Grid item lg={2} md={2} sm={0} xs={0}></Grid>
-              </Grid>
+              </div>
             </Card>
           </Grid>
         </Grid>
       </Grid>
     </Grid>
   );
-}
+};
+
+export default GenerateNft;
