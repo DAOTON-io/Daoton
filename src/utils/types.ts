@@ -61,3 +61,11 @@ export type CollectionDataType = {
   collectionDescription: string;
   collectionImage: string;
 };
+
+export type GenerateNftType = {
+  nftName: string;
+  nftDescription: string;
+  level: string;
+  collectionAddress: string;
+  nftImage: string;
+};
