@@ -22,7 +22,7 @@ const useStyles = makeStyles((theme: Theme) => ({
     fontWeight: 700,
     fontSize: '26px',
     color: '#0F2233',
-    paddingBottom: '0.5rem',
+    paddingBottom: '2rem',
     position: 'relative',
     top: '1rem',
   },
