@@ -44,3 +44,14 @@ export type TokensType = {
     is_scam: boolean;
   };
 };
+
+export type GenerateTokenType = {
+  name: string;
+  symbol: string;
+  decimal: number;
+  amount: number;
+  description: string;
+  isPausable: boolean;
+  isStackable: boolean;
+  offchainUri: string;
+};
