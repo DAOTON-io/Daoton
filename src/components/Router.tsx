@@ -11,7 +11,7 @@ import Vote from '../pages/vote';
 import GenerateNft from '../pages/GenerateNft';
 import GenerateCollection from '../pages/GenerateCollection';
 import ViewNft from '../pages/viewNFT';
-import {Login} from '@mui/icons-material';
+import {Login} from '../pages/Login';
 
 const Router: React.FC = () => {
   return (
@@ -46,7 +46,6 @@ const Router: React.FC = () => {
             />
             <Route path="/view-nfts" index element={<ViewNft />} />
           </Route>
-
           <Route path="/login" index element={<Login />} />
         </Routes>
       </BrowserRouter>
