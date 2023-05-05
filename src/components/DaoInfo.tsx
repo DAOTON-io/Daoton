@@ -5,6 +5,7 @@ import {InfoType} from '../utils/types';
 import {CustomButton} from './CustomButton';
 import {CustomInput} from './CustomInput';
 import {ImageUpload} from './imageUpload';
+import {base64ToImage} from '../utils/utils';
 
 type Props = {
   activeStepOnChange: (activeStep: number) => void;
@@ -62,6 +63,12 @@ export const DaoInfo: React.FC<Props> = ({
     daoInfoOnChange(data);
   };
 
+  useEffect(() => {
+    base64ToImage(data.image, img => {
+      document.getElementById('image')?.appendChild(img);
+    });
+  }, [data.image]);
+
   return (
     <Grid container className={classes.container}>
       <Stack
@@ -94,12 +101,9 @@ export const DaoInfo: React.FC<Props> = ({
           </Grid>
           <Grid item justifyContent={'flex-end'}>
             <ImageUpload
-              onChange={(value: string) =>
-                setData({
-                  ...data,
-                  image: value,
-                })
-              }
+              onChange={(value: any) => {
+                setData({...data, image: value});
+              }}
               onClear={() => {}}></ImageUpload>
           </Grid>
         </Grid>
