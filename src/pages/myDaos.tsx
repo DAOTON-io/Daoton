@@ -1,48 +1,48 @@
 /* eslint-disable @typescript-eslint/no-unused-vars */
-import React from "react";
-import { Grid, Typography } from "@mui/material";
-import { makeStyles } from "@mui/styles";
-import { Card } from "reactstrap";
-import { DaoCard } from "../components/dao-card";
-import SideMenu from "../components/sideMenu";
-import DrawerAppBar from "../components/mobilMenu";
+import React from 'react';
+import {Grid, Typography} from '@mui/material';
+import {makeStyles} from '@mui/styles';
+import {Card} from 'reactstrap';
+import {DaoCard} from '../components/dao-card';
+import SideMenu from '../components/SideMenu';
+import DrawerAppBar from '../components/mobilMenu';
 
-const useStyles = makeStyles((theme) => ({
+const useStyles = makeStyles(theme => ({
   card: {
-    backgroundColor: "#2D6495",
-    boxShadow: "0 0 10px 0 rgba(0,0,0,0.1)",
-    height: "90vh",
-    color: "white",
-    padding: "10px",
-    borderRadius: "1rem",
+    backgroundColor: '#2D6495',
+    boxShadow: '0 0 10px 0 rgba(0,0,0,0.1)',
+    height: '90vh',
+    color: 'white',
+    padding: '10px',
+    borderRadius: '1rem',
   },
   listItem: {
-    padding: "10px",
-    color: "white",
+    padding: '10px',
+    color: 'white',
   },
   listItemSmall: {
-    marginBottom: "1rem",
-    "&:hover": {
+    marginBottom: '1rem',
+    '&:hover': {
       borderRadius: 4,
-      backgroundColor: "#1689c5",
+      backgroundColor: '#1689c5',
     },
   },
 
   divider: {
-    backgroundColor: "white",
-    color: "white",
+    backgroundColor: 'white',
+    color: 'white',
   },
   title: {
-    color: "white",
-    marginBottom: "0.5rem",
-    fontSize: "14px",
+    color: 'white',
+    marginBottom: '0.5rem',
+    fontSize: '14px',
   },
   item: {
-    color: "white",
+    color: 'white',
   },
 }));
 
-const columnsJson = JSON.parse(localStorage.getItem("daos") || "");
+const columnsJson = JSON.parse(localStorage.getItem('daos') || '');
 
 var columns: any = [];
 
@@ -55,9 +55,8 @@ export default function MyDao() {
     <div>
       <div
         style={{
-          backgroundColor: "#E7EBF1",
-        }}
-      >
+          backgroundColor: '#E7EBF1',
+        }}>
         <Grid container spacing={2}>
           <Grid item md={2}>
             <SideMenu />
@@ -67,12 +66,11 @@ export default function MyDao() {
 
             <div
               style={{
-                height: "100vh",
-                width: "100%",
-                overflow: "auto", // Kaydırma çubuğu eklemek için
-              }}
-            >
-              {" "}
+                height: '100vh',
+                width: '100%',
+                overflow: 'auto', // Kaydırma çubuğu eklemek için
+              }}>
+              {' '}
               <Grid container>
                 {/* If columns are empty write there are no DAOs in the middle of the screen on a card */}
                 {columns.length === 0 && (
@@ -80,33 +78,30 @@ export default function MyDao() {
                     item
                     md={12}
                     style={{
-                      justifyContent: "center",
-                      alignItems: "center",
-                      display: "flex",
-                    }}
-                  >
+                      justifyContent: 'center',
+                      alignItems: 'center',
+                      display: 'flex',
+                    }}>
                     <Card
                       style={{
-                        backgroundColor: "white",
-                        borderRadius: "1rem",
-                        padding: "5rem",
-                        marginTop: "2rem",
-                        boxShadow: "0 0 10px 0 rgba(0,0,0,0.1)",
-                        justifyContent: "center",
-                        alignItems: "center",
-                        display: "flex",
-                      }}
-                    >
+                        backgroundColor: 'white',
+                        borderRadius: '1rem',
+                        padding: '5rem',
+                        marginTop: '2rem',
+                        boxShadow: '0 0 10px 0 rgba(0,0,0,0.1)',
+                        justifyContent: 'center',
+                        alignItems: 'center',
+                        display: 'flex',
+                      }}>
                       <Typography
                         style={{
-                          color: "#1689c5",
-                          fontSize: "30px",
-                          fontWeight: "bold",
-                          justifyContent: "center",
-                          alignItems: "center",
-                          display: "flex",
-                        }}
-                      >
+                          color: '#1689c5',
+                          fontSize: '30px',
+                          fontWeight: 'bold',
+                          justifyContent: 'center',
+                          alignItems: 'center',
+                          display: 'flex',
+                        }}>
                         There are no DAOs
                       </Typography>
                     </Card>
@@ -120,8 +115,14 @@ export default function MyDao() {
                       description={column[1].desc}
                       value={column[1].tokenContract}
                       // today's date in format: 2021-10-10
-                      date={Date().split(" ")[3] + "-" + Date().split(" ")[1] + "-" + Date().split(" ")[2]}
-                      daoImg={""}
+                      date={
+                        Date().split(' ')[3] +
+                        '-' +
+                        Date().split(' ')[1] +
+                        '-' +
+                        Date().split(' ')[2]
+                      }
+                      daoImg={''}
                     />
                   </Grid>
                 ))}

@@ -1,45 +1,45 @@
-import React from "react";
-import { Grid } from "@mui/material";
-import { makeStyles } from "@mui/styles";
+import React from 'react';
+import {Grid} from '@mui/material';
+import {makeStyles} from '@mui/styles';
 
-import ResponsiveAppBar from "./header";
-import SideMenu from "./sideMenu";
+import ResponsiveAppBar from './header';
+import SideMenu from './SideMenu';
 
 const useStyles = makeStyles({
   container: {
-    padding: "1rem",
+    padding: '1rem',
   },
   card: {
-    backgroundColor: "#2D6495",
-    boxShadow: "0 0 10px 0 rgba(0,0,0,0.1)",
-    height: "90vh",
-    color: "white",
-    padding: "10px",
-    borderRadius: "1rem",
+    backgroundColor: '#2D6495',
+    boxShadow: '0 0 10px 0 rgba(0,0,0,0.1)',
+    height: '90vh',
+    color: 'white',
+    padding: '10px',
+    borderRadius: '1rem',
   },
   listItem: {
-    padding: "10px",
-    color: "white",
+    padding: '10px',
+    color: 'white',
   },
   listItemSmall: {
-    marginBottom: "1rem",
-    "&:hover": {
+    marginBottom: '1rem',
+    '&:hover': {
       borderRadius: 4,
-      backgroundColor: "#1689c5",
+      backgroundColor: '#1689c5',
     },
   },
 
   divider: {
-    backgroundColor: "white",
-    color: "white",
+    backgroundColor: 'white',
+    color: 'white',
   },
   title: {
-    color: "white",
-    marginBottom: "0.5rem",
-    fontSize: "14px",
+    color: 'white',
+    marginBottom: '0.5rem',
+    fontSize: '14px',
   },
   item: {
-    color: "white",
+    color: 'white',
   },
 });
 

@@ -1,7 +1,7 @@
 import React, {useState} from 'react';
 import {Card, Grid, Theme} from '@mui/material';
 import DrawerAppBar from '../components/mobilMenu';
-import SideMenu from '../components/sideMenu';
+import SideMenu from '../components/SideMenu';
 import {makeStyles} from '@mui/styles';
 import GoogleFontLoader from 'react-google-font-loader';
 import {DaoCategories} from '../components/DaoCategories';

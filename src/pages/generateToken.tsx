@@ -6,7 +6,7 @@ import GoogleFontLoader from 'react-google-font-loader';
 import {useTonConnectUI, useTonAddress} from '@tonconnect/ui-react';
 import {Address, toNano, contractAddress, Cell} from 'ton';
 import toastr from 'toastr';
-import SideMenu from '../components/sideMenu';
+import SideMenu from '../components/SideMenu';
 import {createDeployParams} from '../lib/token-minter/deployer';
 import DrawerAppBar from '../components/mobilMenu';
 import {ImageUpload} from '../components/imageUpload';

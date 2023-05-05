@@ -5,7 +5,7 @@ import {makeStyles} from '@mui/styles';
 import GoogleFontLoader from 'react-google-font-loader';
 import {useTonConnectUI, useTonAddress} from '@tonconnect/ui-react';
 import {create} from 'ipfs';
-import SideMenu from '../components/sideMenu';
+import SideMenu from '../components/SideMenu';
 import NftMinter from '../lib/nft-minter';
 import DrawerAppBar from '../components/mobilMenu';
 import {ImageUpload} from '../components/imageUpload';

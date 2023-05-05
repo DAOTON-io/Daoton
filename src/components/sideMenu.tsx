@@ -1,70 +1,97 @@
-import React, { useState } from "react";
+import React from 'react';
+import {Card, Divider, Grid, Theme, Typography} from '@mui/material';
+import GoogleFontLoader from 'react-google-font-loader';
+import ViewHeadlineIcon from '@mui/icons-material/ViewHeadline';
+import AddCircleIcon from '@mui/icons-material/AddCircle';
+import AddCircleOutlineIcon from '@mui/icons-material/AddCircleOutline';
+import {makeStyles} from '@mui/styles';
+import SummarizeIcon from '@mui/icons-material/Summarize';
+import FitbitIcon from '@mui/icons-material/Fitbit';
+import TokenIcon from '@mui/icons-material/Token';
+import PlaylistAddCircleIcon from '@mui/icons-material/PlaylistAddCircle';
+import {PAGES_NAME} from '../utils/enums';
+import Logout from './Logout';
 
-import Typography from "@mui/material/Typography";
-import Divider from "@mui/material/Divider";
-import ViewHeadlineIcon from "@mui/icons-material/ViewHeadline";
-import AddCircleIcon from "@mui/icons-material/AddCircle";
-import AddCircleOutlineIcon from "@mui/icons-material/AddCircleOutline";
-import { Card } from "reactstrap";
-import Grid from "@mui/material/Grid";
-import GoogleFontLoader from "react-google-font-loader";
-import { makeStyles } from "@mui/styles";
-import SummarizeIcon from "@mui/icons-material/Summarize";
-import Avatar from "@mui/material/Avatar";
-import { useTonAddress, useTonConnectUI } from "@tonconnect/ui-react";
-import ArrowBackIcon from "@mui/icons-material/ArrowBack";
-import LogoutIcon from "@mui/icons-material/Logout";
-import { IconButton } from "@mui/material";
-import { useNavigate } from "react-router-dom";
-import FitbitIcon from "@mui/icons-material/Fitbit";
-import TokenIcon from "@mui/icons-material/Token";
-import PlaylistAddCircleIcon from "@mui/icons-material/PlaylistAddCircle";
+const useStyles = makeStyles((theme: Theme) => ({
+  card: {
+    backgroundColor: '#2D6495 !important',
+    boxShadow: '0 0 10px 0 rgba(0,0,0,0.1)',
+    height: '92vh',
+    color: 'white',
+    padding: '10px',
+    borderRadius: '1rem',
+    // add breakpoint
+    [theme.breakpoints.down('md')]: {
+      visible: 'none',
+      display: 'none',
+    },
+  },
+  listItem: {
+    padding: '4px',
+    color: 'white',
+    cursor: 'pointer',
+  },
+  listItemSmall: {
+    marginBottom: '0.6rem',
+    '&:hover': {
+      borderRadius: 4,
+      backgroundColor: '#A2C5E3',
+    },
+  },
+  divider: {
+    backgroundColor: 'white',
+    color: 'white',
+  },
+  title: {
+    color: 'white',
+    marginBottom: '0.5rem',
+    fontSize: '14px',
+  },
+  item: {
+    color: 'white',
+    textDecoration: 'none',
+    fontFamily: 'Signika Negative',
+  },
+}));
 
-export default function SideMenu() {
-  const [showLogout, setShowLogout] = useState<boolean>(false);
-  const [tonConnectUI] = useTonConnectUI();
-  const navigate = useNavigate();
-
+const SideMenu: React.FC = () => {
   const classes = useStyles();
-  const address = useTonAddress(false);
 
   return (
     <>
       <Card className={classes.card}>
         <div
           style={{
-            color: "white",
-            justifyContent: "center",
-            alignItems: "center",
-            display: "flex",
-          }}
-        >
+            color: 'white',
+            justifyContent: 'center',
+            alignItems: 'center',
+            display: 'flex',
+          }}>
           <GoogleFontLoader
             fonts={[
               {
-                font: "Signika Negative",
-                weights: [400, "400i"],
+                font: 'Signika Negative',
+                weights: [400, '400i'],
               },
             ]}
-            subsets={["cyrillic-ext", "greek"]}
+            subsets={['cyrillic-ext', 'greek']}
           />
           <Typography
             style={{
-              fontWeight: "bold",
-              fontSize: "2rem",
-              marginBottom: "1rem",
-            }}
-          >
-            DAOTON
+              fontWeight: 'bold',
+              fontSize: '2rem',
+              marginBottom: '1rem',
+            }}>
+            {PAGES_NAME.TITLE}
           </Typography>
           {/* <img width={'80%'} src="logo/logobg.png" /> */}
         </div>
 
         <div>
           <Grid item md={12}>
-            {" "}
+            {' '}
             <div className={classes.listItem}>
-              <p className={classes.title}>Dao</p>
+              <p className={classes.title}>{PAGES_NAME.DAO}</p>
 
               <Grid className={classes.listItemSmall} container spacing={1}>
                 <Grid item>
@@ -73,37 +100,37 @@ export default function SideMenu() {
                 <Grid item>
                   <Typography>
                     <a className={classes.item} href="view-dao">
-                      View DAOs
+                      {PAGES_NAME.VIEW_DAOS}
                     </a>
                   </Typography>
                 </Grid>
               </Grid>
               {/* <Grid className={classes.listItemSmall} container spacing={1}>
-                <Grid item>
-                  <RemoveRedEyeIcon />
-                </Grid>
-                <Grid item>
-                  <Typography>
-                    <a className={classes.item} href="view-dao">
-                      My DAOs
-                    </a>
-                  </Typography>
-                </Grid>
-              </Grid> */}
+          <Grid item>
+            <RemoveRedEyeIcon />
+          </Grid>
+          <Grid item>
+            <Typography>
+              <a className={classes.item} href="view-dao">
+                My DAOs
+              </a>
+            </Typography>
+          </Grid>
+        </Grid> */}
               {/* <Grid className={classes.listItemSmall} container spacing={1}>
-                <Grid item>
-                  {' '}
-                  <AddCircleIcon />
-                </Grid>
-                <Grid item>
-                  {' '}
-                  <Typography className={classes.item}>
-                    <a className={classes.item} href="create-dao">
-                      Create Dao
-                    </a>
-                  </Typography>
-                </Grid>
-              </Grid> */}
+          <Grid item>
+            {' '}
+            <AddCircleIcon />
+          </Grid>
+          <Grid item>
+            {' '}
+            <Typography className={classes.item}>
+              <a className={classes.item} href="create-dao">
+                Create Dao
+              </a>
+            </Typography>
+          </Grid>
+        </Grid> */}
 
               <Grid className={classes.listItemSmall} container spacing={1}>
                 <Grid item>
@@ -112,7 +139,7 @@ export default function SideMenu() {
                 <Grid item>
                   <Typography>
                     <a className={classes.item} href="create-dao">
-                      Create Dao
+                      {PAGES_NAME.CREATE_DAO}
                     </a>
                   </Typography>
                 </Grid>
@@ -120,19 +147,19 @@ export default function SideMenu() {
             </div>
             <Divider className={classes.divider} />
             {/* <div className={classes.listItem}>
-              <p className={classes.title}>Proposal</p>
-              <Grid className={classes.listItemSmall} container spacing={1}>
-                <Grid item>
-                  <CalendarMonthIcon />
-                </Grid>
-                <Grid item>
-                  <Typography className={classes.item}> Proposal Calender</Typography>
-                </Grid>
-              </Grid>
-            </div> */}
+        <p className={classes.title}>Proposal</p>
+        <Grid className={classes.listItemSmall} container spacing={1}>
+          <Grid item>
+            <CalendarMonthIcon />
+          </Grid>
+          <Grid item>
+            <Typography className={classes.item}> Proposal Calender</Typography>
+          </Grid>
+        </Grid>
+      </div> */}
             {/* <Divider className={classes.divider} /> */}
             <div className={classes.listItem}>
-              <p className={classes.title}>Token</p>
+              <p className={classes.title}>{PAGES_NAME.TOKEN}</p>
               <Grid className={classes.listItemSmall} container spacing={1}>
                 <Grid item>
                   <TokenIcon />
@@ -141,7 +168,7 @@ export default function SideMenu() {
                 <Grid item>
                   <Typography className={classes.item}>
                     <a className={classes.item} href="view-tokens">
-                      My Tokens
+                      {PAGES_NAME.MY_TOKENS}
                     </a>
                   </Typography>
                 </Grid>
@@ -153,7 +180,7 @@ export default function SideMenu() {
                 <Grid item>
                   <Typography className={classes.item}>
                     <a className={classes.item} href="generate-token">
-                      Generate Token
+                      {PAGES_NAME.GENERATE_TOKEN}
                     </a>
                   </Typography>
                 </Grid>
@@ -161,7 +188,7 @@ export default function SideMenu() {
             </div>
             <Divider className={classes.divider} />
             <div className={classes.listItem}>
-              <p className={classes.title}>NFT</p>
+              <p className={classes.title}>{PAGES_NAME.NFT}</p>
               <Grid className={classes.listItemSmall} container spacing={1}>
                 <Grid item>
                   <FitbitIcon />
@@ -169,7 +196,7 @@ export default function SideMenu() {
                 <Grid item>
                   <Typography className={classes.item}>
                     <a className={classes.item} href="view-nfts">
-                      My Nft's
+                      {PAGES_NAME.MY_NFTS}
                     </a>
                   </Typography>
                 </Grid>
@@ -181,7 +208,7 @@ export default function SideMenu() {
                 <Grid item>
                   <Typography className={classes.item}>
                     <a className={classes.item} href="generate-nft-collection">
-                      Generate Collection
+                      {PAGES_NAME.GENERATE_COLLECTION}
                     </a>
                   </Typography>
                 </Grid>
@@ -193,7 +220,7 @@ export default function SideMenu() {
                 <Grid item>
                   <Typography className={classes.item}>
                     <a className={classes.item} href="generate-nft">
-                      Generate Nft
+                      {PAGES_NAME.GENERATE_NFT}
                     </a>
                   </Typography>
                 </Grid>
@@ -201,15 +228,19 @@ export default function SideMenu() {
             </div>
             <Divider />
             <div className={classes.listItem}>
-              <p className={classes.title}>Docs</p>
+              <p className={classes.title}>{PAGES_NAME.DOCS}</p>
               <Grid className={classes.listItemSmall} container spacing={1}>
                 <Grid item>
                   <SummarizeIcon />
                 </Grid>
                 <Grid item>
                   <Typography className={classes.item}>
-                    <a className={classes.item} href="https://docs.daoton.io" target="_blank" rel="noreferrer">
-                      Documentation
+                    <a
+                      className={classes.item}
+                      href="https://docs.daoton.io"
+                      target="_blank"
+                      rel="noreferrer">
+                      {PAGES_NAME.DOCUMENTATION}
                     </a>
                   </Typography>
                 </Grid>
@@ -220,135 +251,23 @@ export default function SideMenu() {
                 </Grid>
                 <Grid item>
                   <Typography className={classes.item}>
-                    <a className={classes.item} href="https://drive.google.com/file/d/1BhY6hriK72TEqH2ytaNl2ny_8Tgwna1g/view?usp=sharing" target="_blank" rel="noreferrer">
-                      Litepaper
+                    <a
+                      className={classes.item}
+                      href="https://drive.google.com/file/d/1BhY6hriK72TEqH2ytaNl2ny_8Tgwna1g/view?usp=sharing"
+                      target="_blank"
+                      rel="noreferrer">
+                      {PAGES_NAME.LITEPAPER}
                     </a>
                   </Typography>
                 </Grid>
               </Grid>
             </div>
-            <div className={classes.listItem}>
-              <Grid className={classes.logoutlistItemSmall} container spacing={1}>
-                {!showLogout ? (
-                  <Grid
-                    item
-                    style={{
-                      display: "flex",
-                      alignItems: "center",
-                      justifyContent: "center",
-                      padding: "0.3rem",
-                    }}
-                    onClick={() => {
-                      setShowLogout(true);
-                    }}
-                  >
-                    <Avatar
-                      src="/broken-image.jpg"
-                      sx={{
-                        width: 32,
-                        height: 32,
-                        bgcolor: "#EC7D31",
-                        marginRight: "0.5rem",
-                      }}
-                    />
-                    <Typography className={classes.item}>{address.slice(0, 8) + "..." + address.slice(-4)} </Typography>
-                  </Grid>
-                ) : (
-                  <div
-                    style={{
-                      display: "flex",
-                      alignItems: "center",
-                      justifyContent: "space-between",
-                      width: "100%",
-                    }}
-                  >
-                    <IconButton
-                      aria-label="back"
-                      component="label"
-                      style={{ color: "white" }}
-                      onClick={() => {
-                        setShowLogout(false);
-                      }}
-                    >
-                      <ArrowBackIcon />
-                    </IconButton>
-                    <Grid item>
-                      <Typography className={classes.item}>{address.slice(0, 8) + "..." + address.slice(-4)}</Typography>
-                    </Grid>
-                    <IconButton
-                      aria-label="back"
-                      component="label"
-                      style={{ color: "white" }}
-                      onClick={() => {
-                        tonConnectUI.disconnect();
-                        navigate("/login");
-                      }}
-                    >
-                      <LogoutIcon />
-                    </IconButton>
-                  </div>
-                )}
-              </Grid>
-            </div>
+            <Logout />
           </Grid>
         </div>
       </Card>
     </>
   );
-}
+};
 
-const useStyles = makeStyles((theme) => ({
-  container: {
-    padding: "1rem",
-  },
-  card: {
-    backgroundColor: "#2D6495",
-    boxShadow: "0 0 10px 0 rgba(0,0,0,0.1)",
-    height: "92vh",
-    color: "white",
-    padding: "10px",
-    borderRadius: "1rem",
-    // add breakpoint
-    [theme.breakpoints.down("md")]: {
-      visible: "none",
-      display: "none",
-    },
-  },
-  listItem: {
-    padding: "4px",
-    color: "white",
-    cursor: "pointer",
-  },
-  logoutlistItem: {
-    padding: "4px",
-    color: "white",
-  },
-  listItemSmall: {
-    marginBottom: "0.6rem",
-    "&:hover": {
-      borderRadius: 4,
-      backgroundColor: "#A2C5E3",
-    },
-  },
-  logoutlistItemSmall: {
-    marginBottom: "0.6rem",
-    "&:hover": {
-      borderRadius: 4,
-    },
-  },
-
-  divider: {
-    backgroundColor: "white",
-    color: "white",
-  },
-  title: {
-    color: "white",
-    marginBottom: "0.5rem",
-    fontSize: "14px",
-  },
-  item: {
-    color: "white",
-    textDecoration: "none",
-    fontFamily: "Signika Negative",
-  },
-}));
+export default SideMenu;

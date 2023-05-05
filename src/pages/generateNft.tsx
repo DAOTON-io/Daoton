@@ -7,7 +7,7 @@ import {Address} from 'ton';
 import {create} from 'ipfs';
 import NftMinter from '../lib/nft-minter';
 import {collectionPreview} from '../lib/api/index';
-import SideMenu from '../components/sideMenu';
+import SideMenu from '../components/SideMenu';
 import GoogleFontLoader from 'react-google-font-loader';
 import DrawerAppBar from '../components/mobilMenu';
 import {ImageUpload} from '../components/imageUpload';
