@@ -6,6 +6,7 @@ export enum TOKEN_TYPES {
 }
 
 export enum PAGES_NAME {
+  TITLE = 'DAOTON',
   DAO = 'DAO',
   VIEW_DAOS = 'View DAOs',
   CREATE_DAO = 'Create DAO',
