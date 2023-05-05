@@ -33,24 +33,33 @@ const useStyles = makeStyles(theme => ({
 }));
 
 type Props = {
-  onChange: (image: string) => void;
+  onChange: (image: any) => void;
   onClear: () => void;
 };
 
 export const ImageUpload: React.FC<Props> = ({onChange, onClear}) => {
-  const classes = useStyles();
   const [file, setFile] = useState<File>();
+  const classes = useStyles();
   const inputRef = useRef<HTMLInputElement>(null);
 
   const handleFileInputChange = (event: ChangeEvent<HTMLInputElement>) => {
     if (event.target.files) {
       const file = event.target.files[0];
 
-      console.log(Buffer.from(JSON.stringify(file)).toString('base64'));
-      console.log(window.btoa(JSON.stringify(file)));
+      // console.log(Buffer.from(JSON.stringify(file)).toString('base64'));
+      // console.log(window.btoa(JSON.stringify(file)));
+
+      let fileReader = new FileReader();
+      fileReader.readAsDataURL(file);
+
+      fileReader.onload = event => {
+        if (event.target?.result) {
+          onChange(event.target.result);
+        }
+      };
 
       setFile(file);
-      onChange(Buffer.from(JSON.stringify(file)).toString('base64'));
+      //onChange(Buffer.from(JSON.stringify(file)).toString('base64'));
     }
   };
 
