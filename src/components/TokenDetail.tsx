@@ -9,15 +9,7 @@ import {CustomButton} from './CustomButton';
 import {CustomInput} from './CustomInput';
 import {CustomSelect} from './CustomSelect';
 import {CustomSwitch} from './CustomSwitch';
-import {ImageUpload} from './imageUpload';
-
-type Props = {
-  activeStepOnChange: (activeStep: number) => void;
-  tokenDetailOnChange: (tokenDetail: TokenDetailType) => void;
-  tokenDetail: TokenDetailType;
-  nftDetailOnChange: (nftDetail: NftDetailType) => void;
-  nftDetail: NftDetailType;
-};
+import {ImageUpload} from './ImageUpload';
 
 const useStyles = makeStyles((theme: Theme) => ({
   container: {
@@ -41,6 +33,14 @@ const useStyles = makeStyles((theme: Theme) => ({
     alignItems: 'center',
   },
 }));
+
+type Props = {
+  activeStepOnChange: (activeStep: number) => void;
+  tokenDetailOnChange: (tokenDetail: TokenDetailType) => void;
+  tokenDetail: TokenDetailType;
+  nftDetailOnChange: (nftDetail: NftDetailType) => void;
+  nftDetail: NftDetailType;
+};
 
 export const TokenDetail: React.FC<Props> = ({
   activeStepOnChange,

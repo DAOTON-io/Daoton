@@ -56,10 +56,23 @@ const useStyles = makeStyles({
   },
 });
 
-type Props = {name: string; address: string; image: string};
+type Props = {
+  name: string;
+  address: string;
+  collectionAddress: string;
+  description: string;
+  image: string;
+};
 
-export const Collection: React.FC<Props> = ({name, address, image}) => {
+export const NftCard: React.FC<Props> = ({
+  name,
+  address,
+  collectionAddress,
+  description,
+  image,
+}) => {
   const classes = useStyles();
+  console.log(image);
 
   return (
     <div>
@@ -78,15 +91,19 @@ export const Collection: React.FC<Props> = ({name, address, image}) => {
                 display: 'flex',
               }}>
               <img
-                src={image || 'https://i.ibb.co/XYv6QT1/Daoton-Logo.png'}
-                width="200"
-                height="auto"></img>
-              {/* <img onError="this.onerror=null;this.src='https://i.ibb.co/XYv6QT1/Daoton-Logo.png';" src={image} width="200" height="auto"></img> */}
+                src={image && image.length > 10 ? image : '/images/logo.jpeg'}
+                style={{objectFit: 'contain', width: '100%'}}
+                height={'200'}
+              />
             </div>
             <Grid container>
-              <p className={classes.name}>{name}</p>
+              <p className={classes.name}>{name ? name : 'Pastel Dream'}</p>
             </Grid>
-            <p className={classes.description}>Address: {address} </p>
+            <p className={classes.description}>Address: {address}</p>
+            <p className={classes.description}>
+              Collection Address: {collectionAddress}
+            </p>
+            <p className={classes.description}>Description: {description}</p>
             {/* <Box
                                 sx={{
                                     display: "flex",

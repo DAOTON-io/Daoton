@@ -7,7 +7,7 @@ import GoogleFontLoader from 'react-google-font-loader';
 import {useParams} from 'react-router-dom';
 import {Button, Card} from 'reactstrap';
 import TonWeb from 'tonweb';
-import DrawerAppBar from '../components/mobilMenu';
+import DrawerAppBar from '../components/MobilMenu';
 import SideMenu from '../components/SideMenu';
 import getCurrentValue from '../utils/get_current_value';
 

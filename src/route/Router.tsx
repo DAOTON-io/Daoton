@@ -1,17 +1,17 @@
 import React from 'react';
 import {Routes, Route, BrowserRouter} from 'react-router-dom';
-import {ProtectedRoute} from '../route/ProtectedRoute';
-import ViewDao from '../pages/viewDAO';
-import ContractList from '../pages/contractList';
-import {CreateDao2} from '../pages/createDao2';
-import ViewTokens from '../pages/viewTokens';
-import GenerateToken from '../pages/GenerateToken';
-import CreateContract from '../pages/createContract';
-import Vote from '../pages/vote';
-import GenerateNft from '../pages/GenerateNft';
+import {ProtectedRoute} from './ProtectedRoute';
+import ViewDao from '../pages/ViewDAO';
+import ViewTokens from '../pages/ViewTokens';
+import Vote from '../pages/Vote';
 import GenerateCollection from '../pages/GenerateCollection';
-import ViewNft from '../pages/viewNFT';
+import ViewNft from '../pages/ViewNFT';
 import {Login} from '../pages/Login';
+import GenerateToken from '../pages/GenerateToken';
+import GenerateNft from '../pages/GenerateNft';
+import {CreateDao} from '../pages/CreateDao';
+import ContractList from '../pages/ContractList';
+import CreateContract from '../pages/CreateContract';
 
 const Router: React.FC = () => {
   return (
@@ -27,7 +27,7 @@ const Router: React.FC = () => {
               element={<ContractList />}
             />
             {/* <Route path="/create-dao" index element={<CreateDao />} /> */}
-            <Route path="/create-dao" index element={<CreateDao2 />} />
+            <Route path="/create-dao" index element={<CreateDao />} />
             <Route path="/view-tokens" index element={<ViewTokens />} />
             <Route path="/create-contract" index element={<CreateContract />} />
             <Route path="/generate-token" index element={<GenerateToken />} />

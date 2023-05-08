@@ -1,5 +1,6 @@
 import React from 'react';
-import {Card, Divider, Grid, Theme, Typography} from '@mui/material';
+import {useNavigate} from 'react-router-dom';
+import {Card, Divider, Grid, MenuItem, Theme, Typography} from '@mui/material';
 import GoogleFontLoader from 'react-google-font-loader';
 import ViewHeadlineIcon from '@mui/icons-material/ViewHeadline';
 import AddCircleIcon from '@mui/icons-material/AddCircle';
@@ -19,7 +20,7 @@ const useStyles = makeStyles((theme: Theme) => ({
     height: '92vh',
     color: 'white',
     padding: '10px',
-    borderRadius: '1rem',
+    borderRadius: '1rem !important',
     // add breakpoint
     [theme.breakpoints.down('md')]: {
       visible: 'none',
@@ -41,6 +42,7 @@ const useStyles = makeStyles((theme: Theme) => ({
   divider: {
     backgroundColor: 'white',
     color: 'white',
+    marginBottom: ' 0.5rem !important',
   },
   title: {
     color: 'white',
@@ -51,11 +53,18 @@ const useStyles = makeStyles((theme: Theme) => ({
     color: 'white',
     textDecoration: 'none',
     fontFamily: 'Signika Negative',
+    paddingLeft: '0.5rem !important',
+  },
+  icon: {
+    position: 'relative',
+    top: '0.2rem',
+    marginRight: '0.2rem',
   },
 }));
 
 const SideMenu: React.FC = () => {
   const classes = useStyles();
+  const navigate = useNavigate();
 
   return (
     <>
@@ -91,144 +100,172 @@ const SideMenu: React.FC = () => {
           <Grid item md={12}>
             {' '}
             <div className={classes.listItem}>
-              <p className={classes.title}>{PAGES_NAME.DAO}</p>
+              <b className={classes.title}>{PAGES_NAME.DAO}</b>
 
-              <Grid className={classes.listItemSmall} container spacing={1}>
+              <Grid container spacing={1} className={classes.listItemSmall}>
+                <MenuItem
+                  className={classes.item}
+                  key={PAGES_NAME.VIEW_DAOS}
+                  selected={window.location.pathname === PAGES_NAME.VIEW_DAOS}
+                  onClick={() => navigate('/view-dao')}>
+                  <Grid item>
+                    <ViewHeadlineIcon className={classes.icon} />
+                  </Grid>
+                  <Typography textAlign="center">
+                    {PAGES_NAME.VIEW_DAOS}
+                  </Typography>
+                </MenuItem>
+              </Grid>
+
+              {/* <Grid className={classes.listItemSmall} container spacing={1}>
                 <Grid item>
-                  <ViewHeadlineIcon />
+                  <RemoveRedEyeIcon />
                 </Grid>
                 <Grid item>
                   <Typography>
                     <a className={classes.item} href="view-dao">
-                      {PAGES_NAME.VIEW_DAOS}
+                      My DAOs
                     </a>
                   </Typography>
                 </Grid>
-              </Grid>
+              </Grid> */}
               {/* <Grid className={classes.listItemSmall} container spacing={1}>
-          <Grid item>
-            <RemoveRedEyeIcon />
-          </Grid>
-          <Grid item>
-            <Typography>
-              <a className={classes.item} href="view-dao">
-                My DAOs
-              </a>
-            </Typography>
-          </Grid>
-        </Grid> */}
-              {/* <Grid className={classes.listItemSmall} container spacing={1}>
-          <Grid item>
-            {' '}
-            <AddCircleIcon />
-          </Grid>
-          <Grid item>
-            {' '}
-            <Typography className={classes.item}>
-              <a className={classes.item} href="create-dao">
-                Create Dao
-              </a>
-            </Typography>
-          </Grid>
-        </Grid> */}
-
-              <Grid className={classes.listItemSmall} container spacing={1}>
                 <Grid item>
+                  {' '}
                   <AddCircleIcon />
                 </Grid>
                 <Grid item>
-                  <Typography>
+                  {' '}
+                  <Typography className={classes.item}>
                     <a className={classes.item} href="create-dao">
-                      {PAGES_NAME.CREATE_DAO}
+                      Create Dao
                     </a>
                   </Typography>
                 </Grid>
+              </Grid> */}
+
+              <Grid className={classes.listItemSmall} container spacing={1}>
+                <MenuItem
+                  className={classes.item}
+                  key={PAGES_NAME.CREATE_DAO}
+                  selected={window.location.pathname === PAGES_NAME.CREATE_DAO}
+                  onClick={() => navigate('/create-dao')}>
+                  <Grid item>
+                    <AddCircleIcon className={classes.icon} />
+                  </Grid>
+                  <Typography textAlign="center">
+                    {PAGES_NAME.CREATE_DAO}
+                  </Typography>
+                </MenuItem>
               </Grid>
             </div>
             <Divider className={classes.divider} />
             {/* <div className={classes.listItem}>
-        <p className={classes.title}>Proposal</p>
-        <Grid className={classes.listItemSmall} container spacing={1}>
-          <Grid item>
-            <CalendarMonthIcon />
-          </Grid>
-          <Grid item>
-            <Typography className={classes.item}> Proposal Calender</Typography>
-          </Grid>
-        </Grid>
-      </div> */}
-            {/* <Divider className={classes.divider} /> */}
-            <div className={classes.listItem}>
-              <p className={classes.title}>{PAGES_NAME.TOKEN}</p>
+              <p className={classes.title}>Proposal</p>
               <Grid className={classes.listItemSmall} container spacing={1}>
                 <Grid item>
-                  <TokenIcon />
+                  <CalendarMonthIcon />
                 </Grid>
-
                 <Grid item>
                   <Typography className={classes.item}>
-                    <a className={classes.item} href="view-tokens">
-                      {PAGES_NAME.MY_TOKENS}
-                    </a>
+                    {' '}
+                    Proposal Calender
                   </Typography>
                 </Grid>
               </Grid>
+            </div> */}
+            {/* <Divider className={classes.divider} /> */}
+            <div className={classes.listItem}>
+              <b className={classes.title}>{PAGES_NAME.TOKEN}</b>
+
               <Grid className={classes.listItemSmall} container spacing={1}>
-                <Grid item>
-                  <AddCircleOutlineIcon />
-                </Grid>
-                <Grid item>
-                  <Typography className={classes.item}>
-                    <a className={classes.item} href="generate-token">
-                      {PAGES_NAME.GENERATE_TOKEN}
-                    </a>
+                <MenuItem
+                  className={classes.item}
+                  key={PAGES_NAME.MY_TOKENS}
+                  selected={window.location.pathname === PAGES_NAME.MY_TOKENS}
+                  onClick={() => navigate('/view-tokens')}>
+                  <Grid item>
+                    <TokenIcon className={classes.icon} />
+                  </Grid>
+                  <Typography textAlign="center">
+                    {PAGES_NAME.MY_TOKENS}
                   </Typography>
-                </Grid>
+                </MenuItem>
+              </Grid>
+
+              <Grid className={classes.listItemSmall} container spacing={1}>
+                <MenuItem
+                  className={classes.item}
+                  key={PAGES_NAME.GENERATE_TOKEN}
+                  selected={
+                    window.location.pathname === PAGES_NAME.GENERATE_TOKEN
+                  }
+                  onClick={() => navigate('/generate-token')}>
+                  <Grid item>
+                    <AddCircleOutlineIcon className={classes.icon} />
+                  </Grid>
+                  <Typography textAlign="center">
+                    {PAGES_NAME.GENERATE_TOKEN}
+                  </Typography>
+                </MenuItem>
               </Grid>
             </div>
             <Divider className={classes.divider} />
             <div className={classes.listItem}>
-              <p className={classes.title}>{PAGES_NAME.NFT}</p>
+              <b className={classes.title}>{PAGES_NAME.NFT}</b>
+
               <Grid className={classes.listItemSmall} container spacing={1}>
-                <Grid item>
-                  <FitbitIcon />
-                </Grid>
-                <Grid item>
-                  <Typography className={classes.item}>
-                    <a className={classes.item} href="view-nfts">
-                      {PAGES_NAME.MY_NFTS}
-                    </a>
+                <MenuItem
+                  className={classes.item}
+                  key={PAGES_NAME.MY_NFTS}
+                  selected={window.location.pathname === PAGES_NAME.MY_NFTS}
+                  onClick={() => navigate('/view-nfts')}>
+                  <Grid item>
+                    <FitbitIcon className={classes.icon} />
+                  </Grid>
+                  <Typography textAlign="center">
+                    {PAGES_NAME.MY_NFTS}
                   </Typography>
-                </Grid>
+                </MenuItem>
               </Grid>
+
               <Grid className={classes.listItemSmall} container spacing={1}>
-                <Grid item>
-                  <PlaylistAddCircleIcon />
-                </Grid>
-                <Grid item>
-                  <Typography className={classes.item}>
-                    <a className={classes.item} href="generate-nft-collection">
-                      {PAGES_NAME.GENERATE_COLLECTION}
-                    </a>
+                <MenuItem
+                  className={classes.item}
+                  key={PAGES_NAME.GENERATE_COLLECTION}
+                  selected={
+                    window.location.pathname === PAGES_NAME.GENERATE_COLLECTION
+                  }
+                  onClick={() => navigate('/generate-nft-collection')}>
+                  <Grid item>
+                    <PlaylistAddCircleIcon className={classes.icon} />
+                  </Grid>
+                  <Typography textAlign="center">
+                    {PAGES_NAME.GENERATE_COLLECTION}
                   </Typography>
-                </Grid>
+                </MenuItem>
               </Grid>
+
               <Grid className={classes.listItemSmall} container spacing={1}>
-                <Grid item>
-                  <PlaylistAddCircleIcon />
-                </Grid>
-                <Grid item>
-                  <Typography className={classes.item}>
-                    <a className={classes.item} href="generate-nft">
-                      {PAGES_NAME.GENERATE_NFT}
-                    </a>
+                <MenuItem
+                  className={classes.item}
+                  key={PAGES_NAME.GENERATE_NFT}
+                  selected={
+                    window.location.pathname === PAGES_NAME.GENERATE_NFT
+                  }
+                  onClick={() => navigate('/generate-nft')}>
+                  <Grid item>
+                    <PlaylistAddCircleIcon className={classes.icon} />
+                  </Grid>
+                  <Typography textAlign="center">
+                    {PAGES_NAME.GENERATE_NFT}
                   </Typography>
-                </Grid>
+                </MenuItem>
               </Grid>
             </div>
             <Divider />
             <div className={classes.listItem}>
-              <p className={classes.title}>{PAGES_NAME.DOCS}</p>
+              <b className={classes.title}>{PAGES_NAME.DOCS}</b>
               <Grid className={classes.listItemSmall} container spacing={1}>
                 <Grid item>
                   <SummarizeIcon />
@@ -245,6 +282,7 @@ const SideMenu: React.FC = () => {
                   </Typography>
                 </Grid>
               </Grid>
+
               <Grid className={classes.listItemSmall} container spacing={1}>
                 <Grid item>
                   <SummarizeIcon />

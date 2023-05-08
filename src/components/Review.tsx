@@ -10,14 +10,6 @@ import {
 import {CustomButton} from './CustomButton';
 import {base64ToImage} from '../utils/utils';
 
-type Props = {
-  selectedCategory: CategoryType;
-  daoInfo: InfoType;
-  tokenDetail: TokenDetailType;
-  nftDetail: NftDetailType;
-  activeStepOnChange: (activeStep: number) => void;
-};
-
 const useStyles = makeStyles((theme: Theme) => ({
   container: {
     marginBottom: 6,
@@ -47,6 +39,14 @@ const useStyles = makeStyles((theme: Theme) => ({
     },
   },
 }));
+
+type Props = {
+  selectedCategory: CategoryType;
+  daoInfo: InfoType;
+  tokenDetail: TokenDetailType;
+  nftDetail: NftDetailType;
+  activeStepOnChange: (activeStep: number) => void;
+};
 
 export const Review: React.FC<Props> = ({
   selectedCategory,

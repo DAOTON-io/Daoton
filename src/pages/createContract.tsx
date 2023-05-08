@@ -10,7 +10,7 @@ import SideMenu from '../components/SideMenu';
 import {useTonConnectUI} from '@tonconnect/ui-react';
 import TonWeb from 'tonweb';
 import axios from 'axios';
-import DrawerAppBar from '../components/mobilMenu';
+import DrawerAppBar from '../components/MobilMenu';
 
 const useStyles = makeStyles(theme => ({
   card: {

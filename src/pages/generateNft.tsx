@@ -1,16 +1,13 @@
 import React, {useState} from 'react';
 import {useNavigate} from 'react-router-dom';
-import {Card, Grid, Stack} from '@mui/material';
+import {Grid, Stack} from '@mui/material';
 import {makeStyles} from '@mui/styles';
 import {useTonConnectUI, useTonAddress} from '@tonconnect/ui-react';
 import {Address} from 'ton';
 import {create} from 'ipfs';
 import NftMinter from '../lib/nft-minter';
 import {collectionPreview} from '../lib/api/index';
-import SideMenu from '../components/SideMenu';
-import GoogleFontLoader from 'react-google-font-loader';
-import DrawerAppBar from '../components/mobilMenu';
-import {ImageUpload} from '../components/imageUpload';
+import {ImageUpload} from '../components/ImageUpload';
 import {CustomInput} from '../components/CustomInput';
 import {CustomButton} from '../components/CustomButton';
 import {GenerateNftType} from '../utils/types';
@@ -133,136 +130,107 @@ const GenerateNft = () => {
   };
 
   return (
-    <Grid container spacing={2}>
-      <Grid item lg={2} md={3}>
-        <SideMenu />
-      </Grid>
-      <Grid item lg={10} md={9} xs={12}>
-        <Grid container direction={'column'} spacing={2}>
-          <Grid item md={4}>
-            <DrawerAppBar />
-          </Grid>
-          <Grid item md={8} height={'100%'}>
-            <Card
-              sx={{
-                borderRadius: '40px',
-              }}>
-              <GoogleFontLoader
-                fonts={[{font: 'Raleway', weights: [700, '700i', 500, '500i']}]}
-                subsets={['cyrillic-ext', 'greek']}
+    <div
+      style={{
+        height: '80vh',
+        minWidth: '21rem',
+        padding: '1rem',
+      }}>
+      <Grid container className={classes.container}>
+        <Grid item lg={1} md={2} sm={1} xs={0}></Grid>
+        <Grid container className={classes.center}>
+          <h5 className={classes.title}>Generate NFT</h5>
+
+          <Grid container className={classes.gridContainer}>
+            <Stack
+              spacing={2}
+              marginTop={4}
+              className={classes.stackContainer}
+              direction={'column'}>
+              <CustomInput
+                placeholder="Name"
+                label="Name"
+                id="name"
+                name="name"
+                value={nftData.nftName}
+                onChange={(event: any) => {
+                  setNftData({
+                    ...nftData,
+                    nftName: event.target.value,
+                  });
+                }}
               />
-              <div
-                style={{
-                  height: '80vh',
-                  minWidth: '21rem',
-                  padding: '1rem',
-                }}>
-                <Grid container className={classes.container}>
-                  <Grid item lg={1} md={2} sm={1} xs={0}></Grid>
-                  <Grid container className={classes.center}>
-                    <h5 className={classes.title}>Generate NFT</h5>
+              <CustomInput
+                placeholder="Description"
+                label="Description"
+                id="description"
+                name="description"
+                value={nftData.nftDescription}
+                onChange={(event: any) => {
+                  setNftData({
+                    ...nftData,
+                    nftDescription: event.target.value,
+                  });
+                }}
+              />
+              <CustomInput
+                placeholder="Level"
+                label="Level"
+                id="level"
+                name="level"
+                value={nftData.level}
+                onChange={(event: any) => {
+                  setNftData({
+                    ...nftData,
+                    level: event.target.value,
+                  });
+                }}
+              />
+              <CustomInput
+                placeholder="Collection Address"
+                label="Collection Address"
+                id="collectionAddress"
+                name="collectionAddress"
+                value={nftData.collectionAddress}
+                onChange={(event: any) => {
+                  setNftData({
+                    ...nftData,
+                    collectionAddress: event.target.value,
+                  });
+                }}
+              />
 
-                    <Grid container className={classes.gridContainer}>
-                      <Stack
-                        spacing={2}
-                        marginTop={4}
-                        className={classes.stackContainer}
-                        direction={'column'}>
-                        <CustomInput
-                          placeholder="Name"
-                          label="Name"
-                          id="name"
-                          name="name"
-                          value={nftData.nftName}
-                          onChange={(event: any) => {
-                            setNftData({
-                              ...nftData,
-                              nftName: event.target.value,
-                            });
-                          }}
-                        />
-                        <CustomInput
-                          placeholder="Description"
-                          label="Description"
-                          id="description"
-                          name="description"
-                          value={nftData.nftDescription}
-                          onChange={(event: any) => {
-                            setNftData({
-                              ...nftData,
-                              nftDescription: event.target.value,
-                            });
-                          }}
-                        />
-                        <CustomInput
-                          placeholder="Level"
-                          label="Level"
-                          id="level"
-                          name="level"
-                          value={nftData.level}
-                          onChange={(event: any) => {
-                            setNftData({
-                              ...nftData,
-                              level: event.target.value,
-                            });
-                          }}
-                        />
-                        <CustomInput
-                          placeholder="Collection Address"
-                          label="Collection Address"
-                          id="collectionAddress"
-                          name="collectionAddress"
-                          value={nftData.collectionAddress}
-                          onChange={(event: any) => {
-                            setNftData({
-                              ...nftData,
-                              collectionAddress: event.target.value,
-                            });
-                          }}
-                        />
-
-                        {/* <input className={classes.inputImage} placeholder="Image*"
+              {/* <input className={classes.inputImage} placeholder="Image*"
                         onChange={(event) => {
                           setNftData({ ...nftData, nftImage: event.target.value });
                         }}></input> */}
 
-                        <Grid
-                          direction={'column'}
-                          container
-                          justifyContent={'center'}>
-                          <Grid container className={classes.buttonContainer}>
-                            <Grid item justifyContent={'flex-start'}>
-                              <label>NFT Image : </label>
-                            </Grid>
-                            <Grid item justifyContent={'flex-start'}>
-                              <ImageUpload
-                                onChange={() => {}}
-                                onClear={() => {}}></ImageUpload>
-                            </Grid>
-                          </Grid>
-                        </Grid>
-
-                        <Grid
-                          paddingTop={2}
-                          container
-                          justifyContent={'center'}>
-                          <CustomButton
-                            onClick={generateNFT}
-                            disabled={disable()}
-                            label="Generate"
-                          />
-                        </Grid>
-                      </Stack>
-                    </Grid>
+              <Grid direction={'column'} container justifyContent={'center'}>
+                <Grid container className={classes.buttonContainer}>
+                  <Grid item justifyContent={'flex-start'}>
+                    <label>NFT Image : </label>
                   </Grid>
-                  <Grid item lg={2} md={2} sm={0} xs={0}></Grid>
+                  <Grid item justifyContent={'flex-start'}>
+                    <ImageUpload
+                      onChange={() => {}}
+                      onClear={() => {}}></ImageUpload>
+                  </Grid>
                 </Grid>
-              </div>
-            </Card>
+              </Grid>
+
+              <Grid paddingTop={2} container justifyContent={'center'}>
+                <CustomButton
+                  onClick={generateNFT}
+                  disabled={disable()}
+                  label="Generate"
+                />
+              </Grid>
+            </Stack>
           </Grid>
         </Grid>
+        <Grid item lg={2} md={2} sm={0} xs={0}></Grid>
       </Grid>
-    </Grid>
+    </div>
   );
 };
 

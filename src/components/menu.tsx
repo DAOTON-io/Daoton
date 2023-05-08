@@ -43,7 +43,7 @@ const useStyles = makeStyles({
   },
 });
 
-export default function MenuPage() {
+const MenuPage = () => {
   const classes = useStyles();
 
   return (
@@ -61,4 +61,6 @@ export default function MenuPage() {
       </div>
     </div>
   );
-}
+};
+
+export default MenuPage;

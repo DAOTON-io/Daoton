@@ -3,10 +3,10 @@ import {Grid} from '@mui/material';
 import {makeStyles} from '@mui/styles';
 import {useParams} from 'react-router-dom';
 import {Button} from 'reactstrap';
-import DrawerAppBar from '../components/mobilMenu';
-import {OwnerCard} from '../components/owner-card';
+import DrawerAppBar from '../components/MobilMenu';
+import {OwnerCard} from '../components/OwnerCard';
 import SideMenu from '../components/SideMenu';
-import {StickyHeadTable} from '../components/table';
+import {StickyHeadTable} from '../components/Table';
 
 const useStyles = makeStyles(theme => ({
   title: {
@@ -16,7 +16,7 @@ const useStyles = makeStyles(theme => ({
   },
 }));
 
-export default function ContractList() {
+const ContractList = () => {
   const classes = useStyles();
   let {daoId} = useParams();
 
@@ -54,4 +54,6 @@ export default function ContractList() {
       </Grid>
     </Grid>
   );
-}
+};
+
+export default ContractList;

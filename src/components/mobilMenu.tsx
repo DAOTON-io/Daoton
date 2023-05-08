@@ -131,7 +131,7 @@ const useStyles = makeStyles(theme => ({
 
 const drawerWidth = 240;
 
-function DrawerAppBar(props: {window: any}) {
+const DrawerAppBar = (props: {window: any}) => {
   const [showLogout, setShowLogout] = useState<boolean>(false);
   const [mobileOpen, setMobileOpen] = useState<boolean>(false);
   const [tonConnectUI] = useTonConnectUI();
@@ -463,7 +463,7 @@ function DrawerAppBar(props: {window: any}) {
       </Box>
     </Box>
   );
-}
+};
 
 DrawerAppBar.propTypes = {
   /**

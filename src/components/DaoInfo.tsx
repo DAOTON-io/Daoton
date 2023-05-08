@@ -4,7 +4,7 @@ import {Grid, Stack, Theme} from '@mui/material';
 import {InfoType} from '../utils/types';
 import {CustomButton} from './CustomButton';
 import {CustomInput} from './CustomInput';
-import {ImageUpload} from './imageUpload';
+import {ImageUpload} from './ImageUpload';
 import {base64ToImage} from '../utils/utils';
 
 type Props = {
