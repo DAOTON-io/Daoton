@@ -1,15 +1,38 @@
-import React, { useEffect, useState } from "react";
-import { Grid, MenuItem, SelectChangeEvent, Stack, Theme } from "@mui/material";
-import { makeStyles } from "@mui/styles";
-import { useTonAddress } from "@tonconnect/ui-react";
-import { fetchTokens, fetchNfts } from "../lib/api";
-import { TOKEN_TYPES } from "../utils/enums";
-import { TokenDetailType, NftDetailType, TokensType } from "../utils/types";
-import { CustomButton } from "./CustomButton";
-import { CustomInput } from "./CustomInput";
-import { CustomSelect } from "./CustomSelect";
-import { CustomSwitch } from "./CustomSwitch";
-import { ImageUpload } from "./imageUpload";
+import React, {useEffect, useState} from 'react';
+import {Grid, MenuItem, SelectChangeEvent, Stack, Theme} from '@mui/material';
+import {makeStyles} from '@mui/styles';
+import {useTonAddress} from '@tonconnect/ui-react';
+import {fetchTokens, fetchNfts} from '../lib/api';
+import {TOKEN_TYPES} from '../utils/enums';
+import {TokenDetailType, NftDetailType, TokensType} from '../utils/types';
+import {CustomButton} from './CustomButton';
+import {CustomInput} from './CustomInput';
+import {CustomSelect} from './CustomSelect';
+import {CustomSwitch} from './CustomSwitch';
+import {ImageUpload} from './ImageUpload';
+
+const useStyles = makeStyles((theme: Theme) => ({
+  container: {
+    display: 'flex',
+    justifyContent: 'center',
+    [theme.breakpoints.down('sm')]: {
+      marginBottom: 2,
+      marginTop: 2,
+      padding: '24px',
+    },
+  },
+  stackContainer: {
+    minWidth: '25rem',
+    [theme.breakpoints.down('sm')]: {
+      minWidth: '10rem',
+    },
+  },
+  buttonContainer: {
+    textAlign: 'start',
+    justifyContent: 'space-between',
+    alignItems: 'center',
+  },
+}));
 
 type Props = {
   activeStepOnChange: (activeStep: number) => void;
@@ -19,46 +42,36 @@ type Props = {
   nftDetail: NftDetailType;
 };
 
-const useStyles = makeStyles((theme: Theme) => ({
-  container: {
-    display: "flex",
-    justifyContent: "center",
-    [theme.breakpoints.down("sm")]: {
-      marginBottom: 2,
-      marginTop: 2,
-      padding: "24px",
-      minWidth: "15rem",
-    },
-  },
-  buttonContainer: {
-    textAlign: "start",
-    justifyContent: "space-between",
-    alignItems: "center",
-  },
-}));
-
-export const TokenDetail: React.FC<Props> = ({ activeStepOnChange, tokenDetailOnChange, tokenDetail, nftDetailOnChange, nftDetail }) => {
-  const [tokenType, setTokenType] = useState<TOKEN_TYPES>(TOKEN_TYPES.NEW_TOKEN);
+export const TokenDetail: React.FC<Props> = ({
+  activeStepOnChange,
+  tokenDetailOnChange,
+  tokenDetail,
+  nftDetailOnChange,
+  nftDetail,
+}) => {
+  const [tokenType, setTokenType] = useState<TOKEN_TYPES>(
+    TOKEN_TYPES.NEW_TOKEN,
+  );
   const [tokens, setTokens] = useState<TokensType[]>([]);
   const [tokenData, setTokenData] = useState<TokenDetailType>({
     type: tokenType,
-    name: "",
-    description: "",
-    symbol: "",
-    amount: "",
-    decimal: "",
+    name: '',
+    description: '',
+    symbol: '',
+    amount: '',
+    decimal: '',
     pausableContract: true,
     stackableContract: true,
-    image: "",
+    image: '',
   });
   const [nfts, setNfts] = useState<any[]>([]);
   const [nftData, setNftData] = useState<NftDetailType>({
     type: tokenType,
-    name: "",
-    description: "",
-    level: "",
-    collectionAddress: "",
-    image: "",
+    name: '',
+    description: '',
+    level: '',
+    collectionAddress: '',
+    image: '',
   });
 
   const address = useTonAddress();
@@ -73,7 +86,7 @@ export const TokenDetail: React.FC<Props> = ({ activeStepOnChange, tokenDetailOn
         } catch {}
         try {
           const nftList = await fetchNfts(address);
-          console.log("nftList", nftList);
+          console.log('nftList', nftList);
           setNfts(nftList.collections as any);
         } catch {}
       };
@@ -116,22 +129,22 @@ export const TokenDetail: React.FC<Props> = ({ activeStepOnChange, tokenDetailOn
     setTokenType(e.target.value as TOKEN_TYPES);
     setTokenData({
       type: e.target.value,
-      name: "",
-      description: "",
-      symbol: "",
-      amount: "",
-      decimal: "",
+      name: '',
+      description: '',
+      symbol: '',
+      amount: '',
+      decimal: '',
       pausableContract: true,
       stackableContract: true,
-      image: "",
+      image: '',
     });
     setNftData({
       type: e.target.value,
-      name: "",
-      description: "",
-      level: "",
-      collectionAddress: "",
-      image: "",
+      name: '',
+      description: '',
+      level: '',
+      collectionAddress: '',
+      image: '',
     });
   };
 
@@ -149,27 +162,46 @@ export const TokenDetail: React.FC<Props> = ({ activeStepOnChange, tokenDetailOn
 
   const disable = (): boolean => {
     if (tokenType === TOKEN_TYPES.NEW_TOKEN) {
-      return !(tokenData.name && tokenData.description && tokenData.symbol && tokenData.amount && tokenData.decimal);
+      return !(
+        tokenData.name &&
+        tokenData.description &&
+        tokenData.symbol &&
+        tokenData.amount &&
+        tokenData.decimal
+      );
     } else if (tokenType === TOKEN_TYPES.TOKEN_FROM_WALLET) {
       return !(tokenData.name && tokenData.symbol);
     } else return false;
   };
 
   return (
-    <Grid container className={classes.container} overflow={"auto"}>
-      <Stack direction="column" spacing={2} marginTop={4}>
+    <Grid container className={classes.container} overflow={'auto'}>
+      <Stack
+        direction="column"
+        spacing={2}
+        marginTop={4}
+        marginBottom={2}
+        className={classes.stackContainer}>
         <Stack>
           <CustomSelect onChange={selectType} values={tokenType}>
-            {" "}
-            <MenuItem value={TOKEN_TYPES.NEW_TOKEN}>{TOKEN_TYPES.NEW_TOKEN}</MenuItem>
-            <MenuItem value={TOKEN_TYPES.TOKEN_FROM_WALLET}>{TOKEN_TYPES.TOKEN_FROM_WALLET}</MenuItem>
-            <MenuItem value={TOKEN_TYPES.NEW_NFT}>{TOKEN_TYPES.NEW_NFT}</MenuItem>
-            <MenuItem value={TOKEN_TYPES.NFT_FROM_WALLET}>{TOKEN_TYPES.NFT_FROM_WALLET}</MenuItem>
+            {' '}
+            <MenuItem value={TOKEN_TYPES.NEW_TOKEN}>
+              {TOKEN_TYPES.NEW_TOKEN}
+            </MenuItem>
+            <MenuItem value={TOKEN_TYPES.TOKEN_FROM_WALLET}>
+              {TOKEN_TYPES.TOKEN_FROM_WALLET}
+            </MenuItem>
+            <MenuItem value={TOKEN_TYPES.NEW_NFT}>
+              {TOKEN_TYPES.NEW_NFT}
+            </MenuItem>
+            <MenuItem value={TOKEN_TYPES.NFT_FROM_WALLET}>
+              {TOKEN_TYPES.NFT_FROM_WALLET}
+            </MenuItem>
           </CustomSelect>
         </Stack>
         <Grid item>
           {tokenType === TOKEN_TYPES.NEW_TOKEN ? (
-            <Stack direction="column" spacing={4}>
+            <Stack direction="column" spacing={4} marginTop={2}>
               <Stack direction="row" spacing={4}>
                 <CustomInput
                   placeholder="Token Name"
@@ -177,7 +209,9 @@ export const TokenDetail: React.FC<Props> = ({ activeStepOnChange, tokenDetailOn
                   id="tokenName"
                   name="tokenName"
                   value={tokenData.name}
-                  onChange={(e: any) => setTokenData({ ...tokenData, name: e.target.value })}
+                  onChange={(e: any) =>
+                    setTokenData({...tokenData, name: e.target.value})
+                  }
                 />
                 <CustomInput
                   placeholder="Token Description"
@@ -185,7 +219,10 @@ export const TokenDetail: React.FC<Props> = ({ activeStepOnChange, tokenDetailOn
                   id="tokenDescription"
                   name="tokenDescription"
                   value={tokenData.description}
-                  onChange={(e: any) => setTokenData({ ...tokenData, description: e.target.value })}
+                  onChange={(e: any) =>
+                    setTokenData({...tokenData, description: e.target.value})
+                  }
+                  style={{marginLeft: '0.5rem'}}
                 />
               </Stack>
               <Stack direction="row" spacing={4}>
@@ -195,7 +232,9 @@ export const TokenDetail: React.FC<Props> = ({ activeStepOnChange, tokenDetailOn
                   id="tokenSymbol"
                   name="tokenSymbol"
                   value={tokenData.symbol}
-                  onChange={(e: any) => setTokenData({ ...tokenData, symbol: e.target.value })}
+                  onChange={(e: any) =>
+                    setTokenData({...tokenData, symbol: e.target.value})
+                  }
                 />
                 <CustomInput
                   placeholder="Token Amount"
@@ -203,7 +242,10 @@ export const TokenDetail: React.FC<Props> = ({ activeStepOnChange, tokenDetailOn
                   id="tokenAmount"
                   name="tokenamount"
                   value={tokenData.amount}
-                  onChange={(e: any) => setTokenData({ ...tokenData, amount: e.target.value })}
+                  onChange={(e: any) =>
+                    setTokenData({...tokenData, amount: e.target.value})
+                  }
+                  style={{marginLeft: '0.5rem'}}
                 />
               </Stack>
               <Stack direction="row" spacing={2}>
@@ -213,12 +255,14 @@ export const TokenDetail: React.FC<Props> = ({ activeStepOnChange, tokenDetailOn
                   id="tokenDecimal"
                   name="tokenDecimal"
                   value={tokenData.decimal}
-                  onChange={(e: any) => setTokenData({ ...tokenData, decimal: e.target.value })}
+                  onChange={(e: any) =>
+                    setTokenData({...tokenData, decimal: e.target.value})
+                  }
                 />
               </Stack>
               <Stack direction="row" spacing={2} paddingTop={1}>
                 <Grid item>
-                  <span style={{ marginTop: "1rem" }}>Pausable Contract:</span>
+                  <span style={{marginTop: '1rem'}}>Pausable Contract:</span>
                   <CustomSwitch
                     checked={tokenData.pausableContract}
                     onChange={(e: any) =>
@@ -230,7 +274,7 @@ export const TokenDetail: React.FC<Props> = ({ activeStepOnChange, tokenDetailOn
                   />
                 </Grid>
                 <Grid item>
-                  <span style={{ marginTop: "1rem" }}>Stackable Contract:</span>
+                  <span style={{marginTop: '1rem'}}>Stackable Contract:</span>
                   <CustomSwitch
                     checked={tokenData.stackableContract}
                     onChange={(e: any) =>
@@ -243,10 +287,10 @@ export const TokenDetail: React.FC<Props> = ({ activeStepOnChange, tokenDetailOn
                 </Grid>
               </Stack>
               <Grid container className={classes.buttonContainer}>
-                <Grid item justifyContent={"flex-start"}>
+                <Grid item justifyContent={'flex-start'}>
                   <label>Collection Image : </label>
                 </Grid>
-                <Grid item justifyContent={"flex-end"}>
+                <Grid item justifyContent={'flex-end'}>
                   <ImageUpload
                     onClear={() => {}}
                     onChange={(value: string) =>
@@ -254,8 +298,7 @@ export const TokenDetail: React.FC<Props> = ({ activeStepOnChange, tokenDetailOn
                         ...tokenData,
                         image: value,
                       })
-                    }
-                  ></ImageUpload>
+                    }></ImageUpload>
                 </Grid>
               </Grid>
             </Stack>
@@ -270,9 +313,8 @@ export const TokenDetail: React.FC<Props> = ({ activeStepOnChange, tokenDetailOn
                         ...tk,
                         name: tk?.metadata.name,
                         symbol: tk?.metadata.symbol,
-                      })}
-                    >
-                      {tk.metadata.name + "(" + tk.metadata.symbol + ")"}
+                      })}>
+                      {tk.metadata.name + '(' + tk.metadata.symbol + ')'}
                     </MenuItem>
                   );
                 })}
@@ -289,7 +331,9 @@ export const TokenDetail: React.FC<Props> = ({ activeStepOnChange, tokenDetailOn
                   id="nftName"
                   name="nftName"
                   value={nftData.name}
-                  onChange={(e: any) => setNftData({ ...nftData, name: e.target.value })}
+                  onChange={(e: any) =>
+                    setNftData({...nftData, name: e.target.value})
+                  }
                 />
                 <CustomInput
                   placeholder="Nft Description"
@@ -297,7 +341,9 @@ export const TokenDetail: React.FC<Props> = ({ activeStepOnChange, tokenDetailOn
                   id="nftDescription"
                   name="nftDescription"
                   value={nftData.description}
-                  onChange={(e: any) => setNftData({ ...nftData, description: e.target.value })}
+                  onChange={(e: any) =>
+                    setNftData({...nftData, description: e.target.value})
+                  }
                 />
               </Stack>
               <Stack direction="row" spacing={2}>
@@ -307,7 +353,9 @@ export const TokenDetail: React.FC<Props> = ({ activeStepOnChange, tokenDetailOn
                   id="lnftLevel"
                   name="nftLevel"
                   value={nftData.level}
-                  onChange={(e: any) => setNftData({ ...nftData, level: e.target.value })}
+                  onChange={(e: any) =>
+                    setNftData({...nftData, level: e.target.value})
+                  }
                 />
                 <CustomInput
                   placeholder="Collection Address"
@@ -315,14 +363,16 @@ export const TokenDetail: React.FC<Props> = ({ activeStepOnChange, tokenDetailOn
                   id="nftCollectionAddress"
                   name="nctCollectionAddress"
                   value={nftData.collectionAddress}
-                  onChange={(e: any) => setNftData({ ...nftData, collectionAddress: e.target.value })}
+                  onChange={(e: any) =>
+                    setNftData({...nftData, collectionAddress: e.target.value})
+                  }
                 />
               </Stack>
               <Grid container className={classes.buttonContainer}>
-                <Grid item justifyContent={"flex-start"}>
+                <Grid item justifyContent={'flex-start'}>
                   <label>Collection Image : </label>
                 </Grid>
-                <Grid item justifyContent={"flex-end"}>
+                <Grid item justifyContent={'flex-end'}>
                   <ImageUpload
                     onClear={() => {}}
                     onChange={(value: string) =>
@@ -330,8 +380,7 @@ export const TokenDetail: React.FC<Props> = ({ activeStepOnChange, tokenDetailOn
                         ...nftData,
                         image: value,
                       })
-                    }
-                  ></ImageUpload>
+                    }></ImageUpload>
                 </Grid>
               </Grid>
             </Stack>
@@ -346,9 +395,8 @@ export const TokenDetail: React.FC<Props> = ({ activeStepOnChange, tokenDetailOn
                         ...nft,
                         name: nft?.metadata.name,
                         symbol: nft?.metadata.symbol,
-                      })}
-                    >
-                      {nft.metadata.name + "(" + nft.metadata.symbol + ")"}
+                      })}>
+                      {nft.metadata.name + '(' + nft.metadata.symbol + ')'}
                     </MenuItem>
                   );
                 })}
@@ -358,7 +406,11 @@ export const TokenDetail: React.FC<Props> = ({ activeStepOnChange, tokenDetailOn
             )
           ) : undefined}
         </Grid>
-        <Grid paddingTop={2} container justifyContent={"space-between"} width={"100%"}>
+        <Grid
+          paddingTop={2}
+          container
+          justifyContent={'space-between'}
+          width={'100%'}>
           <CustomButton onClick={backStep} disabled={false} label="BACK" />
           <CustomButton onClick={createDao} disabled={disable()} label="NEXT" />
         </Grid>

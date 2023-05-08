@@ -6,15 +6,13 @@ const useStyles = makeStyles((theme: Theme) => ({
   select: {
     fontFamily: 'Raleway',
     width: '100%',
-    fontSize: '14px',
+    height: '44px',
+    fontSize: '1rem',
     fontWeight: 'bold',
     color: '#1D252C',
-    border: 'none',
     boxShadow: '0 0 10px 0 rgba(0,0,0,0.1)',
-    backgroundColor: '#A2C5E3',
+    backgroundColor: '#A2C5E3 !important',
     padding: '10px',
-    borderRadius: '0.5rem',
-    height: '3rem',
     marginBottom: '1rem',
   },
 }));
@@ -30,7 +28,20 @@ export const CustomSelect: React.FC<Props> = ({onChange, values, children}) => {
 
   return (
     <Select
-      className={classes.select}
+      inputProps={{
+        className: classes.select,
+      }}
+      sx={{
+        '& .css-jedpe8-MuiSelect-select-MuiInputBase-input-MuiOutlinedInput-input.MuiSelect-select':
+          {
+            height: '27px',
+            borderRadius: '1rem',
+          },
+        '& .MuiOutlinedInput-notchedOutline': {
+          border: '1px solid #A2C5E3',
+          borderRadius: '1rem',
+        },
+      }}
       onChange={onChange}
       value={values}
       variant="outlined"
