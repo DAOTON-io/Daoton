@@ -58,6 +58,14 @@ export const CreateProposal: React.FC = () => {
     console.log('proposal', data);
   };
 
+  const disable: boolean = !(
+    data.successThreshold > data.failThreshold &&
+    data.successThreshold &&
+    data.successThreshold !== 0 &&
+    data.content &&
+    data.timestamp > moment().unix()
+  );
+
   return (
     <div
       style={{
@@ -124,7 +132,7 @@ export const CreateProposal: React.FC = () => {
             <Grid paddingTop={2} container justifyContent={'center'}>
               <CustomButton
                 onClick={createProposal}
-                disabled={false}
+                disabled={disable}
                 label="CREATE PROPOSAL"
               />
             </Grid>
