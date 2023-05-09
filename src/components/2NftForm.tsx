@@ -1,6 +1,6 @@
+import React, { useEffect, useState } from "react";
 import { makeStyles } from "@mui/styles";
-import React, { useState } from "react";
-import { GenerateNftType } from "../utils/types";
+import { GenerateNftType, InfoType, NftDetailType } from "../utils/types";
 import { useNavigate } from "react-router-dom";
 import { useTonAddress, useTonConnectUI } from "@tonconnect/ui-react";
 import { Address } from 'ton';
@@ -71,18 +71,42 @@ const useStyles = makeStyles(theme => ({
     },
 }));
 
-const NftForm = () => {
+type Props = {
+    activeStepOnChange: (activeStep: number) => void;
+    nftInfoOnChange: (nftInfo: GenerateNftType) => void;
+    nftInfo: GenerateNftType;
+};
+
+const NftForm: React.FC<Props> = ({
+    activeStepOnChange,
+    nftInfoOnChange,
+    nftInfo }) => {
     const [nftData, setNftData] = useState<GenerateNftType>({
         nftName: '',
         nftDescription: '',
-        nftImage: '',
         level: '',
         collectionAddress: '',
+        nftImage: '',
     });
+
     const classes = useStyles();
     const navigate = useNavigate();
     let address = useTonAddress(false);
     const [tonConnectUi] = useTonConnectUI();
+
+    useEffect(() => {
+        if (nftInfo) setNftData(nftInfo)
+    }, [nftInfo])
+
+    const backStep = () => {
+        activeStepOnChange(1);
+        nftInfoOnChange(nftData)
+    };
+
+    // TODO 
+    const nextStep = () => {
+
+    }
 
     const generateNFT = async () => {
         console.log('generate', nftData);
@@ -212,7 +236,7 @@ const NftForm = () => {
                         </Grid>
 
                         <Grid paddingTop={2} container justifyContent={'space-between'}>
-                            <CustomButton label="BACK" onClick={() => { }}></CustomButton>
+                            <CustomButton onClick={backStep} disabled={false} label="BACK" />
                             <CustomButton
                                 onClick={generateNFT}
                                 disabled={disable()}
