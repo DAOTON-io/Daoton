@@ -4,6 +4,7 @@ import { makeStyles } from '@mui/styles';
 import { DaoCategories } from '../components/DaoCategories';
 import {
     CategoryType,
+    GenerateNftType,
     InfoType,
     NftDetailType,
     TokenDetailType,
@@ -35,20 +36,27 @@ const useStyles = makeStyles((theme: Theme) => ({
 
 export const MainNFT: React.FC = () => {
     const [activeStep, setActiveStep] = useState<number>(1);
-    const [choice, setChoice] = useState('your choise')
+    const [choice, setChoice] = useState('Your choice')
     const [selectedCategory, setSelectedCategory] = useState<CategoryType>({
         id: 0,
         label: '',
         icon: undefined,
     });
+    const [nftInfo, setNftInfo] = useState<GenerateNftType>({
+        nftName: '',
+        nftDescription: '',
+        level: '',
+        collectionAddress: '',
+        nftImage: '',
+    })
     const classes = useStyles();
 
     useEffect(() => {
         if (selectedCategory.id == 1) {
-            setChoice("nft")
+            setChoice("Generate NFT")
         }
         else if (selectedCategory.id == 2) {
-            setChoice("collection")
+            setChoice("Generate Collection")
         }
     }, [activeStep])
 
@@ -66,7 +74,6 @@ export const MainNFT: React.FC = () => {
             <NewSteps allSteps={[
                 'Choose Type',
                 choice,
-                'Token Detail',
                 'Review',
             ]} activeStep={activeStep} />
             <div className={classes.cardDiv}>
@@ -84,7 +91,11 @@ export const MainNFT: React.FC = () => {
                     <>
                         {' '}
 
-                        <NftForm></NftForm>
+                        <NftForm
+                            activeStepOnChange={setActiveStep}
+                            nftInfoOnChange={setNftInfo}
+                            nftInfo={nftInfo}
+                        ></NftForm>
                     </>
                 )}
                 {selectedCategory.id === 2 && (
