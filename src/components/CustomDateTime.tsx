@@ -1,8 +1,9 @@
-import * as React from 'react';
+import React, {useState} from 'react';
 import {DateTimePicker, LocalizationProvider} from '@mui/x-date-pickers';
 import {AdapterMoment} from '@mui/x-date-pickers/AdapterMoment';
 import {makeStyles} from '@mui/styles';
 import {Theme} from '@mui/material';
+import moment, {Moment} from 'moment';
 
 const useStyles = makeStyles((theme: Theme) => ({
   input: {
@@ -56,7 +57,7 @@ export const CustomDateTime: React.FC<Props> = ({label, value, onChange}) => {
         }}
         className={classes.input}
         label={label}
-        value={value.format('dd/MM/yyyy HH:mm')}
+        value={moment.unix(value)}
         onChange={onChange}
         disablePast
       />

@@ -37,7 +37,7 @@ const useStyles = makeStyles((theme: Theme) => ({
 
 export const CreateProposal: React.FC = () => {
   const [data, setData] = useState<ProposalType>({
-    timestamp: Date.now(),
+    timestamp: moment().unix(),
     successThreshold: 0,
     failThreshold: 0,
     isRelatedWithNft: false,
@@ -60,7 +60,7 @@ export const CreateProposal: React.FC = () => {
         <div style={{marginTop: '1.5rem'}}>
           <CustomDateTime
             label="Timestamp"
-            value={moment(data.timestamp)}
+            value={data.timestamp}
             onChange={(value: Moment) =>
               setData({...data, timestamp: value.unix()})
             }
