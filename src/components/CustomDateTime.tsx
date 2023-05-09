@@ -1,13 +1,12 @@
-import React, {useState} from 'react';
+import React from 'react';
 import {DateTimePicker, LocalizationProvider} from '@mui/x-date-pickers';
 import {AdapterMoment} from '@mui/x-date-pickers/AdapterMoment';
 import {makeStyles} from '@mui/styles';
 import {Theme} from '@mui/material';
-import moment, {Moment} from 'moment';
+import moment from 'moment';
 
 const useStyles = makeStyles((theme: Theme) => ({
   input: {
-    width: '400px',
     color: '#767D86',
     boxShadow: 'none',
     fontSize: '1rem',
@@ -16,6 +15,7 @@ const useStyles = makeStyles((theme: Theme) => ({
     [theme.breakpoints.down('sm')]: {
       minWidth: '300px',
     },
+    width: '100%',
   },
 }));
 
