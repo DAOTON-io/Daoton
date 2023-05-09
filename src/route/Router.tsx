@@ -12,6 +12,7 @@ import GenerateNft from '../pages/GenerateNft';
 import {CreateDao} from '../pages/CreateDao';
 import ContractList from '../pages/ContractList';
 import CreateContract from '../pages/CreateContract';
+import { MainNFT } from '../pages/MainNFT';
 
 const Router: React.FC = () => {
   return (
@@ -32,6 +33,7 @@ const Router: React.FC = () => {
             <Route path="/create-contract" index element={<CreateContract />} />
             <Route path="/generate-token" index element={<GenerateToken />} />
             <Route path="/vote/:proposalId" index element={<Vote />} />
+            <Route path="/main-nft" index element={<MainNFT/>} />
 
             <Route
               path="/create-contract/:daoId"

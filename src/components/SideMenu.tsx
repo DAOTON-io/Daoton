@@ -1,16 +1,16 @@
 import React from 'react';
-import {useNavigate} from 'react-router-dom';
-import {Card, Divider, Grid, MenuItem, Theme, Typography} from '@mui/material';
+import { useNavigate } from 'react-router-dom';
+import { Card, Divider, Grid, MenuItem, Theme, Typography } from '@mui/material';
 import GoogleFontLoader from 'react-google-font-loader';
 import ViewHeadlineIcon from '@mui/icons-material/ViewHeadline';
 import AddCircleIcon from '@mui/icons-material/AddCircle';
 import AddCircleOutlineIcon from '@mui/icons-material/AddCircleOutline';
-import {makeStyles} from '@mui/styles';
+import { makeStyles } from '@mui/styles';
 import SummarizeIcon from '@mui/icons-material/Summarize';
 import FitbitIcon from '@mui/icons-material/Fitbit';
 import TokenIcon from '@mui/icons-material/Token';
 import PlaylistAddCircleIcon from '@mui/icons-material/PlaylistAddCircle';
-import {PAGES_NAME} from '../utils/enums';
+import { PAGES_NAME } from '../utils/enums';
 import Logout from './Logout';
 
 const useStyles = makeStyles((theme: Theme) => ({
@@ -262,6 +262,24 @@ const SideMenu: React.FC = () => {
                   </Typography>
                 </MenuItem>
               </Grid>
+              {/* ----------------------------------------------------------------- */}
+              <Grid className={classes.listItemSmall} container spacing={1}>
+                <MenuItem
+                  className={classes.item}
+                  key={PAGES_NAME.MAIN_NFT}
+                  selected={
+                    window.location.pathname === PAGES_NAME.GENERATE_NFT
+                  }
+                  onClick={() => navigate('/main-nft')}>
+                  <Grid item>
+                    <PlaylistAddCircleIcon className={classes.icon} />
+                  </Grid>
+                  <Typography textAlign="center">
+                    {PAGES_NAME.MAIN_NFT}
+                  </Typography>
+                </MenuItem>
+              </Grid>
+              {/* ----------------------------------------------------------------- */}
             </div>
             <Divider />
             <div className={classes.listItem}>

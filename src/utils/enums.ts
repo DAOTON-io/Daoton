@@ -19,5 +19,6 @@ export enum PAGES_NAME {
   GENERATE_NFT = 'Generate NFT',
   DOCS = 'Docs',
   DOCUMENTATION = 'Documentation',
+  MAIN_NFT = 'NFT creator',
   LITEPAPER = 'Litepaper',
 }
