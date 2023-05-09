@@ -20,13 +20,6 @@ const useStyles = makeStyles((theme: Theme) => ({
   },
 }));
 
-// const steps = [
-//   'Choose DAO Type',
-//   'Your Dao Informations',
-//   'Token Detail',
-//   'Review',
-// ];
-
 type Props = {
   allSteps:string[];
   activeStep: number;
