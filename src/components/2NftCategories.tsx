@@ -50,7 +50,7 @@ export const NFTCategories: React.FC<Props> = ({ activeStepOnChange, selectedCat
   const classes = useStyles();
 
   return (
-    <div>
+    <div style={{width:'100%'}}>
       <Grid container spacing={2}>
         {categories.map((category) => {
           if (category.id === selectedCategory.id) {
