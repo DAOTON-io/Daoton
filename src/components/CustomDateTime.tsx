@@ -1,6 +1,5 @@
 import * as React from 'react';
 import {DateTimePicker, LocalizationProvider} from '@mui/x-date-pickers';
-import {DemoContainer} from '@mui/x-date-pickers/internals/demo';
 import {AdapterMoment} from '@mui/x-date-pickers/AdapterMoment';
 import {makeStyles} from '@mui/styles';
 import {Theme} from '@mui/material';
@@ -30,8 +29,7 @@ export const CustomDateTime: React.FC<Props> = ({label, value, onChange}) => {
 
   return (
     <LocalizationProvider dateAdapter={AdapterMoment}>
-      <DemoContainer
-        components={['DateTimePicker']}
+      <DateTimePicker
         sx={{
           '& .MuiOutlinedInput-notchedOutline': {
             borderRadius: '1rem',
@@ -55,14 +53,12 @@ export const CustomDateTime: React.FC<Props> = ({label, value, onChange}) => {
           '& ..css-1b8s10m-MuiStack-root': {
             margin: '0',
           },
-        }}>
-        <DateTimePicker
-          className={classes.input}
-          label={label}
-          value={value}
-          onChange={onChange}
-        />
-      </DemoContainer>
+        }}
+        className={classes.input}
+        label={label}
+        value={value.format('dd/MM/yyyy HH:mm')}
+        onChange={onChange}
+      />
     </LocalizationProvider>
   );
 };
