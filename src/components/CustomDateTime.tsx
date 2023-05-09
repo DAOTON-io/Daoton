@@ -58,6 +58,7 @@ export const CustomDateTime: React.FC<Props> = ({label, value, onChange}) => {
         label={label}
         value={value.format('dd/MM/yyyy HH:mm')}
         onChange={onChange}
+        disablePast
       />
     </LocalizationProvider>
   );
