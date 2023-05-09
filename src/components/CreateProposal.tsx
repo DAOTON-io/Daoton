@@ -63,6 +63,7 @@ export const CreateProposal: React.FC = () => {
       style={{
         height: 'calc(100vh - 9rem)',
         width: '100%',
+        overflow: 'auto',
       }}>
       <Grid container className={classes.container}>
         <Grid container className={classes.center} justifyContent={'center'}>
