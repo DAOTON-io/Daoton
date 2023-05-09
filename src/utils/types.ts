@@ -69,3 +69,11 @@ export type GenerateNftType = {
   collectionAddress: string;
   nftImage: any;
 };
+
+export type ProposalType = {
+  timestamp: number;
+  successThreshold: number;
+  failThreshold: number;
+  isRelatedWithNft: boolean;
+  content: string;
+};
