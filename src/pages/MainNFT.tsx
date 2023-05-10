@@ -1,12 +1,13 @@
 import React, { useEffect, useState } from 'react';
 import { Theme } from '@mui/material';
 import { makeStyles } from '@mui/styles';
-import { CategoryType, GenerateNftType } from '../utils/types';
+import { CategoryType, CollectionDataType, GenerateNftType } from '../utils/types';
 import { NFTCategories } from '../components/2NftCategories';
 import NftForm from '../components/2NftForm';
-import CollectionForm from '../components/2CollectionCategories';
+import CollectionForm from '../components/2CollectionForm';
 import { NewSteps } from '../components/2Steps';
 import { NftReview } from '../components/2NftReview';
+import { CollectionReview } from '../components/2CollectionReview';
 
 const useStyles = makeStyles((theme: Theme) => ({
     cardDiv: {
@@ -36,6 +37,12 @@ export const MainNFT: React.FC = () => {
         level: '',
         collectionAddress: '',
         nftImage: '',
+    })
+
+    const [collectionInfo, setCollectionInfo] = useState<CollectionDataType>({
+        collectionName: '',
+        collectionDescription: '',
+        collectionImage: '',
     })
     const classes = useStyles();
 
@@ -105,7 +112,19 @@ export const MainNFT: React.FC = () => {
                         {' '}
                         <CollectionForm
                             activeStepOnChange={setActiveStep}
+                            collectionInfoOnChange={setCollectionInfo}
+                            collectionInfo={collectionInfo}
                         ></CollectionForm>
+                    </>
+                )}
+                {selectedCategory.id === 2 && activeStep === 3 && (
+                    <>
+                        {' '}
+                        <CollectionReview
+                            activeStepOnChange={setActiveStep}
+                            collectionInfoOnChange={setCollectionInfo}
+                            collectionDetail={collectionInfo}
+                        ></CollectionReview>
                     </>
                 )}
             </div>
