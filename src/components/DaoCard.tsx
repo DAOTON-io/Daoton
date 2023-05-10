@@ -81,12 +81,7 @@ export const DaoCard: React.FC<Props> = ({ name, date, description, value, daoId
         subsets={["cyrillic-ext", "greek"]}
       />
       <div className={classes.container}>
-        <a
-          style={{
-            textDecoration: "none",
-          }}
-          href={"/listContracts/" + daoId}
-        >
+        <a>
           {" "}
           <Card className={classes.card}>
             <div
