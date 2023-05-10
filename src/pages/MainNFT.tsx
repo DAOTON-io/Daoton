@@ -52,7 +52,10 @@ export const MainNFT: React.FC = () => {
     const classes = useStyles();
 
     useEffect(() => {
-        if (selectedCategory.id == 1) {
+        if (activeStep === 1){
+            setChoice('Your choice')
+        }
+        else if (selectedCategory.id == 1) {
             setChoice("Generate NFT")
         }
         else if (selectedCategory.id == 2) {
@@ -87,7 +90,7 @@ export const MainNFT: React.FC = () => {
                         />
                     </>
                 )}
-                {selectedCategory.id === 1 && (
+                {selectedCategory.id === 1 && activeStep === 2 && (
                     <>
                         {' '}
 
@@ -98,10 +101,12 @@ export const MainNFT: React.FC = () => {
                         ></NftForm>
                     </>
                 )}
-                {selectedCategory.id === 2 && (
+                {selectedCategory.id === 2 && activeStep === 2 &&(
                     <>
                         {' '}
-                        <CollectionForm></CollectionForm>
+                        <CollectionForm
+                            activeStepOnChange={setActiveStep}
+                        ></CollectionForm>
                     </>
                 )}
             </div>
