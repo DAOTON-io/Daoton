@@ -1,12 +1,6 @@
 import React, { useEffect, useState } from "react";
 import { makeStyles } from "@mui/styles";
 import { GenerateNftType } from "../utils/types";
-import { useNavigate } from "react-router-dom";
-import { useTonAddress, useTonConnectUI } from "@tonconnect/ui-react";
-import { Address } from 'ton';
-import { create } from 'ipfs';
-import NftMinter from '../lib/nft-minter';
-import { collectionPreview } from '../lib/api/index';
 import { Grid, Stack } from "@mui/material";
 import { CustomInput } from "./CustomInput";
 import { ImageUpload } from "./ImageUpload";
@@ -90,9 +84,6 @@ const NftForm: React.FC<Props> = ({
     });
 
     const classes = useStyles();
-    const navigate = useNavigate();
-    let address = useTonAddress(false);
-    const [tonConnectUi] = useTonConnectUI();
 
     useEffect(() => {
         if (nftInfo) setNftData(nftInfo)
@@ -107,41 +98,6 @@ const NftForm: React.FC<Props> = ({
         activeStepOnChange(3);
         nftInfoOnChange(nftData)
     }
-
-    const generateNFT = async () => {
-        console.log('generate', nftData);
-        if (address) {
-            const node = await create();
-            const itemContent = await node.add(
-                JSON.stringify({
-                    attributes: [
-                        {
-                            trait_type: 'level',
-                            value: nftData.level,
-                        },
-                    ],
-                    description: nftData.nftDescription,
-                    external_url: 'example.com',
-                    image: nftData.nftImage,
-                    name: nftData.nftName,
-                }),
-            );
-
-            const content = await collectionPreview(nftData.collectionAddress);
-
-            const minter = new NftMinter(
-                Address.parse(content.owner_address).toString(),
-                tonConnectUi,
-                content.collection_content.data,
-            );
-
-            minter
-                .deployNftItem(itemContent.path, content.next_item_index, address)
-                .then(() => {
-                    navigate('/view-nfts');
-                });
-        }
-    };
 
     const disable = (): boolean => {
         return !(
