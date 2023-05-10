@@ -4,6 +4,13 @@ import { CustomButton } from "./CustomButton";
 import { Card, CardContent, Grid, Stack, Theme, Typography } from "@mui/material";
 import { makeStyles } from "@mui/styles";
 import { base64ToImage } from "../utils/utils";
+import { Address } from 'ton';
+import NftMinter from "../lib/nft-minter";
+import { useTonAddress, useTonConnectUI } from "@tonconnect/ui-react";
+import { collectionPreview } from "../lib/api";
+import { create } from 'ipfs';
+import { useNavigate } from "react-router-dom";
+
 
 const useStyles = makeStyles((theme: Theme) => ({
     container: {
@@ -42,7 +49,47 @@ type Props = {
 }
 
 export const NftReview: React.FC<Props> = ({ activeStepOnChange, nftInfoOnChange, nftDetail }) => {
+    
     const classes = useStyles();
+    let address = useTonAddress(false);
+    const [tonConnectUi] = useTonConnectUI();
+    const navigate = useNavigate();
+
+
+    const generateNFT = async () => {
+        console.log('generate', nftDetail);
+        if (address) {
+            const node = await create();
+            const itemContent = await node.add(
+                JSON.stringify({
+                    attributes: [
+                        {
+                            trait_type: 'level',
+                            value: nftDetail.level,
+                        },
+                    ],
+                    description: nftDetail.nftDescription,
+                    external_url: 'example.com',
+                    image: nftDetail.nftImage,
+                    name: nftDetail.nftName,
+                }),
+            );
+
+            const content = await collectionPreview(nftDetail.collectionAddress);
+
+            const minter = new NftMinter(
+                Address.parse(content.owner_address).toString(),
+                tonConnectUi,
+                content.collection_content.data,
+            );
+
+            minter
+                .deployNftItem(itemContent.path, content.next_item_index, address)
+                .then(() => {
+                    navigate('/view-nfts');
+                });
+        }
+    };
 
     useEffect(() => {
         base64ToImage(nftDetail.nftImage, img => {
@@ -97,7 +144,7 @@ export const NftReview: React.FC<Props> = ({ activeStepOnChange, nftInfoOnChange
                                 </Typography>
                             </CardContent>
                         </Card>
-                        <CustomButton onClick={() => { }} label="GENERATE" ></CustomButton>
+                        <CustomButton onClick={generateNFT} label="GENERATE" ></CustomButton>
                     </Stack>
                 </Grid>
             </Stack>
