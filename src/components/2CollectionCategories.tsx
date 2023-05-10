@@ -70,7 +70,13 @@ const useStyles = makeStyles(theme => ({
     },
 }));
 
-const CollectionForm = () => {
+type Props = {
+    activeStepOnChange: (activeStep: number) => void;
+    // nftInfoOnChange: (nftInfo: GenerateNftType) => void;
+    // nftInfo: GenerateNftType;
+};
+
+const CollectionForm: React.FC<Props> = ({activeStepOnChange}) => {
     const [collectionData, setCollectionData] = useState<CollectionDataType>({
         collectionName: '',
         collectionDescription: '',
@@ -81,6 +87,14 @@ const CollectionForm = () => {
     const navigate = useNavigate();
     let address = useTonAddress(true);
     const [tonConnectUi] = useTonConnectUI();
+
+    const backStep = () => {
+        activeStepOnChange(1);
+    };
+
+    const nextStep = () => {
+        activeStepOnChange(2);
+    }
 
     const generateCollection = async () => {
         if (address) {
@@ -163,8 +177,9 @@ const CollectionForm = () => {
                         </Grid>
 
                         <Grid paddingTop={2} container justifyContent={'space-between'}>
-                            <CustomButton label="BACK" onClick={()=>{}}></CustomButton>
-                            <CustomButton
+                            <CustomButton onClick={backStep} label="BACK"></CustomButton>
+                            <CustomButton onClick={nextStep} label="NEXT"/>
+                            {/* <CustomButton
                                 onClick={generateCollection}
                                 disabled={
                                     !(
@@ -173,7 +188,7 @@ const CollectionForm = () => {
                                     )
                                 }
                                 label="Generate"
-                            />
+                            /> */}
                         </Grid>
                     </Stack>
                 </Grid>
