@@ -72,11 +72,11 @@ const useStyles = makeStyles(theme => ({
 
 type Props = {
     activeStepOnChange: (activeStep: number) => void;
-    // nftInfoOnChange: (nftInfo: GenerateNftType) => void;
-    // nftInfo: GenerateNftType;
+    collectionInfoOnChange: (collectionInfo: CollectionDataType) => void;
+    collectionInfo: CollectionDataType;
 };
 
-const CollectionForm: React.FC<Props> = ({activeStepOnChange}) => {
+const CollectionForm: React.FC<Props> = ({ activeStepOnChange, collectionInfoOnChange, collectionInfo }) => {
     const [collectionData, setCollectionData] = useState<CollectionDataType>({
         collectionName: '',
         collectionDescription: '',
@@ -90,10 +90,12 @@ const CollectionForm: React.FC<Props> = ({activeStepOnChange}) => {
 
     const backStep = () => {
         activeStepOnChange(1);
+        collectionInfoOnChange(collectionData);
     };
 
     const nextStep = () => {
-        activeStepOnChange(2);
+        activeStepOnChange(3);
+        collectionInfoOnChange(collectionData);
     }
 
     const generateCollection = async () => {
@@ -178,7 +180,7 @@ const CollectionForm: React.FC<Props> = ({activeStepOnChange}) => {
 
                         <Grid paddingTop={2} container justifyContent={'space-between'}>
                             <CustomButton onClick={backStep} label="BACK"></CustomButton>
-                            <CustomButton onClick={nextStep} label="NEXT"/>
+                            <CustomButton onClick={nextStep} label="NEXT" />
                             {/* <CustomButton
                                 onClick={generateCollection}
                                 disabled={
