@@ -1,4 +1,5 @@
-import {TOKEN_TYPES} from './enums';
+import { TOKEN_TYPES } from "./enums";
+import { Address } from "ton";
 
 export type InfoType = {
   name: string;
@@ -27,7 +28,7 @@ export type NftDetailType = {
   image: any;
 };
 
-export type CategoryType = {id: number; label: string; icon: any};
+export type CategoryType = { id: number; label: string; icon: any };
 
 export type TokensType = {
   balance: string;
@@ -68,4 +69,12 @@ export type GenerateNftType = {
   level: string;
   collectionAddress: string;
   nftImage: any;
+};
+
+export type Dao = {
+  address: string;
+  daoTypeId: number;
+  tokenContract: Address;
+  nftContract: Address;
+  content: Buffer;
 };

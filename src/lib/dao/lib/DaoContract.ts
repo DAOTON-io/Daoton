@@ -2,6 +2,7 @@ import { Contract, ContractProvider, Sender, Address, Cell, contractAddress, beg
 import { DaoContent } from "./models/DaoContent";
 import daoton from "../contracts/daoton.contract.json";
 import { _parseGetMethodCall, cellToAddress, cellToContent } from "./make-get-call";
+import { Dao } from "../../../utils/types";
 
 export default class DaoContract implements Contract {
   static createForDeploy(code: Cell, daoTypeId: number, tokenContract: Address, nftCollection: Address, daoContent: DaoContent): DaoContract {
@@ -37,19 +38,17 @@ export default class DaoContract implements Contract {
     });
   }
 
-  getDaoData = async (provider: ContractProvider) => {
-    try {
-      const { stack }: any = await provider.get("get_dao_data", []);
+  getDaoData = async (provider: ContractProvider): Promise<Dao> => {
+    const { stack }: any = await provider.get("get_dao_data", []);
 
-      // dao_type_id , token_contract , nft_contract , content , proposal seq
-      const data: any = _parseGetMethodCall(stack);
-      const daoTypeId = data[0].toNumber();
-      const tokenContract = cellToAddress(data[1]);
-      const nftContract = cellToAddress(data[2]);
-      const content = cellToContent(data[3]);
+    // dao_type_id , token_contract , nft_contract , content , proposal seq
+    const data: any = _parseGetMethodCall(stack);
+    const daoTypeId: number = data[0].toNumber();
+    const tokenContract = cellToAddress(data[1]);
+    const nftContract = cellToAddress(data[2]);
+    const content = cellToContent(data[3]);
 
-      return { daoTypeId, tokenContract, nftContract, content };
-    } catch {}
+    return { address: this.address.toString(), daoTypeId, tokenContract, nftContract, content };
   };
 
   // async sendProposal(provider: ContractProvider, via: Sender) {

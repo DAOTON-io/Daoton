@@ -11,9 +11,10 @@ import daoton from "../lib/dao/contracts/daoton.contract.json";
 import DaoTonContract from "../lib/dao/lib/DaotonContract";
 import { open } from "../utils";
 import DaoContract from "../lib/dao/lib/DaoContract";
+import { Dao } from "../utils/types";
 
 export default function ViewDao() {
-  const [columns, setColumns] = React.useState([]);
+  const [columns, setColumns] = React.useState<Dao[]>([]);
   const [loading, setLoading] = React.useState(true);
 
   useEffect(() => {
@@ -28,14 +29,20 @@ export default function ViewDao() {
 
       const daoList = await daotonContract.getDaoList(client);
 
+      const daoPromises: Promise<Dao>[] = [];
+
       if (daoList && daoList.length > 0) {
         daoList.forEach((dao: any) => {
           const daoContractAddress = Address.parse(dao);
           const daoMasterContract = new DaoContract(daoContractAddress);
           const daoContract = open(daoMasterContract, client);
 
-          daoContract.getDaoData();
+          daoPromises.push(daoContract.getDaoData());
         });
+
+        const daos = await Promise.all(daoPromises);
+
+        setColumns(daos);
       }
 
       setLoading(false);
@@ -43,6 +50,8 @@ export default function ViewDao() {
 
     init();
   }, []);
+
+  console.log(columns);
 
   return (
     <div
@@ -92,19 +101,23 @@ export default function ViewDao() {
             </Card>
           </Grid>
         )}
-        {columns.map((column: any) => (
-          <Grid key={column.id} item md={3}>
-            <DaoCard
-              daoId={column.name}
-              name={column.name}
-              description={column.description}
-              value={column.tokenContract}
-              daoImg={column.daoImg}
-              // today's date in format: 2021-10-10
-              date={Date().split(" ")[3] + "-" + Date().split(" ")[1] + "-" + Date().split(" ")[2]}
-            />
-          </Grid>
-        ))}
+        {columns.map((column: Dao, index) => {
+          const content = JSON.parse(column.content.toString());
+
+          return (
+            <Grid key={index.toString()} item md={3}>
+              <DaoCard
+                daoId={column.address}
+                name={content.name}
+                description={content.description}
+                value={column.tokenContract.toFriendly()}
+                daoImg={""}
+                // today's date in format: 2021-10-10
+                date={Date().split(" ")[3] + "-" + Date().split(" ")[1] + "-" + Date().split(" ")[2]}
+              />
+            </Grid>
+          );
+        })}
       </Grid>
     </div>
   );
