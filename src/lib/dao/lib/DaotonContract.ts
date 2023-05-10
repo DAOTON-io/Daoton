@@ -17,7 +17,7 @@ export default class DaoTonContract implements Contract {
       client
     );
 
-    return daoContract?.toString("hex");
+    return "0:" + daoContract?.toString("hex");
   };
 
   getDaoList = async (provider: ContractProvider, client: TonClient) => {
@@ -33,6 +33,9 @@ export default class DaoTonContract implements Contract {
 
       const daoList = await Promise.all(daoPromises);
 
+      console.log(daoList);
+
+      // user friendly
       return daoList;
     } catch (err) {
       console.log("err", err);

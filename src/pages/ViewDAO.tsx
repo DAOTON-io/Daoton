@@ -10,6 +10,7 @@ import { getHttpEndpoint } from "@orbs-network/ton-access";
 import daoton from "../lib/dao/contracts/daoton.contract.json";
 import DaoTonContract from "../lib/dao/lib/DaotonContract";
 import { open } from "../utils";
+import DaoContract from "../lib/dao/lib/DaoContract";
 
 export default function ViewDao() {
   const [columns, setColumns] = React.useState([]);
@@ -20,19 +21,29 @@ export default function ViewDao() {
       const endpoint = await getHttpEndpoint({ network: "testnet" });
       const client = new TonClient({ endpoint });
 
-      const contractAddress = Address.parse(daoton.address);
-      const masterContract = new DaoTonContract(contractAddress);
+      const daotonContractAddress = Address.parse(daoton.address);
+      const daotonMasterContract = new DaoTonContract(daotonContractAddress);
 
-      const daoContract = open(masterContract, client);
+      const daotonContract = open(daotonMasterContract, client);
 
-      const daoList = await daoContract.getDaoList(client);
+      const daoList = await daotonContract.getDaoList(client);
 
-      console.log(daoList);
+      if (daoList && daoList.length > 0) {
+        daoList.forEach((dao: any) => {
+          const daoContractAddress = Address.parse(dao);
+          const daoMasterContract = new DaoContract(daoContractAddress);
+          const daoContract = open(daoMasterContract, client);
+
+          daoContract.getDaoData();
+        });
+      }
+
       setLoading(false);
     };
 
     init();
-  });
+  }, []);
+
   return (
     <div
       style={{

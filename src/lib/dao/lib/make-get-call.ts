@@ -21,7 +21,11 @@ export function cellToAddress(s: GetResponseValue): Address {
   return (s as Cell).beginParse().readAddress() as Address;
 }
 
-function _parseGetMethodCall(stack: [["num" | "cell" | "list", any]]): GetResponseValue[] {
+export function cellToContent(s: GetResponseValue): Buffer {
+  return (s as Cell).beginParse().readRemainingBytes() as Buffer;
+}
+
+export function _parseGetMethodCall(stack: [["num" | "cell" | "list", any]]): GetResponseValue[] {
   return stack.map(([type, val]) => {
     switch (type) {
       case "num":
