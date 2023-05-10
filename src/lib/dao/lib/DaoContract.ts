@@ -1,5 +1,6 @@
 import { Contract, ContractProvider, Sender, Address, Cell, contractAddress, beginCell } from "ton-core";
 import { DaoContent } from "./models/DaoContent";
+import daoton from "../contracts/daoton.contract.json";
 
 export default class DaoContract implements Contract {
   static createForDeploy(code: Cell, daoTypeId: number, tokenContract: Address, nftCollection: Address, daoContent: DaoContent): DaoContract {
@@ -24,28 +25,21 @@ export default class DaoContract implements Contract {
   constructor(readonly address: Address, readonly init?: { code: Cell; data: Cell }) {}
 
   async sendDeploy(provider: ContractProvider, via: Sender) {
-    // const messageBody = beginCell()
-    //   .storeUint(1, 32) // op (op #1 = create proposal)
-    //   .storeUint(Date.now(), 64) // timestamp
-    //   .storeUint(100, 32) // success threshold
-    //   .storeUint(1, 32) // fail threshold
-    //   .endCell();
+    const daotonAddress = Address.parse(daoton.address);
+
+    const body = beginCell().storeUint(0, 32).storeAddress(this.address).storeAddress(daotonAddress).endCell();
+
     await provider.internal(via, {
-      value: "0.01", // send 0.01 TON to contract for rent
+      value: "0.02", // send 0.01 TON to contract for rent
       bounce: false,
-      // body: messageBody,
+      body,
     });
   }
 
   getDaoData = async (provider: ContractProvider) => {
     try {
-      const { stack } = await provider.get("get_current_data", []);
-      // console.log()
-      // console.log("dao type id: ",);
-      // console.log("token address: ", stack.readAddress().toString());
-      // console.log("nft address : ", stack.readAddress().toString());
-      // console.log("content :", stack.readBuffer().toString());
-      // console.log("last proposal id :", stack.readBigNumber().toString());
+      const { stack } = await provider.get("get_dao_data", []);
+      console.log("daodata", stack);
 
       return stack;
     } catch {}

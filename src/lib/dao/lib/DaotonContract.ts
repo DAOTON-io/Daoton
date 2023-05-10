@@ -6,6 +6,20 @@ import { TonClient } from "ton";
 export default class DaoTonContract implements Contract {
   constructor(readonly address: Address, readonly init?: { code: Cell; data: Cell }) {}
 
+  private getDaoById = async (id: number, client: TonClient) => {
+    const daoContract = await makeGetCall(
+      this.address as any,
+      "get_dao",
+      [new BN(id)],
+      ([data]) => {
+        return data;
+      },
+      client
+    );
+
+    return daoContract?.toString("hex");
+  };
+
   getDaoList = async (provider: ContractProvider, client: TonClient) => {
     try {
       const { stack }: any = await provider.get("get_current_data", []);
@@ -17,35 +31,11 @@ export default class DaoTonContract implements Contract {
         daoPromises.push(this.getDaoById(i, client));
       }
 
-      console.log("dao", daoPromises);
+      const daoList = await Promise.all(daoPromises);
 
-      Promise.all(daoPromises)
-        .then((data) => {
-          console.log("data", data);
-        })
-        .catch((err) => {
-          console.log("err", err);
-        });
-
-      // console.log("daodata", "0:" + daoData?.toString("hex"));
-
-      return stack;
+      return daoList;
     } catch (err) {
       console.log("err", err);
     }
-  };
-
-  getDaoById = async (id: number, client: TonClient) => {
-    const daoContract = await makeGetCall(
-      this.address as any,
-      "get_dao",
-      [new BN(id)],
-      ([data]) => {
-        return data;
-      },
-      client
-    );
-
-    return daoContract;
   };
 }
