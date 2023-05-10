@@ -8,6 +8,7 @@ import CollectionForm from '../components/2CollectionForm';
 import { NewSteps } from '../components/2Steps';
 import { NftReview } from '../components/2NftReview';
 import { CollectionReview } from '../components/2CollectionReview';
+import { COLLECTION_STEPS, MAIN_STEPS, NFT_STEPS } from '../utils/enums';
 
 const useStyles = makeStyles((theme: Theme) => ({
     cardDiv: {
@@ -25,7 +26,8 @@ const useStyles = makeStyles((theme: Theme) => ({
 
 export const MainNFT: React.FC = () => {
     const [activeStep, setActiveStep] = useState<number>(1);
-    const [choice, setChoice] = useState('Your choice')
+    const [choice, setChoice] = useState<string>()
+    const [step, setStep] = useState<string[]>([])
     const [selectedCategory, setSelectedCategory] = useState<CategoryType>({
         id: 0,
         label: '',
@@ -38,23 +40,26 @@ export const MainNFT: React.FC = () => {
         collectionAddress: '',
         nftImage: '',
     })
-
     const [collectionInfo, setCollectionInfo] = useState<CollectionDataType>({
         collectionName: '',
         collectionDescription: '',
         collectionImage: '',
     })
+
     const classes = useStyles();
 
     useEffect(() => {
         if (activeStep === 1) {
-            setChoice('Your choice')
+            setChoice(MAIN_STEPS.CHOOSE_TYPE)
+            setStep(Object.values(MAIN_STEPS))
         }
         else if (selectedCategory.id == 1) {
-            setChoice("Generate NFT")
+            setChoice(NFT_STEPS.CHOOSE_TYPE)
+            setStep(Object.values(NFT_STEPS))
         }
         else if (selectedCategory.id == 2) {
-            setChoice("Generate Collection")
+            setChoice(COLLECTION_STEPS.CHOOSE_TYPE)
+            setStep(Object.values(COLLECTION_STEPS))
         }
     }, [activeStep])
 
@@ -69,11 +74,7 @@ export const MainNFT: React.FC = () => {
                 minWidth: '21rem',
                 padding: '1rem',
             }}>
-            <NewSteps allSteps={[
-                'Choose Type',
-                choice,
-                'Review',
-            ]} activeStep={activeStep} />
+            <NewSteps allSteps={step} activeStep={activeStep} />
             <div className={classes.cardDiv}>
                 {activeStep === 1 && (
                     <>
