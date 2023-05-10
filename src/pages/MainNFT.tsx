@@ -64,7 +64,7 @@ export const MainNFT: React.FC = () => {
             style={{
                 justifyContent: 'center',
                 display: 'flex',
-                height: '80vh',
+                height: 'calc(100vh - 10.5rem)',
                 marginBottom: '1rem',
                 minWidth: '21rem',
                 padding: '1rem',
