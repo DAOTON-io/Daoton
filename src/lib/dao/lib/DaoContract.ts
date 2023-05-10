@@ -40,7 +40,7 @@ export default class DaoContract implements Contract {
   getDaoData = async (provider: ContractProvider) => {
     try {
       const { stack } = await provider.get("get_current_data", []);
-
+      // console.log()
       // console.log("dao type id: ",);
       // console.log("token address: ", stack.readAddress().toString());
       // console.log("nft address : ", stack.readAddress().toString());
