@@ -172,7 +172,12 @@ const CollectionForm: React.FC<Props> = ({ activeStepOnChange, collectionInfoOnC
                                 </Grid>
                                 <Grid item justifyContent={'flex-end'}>
                                     <ImageUpload
-                                        onChange={() => { }}
+                                        onChange={(value: any) => {
+                                            setCollectionData({
+                                                ...collectionData,
+                                                collectionImage: value,
+                                            })
+                                        }}
                                         onClear={() => { }}></ImageUpload>
                                 </Grid>
                             </Grid>
