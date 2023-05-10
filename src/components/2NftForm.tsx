@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from "react";
 import { makeStyles } from "@mui/styles";
-import { GenerateNftType, InfoType, NftDetailType } from "../utils/types";
+import { GenerateNftType } from "../utils/types";
 import { useNavigate } from "react-router-dom";
 import { useTonAddress, useTonConnectUI } from "@tonconnect/ui-react";
 import { Address } from 'ton';
@@ -104,7 +104,8 @@ const NftForm: React.FC<Props> = ({
     };
 
     const nextStep = () => {
-        activeStepOnChange(2);
+        activeStepOnChange(3);
+        nftInfoOnChange(nftData)
     }
 
     const generateNFT = async () => {
