@@ -201,7 +201,7 @@ export const Review: React.FC<Props> = ({
                       <label>Token Image : </label>
                     </Grid>
                     <Grid item justifyContent={'flex-end'}>
-                      <div id="token-image"></div>
+                      <img id="token-image"></img>
                     </Grid>
                   </Grid>
                 )}
