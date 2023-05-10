@@ -33,8 +33,6 @@ export default class DaoTonContract implements Contract {
 
       const daoList = await Promise.all(daoPromises);
 
-      console.log(daoList);
-
       // user friendly
       return daoList;
     } catch (err) {
