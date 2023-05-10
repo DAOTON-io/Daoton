@@ -19,6 +19,8 @@ import { CustomInput } from '../components/CustomInput';
 import NftForm from '../components/2NftForm';
 import CollectionForm from '../components/2CollectionCategories';
 import { NewSteps } from '../components/2Steps';
+import { NftInfo } from '../components/2NftInfo';
+import { NftReview } from '../components/2NftReview';
 
 const useStyles = makeStyles((theme: Theme) => ({
     cardDiv: {
@@ -52,7 +54,7 @@ export const MainNFT: React.FC = () => {
     const classes = useStyles();
 
     useEffect(() => {
-        if (activeStep === 1){
+        if (activeStep === 1) {
             setChoice('Your choice')
         }
         else if (selectedCategory.id == 1) {
@@ -101,7 +103,18 @@ export const MainNFT: React.FC = () => {
                         ></NftForm>
                     </>
                 )}
-                {selectedCategory.id === 2 && activeStep === 2 &&(
+                {selectedCategory.id === 1 && activeStep === 3 && (
+                    <>
+                        {' '}
+
+                        <NftReview
+                            activeStepOnChange={setActiveStep}
+                            nftInfoOnChange={setNftInfo}
+                            nftDetail={nftInfo}
+                        ></NftReview>
+                    </>
+                )}
+                {selectedCategory.id === 2 && activeStep === 2 && (
                     <>
                         {' '}
                         <CollectionForm
