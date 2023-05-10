@@ -103,9 +103,8 @@ const NftForm: React.FC<Props> = ({
         nftInfoOnChange(nftData)
     };
 
-    // TODO 
     const nextStep = () => {
-
+        activeStepOnChange(2);
     }
 
     const generateNFT = async () => {
@@ -237,11 +236,12 @@ const NftForm: React.FC<Props> = ({
 
                         <Grid paddingTop={2} container justifyContent={'space-between'}>
                             <CustomButton onClick={backStep} disabled={false} label="BACK" />
-                            <CustomButton
+                            <CustomButton onClick={nextStep} label="NEXT"/>
+                            {/* <CustomButton
                                 onClick={generateNFT}
                                 disabled={disable()}
                                 label="Generate"
-                            />
+                            /> */}
                         </Grid>
                     </Stack>
                 </Grid>
