@@ -67,7 +67,7 @@ const useStyles = makeStyles(theme => ({
         justifyContent: 'center',
         height: '65vh',
         overflow: 'auto',
-        padding: '1rem',
+        padding: '2rem',
     },
 }));
 
@@ -156,8 +156,6 @@ const NftForm: React.FC<Props> = ({
         <Grid container className={classes.container}>
             <Grid item lg={1} md={2} sm={1} xs={0}></Grid>
             <Grid container className={classes.center}>
-                <h5 className={classes.title}>Generate NFT</h5>
-
                 <Grid container className={classes.gridContainer}>
                     <Stack
                         spacing={2}
@@ -229,7 +227,12 @@ const NftForm: React.FC<Props> = ({
                                 </Grid>
                                 <Grid item justifyContent={'flex-start'}>
                                     <ImageUpload
-                                        onChange={() => { }}
+                                        onChange={(value: string) => {
+                                            setNftData({
+                                                ...nftData,
+                                                nftImage: value,
+                                            })
+                                        }}
                                         onClear={() => { }}></ImageUpload>
                                 </Grid>
                             </Grid>
@@ -237,12 +240,7 @@ const NftForm: React.FC<Props> = ({
 
                         <Grid paddingTop={2} container justifyContent={'space-between'}>
                             <CustomButton onClick={backStep} disabled={false} label="BACK" />
-                            <CustomButton onClick={nextStep} label="NEXT"/>
-                            {/* <CustomButton
-                                onClick={generateNFT}
-                                disabled={disable()}
-                                label="Generate"
-                            /> */}
+                            <CustomButton onClick={nextStep} label="NEXT" />
                         </Grid>
                     </Stack>
                 </Grid>
