@@ -1,25 +1,11 @@
 import React, { useEffect, useState } from 'react';
 import { Theme } from '@mui/material';
 import { makeStyles } from '@mui/styles';
-import { DaoCategories } from '../components/DaoCategories';
-import {
-    CategoryType,
-    GenerateNftType,
-    InfoType,
-    NftDetailType,
-    TokenDetailType,
-} from '../utils/types';
-import { TOKEN_TYPES } from '../utils/enums';
-import { TokenDetail } from '../components/TokenDetail';
-import { DaoInfo } from '../components/DaoInfo';
-import { Steps } from '../components/Steps';
-import { Review } from '../components/Review';
+import { CategoryType, GenerateNftType } from '../utils/types';
 import { NFTCategories } from '../components/2NftCategories';
-import { CustomInput } from '../components/CustomInput';
 import NftForm from '../components/2NftForm';
 import CollectionForm from '../components/2CollectionCategories';
 import { NewSteps } from '../components/2Steps';
-import { NftInfo } from '../components/2NftInfo';
 import { NftReview } from '../components/2NftReview';
 
 const useStyles = makeStyles((theme: Theme) => ({
