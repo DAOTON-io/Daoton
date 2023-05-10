@@ -10,27 +10,6 @@ export const open = <T extends Contract>(src: T, client: TonClient) => {
   });
 };
 
-// ref https://github.com/ton-blockchain/minter/blob/main/src/lib/make-get-call.ts
-
-export const _parseGetMethodCall = (stack: [["num" | "cell" | "list", any]]): any[] => {
-  return stack.map(([type, val]) => {
-    switch (type) {
-      case "num":
-        return new BN(val.replace("0x", ""), "hex");
-      case "cell":
-        return Cell.fromBoc(Buffer.from(val.bytes, "base64"))[0];
-      case "list":
-        if (val.elements.length === 0) {
-          return null;
-        } else {
-          throw new Error("list parsing not supported");
-        }
-      default:
-        throw new Error(`unknown type: ${type}, val: ${JSON.stringify(val)}`);
-    }
-  });
-};
-
 const createProvider = (client: TonClient, address: Address, init: { code: Cell | null; data: Cell | null } | null): ContractProvider => {
   return {
     async getState(): Promise<ContractState> {
