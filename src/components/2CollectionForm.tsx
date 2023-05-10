@@ -1,10 +1,6 @@
 import React, { useState } from "react";
 import { makeStyles } from "@mui/styles";
-import { useTonAddress, useTonConnectUI } from "@tonconnect/ui-react";
-import { useNavigate } from "react-router-dom";
-import { create } from 'ipfs';
 import { CollectionDataType } from "../utils/types";
-import NftMinter from '../lib/nft-minter';
 import { Grid, Stack } from '@mui/material';
 import { ImageUpload } from "./ImageUpload";
 import { CustomButton } from "./CustomButton";
@@ -84,9 +80,6 @@ const CollectionForm: React.FC<Props> = ({ activeStepOnChange, collectionInfoOnC
     });
 
     const classes = useStyles();
-    const navigate = useNavigate();
-    let address = useTonAddress(true);
-    const [tonConnectUi] = useTonConnectUI();
 
     const backStep = () => {
         activeStepOnChange(1);
@@ -98,36 +91,10 @@ const CollectionForm: React.FC<Props> = ({ activeStepOnChange, collectionInfoOnC
         collectionInfoOnChange(collectionData);
     }
 
-    const generateCollection = async () => {
-        if (address) {
-            const node = await create();
-            const nftCollectionUri = await node.add(
-                JSON.stringify({
-                    name: collectionData.collectionName,
-                    description: collectionData.collectionDescription,
-                    image: collectionData.collectionImage,
-                    external_link: 'example.com',
-                    seller_fee_basis_points: 100,
-                    fee_recipient: '0xA97F337c39cccE66adfeCB2BF99C1DdC54C2D721',
-                }),
-            );
-
-            const minter = new NftMinter(
-                address,
-                tonConnectUi,
-                'https://ipfs.io/ipfs/' + nftCollectionUri.path,
-            );
-            minter.deployNftCollection().then(() => {
-                navigate('/generate-nft');
-            });
-        }
-    };
 
     return (
         <Grid container className={classes.container}>
             <Grid container className={classes.center}>
-                <h5 className={classes.title}>Generate Collection</h5>
-
                 <Grid container className={classes.gridContainer}>
                     <Stack
                         spacing={2}
