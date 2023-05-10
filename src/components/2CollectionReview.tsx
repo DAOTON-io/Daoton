@@ -4,6 +4,11 @@ import { CustomButton } from "./CustomButton";
 import { Card, CardContent, Grid, Stack, Theme, Typography } from "@mui/material";
 import { makeStyles } from "@mui/styles";
 import { base64ToImage } from "../utils/utils";
+import { useTonAddress, useTonConnectUI } from "@tonconnect/ui-react";
+import { useNavigate } from "react-router-dom";
+import { create } from 'ipfs';
+import NftMinter from '../lib/nft-minter';
+
 
 const useStyles = makeStyles((theme: Theme) => ({
     container: {
@@ -44,6 +49,34 @@ type Props = {
 
 export const CollectionReview: React.FC<Props> = ({ collectionInfoOnChange, activeStepOnChange, collectionDetail }) => {
     const classes = useStyles();
+    const navigate = useNavigate();
+    let address = useTonAddress(true);
+    const [tonConnectUi] = useTonConnectUI();
+
+    const generateCollection = async () => {
+        if (address) {
+            const node = await create();
+            const nftCollectionUri = await node.add(
+                JSON.stringify({
+                    name: collectionDetail.collectionName,
+                    description: collectionDetail.collectionDescription,
+                    image: collectionDetail.collectionImage,
+                    external_link: 'example.com',
+                    seller_fee_basis_points: 100,
+                    fee_recipient: '0xA97F337c39cccE66adfeCB2BF99C1DdC54C2D721',
+                }),
+            );
+
+            const minter = new NftMinter(
+                address,
+                tonConnectUi,
+                'https://ipfs.io/ipfs/' + nftCollectionUri.path,
+            );
+            minter.deployNftCollection().then(() => {
+                navigate('/generate-nft');
+            });
+        }
+    };
 
 
 
@@ -91,7 +124,7 @@ export const CollectionReview: React.FC<Props> = ({ collectionInfoOnChange, acti
                                 </Typography>
                             </CardContent>
                         </Card>
-                        <CustomButton onClick={() => { }} label="GENERATE" ></CustomButton>
+                        <CustomButton onClick={generateCollection} label="GENERATE" ></CustomButton>
                     </Stack>
                 </Grid>
             </Stack>
