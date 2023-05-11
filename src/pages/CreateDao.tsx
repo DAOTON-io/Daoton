@@ -8,19 +8,15 @@ import { TokenDetail } from "../components/TokenDetail";
 import { DaoInfo } from "../components/DaoInfo";
 import { Steps } from "../components/Steps";
 import { Review } from "../components/Review";
-
-import { contractAddress, Address, beginCell } from "ton";
-import { Cell } from "ton";
+import { contractAddress, Address, beginCell, Cell, toNano, beginDict } from "ton";
 import daoContract from "../lib/dao/contracts/dao.compiled.json";
 import daotonContract from "../lib/dao/contracts/daoton.contract.json";
-import { toNano, beginDict } from "ton";
-import { useTonConnectUI } from "@tonconnect/ui-react";
+import { useTonConnectUI, useTonAddress } from "@tonconnect/ui-react";
 import toastr from "toastr";
 import { sha256 } from "../lib/token-minter/deployer";
 import { daoMetadata } from "../lib/dao/lib/make-get-call";
 import { useNavigate } from "react-router-dom";
 import { mintToken } from "../lib/token-minter/utils";
-import { useTonAddress } from "@tonconnect/ui-react";
 
 const useStyles = makeStyles((theme: Theme) => ({
   cardDiv: {
