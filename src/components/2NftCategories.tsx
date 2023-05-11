@@ -1,11 +1,6 @@
 import React from "react";
-import BusinessIcon from "@mui/icons-material/Business";
-import AssuredWorkloadIcon from "@mui/icons-material/AssuredWorkload";
-import ForumIcon from "@mui/icons-material/Forum";
-import GavelIcon from "@mui/icons-material/Gavel";
-import PixIcon from "@mui/icons-material/Pix";
-import SportsEsportsIcon from "@mui/icons-material/SportsEsports";
-import RocketLaunchIcon from "@mui/icons-material/RocketLaunch";
+import DashboardIcon from '@mui/icons-material/Dashboard';
+import LibraryBooksIcon from '@mui/icons-material/LibraryBooks';
 import { makeStyles } from "@mui/styles";
 import { Box, Card, CardActionArea, CardContent, Grid, Theme, Typography } from "@mui/material";
 import { CategoryType } from "../utils/types";
@@ -13,13 +8,14 @@ import { CategoryType } from "../utils/types";
 const categories: CategoryType[] = [
   {
     id: 1,
-    label: "create nft",
-    icon: <BusinessIcon style={{ color: "white", marginRight: "1rem" }} fontSize="large" />,
+    label: "Generate your NFT",
+
+    icon: <DashboardIcon style={{ color: "white", marginRight: "1rem" }} fontSize="large" />,
   },
   {
     id: 2,
-    label: "create collection",
-    icon: <AssuredWorkloadIcon style={{ color: "white", marginRight: "1rem" }} fontSize="large" />,
+    label: "Generate your Collection",
+    icon: <LibraryBooksIcon style={{ color: "white", marginRight: "1rem" }} fontSize="large" />,
   },
 ];
 
