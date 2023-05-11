@@ -49,8 +49,6 @@ export default function ViewDao() {
 
         const daos = await Promise.all(daoPromises);
 
-        console.log(daos);
-
         setColumns(daos);
         setLoading(false);
       }
