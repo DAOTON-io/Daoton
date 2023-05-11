@@ -1,5 +1,5 @@
 import React, { useEffect } from "react";
-import { Grid, Stack, Theme, Typography } from "@mui/material";
+import { Grid, Theme, Typography } from "@mui/material";
 import { makeStyles } from "@mui/styles";
 import { CategoryType, DaoInfoData, TokenDetailType } from "../utils/types";
 import { CustomButton } from "./CustomButton";
