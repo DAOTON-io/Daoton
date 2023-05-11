@@ -50,16 +50,16 @@ export const Review: React.FC<Props> = ({ selectedCategory, daoInfo, tokenDetail
 
   useEffect(() => {
     base64ToImage(daoInfo.image, (img) => {
-      document.getElementById("dao-image")!.style.width = "200px";
-      document.getElementById("dao-image")!.style.height = "200px";
+      // document.getElementById("dao-image")!.style.width = "200px";
+      // document.getElementById("dao-image")!.style.height = "200px";
       (document.getElementById("dao-image") as HTMLInputElement)!.src = daoInfo.image;
     });
   }, [daoInfo.image]);
 
   useEffect(() => {
     base64ToImage(tokenDetail.image, (img) => {
-      document.getElementById("token-image")!.style.width = "200px";
-      document.getElementById("token-image")!.style.height = "200px";
+      // document.getElementById("token-image")!.style.width = "200px";
+      // document.getElementById("token-image")!.style.height = "200px";
       (document.getElementById("token-image") as HTMLInputElement)!.src = tokenDetail.image || "";
     });
   }, [tokenDetail.image]);
@@ -116,11 +116,8 @@ export const Review: React.FC<Props> = ({ selectedCategory, daoInfo, tokenDetail
                   </div>
                 </Typography>
                 <Grid container className={classes.buttonContainer}>
-                  <Grid item justifyContent={"flex-start"}>
-                    <label>DAO Image : </label>
-                  </Grid>
                   <Grid item justifyContent={"flex-end"}>
-                    <img id="dao-image" alt="alt" width={100} height={100} src={daoInfo.image || "/images/logo.jpeg"}></img>
+                    <img id="dao-image" alt="alt" width={200} height={100} src={daoInfo.image || "/images/logo.jpeg"}></img>
                   </Grid>
                 </Grid>
               </Grid>
@@ -180,11 +177,8 @@ export const Review: React.FC<Props> = ({ selectedCategory, daoInfo, tokenDetail
                 </Typography>
 
                 <Grid container className={classes.buttonContainer}>
-                  <Grid item justifyContent={"flex-start"}>
-                    <label>Token Image: </label>
-                  </Grid>
                   <Grid item justifyContent={"flex-end"}>
-                    <img id="token-image" alt="alt" src={tokenDetail.image || "/images/logo.jpeg"}></img>
+                    <img id="token-image" alt="alt" width={200} height={100} src={tokenDetail.image || "/images/logo.jpeg"}></img>
                   </Grid>
                 </Grid>
               </Grid>
