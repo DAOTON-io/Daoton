@@ -1,7 +1,7 @@
 import React, { useEffect } from "react";
 import { Grid, Stack, Theme, Typography } from "@mui/material";
 import { makeStyles } from "@mui/styles";
-import { CategoryType, InfoType, TokenDetailType, NftDetailType } from "../utils/types";
+import { CategoryType, DaoInfoData, TokenDetailType } from "../utils/types";
 import { CustomButton } from "./CustomButton";
 import { base64ToImage } from "../utils/utils";
 
@@ -37,13 +37,13 @@ const useStyles = makeStyles((theme: Theme) => ({
 
 type Props = {
   selectedCategory: CategoryType;
-  daoInfo: InfoType;
+  daoInfo: DaoInfoData;
   tokenDetail: TokenDetailType;
-  nftDetail: NftDetailType;
+  // nftDetail?: NftDetailType;
   activeStepOnChange: (activeStep: number) => void;
 };
 
-export const Review: React.FC<Props> = ({ selectedCategory, daoInfo, tokenDetail, nftDetail, activeStepOnChange }) => {
+export const Review: React.FC<Props> = ({ selectedCategory, daoInfo, tokenDetail, activeStepOnChange }) => {
   const classes = useStyles();
 
   useEffect(() => {
@@ -58,23 +58,22 @@ export const Review: React.FC<Props> = ({ selectedCategory, daoInfo, tokenDetail
     base64ToImage(tokenDetail.image, (img) => {
       document.getElementById("token-image")!.style.width = "200px";
       document.getElementById("token-image")!.style.height = "200px";
-      (document.getElementById("token-image") as HTMLInputElement)!.src = tokenDetail.image;
+      (document.getElementById("token-image") as HTMLInputElement)!.src = tokenDetail.image || "";
     });
   }, [tokenDetail.image]);
 
-  useEffect(() => {
-    base64ToImage(nftDetail.image, (img) => {
-      document.getElementById("nft-image")!.style.width = "200px";
-      document.getElementById("nft-image")!.style.height = "200px";
-      (document.getElementById("nft-image") as HTMLInputElement)!.src = nftDetail.image;
-    });
-  }, [nftDetail.image]);
+  // useEffect(() => {
+  //   base64ToImage(nftDetail.image, (img) => {
+  //     document.getElementById("nft-image")!.style.width = "200px";
+  //     document.getElementById("nft-image")!.style.height = "200px";
+  //     (document.getElementById("nft-image") as HTMLInputElement)!.src = nftDetail.image;
+  //   });
+  // }, [nftDetail.image]);
 
   const save = () => {
     console.log("category in review", selectedCategory);
     console.log("daoInfo in review", daoInfo);
     console.log("tokenDetail in review", tokenDetail);
-    console.log("nftDetail in review", nftDetail);
   };
 
   const backStep = () => {
@@ -125,78 +124,78 @@ export const Review: React.FC<Props> = ({ selectedCategory, daoInfo, tokenDetail
                     <label>DAO Image : </label>
                   </Grid>
                   <Grid item justifyContent={"flex-end"}>
-                    <img id="dao-image" alt="alt"></img>
+                    <img id="dao-image" alt="alt" width={100} height={100} src={daoInfo.image || "/images/logo.jpeg"}></img>
                   </Grid>
                 </Grid>
               </Grid>
             </Stack>
-            {tokenDetail ? (
-              <Stack direction="column" spacing={2}>
-                <Grid
-                  item
-                  style={{
-                    padding: "1rem",
-                    backgroundColor: "#2C6495",
-                    borderRadius: "1rem",
-                    color: "beige",
-                  }}
-                >
-                  <Typography variant="body1">
-                    <div>
-                      <b>Token Name: </b>
-                      {tokenDetail.name}
-                    </div>
-                  </Typography>
-                  <Typography variant="body1">
-                    <div>
-                      <b>Token Symbol: </b>
-                      {tokenDetail.symbol}
-                    </div>
-                  </Typography>
-                  <Typography variant="body1">
-                    <div>
-                      <b>Token Description: </b>
-                      {tokenDetail.description}
-                    </div>
-                  </Typography>
-                  <Typography variant="body1">
-                    <div>
-                      <b>Token Amount: </b>
-                      {tokenDetail.amount}
-                    </div>
-                  </Typography>
-                  <Typography variant="body1">
-                    <div>
-                      <b>Token Decimal: </b>
-                      {tokenDetail.decimal}
-                    </div>
-                  </Typography>
-                  <Typography variant="body1">
-                    <div>
-                      <b>Pausable Contract: </b>
-                      {tokenDetail.pausableContract.toString()}
-                    </div>
-                  </Typography>
-                  <Typography variant="body1">
-                    <div>
-                      <b>Stackable Contract: </b>
-                      {tokenDetail.stackableContract.toString()}
-                    </div>
-                  </Typography>
-                </Grid>
-                {tokenDetail.image && (
-                  <Grid container className={classes.buttonContainer}>
-                    <Grid item justifyContent={"flex-start"}>
-                      <label>Token Image : </label>
-                    </Grid>
-                    <Grid item justifyContent={"flex-end"}>
-                      <div id="token-image"></div>
-                    </Grid>
+
+            <Stack direction="column" spacing={2}>
+              <Grid
+                item
+                style={{
+                  padding: "1rem",
+                  backgroundColor: "#2C6495",
+                  borderRadius: "1rem",
+                  color: "beige",
+                }}
+              >
+                <Typography variant="body1">
+                  <div>
+                    <b>Token Name: </b>
+                    {tokenDetail.name}
+                  </div>
+                </Typography>
+                <Typography variant="body1">
+                  <div>
+                    <b>Token Symbol: </b>
+                    {tokenDetail.symbol}
+                  </div>
+                </Typography>
+                <Typography variant="body1">
+                  <div>
+                    <b>Token Description: </b>
+                    {tokenDetail.description}
+                  </div>
+                </Typography>
+                <Typography variant="body1">
+                  <div>
+                    <b>Token Amount: </b>
+                    {tokenDetail.amount}
+                  </div>
+                </Typography>
+                <Typography variant="body1">
+                  <div>
+                    <b>Token Decimal: </b>
+                    {tokenDetail.decimal}
+                  </div>
+                </Typography>
+                <Typography variant="body1">
+                  <div>
+                    <b>Pausable Contract: </b>
+                    {tokenDetail.isPausable.toString()}
+                  </div>
+                </Typography>
+                <Typography variant="body1">
+                  <div>
+                    <b>Stackable Contract: </b>
+                    {tokenDetail.isStackable.toString()}
+                  </div>
+                </Typography>
+              </Grid>
+              {tokenDetail.image && (
+                <Grid container className={classes.buttonContainer}>
+                  <Grid item justifyContent={"flex-start"}>
+                    <label>Token Image : </label>
                   </Grid>
-                )}
-              </Stack>
-            ) : nftDetail ? (
-              <Stack direction="column" spacing={2}>
+                  <Grid item justifyContent={"flex-end"}>
+                    <div id="token-image"></div>
+                  </Grid>
+                </Grid>
+              )}
+            </Stack>
+
+            {/* <Stack direction="column" spacing={2}>
                 <Grid
                   item
                   style={{
@@ -219,8 +218,7 @@ export const Review: React.FC<Props> = ({ selectedCategory, daoInfo, tokenDetail
                     <div id="nft-image"></div>
                   </Grid>
                 </Grid>
-              </Stack>
-            ) : undefined}
+              </Stack> */}
           </Stack>
         </Grid>
         <Grid paddingTop={2} container justifyContent={"space-between"} width={"100%"}>

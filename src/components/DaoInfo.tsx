@@ -1,16 +1,16 @@
-import React, { useEffect, useState } from "react";
+import React, { useEffect } from "react";
 import { makeStyles } from "@mui/styles";
 import { Grid, Stack, Theme } from "@mui/material";
-import { InfoType } from "../utils/types";
 import { CustomButton } from "./CustomButton";
 import { CustomInput } from "./CustomInput";
 import { ImageUpload } from "./ImageUpload";
 import { base64ToImage } from "../utils/utils";
+import { DaoInfoData } from "../utils/types";
 
 type Props = {
   activeStepOnChange: (activeStep: number) => void;
-  daoInfoOnChange: (daoInfo: InfoType) => void;
-  daoInfo: InfoType;
+  daoInfoOnChange: (daoInfo: DaoInfoData) => void;
+  daoInfo: DaoInfoData;
 };
 
 const useStyles = makeStyles((theme: Theme) => ({
@@ -41,41 +41,40 @@ const useStyles = makeStyles((theme: Theme) => ({
 }));
 
 export const DaoInfo: React.FC<Props> = ({ activeStepOnChange, daoInfoOnChange, daoInfo }) => {
-  const [data, setData] = useState<InfoType>({ name: "", description: "", image: "" });
-
   const classes = useStyles();
-
-  useEffect(() => {
-    if (daoInfo) setData(daoInfo);
-  }, [daoInfo]);
 
   const createDao = () => {
     activeStepOnChange(3);
-    daoInfoOnChange(data);
   };
 
   const backStep = () => {
     activeStepOnChange(1);
-    daoInfoOnChange(data);
   };
 
   useEffect(() => {
-    base64ToImage(data.image, (img) => {
+    base64ToImage(daoInfo.image, (img) => {
       document.getElementById("image")?.appendChild(img);
     });
-  }, [data.image]);
+  }, [daoInfo.image]);
 
   return (
     <Grid container className={classes.container}>
       <Stack direction="column" spacing={4} marginTop={4} className={classes.stackContainer}>
-        <CustomInput placeholder="DAO Name" label="DAO Name" id="name" name="name" value={data.name} onChange={(e: any) => setData({ ...data, name: e.target.value })} />
+        <CustomInput
+          placeholder="DAO Name"
+          label="DAO Name"
+          id="name"
+          name="name"
+          value={daoInfo.name}
+          onChange={(e: any) => daoInfoOnChange({ ...daoInfo, name: e.target.value })}
+        />
         <CustomInput
           placeholder="Description"
           label="Description"
           id="description"
           name="description"
-          value={data.description}
-          onChange={(e: any) => setData({ ...data, description: e.target.value })}
+          value={daoInfo.description}
+          onChange={(e: any) => daoInfoOnChange({ ...daoInfo, description: e.target.value })}
         />
         <Grid container className={classes.buttonContainer}>
           <Grid item justifyContent={"flex-start"} style={{ marginRight: "1rem" }}>
@@ -84,7 +83,7 @@ export const DaoInfo: React.FC<Props> = ({ activeStepOnChange, daoInfoOnChange, 
           <Grid item justifyContent={"flex-end"}>
             <ImageUpload
               onChange={(value: any) => {
-                setData({ ...data, image: value });
+                daoInfoOnChange({ ...daoInfo, image: value });
               }}
               onClear={() => {}}
             ></ImageUpload>
@@ -92,7 +91,7 @@ export const DaoInfo: React.FC<Props> = ({ activeStepOnChange, daoInfoOnChange, 
         </Grid>
         <Grid paddingTop={2} container justifyContent={"space-between"} width={"100%"}>
           <CustomButton onClick={backStep} disabled={false} label="BACK" />
-          <CustomButton onClick={createDao} disabled={!(data.name && data.description)} label="NEXT" />
+          <CustomButton onClick={createDao} disabled={!(daoInfo.name && daoInfo.description)} label="NEXT" />
         </Grid>
       </Stack>
     </Grid>

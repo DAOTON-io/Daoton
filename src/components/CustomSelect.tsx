@@ -1,29 +1,31 @@
-import React from 'react';
-import {Select, Theme} from '@mui/material';
-import {makeStyles} from '@mui/styles';
+import React from "react";
+import { Select, Theme } from "@mui/material";
+import { makeStyles } from "@mui/styles";
 
 const useStyles = makeStyles((theme: Theme) => ({
   select: {
-    fontFamily: 'Raleway',
-    width: '100%',
-    height: '44px',
-    fontSize: '1rem',
-    fontWeight: 'bold',
-    color: '#1D252C',
-    boxShadow: '0 0 10px 0 rgba(0,0,0,0.1)',
-    backgroundColor: '#A2C5E3 !important',
-    padding: '10px',
-    marginBottom: '1rem',
+    fontFamily: "Raleway",
+    width: "100%",
+    height: "44px",
+    fontSize: "1rem",
+    fontWeight: "bold",
+    color: "#1D252C",
+    boxShadow: "0 0 10px 0 rgba(0,0,0,0.1)",
+    backgroundColor: "#A2C5E3 !important",
+    padding: "10px",
+    marginBottom: "1rem",
   },
 }));
 
 type Props = {
+  id: string;
   onChange: any;
-  values?: any;
+  value?: any;
+  label?: string;
   children: any;
 };
 
-export const CustomSelect: React.FC<Props> = ({onChange, values, children}) => {
+export const CustomSelect: React.FC<Props> = ({ onChange, value, children, id, label }) => {
   const classes = useStyles();
 
   return (
@@ -32,21 +34,23 @@ export const CustomSelect: React.FC<Props> = ({onChange, values, children}) => {
         className: classes.select,
       }}
       sx={{
-        '& .css-jedpe8-MuiSelect-select-MuiInputBase-input-MuiOutlinedInput-input.MuiSelect-select':
-          {
-            height: '27px',
-            borderRadius: '1rem',
-          },
-        '& .MuiOutlinedInput-notchedOutline': {
-          border: '1px solid #A2C5E3',
-          borderRadius: '1rem',
+        "& .css-jedpe8-MuiSelect-select-MuiInputBase-input-MuiOutlinedInput-input.MuiSelect-select": {
+          height: "27px",
+          borderRadius: "1rem",
+        },
+        "& .MuiOutlinedInput-notchedOutline": {
+          border: "1px solid #A2C5E3",
+          borderRadius: "1rem",
         },
       }}
       onChange={onChange}
-      value={values}
+      value={value}
       variant="outlined"
       size="small"
-      fullWidth>
+      fullWidth
+      id={id}
+      label={label}
+    >
       {children}
     </Select>
   );

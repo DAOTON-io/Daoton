@@ -1,7 +1,7 @@
 import { Contract, ContractProvider, Sender, Address, Cell, contractAddress, beginCell } from "ton-core";
 import { DaoContent } from "./models/DaoContent";
 import daoton from "../contracts/daoton.contract.json";
-import { _parseGetMethodCall, cellToAddress, cellToContent, readDaoMetadata } from "./make-get-call";
+import { _parseGetMethodCall, cellToAddress, readDaoMetadata } from "./make-get-call";
 import { Dao } from "../../../utils/types";
 
 export default class DaoContract implements Contract {

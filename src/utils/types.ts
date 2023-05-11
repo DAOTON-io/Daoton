@@ -1,22 +1,16 @@
 import { TOKEN_TYPES } from "./enums";
 import { Address } from "ton";
 
-export type InfoType = {
+export type DaoInfoData = {
   name: string;
   description: string;
-  image: any;
+  image: string;
+  tokenAddress: string;
+  nftAddress?: string;
 };
 
-export type TokenDetailType = {
+export type TokenDetailType = GenerateTokenType & {
   type: TOKEN_TYPES;
-  name: string;
-  description: string;
-  symbol: string;
-  amount: string;
-  decimal: string;
-  pausableContract: boolean;
-  stackableContract: boolean;
-  image: any;
 };
 
 export type NftDetailType = {
@@ -38,6 +32,8 @@ export type TokensType = {
     decimals: number;
     name: string;
     symbol: string;
+    image?: string;
+    description: string;
   };
   verification: string;
   wallet_address: {

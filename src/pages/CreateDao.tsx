@@ -2,7 +2,7 @@ import React, { useState } from "react";
 import { Theme } from "@mui/material";
 import { makeStyles } from "@mui/styles";
 import { DaoCategories } from "../components/DaoCategories";
-import { CategoryType, InfoType, NftDetailType, TokenDetailType } from "../utils/types";
+import { CategoryType, DaoInfoData, TokenDetailType } from "../utils/types";
 import { TOKEN_TYPES } from "../utils/enums";
 import { TokenDetail } from "../components/TokenDetail";
 import { DaoInfo } from "../components/DaoInfo";
@@ -18,6 +18,7 @@ import { useTonConnectUI } from "@tonconnect/ui-react";
 import toastr from "toastr";
 import { sha256 } from "../lib/token-minter/deployer";
 import { daoMetadata } from "../lib/dao/lib/make-get-call";
+import { useNavigate } from "react-router-dom";
 
 const useStyles = makeStyles((theme: Theme) => ({
   cardDiv: {
@@ -41,10 +42,11 @@ export const CreateDao: React.FC = () => {
     icon: undefined,
   });
 
-  const [daoInfo, setDaoInfo] = useState<InfoType>({
+  const [daoInfo, setDaoInfo] = useState<DaoInfoData>({
     name: "",
     description: "",
     image: "",
+    tokenAddress: "",
   });
 
   const [tokenDetail, setTokenDetail] = useState<TokenDetailType>({
@@ -52,26 +54,28 @@ export const CreateDao: React.FC = () => {
     name: "",
     description: "",
     symbol: "",
-    amount: "",
-    decimal: "",
-    pausableContract: false,
-    stackableContract: false,
-    image: "",
+    amount: 0,
+    decimal: 9,
+    isPausable: false,
+    isStackable: false,
+    offchainUri: "",
   });
 
-  const [nftDetail, setNftDetail] = useState<NftDetailType>({
-    type: TOKEN_TYPES.NEW_NFT,
-    name: "",
-    description: "",
-    level: "",
-    collectionAddress: "",
-    image: "",
-  });
+  // const [nftDetail, setNftDetail] = useState<NftDetailType>({
+  //   type: TOKEN_TYPES.NEW_NFT,
+  //   name: "",
+  //   description: "",
+  //   level: "",
+  //   collectionAddress: "",
+  //   image: "",
+  // });
 
   const classes = useStyles();
   const [tonConnectUi] = useTonConnectUI();
 
-  function buildDaoOnchainMetadata(data: any) {
+  const navigate = useNavigate();
+
+  const buildDaoOnchainMetadata = (data: any) => {
     const KEYLEN = 256;
     const dict = beginDict(KEYLEN);
 
@@ -101,11 +105,9 @@ export const CreateDao: React.FC = () => {
     });
 
     return beginCell().storeInt(0x00, 8).storeDict(dict.endDict()).endCell();
-  }
+  };
 
   const createDao = () => {
-    console.log(daoInfo);
-
     const code = Cell.fromBoc(daoContract.hex)[0];
 
     const metadata = buildDaoOnchainMetadata(daoInfo);
@@ -147,7 +149,7 @@ export const CreateDao: React.FC = () => {
     };
 
     tonConnectUi.sendTransaction(tx).then(() => {
-      // navigate("/view-tokens");
+      navigate("/view-dao");
       toastr.success(contractAddressHex.toString(), "Jetton deployed successfully.");
     });
   };
@@ -165,31 +167,20 @@ export const CreateDao: React.FC = () => {
     >
       <Steps activeStep={activeStep} />
       <div className={classes.cardDiv}>
-        {activeStep === 1 && (
-          <>
-            {" "}
-            <DaoCategories activeStepOnChange={setActiveStep} selectedCategoryOnChange={setSelectedCategory} selectedCategory={selectedCategory} />
-          </>
-        )}
-        {activeStep === 2 && (
-          <>
-            {" "}
-            <DaoInfo activeStepOnChange={setActiveStep} daoInfoOnChange={setDaoInfo} daoInfo={daoInfo} />
-          </>
-        )}
+        {activeStep === 1 && <DaoCategories activeStepOnChange={setActiveStep} selectedCategoryOnChange={setSelectedCategory} selectedCategory={selectedCategory} />}
+        {activeStep === 2 && <DaoInfo activeStepOnChange={setActiveStep} daoInfoOnChange={setDaoInfo} daoInfo={daoInfo} />}
         {activeStep === 3 && (
-          <>
-            {" "}
-            <TokenDetail activeStepOnChange={setActiveStep} tokenDetailOnChange={setTokenDetail} tokenDetail={tokenDetail} nftDetailOnChange={setNftDetail} nftDetail={nftDetail} />
-          </>
+          <TokenDetail
+            activeStepOnChange={setActiveStep}
+            tokenDetailOnChange={setTokenDetail}
+            tokenDetail={tokenDetail}
+            changeTokenAddress={(address: string) => {
+              setDaoInfo({ ...daoInfo, tokenAddress: address });
+            }}
+            tokenAddress={daoInfo.tokenAddress}
+          />
         )}
-        {activeStep === 4 && (
-          <>
-            {" "}
-            <Review selectedCategory={selectedCategory} daoInfo={daoInfo} tokenDetail={tokenDetail} nftDetail={nftDetail} activeStepOnChange={setActiveStep} />
-          </>
-        )}
-        <button onClick={() => createDao()}>Hellooo</button>
+        {activeStep === 4 && <Review selectedCategory={selectedCategory} daoInfo={daoInfo} tokenDetail={tokenDetail} activeStepOnChange={setActiveStep} />}
       </div>
     </div>
   );

@@ -2,9 +2,9 @@ import React, { useEffect, useState } from "react";
 import { Grid, MenuItem, SelectChangeEvent, Stack, Theme } from "@mui/material";
 import { makeStyles } from "@mui/styles";
 import { useTonAddress } from "@tonconnect/ui-react";
-import { fetchTokens, fetchNfts } from "../lib/api";
+import { fetchTokens } from "../lib/api";
 import { TOKEN_TYPES } from "../utils/enums";
-import { TokenDetailType, NftDetailType, TokensType } from "../utils/types";
+import { TokenDetailType, TokensType } from "../utils/types";
 import { CustomButton } from "./CustomButton";
 import { CustomInput } from "./CustomInput";
 import { CustomSelect } from "./CustomSelect";
@@ -38,33 +38,16 @@ type Props = {
   activeStepOnChange: (activeStep: number) => void;
   tokenDetailOnChange: (tokenDetail: TokenDetailType) => void;
   tokenDetail: TokenDetailType;
-  nftDetailOnChange: (nftDetail: NftDetailType) => void;
-  nftDetail: NftDetailType;
+  changeTokenAddress: (address: string) => void;
+  tokenAddress: string;
+  // nftDetailOnChange: (nftDetail: NftDetailType) => void;
+  // nftDetail: NftDetailType;
 };
 
-export const TokenDetail: React.FC<Props> = ({ activeStepOnChange, tokenDetailOnChange, tokenDetail, nftDetailOnChange, nftDetail }) => {
+export const TokenDetail: React.FC<Props> = ({ activeStepOnChange, tokenDetailOnChange, tokenDetail, changeTokenAddress, tokenAddress }) => {
   const [tokenType, setTokenType] = useState<TOKEN_TYPES>(TOKEN_TYPES.NEW_TOKEN);
   const [tokens, setTokens] = useState<TokensType[]>([]);
-  const [tokenData, setTokenData] = useState<TokenDetailType>({
-    type: tokenType,
-    name: "",
-    description: "",
-    symbol: "",
-    amount: "",
-    decimal: "",
-    pausableContract: true,
-    stackableContract: true,
-    image: "",
-  });
-  const [nfts, setNfts] = useState<any[]>([]);
-  const [nftData, setNftData] = useState<NftDetailType>({
-    type: tokenType,
-    name: "",
-    description: "",
-    level: "",
-    collectionAddress: "",
-    image: "",
-  });
+  // const [nfts, setNfts] = useState<any[]>([]);
 
   const address = useTonAddress();
   const classes = useStyles();
@@ -76,87 +59,65 @@ export const TokenDetail: React.FC<Props> = ({ activeStepOnChange, tokenDetailOn
           const tokenList = await fetchTokens(address);
           setTokens(tokenList.balances);
         } catch {}
-        try {
-          const nftList = await fetchNfts(address);
-          console.log("nftList", nftList);
-          setNfts(nftList.collections as any);
-        } catch {}
+
+        // try {
+        //   const nftList = await fetchNfts(address);
+        //   console.log("nftList", nftList);
+        //   setNfts(nftList.collections as any);
+        // } catch {}
       };
 
       fetchInitData();
     }
   }, [address]);
 
-  useEffect(() => {
-    if (tokenDetail) {
-      setTokenData(tokenDetail);
-      setTokenType(tokenDetail.type);
-    }
-    if (nftDetail) {
-      setNftData(nftDetail);
-      setTokenType(tokenDetail.type);
-    }
-  }, [tokenDetail, nftDetail]);
-
   const selectToken = (e: SelectChangeEvent) => {
     e.preventDefault();
-    const tokenValue = JSON.parse(e.target.value);
-    setTokenData({
-      ...tokenData,
-      name: tokenValue.metadata.name,
-      symbol: tokenValue.metadata.symbol,
-    });
+    const currentAddress = e.target.value;
+    changeTokenAddress(currentAddress);
+
+    const currentToken = tokens.find((tk) => tk.jetton_address === currentAddress);
+    if (currentToken) {
+      tokenDetailOnChange({
+        type: TOKEN_TYPES.TOKEN_FROM_WALLET,
+        amount: Number(currentToken.balance),
+        decimal: currentToken.metadata.decimals,
+        isStackable: false,
+        isPausable: false,
+        name: currentToken.metadata.name,
+        description: currentToken.metadata.description,
+        symbol: currentToken.metadata.symbol,
+        offchainUri: "",
+      });
+    }
   };
 
-  const selectNft = (e: SelectChangeEvent) => {
-    e.preventDefault();
-    const nftValue = JSON.parse(e.target.value);
-    setNftData({
-      ...nftData,
-      name: nftValue.metadata.name,
-    });
-  };
+  // const selectNft = (e: SelectChangeEvent) => {
+  //   e.preventDefault();
+  //   const nftValue = JSON.parse(e.target.value);
+  //   setNftData({
+  //     ...nftData,
+  //     name: nftValue.metadata.name,
+  //   });
+  // };
 
   const selectType = (e: any) => {
     setTokenType(e.target.value as TOKEN_TYPES);
-    setTokenData({
-      type: e.target.value,
-      name: "",
-      description: "",
-      symbol: "",
-      amount: "",
-      decimal: "",
-      pausableContract: true,
-      stackableContract: true,
-      image: "",
-    });
-    setNftData({
-      type: e.target.value,
-      name: "",
-      description: "",
-      level: "",
-      collectionAddress: "",
-      image: "",
-    });
   };
 
   const createDao = () => {
     activeStepOnChange(4);
-    if (tokenData) tokenDetailOnChange(tokenData);
-    if (nftData) nftDetailOnChange(nftData);
   };
 
   const backStep = () => {
     activeStepOnChange(2);
-    if (tokenData) tokenDetailOnChange(tokenData);
-    if (nftData) nftDetailOnChange(nftData);
   };
 
   const disable = (): boolean => {
     if (tokenType === TOKEN_TYPES.NEW_TOKEN) {
-      return !(tokenData.name && tokenData.description && tokenData.symbol && tokenData.amount && tokenData.decimal);
+      return !(tokenDetail.name && tokenDetail.description && tokenDetail.symbol && tokenDetail.amount && tokenDetail.decimal);
     } else if (tokenType === TOKEN_TYPES.TOKEN_FROM_WALLET) {
-      return !(tokenData.name && tokenData.symbol);
+      return !tokenAddress;
     } else return false;
   };
 
@@ -164,7 +125,7 @@ export const TokenDetail: React.FC<Props> = ({ activeStepOnChange, tokenDetailOn
     <Grid container className={classes.container} overflow={"auto"}>
       <Stack direction="column" spacing={2} marginTop={4} marginBottom={2} className={classes.stackContainer}>
         <Stack>
-          <CustomSelect onChange={selectType} values={tokenType}>
+          <CustomSelect id={"select-type"} onChange={selectType} value={tokenType}>
             {" "}
             <MenuItem value={TOKEN_TYPES.NEW_TOKEN}>{TOKEN_TYPES.NEW_TOKEN}</MenuItem>
             <MenuItem value={TOKEN_TYPES.TOKEN_FROM_WALLET}>{TOKEN_TYPES.TOKEN_FROM_WALLET}</MenuItem>
@@ -177,7 +138,7 @@ export const TokenDetail: React.FC<Props> = ({ activeStepOnChange, tokenDetailOn
           </CustomSelect>
         </Stack>
         <Grid item>
-          {tokenType === TOKEN_TYPES.NEW_TOKEN ? (
+          {tokenType === TOKEN_TYPES.NEW_TOKEN && (
             <Stack direction="column" spacing={4} marginTop={2}>
               <Stack direction="row" spacing={4}>
                 <CustomInput
@@ -185,16 +146,16 @@ export const TokenDetail: React.FC<Props> = ({ activeStepOnChange, tokenDetailOn
                   label="Token Name"
                   id="tokenName"
                   name="tokenName"
-                  value={tokenData.name}
-                  onChange={(e: any) => setTokenData({ ...tokenData, name: e.target.value })}
+                  value={tokenDetail.name}
+                  onChange={(e: any) => tokenDetailOnChange({ ...tokenDetail, name: e.target.value })}
                 />
                 <CustomInput
                   placeholder="Token Description"
                   label="Token Description"
                   id="tokenDescription"
                   name="tokenDescription"
-                  value={tokenData.description}
-                  onChange={(e: any) => setTokenData({ ...tokenData, description: e.target.value })}
+                  value={tokenDetail.description}
+                  onChange={(e: any) => tokenDetailOnChange({ ...tokenDetail, description: e.target.value })}
                   style={{ marginLeft: "0.5rem" }}
                 />
               </Stack>
@@ -204,16 +165,16 @@ export const TokenDetail: React.FC<Props> = ({ activeStepOnChange, tokenDetailOn
                   label="Token Symbol"
                   id="tokenSymbol"
                   name="tokenSymbol"
-                  value={tokenData.symbol}
-                  onChange={(e: any) => setTokenData({ ...tokenData, symbol: e.target.value })}
+                  value={tokenDetail.symbol}
+                  onChange={(e: any) => tokenDetailOnChange({ ...tokenDetail, symbol: e.target.value })}
                 />
                 <CustomInput
                   placeholder="Token Amount"
                   label="Token Amount"
                   id="tokenAmount"
                   name="tokenamount"
-                  value={tokenData.amount}
-                  onChange={(e: any) => setTokenData({ ...tokenData, amount: e.target.value })}
+                  value={tokenDetail.amount}
+                  onChange={(e: any) => tokenDetailOnChange({ ...tokenDetail, amount: e.target.value })}
                   style={{ marginLeft: "0.5rem" }}
                 />
               </Stack>
@@ -223,19 +184,19 @@ export const TokenDetail: React.FC<Props> = ({ activeStepOnChange, tokenDetailOn
                   label="Token Decimal"
                   id="tokenDecimal"
                   name="tokenDecimal"
-                  value={tokenData.decimal}
-                  onChange={(e: any) => setTokenData({ ...tokenData, decimal: e.target.value })}
+                  value={tokenDetail.decimal}
+                  onChange={(e: any) => tokenDetailOnChange({ ...tokenDetail, decimal: e.target.value })}
                 />
               </Stack>
               <Stack direction="row" spacing={2} paddingTop={1}>
                 <Grid item>
                   <span style={{ marginTop: "1rem" }}>Pausable Contract:</span>
                   <CustomSwitch
-                    checked={tokenData.pausableContract}
+                    checked={tokenDetail.isPausable}
                     onChange={(e: any) =>
-                      setTokenData({
-                        ...tokenData,
-                        pausableContract: e.target.checked,
+                      tokenDetailOnChange({
+                        ...tokenDetail,
+                        isPausable: e.target.checked,
                       })
                     }
                   />
@@ -243,11 +204,11 @@ export const TokenDetail: React.FC<Props> = ({ activeStepOnChange, tokenDetailOn
                 <Grid item>
                   <span style={{ marginTop: "1rem" }}>Stackable Contract:</span>
                   <CustomSwitch
-                    checked={tokenData.stackableContract}
+                    checked={tokenDetail.isStackable}
                     onChange={(e: any) =>
-                      setTokenData({
-                        ...tokenData,
-                        stackableContract: e.target.checked,
+                      tokenDetailOnChange({
+                        ...tokenDetail,
+                        isStackable: e.target.checked,
                       })
                     }
                   />
@@ -261,8 +222,8 @@ export const TokenDetail: React.FC<Props> = ({ activeStepOnChange, tokenDetailOn
                   <ImageUpload
                     onClear={() => {}}
                     onChange={(value: string) =>
-                      setTokenData({
-                        ...tokenData,
+                      tokenDetailOnChange({
+                        ...tokenDetail,
                         image: value,
                       })
                     }
@@ -270,28 +231,21 @@ export const TokenDetail: React.FC<Props> = ({ activeStepOnChange, tokenDetailOn
                 </Grid>
               </Grid>
             </Stack>
-          ) : tokenType === TOKEN_TYPES.TOKEN_FROM_WALLET ? (
-            tokens.length !== 0 ? (
-              <CustomSelect onChange={selectToken}>
-                {tokens.map((tk: TokensType) => {
-                  return (
-                    <MenuItem
-                      key={tk.jetton_address}
-                      value={JSON.stringify({
-                        ...tk,
-                        name: tk?.metadata.name,
-                        symbol: tk?.metadata.symbol,
-                      })}
-                    >
-                      {tk.metadata.name + "(" + tk.metadata.symbol + ")"}
-                    </MenuItem>
-                  );
-                })}
-              </CustomSelect>
-            ) : (
-              <p>You do not have any token</p>
-            )
-          ) : tokenType === TOKEN_TYPES.NEW_NFT ? (
+          )}
+
+          {tokenType === TOKEN_TYPES.TOKEN_FROM_WALLET && (
+            <CustomSelect id={"select-token"} onChange={selectToken} value={tokenAddress} label="Choose a token">
+              {tokens.map((tk: TokensType) => {
+                return (
+                  <MenuItem key={tk.jetton_address} value={tk.jetton_address}>
+                    {tk.metadata.name + "(" + tk.metadata.symbol + ")"}
+                  </MenuItem>
+                );
+              })}
+            </CustomSelect>
+          )}
+
+          {/* tokenType === TOKEN_TYPES.NEW_NFT ? (
             <Stack direction="column" spacing={2}>
               <Stack direction="row" spacing={2}>
                 <CustomInput
@@ -367,7 +321,7 @@ export const TokenDetail: React.FC<Props> = ({ activeStepOnChange, tokenDetailOn
             ) : (
               <p>You do not have any nft</p>
             )
-          ) : undefined}
+          ) : undefined} */}
         </Grid>
         <Grid paddingTop={2} container justifyContent={"space-between"} width={"100%"}>
           <CustomButton onClick={backStep} disabled={false} label="BACK" />
