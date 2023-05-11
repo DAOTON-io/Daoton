@@ -72,12 +72,6 @@ export const Review: React.FC<Props> = ({ selectedCategory, daoInfo, tokenDetail
   //   });
   // }, [nftDetail.image]);
 
-  const save = () => {
-    generate();
-  };
-
-  console.log(tokenDetail);
-
   const backStep = () => {
     activeStepOnChange(3);
   };

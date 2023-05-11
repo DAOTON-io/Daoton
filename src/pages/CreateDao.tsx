@@ -19,6 +19,8 @@ import toastr from "toastr";
 import { sha256 } from "../lib/token-minter/deployer";
 import { daoMetadata } from "../lib/dao/lib/make-get-call";
 import { useNavigate } from "react-router-dom";
+import { mintToken } from "../lib/token-minter/utils";
+import { useTonAddress } from "@tonconnect/ui-react";
 
 const useStyles = makeStyles((theme: Theme) => ({
   cardDiv: {
@@ -46,7 +48,6 @@ export const CreateDao: React.FC = () => {
     name: "",
     description: "",
     image: "",
-    tokenAddress: "",
   });
 
   const [tokenDetail, setTokenDetail] = useState<TokenDetailType>({
@@ -60,6 +61,10 @@ export const CreateDao: React.FC = () => {
     isStackable: false,
     offchainUri: "",
   });
+
+  const [tokenAddress, setTokenAddress] = useState<string>("");
+
+  const address = useTonAddress();
 
   // const [nftDetail, setNftDetail] = useState<NftDetailType>({
   //   type: TOKEN_TYPES.NEW_NFT,
@@ -106,16 +111,26 @@ export const CreateDao: React.FC = () => {
 
     return beginCell().storeInt(0x00, 8).storeDict(dict.endDict()).endCell();
   };
+  console.log(tokenAddress);
+  const createDao = async () => {
+    let tokenMintTransaction;
+    let daoTokenAddress;
 
-  const createDao = () => {
+    if (tokenDetail.type === TOKEN_TYPES.NEW_TOKEN) {
+      tokenMintTransaction = await mintToken(address, tokenDetail);
+
+      daoTokenAddress = tokenMintTransaction.messages[0].address;
+    }
+
     const code = Cell.fromBoc(daoContract.hex)[0];
 
     const metadata = buildDaoOnchainMetadata(daoInfo);
 
+    console.log(tokenAddress);
     const data = beginCell()
       .storeUint(selectedCategory.id, 16)
-      .storeAddress(Address.parse("kQBV7AsAYm791A-1YtnhtatnE6B93Oxt6hgLLK12I7QF2OhO"))
-      .storeAddress(Address.parse("kQBV7AsAYm791A-1YtnhtatnE6B93Oxt6hgLLK12I7QF2OhO"))
+      .storeAddress(Address.parse(daoTokenAddress || tokenAddress))
+      .storeAddress(Address.parse(daoTokenAddress || tokenAddress))
       .storeRef(metadata)
       .storeUint(0, 32) // initial proposal count
       .storeDict(null) // proposals
@@ -136,7 +151,7 @@ export const CreateDao: React.FC = () => {
 
     const messageBody = message.toBoc();
 
-    const tx = {
+    let tx = {
       validUntil: Date.now() + 1000000,
       messages: [
         {
@@ -147,6 +162,21 @@ export const CreateDao: React.FC = () => {
         },
       ],
     };
+
+    if (tokenMintTransaction) {
+      tx = {
+        validUntil: Date.now() + 1000000,
+        messages: [
+          tokenMintTransaction.messages[0],
+          {
+            address: contractAddressHex.toString(),
+            amount: toNano(0.2).toNumber().toString(),
+            stateInit: main_state_64,
+            payload: messageBody.toString("base64"),
+          },
+        ],
+      };
+    }
 
     tonConnectUi.sendTransaction(tx).then(() => {
       navigate("/view-dao");
@@ -175,9 +205,9 @@ export const CreateDao: React.FC = () => {
             tokenDetailOnChange={setTokenDetail}
             tokenDetail={tokenDetail}
             changeTokenAddress={(address: string) => {
-              setDaoInfo({ ...daoInfo, tokenAddress: address });
+              setTokenAddress(address);
             }}
-            tokenAddress={daoInfo.tokenAddress}
+            tokenAddress={tokenAddress}
           />
         )}
         {activeStep === 4 && <Review selectedCategory={selectedCategory} daoInfo={daoInfo} tokenDetail={tokenDetail} activeStepOnChange={setActiveStep} generate={createDao} />}

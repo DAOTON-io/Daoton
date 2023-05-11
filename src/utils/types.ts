@@ -5,8 +5,6 @@ export type DaoInfoData = {
   name: string;
   description: string;
   image: string;
-  tokenAddress: string;
-  nftAddress?: string;
 };
 
 export type TokenDetailType = GenerateTokenType & {
