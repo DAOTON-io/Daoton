@@ -1,9 +1,9 @@
-import {TOKEN_TYPES} from './enums';
+import { TOKEN_TYPES } from "./enums";
 
 export type InfoType = {
   name: string;
   desc: string;
-  image: any;
+  image: string;
 };
 
 export type TokenDetailType = {
@@ -15,7 +15,7 @@ export type TokenDetailType = {
   decimal: string;
   pausableContract: boolean;
   stackableContract: boolean;
-  image: any;
+  image: string;
 };
 
 export type NftDetailType = {
@@ -24,10 +24,14 @@ export type NftDetailType = {
   description: string;
   level: string;
   collectionAddress: string;
-  image: any;
+  image: string;
 };
 
-export type CategoryType = {id: number; label: string; icon: any};
+export type CategoryType = {
+  id: number;
+  label: string;
+  icon: any;
+};
 
 export type TokensType = {
   balance: string;
@@ -59,7 +63,7 @@ export type GenerateTokenType = {
 export type CollectionDataType = {
   collectionName: string;
   collectionDescription: string;
-  collectionImage: any;
+  collectionImage: string;
 };
 
 export type GenerateNftType = {
@@ -67,5 +71,5 @@ export type GenerateNftType = {
   nftDescription: string;
   level: string;
   collectionAddress: string;
-  nftImage: any;
+  nftImage: string;
 };
