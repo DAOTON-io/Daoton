@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
 import { Card, Divider, Grid, ListItem, Stack, Theme, Typography, withStyles } from '@mui/material';
 import GoogleFontLoader from 'react-google-font-loader';
@@ -47,11 +47,18 @@ const useStyles = makeStyles((theme: Theme) => ({
     "&:hover": {
       backgroundColor: '#A2C5E3',
       cursor: 'pointer',
-      
+
     },
-    "&:selected":{
-      backgroundColor: '#A2C5E3'
-    }
+  },
+  selectedItem: {
+    color: 'white',
+    textDecoration: 'none',
+    fontFamily: 'Signika Negative',
+    paddingLeft: '0.5rem !important',
+    backgroundColor: '#A2C5E3',
+    "&:hover": {
+      cursor: 'pointer',
+    },
   },
   icon: {
     position: 'relative',
@@ -70,16 +77,14 @@ const useStyles = makeStyles((theme: Theme) => ({
   },
   link: {
     textDecoration: 'none',
-  }
+  },
 }));
 
 
 const SideMenu: React.FC = () => {
   const classes = useStyles();
   const navigate = useNavigate();
-
-
-  const [activePage, setActivePage] = useState()
+  const [activePage, setActivePage] = useState('')
 
   return (
     <Card className={classes.card}>
@@ -98,10 +103,10 @@ const SideMenu: React.FC = () => {
       <Stack className={classes.menuStack}>
         <List>
           <ListItem
-            className={classes.item}
+            className={activePage === '/view-dao' ? classes.selectedItem : classes.item}
             key={PAGES_NAME.VIEW_DAOS}
             selected={window.location.pathname === PAGES_NAME.VIEW_DAOS}
-            onClick={() => navigate('/view-dao')}>
+            onClick={() => {navigate('/view-dao'); setActivePage('/view-dao')}}>
             <Grid item>
               <ViewHeadlineIcon className={classes.icon} />
             </Grid>
@@ -109,10 +114,10 @@ const SideMenu: React.FC = () => {
               {PAGES_NAME.VIEW_DAOS}
             </Typography>
           </ListItem>
-          <ListItem className={classes.item}
+          <ListItem className={activePage === '/create-dao' ? classes.selectedItem : classes.item}
             key={PAGES_NAME.CREATE_DAO}
             selected={window.location.pathname === PAGES_NAME.CREATE_DAO}
-            onClick={() => navigate('/create-dao')}>
+            onClick={() => {navigate('/create-dao'); setActivePage('/create-dao')}}>
             <Grid item>
               <AddCircleIcon className={classes.icon} />
             </Grid>
@@ -124,10 +129,10 @@ const SideMenu: React.FC = () => {
           <Stack className={classes.title}>
             <Typography> {PAGES_NAME.TOKEN} </Typography>
           </Stack>
-          <ListItem className={classes.item}
+          <ListItem className={activePage === '/view-tokens' ? classes.selectedItem : classes.item}
             key={PAGES_NAME.MY_TOKENS}
             selected={window.location.pathname === PAGES_NAME.MY_TOKENS}
-            onClick={() => navigate('/view-tokens')}>
+            onClick={() => {navigate('/view-tokens'); setActivePage('/view-tokens')}}>
             <Grid item>
               <TokenIcon className={classes.icon} />
             </Grid>
@@ -135,12 +140,12 @@ const SideMenu: React.FC = () => {
               {PAGES_NAME.MY_TOKENS}
             </Typography>
           </ListItem>
-          <ListItem className={classes.item}
+          <ListItem className={activePage === '/generate-token' ? classes.selectedItem : classes.item}
             key={PAGES_NAME.GENERATE_TOKEN}
             selected={
               window.location.pathname === PAGES_NAME.GENERATE_TOKEN
             }
-            onClick={() => navigate('/generate-token')}>
+            onClick={() => {navigate('/generate-token'); setActivePage('/generate-token')}}>
             <Grid item>
               <AddCircleOutlineIcon className={classes.icon} />
             </Grid>
@@ -152,10 +157,10 @@ const SideMenu: React.FC = () => {
           <Stack className={classes.title}>
             <Typography> {PAGES_NAME.NFT} </Typography>
           </Stack>
-          <ListItem className={classes.item}
+          <ListItem className={activePage === '/view-nfts' ? classes.selectedItem : classes.item}
             key={PAGES_NAME.MY_NFTS}
             selected={window.location.pathname === PAGES_NAME.MY_NFTS}
-            onClick={() => navigate('/view-nfts')}>
+            onClick={() => {navigate('/view-nfts'); setActivePage('/view-nfts') }}>
             <Grid item>
               <FitbitIcon className={classes.icon} />
             </Grid>
@@ -163,12 +168,12 @@ const SideMenu: React.FC = () => {
               {PAGES_NAME.MY_NFTS}
             </Typography>
           </ListItem>
-          <ListItem className={classes.item}
+          <ListItem className={activePage === '/generate-nft-collection' ? classes.selectedItem : classes.item}
             key={PAGES_NAME.GENERATE_COLLECTION}
             selected={
               window.location.pathname === PAGES_NAME.GENERATE_COLLECTION
             }
-            onClick={() => navigate('/generate-nft-collection')}>
+            onClick={() => {navigate('/generate-nft-collection'); setActivePage('/generate-nft-collection')}}>
             <Grid item>
               <PlaylistAddCircleIcon className={classes.icon} />
             </Grid>
@@ -176,12 +181,12 @@ const SideMenu: React.FC = () => {
               {PAGES_NAME.GENERATE_COLLECTION}
             </Typography>
           </ListItem>
-          <ListItem className={classes.item}
+          <ListItem className={activePage === '/generate-nft' ? classes.selectedItem : classes.item}
             key={PAGES_NAME.GENERATE_NFT}
             selected={
               window.location.pathname === PAGES_NAME.GENERATE_NFT
             }
-            onClick={() => navigate('/generate-nft')}>
+            onClick={() => { navigate('/generate-nft'); setActivePage('/generate-nft') }}>
             <Grid item>
               <PlaylistAddCircleIcon className={classes.icon} />
             </Grid>
