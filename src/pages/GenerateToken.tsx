@@ -1,18 +1,16 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 import { Grid, Stack, Theme } from "@mui/material";
 import { makeStyles } from "@mui/styles";
 import { useTonConnectUI, useTonAddress } from "@tonconnect/ui-react";
-import { Address, toNano, contractAddress, Cell } from "ton";
 import toastr from "toastr";
-import { createDeployParams } from "../lib/token-minter/deployer";
 import { ImageUpload } from "../components/ImageUpload";
-import { fetchDecimalsOffchain, toDecimalsBN } from "../utils/utils";
 import { GenerateTokenType } from "../utils/types";
 import { CustomInput } from "../components/CustomInput";
 import { CustomSwitch } from "../components/CustomSwitch";
 import { CustomButton } from "../components/CustomButton";
 import { mintToken } from "../lib/token-minter/utils";
+import { base64ToImage } from "../utils/utils";
 
 const useStyles = makeStyles((theme: Theme) => ({
   title: {
@@ -101,6 +99,12 @@ const GenerateToken: React.FC = () => {
       toastr.success("Jetton deployed successfully.");
     });
   };
+
+  useEffect(() => {
+    base64ToImage(data.image, (img) => {
+      document.getElementById("image")?.appendChild(img);
+    });
+  }, [data.image]);
 
   const disable = (): boolean => {
     return !(data.name && data.symbol && data.amount && data.decimal && data.description);
@@ -220,10 +224,17 @@ const GenerateToken: React.FC = () => {
                 </Grid>
                 <Grid container className={classes.buttonContainer}>
                   <Grid item justifyContent={"flex-start"}>
-                    <label>Collection Image : </label>
+                    <label>Token Image : </label>
                   </Grid>
                   <Grid item justifyContent={"flex-end"}>
-                    <ImageUpload onChange={() => {}} onClear={() => {}}></ImageUpload>
+                    <ImageUpload
+                      onChange={(value: any) => {
+                        setData({ ...data, image: value });
+                      }}
+                      onClear={() => {
+                        setData({ ...data, image: undefined });
+                      }}
+                    ></ImageUpload>
                   </Grid>
                 </Grid>
               </Grid>

@@ -11,6 +11,7 @@ const jettonOnChainMetadataSpec: any = {
   description: "utf8",
   symbol: "utf8",
   decimals: "utf8",
+  image: "utf8",
 };
 
 export const sha256 = (str: string) => {

@@ -62,9 +62,10 @@ type Props = {
   name: string;
   description: string;
   value: string;
+  image?: string;
 };
 
-export const TokenItem: React.FC<Props> = ({ name, description, value }) => {
+export const TokenItem: React.FC<Props> = ({ name, description, value, image }) => {
   const classes = useStyles();
 
   return (
@@ -102,7 +103,7 @@ export const TokenItem: React.FC<Props> = ({ name, description, value }) => {
                     display: "flex",
                   }}
                 >
-                  <img style={{ objectFit: "contain", width: "100%" }} src="/images/logo.jpeg" />
+                  <img style={{ objectFit: "contain", width: "100%" }} src={image || "/images/logo.jpeg"} />
                 </div>
                 <Grid container>
                   <p className={classes.name}>{name}</p>

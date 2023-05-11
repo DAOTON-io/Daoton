@@ -55,6 +55,7 @@ export type GenerateTokenType = {
   isPausable: boolean;
   isStackable: boolean;
   offchainUri: string;
+  image?: string;
 };
 
 export type CollectionDataType = {
