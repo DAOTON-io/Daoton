@@ -4,6 +4,7 @@ import { makeStyles } from "@mui/styles";
 import { CategoryType, DaoInfoData, TokenDetailType } from "../utils/types";
 import { CustomButton } from "./CustomButton";
 import { base64ToImage } from "../utils/utils";
+import { TOKEN_TYPES } from "../utils/enums";
 
 const useStyles = makeStyles((theme: Theme) => ({
   container: {
@@ -41,9 +42,10 @@ type Props = {
   tokenDetail: TokenDetailType;
   // nftDetail?: NftDetailType;
   activeStepOnChange: (activeStep: number) => void;
+  generate: () => void;
 };
 
-export const Review: React.FC<Props> = ({ selectedCategory, daoInfo, tokenDetail, activeStepOnChange }) => {
+export const Review: React.FC<Props> = ({ selectedCategory, daoInfo, tokenDetail, activeStepOnChange, generate }) => {
   const classes = useStyles();
 
   useEffect(() => {
@@ -71,10 +73,10 @@ export const Review: React.FC<Props> = ({ selectedCategory, daoInfo, tokenDetail
   // }, [nftDetail.image]);
 
   const save = () => {
-    console.log("category in review", selectedCategory);
-    console.log("daoInfo in review", daoInfo);
-    console.log("tokenDetail in review", tokenDetail);
+    generate();
   };
+
+  console.log(tokenDetail);
 
   const backStep = () => {
     activeStepOnChange(3);
@@ -223,7 +225,7 @@ export const Review: React.FC<Props> = ({ selectedCategory, daoInfo, tokenDetail
         </Grid>
         <Grid paddingTop={2} container justifyContent={"space-between"} width={"100%"}>
           <CustomButton onClick={backStep} disabled={false} label="BACK" />
-          <CustomButton onClick={save} disabled={false} label="SAVE" />
+          <CustomButton onClick={generate} disabled={false} label={tokenDetail.type === TOKEN_TYPES.NEW_TOKEN ? "GENERATE TOKEN & SAVE" : "SAVE"} />
         </Grid>
       </Stack>
     </Grid>

@@ -180,7 +180,7 @@ export const CreateDao: React.FC = () => {
             tokenAddress={daoInfo.tokenAddress}
           />
         )}
-        {activeStep === 4 && <Review selectedCategory={selectedCategory} daoInfo={daoInfo} tokenDetail={tokenDetail} activeStepOnChange={setActiveStep} />}
+        {activeStep === 4 && <Review selectedCategory={selectedCategory} daoInfo={daoInfo} tokenDetail={tokenDetail} activeStepOnChange={setActiveStep} generate={createDao} />}
       </div>
     </div>
   );

@@ -45,7 +45,7 @@ type Props = {
 };
 
 export const TokenDetail: React.FC<Props> = ({ activeStepOnChange, tokenDetailOnChange, tokenDetail, changeTokenAddress, tokenAddress }) => {
-  const [tokenType, setTokenType] = useState<TOKEN_TYPES>(TOKEN_TYPES.NEW_TOKEN);
+  const [tokenType, setTokenType] = useState<TOKEN_TYPES>(tokenDetail.type);
   const [tokens, setTokens] = useState<TokensType[]>([]);
   // const [nfts, setNfts] = useState<any[]>([]);
 
