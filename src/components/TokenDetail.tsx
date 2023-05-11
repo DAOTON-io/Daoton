@@ -217,7 +217,7 @@ export const TokenDetail: React.FC<Props> = ({ activeStepOnChange, tokenDetailOn
               </Stack>
               <Grid container className={classes.buttonContainer}>
                 <Grid item justifyContent={"flex-start"}>
-                  <label>Collection Image : </label>
+                  <label>Token Image : </label>
                 </Grid>
                 <Grid item justifyContent={"flex-end"}>
                   <ImageUpload
