@@ -1,17 +1,17 @@
 /* eslint-disable @typescript-eslint/no-unused-vars */
-import { Grid, Typography } from "@mui/material";
-import React, { useEffect } from "react";
-import { Card } from "reactstrap";
-import { DaoCard } from "../components/DaoCard";
-import axios from "axios";
-import { TonClient } from "ton";
-import { Address } from "ton-core";
-import { getHttpEndpoint } from "@orbs-network/ton-access";
-import daoton from "../lib/dao/contracts/daoton.contract.json";
-import DaoTonContract from "../lib/dao/lib/DaotonContract";
-import { open } from "../utils";
-import DaoContract from "../lib/dao/lib/DaoContract";
-import { Dao } from "../utils/types";
+import {CircularProgress, Grid, Typography} from '@mui/material';
+import React, {useEffect} from 'react';
+import {Card} from 'reactstrap';
+import {DaoCard} from '../components/DaoCard';
+import axios from 'axios';
+import {TonClient} from 'ton';
+import {Address} from 'ton-core';
+import {getHttpEndpoint} from '@orbs-network/ton-access';
+import daoton from '../lib/dao/contracts/daoton.contract.json';
+import DaoTonContract from '../lib/dao/lib/DaotonContract';
+import {open} from '../utils';
+import DaoContract from '../lib/dao/lib/DaoContract';
+import {Dao} from '../utils/types';
 
 export default function ViewDao() {
   const [columns, setColumns] = React.useState<Dao[]>([]);
@@ -19,8 +19,8 @@ export default function ViewDao() {
 
   useEffect(() => {
     const init = async () => {
-      const endpoint = await getHttpEndpoint({ network: "testnet" });
-      const client = new TonClient({ endpoint });
+      const endpoint = await getHttpEndpoint({network: 'testnet'});
+      const client = new TonClient({endpoint});
 
       const daotonContractAddress = Address.parse(daoton.address);
       const daotonMasterContract = new DaoTonContract(daotonContractAddress);
@@ -53,72 +53,87 @@ export default function ViewDao() {
     init();
   }, []);
 
-  console.log(columns);
-
-  return (
-    <div
-      style={{
-        height: "calc(100vh - 8.5rem)",
-        width: "100%",
-        overflow: "auto", // Kaydırma çubuğu eklemek için
-      }}
-    >
-      {" "}
-      <Grid container>
-        {/* If columns are empty write there are no DAOs in the middle of the screen on a card */}
-        {columns.length === 0 && (
-          <Grid
-            item
-            md={12}
-            style={{
-              justifyContent: "center",
-              alignItems: "center",
-              display: "flex",
-            }}
-          >
-            <Card
+  if (loading) {
+    return (
+      <div
+        style={{
+          height: 'calc(100vh - 8.5rem)',
+          width: '100%',
+          display: 'flex',
+          justifyContent: 'center',
+          alignItems: 'center',
+        }}>
+        <CircularProgress />
+      </div>
+    );
+  } else {
+    return (
+      <div
+        style={{
+          height: 'calc(100vh - 8.5rem)',
+          width: '100%',
+          overflow: 'auto', // Kaydırma çubuğu eklemek için
+        }}>
+        {' '}
+        <Grid container>
+          {/* If columns are empty write there are no DAOs in the middle of the screen on a card */}
+          {columns.length === 0 && (
+            <Grid
+              item
+              md={12}
               style={{
-                backgroundColor: "white",
-                borderRadius: "1rem",
-                padding: "5rem 2.5rem",
-                marginTop: "2rem",
-                boxShadow: "0 0 10px 0 rgba(0,0,0,0.1)",
-                justifyContent: "center",
-                alignItems: "center",
-                display: "flex",
-              }}
-            >
-              <Typography
+                justifyContent: 'center',
+                alignItems: 'center',
+                display: 'flex',
+              }}>
+              <Card
                 style={{
-                  color: "#1689c5",
-                  fontSize: "30px",
-                  fontWeight: "bold",
-                  justifyContent: "center",
-                  alignItems: "center",
-                  display: "flex",
-                }}
-              >
-                There are no DAOs
-              </Typography>
-            </Card>
-          </Grid>
-        )}
-        {columns.map((column: Dao, index) => {
-          return (
-            <Grid key={index.toString()} item md={3}>
-              <DaoCard
-                daoId={column.address}
-                name={column.content.name}
-                description={column.content.description}
-                value={column.tokenContract.toFriendly()}
-                daoImg={column.content.image || ""}
-                // today's date in format: 2021-10-10
-                date={Date().split(" ")[3] + "-" + Date().split(" ")[1] + "-" + Date().split(" ")[2]}
-              />
+                  backgroundColor: 'white',
+                  borderRadius: '1rem',
+                  padding: '5rem 2.5rem',
+                  marginTop: '2rem',
+                  boxShadow: '0 0 10px 0 rgba(0,0,0,0.1)',
+                  justifyContent: 'center',
+                  alignItems: 'center',
+                  display: 'flex',
+                }}>
+                <Typography
+                  style={{
+                    color: '#1689c5',
+                    fontSize: '30px',
+                    fontWeight: 'bold',
+                    justifyContent: 'center',
+                    alignItems: 'center',
+                    display: 'flex',
+                  }}>
+                  There are no DAOs
+                </Typography>
+              </Card>
             </Grid>
-          );
-        })}
-      </Grid>
-    </div>
-  );
+          )}
+          {columns.map((column: Dao, index) => {
+            return (
+              <Grid key={index.toString()} item md={3}>
+                <DaoCard
+                  daoId={column.address}
+                  name={column.content.name}
+                  description={column.content.description}
+                  value={column.tokenContract.toFriendly()}
+                  daoImg={column.content.image || ''}
+                  // today's date in format: 2021-10-10
+                  date={
+                    Date().split(' ')[3] +
+                    '-' +
+                    Date().split(' ')[1] +
+                    '-' +
+                    Date().split(' ')[2]
+                  }
+                />
+              </Grid>
+            );
+          })}
+        </Grid>
+      </div>
+    );
+  }
 }
