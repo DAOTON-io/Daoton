@@ -40,3 +40,10 @@ export enum COLLECTION_STEPS {
   SELECTED_CHOICE = "Generate Collection",
   REVIEW = "Review",
 }
+
+export enum DAO_STEPS {
+  CHOOSE_TYPE = "Choose DAO Type",
+  DAO_INFO = "Your Dao Informations",
+  TOKEN_INFO = "Token Detail",
+  REVIEW = "Review",
+}
