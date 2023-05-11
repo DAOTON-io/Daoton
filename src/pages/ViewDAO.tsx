@@ -1,26 +1,34 @@
 /* eslint-disable @typescript-eslint/no-unused-vars */
-import {CircularProgress, Grid, Typography} from '@mui/material';
-import React, {useEffect} from 'react';
-import {Card} from 'reactstrap';
-import {DaoCard} from '../components/DaoCard';
-import axios from 'axios';
-import {TonClient} from 'ton';
-import {Address} from 'ton-core';
-import {getHttpEndpoint} from '@orbs-network/ton-access';
-import daoton from '../lib/dao/contracts/daoton.contract.json';
-import DaoTonContract from '../lib/dao/lib/DaotonContract';
-import {open} from '../utils';
-import DaoContract from '../lib/dao/lib/DaoContract';
-import {Dao} from '../utils/types';
+import { CircularProgress, Grid, Typography } from "@mui/material";
+import React, { useEffect, useState } from "react";
+import { Card } from "reactstrap";
+import { DaoCard } from "../components/DaoCard";
+import axios from "axios";
+import { TonClient } from "ton";
+import { Address } from "ton-core";
+import { getHttpEndpoint } from "@orbs-network/ton-access";
+import daoton from "../lib/dao/contracts/daoton.contract.json";
+import DaoTonContract from "../lib/dao/lib/DaotonContract";
+import { open } from "../utils";
+import DaoContract from "../lib/dao/lib/DaoContract";
+import { Dao } from "../utils/types";
 
 export default function ViewDao() {
-  const [columns, setColumns] = React.useState<Dao[]>([]);
-  const [loading, setLoading] = React.useState<boolean>(true);
+  const [columns, setColumns] = useState<Dao[]>([]);
+  const [loading, setLoading] = useState<boolean>(true);
+  const [timer, setTimer] = useState(Date.now());
+
+  useEffect(() => {
+    const interval = setInterval(() => setTimer(Date.now()), 15000);
+    return () => {
+      clearInterval(interval);
+    };
+  }, []);
 
   useEffect(() => {
     const init = async () => {
-      const endpoint = await getHttpEndpoint({network: 'testnet'});
-      const client = new TonClient({endpoint});
+      const endpoint = await getHttpEndpoint({ network: "testnet" });
+      const client = new TonClient({ endpoint });
 
       const daotonContractAddress = Address.parse(daoton.address);
       const daotonMasterContract = new DaoTonContract(daotonContractAddress);
@@ -50,18 +58,19 @@ export default function ViewDao() {
     };
 
     init();
-  }, []);
+  }, [timer]);
 
   if (loading) {
     return (
       <div
         style={{
-          height: 'calc(100vh - 8rem)',
-          width: '100%',
-          display: 'flex',
-          justifyContent: 'center',
-          alignItems: 'center',
-        }}>
+          height: "calc(100vh - 8rem)",
+          width: "100%",
+          display: "flex",
+          justifyContent: "center",
+          alignItems: "center",
+        }}
+      >
         <CircularProgress />
       </div>
     );
@@ -69,11 +78,12 @@ export default function ViewDao() {
     return (
       <div
         style={{
-          height: 'calc(100vh - 8.5rem)',
-          width: '100%',
-          overflow: 'auto', // Kaydırma çubuğu eklemek için
-        }}>
-        {' '}
+          height: "calc(100vh - 8.5rem)",
+          width: "100%",
+          overflow: "auto", // Kaydırma çubuğu eklemek için
+        }}
+      >
+        {" "}
         <Grid container>
           {/* If columns are empty write there are no DAOs in the middle of the screen on a card */}
           {columns.length === 0 && (
@@ -81,30 +91,33 @@ export default function ViewDao() {
               item
               md={12}
               style={{
-                justifyContent: 'center',
-                alignItems: 'center',
-                display: 'flex',
-              }}>
+                justifyContent: "center",
+                alignItems: "center",
+                display: "flex",
+              }}
+            >
               <Card
                 style={{
-                  backgroundColor: 'white',
-                  borderRadius: '1rem',
-                  padding: '5rem 2.5rem',
-                  marginTop: '2rem',
-                  boxShadow: '0 0 10px 0 rgba(0,0,0,0.1)',
-                  justifyContent: 'center',
-                  alignItems: 'center',
-                  display: 'flex',
-                }}>
+                  backgroundColor: "white",
+                  borderRadius: "1rem",
+                  padding: "5rem 2.5rem",
+                  marginTop: "2rem",
+                  boxShadow: "0 0 10px 0 rgba(0,0,0,0.1)",
+                  justifyContent: "center",
+                  alignItems: "center",
+                  display: "flex",
+                }}
+              >
                 <Typography
                   style={{
-                    color: '#1689c5',
-                    fontSize: '30px',
-                    fontWeight: 'bold',
-                    justifyContent: 'center',
-                    alignItems: 'center',
-                    display: 'flex',
-                  }}>
+                    color: "#1689c5",
+                    fontSize: "30px",
+                    fontWeight: "bold",
+                    justifyContent: "center",
+                    alignItems: "center",
+                    display: "flex",
+                  }}
+                >
                   There are no DAOs
                 </Typography>
               </Card>
@@ -112,21 +125,15 @@ export default function ViewDao() {
           )}
           {columns.map((column: Dao, index) => {
             return (
-              <Grid key={index.toString()} item md={3} sx={{width: '100%'}}>
+              <Grid key={index.toString()} item md={3} sx={{ width: "100%" }}>
                 <DaoCard
                   daoId={column.address}
                   name={column.content.name}
                   description={column.content.description}
-                  value={column.tokenContract.toFriendly()}
-                  daoImg={column.content.image || ''}
+                  value={column.address}
+                  daoImg={column.content.image || ""}
                   // today's date in format: 2021-10-10
-                  date={
-                    Date().split(' ')[3] +
-                    '-' +
-                    Date().split(' ')[1] +
-                    '-' +
-                    Date().split(' ')[2]
-                  }
+                  date={Date().split(" ")[3] + "-" + Date().split(" ")[1] + "-" + Date().split(" ")[2]}
                 />
               </Grid>
             );
