@@ -3,13 +3,12 @@ import React, { useEffect, useState } from "react";
 import { CircularProgress, Grid, Typography } from "@mui/material";
 import { Card } from "reactstrap";
 import { DaoCard } from "../components/DaoCard";
-import axios from "axios";
 import { TonClient } from "ton";
 import { Address } from "ton-core";
 import { getHttpEndpoint } from "@orbs-network/ton-access";
 import daoton from "../lib/dao/contracts/daoton.contract.json";
 import DaoTonContract from "../lib/dao/lib/DaotonContract";
-import { open } from "../utils";
+import { open } from "../utils/index";
 import DaoContract from "../lib/dao/lib/DaoContract";
 import { Dao } from "../utils/types";
 

@@ -1,11 +1,10 @@
 /* eslint-disable jsx-a11y/alt-text */
-import React from "react";
+import React, { useEffect } from "react";
 import Box from "@mui/material/Box";
 import Typography from "@mui/material/Typography";
 import Container from "@mui/material/Container";
 import { createTheme, ThemeProvider } from "@mui/material/styles";
 import { TonConnectButton, useTonConnectUI } from "@tonconnect/ui-react";
-import { useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 
 const theme = createTheme();
