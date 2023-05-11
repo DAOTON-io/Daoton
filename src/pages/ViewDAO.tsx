@@ -15,7 +15,7 @@ import {Dao} from '../utils/types';
 
 export default function ViewDao() {
   const [columns, setColumns] = React.useState<Dao[]>([]);
-  const [loading, setLoading] = React.useState(true);
+  const [loading, setLoading] = React.useState<boolean>(true);
 
   useEffect(() => {
     const init = async () => {
@@ -45,9 +45,8 @@ export default function ViewDao() {
         console.log(daos);
 
         setColumns(daos);
+        setLoading(false);
       }
-
-      setLoading(false);
     };
 
     init();
@@ -57,7 +56,7 @@ export default function ViewDao() {
     return (
       <div
         style={{
-          height: 'calc(100vh - 8.5rem)',
+          height: 'calc(100vh - 8rem)',
           width: '100%',
           display: 'flex',
           justifyContent: 'center',
@@ -113,7 +112,7 @@ export default function ViewDao() {
           )}
           {columns.map((column: Dao, index) => {
             return (
-              <Grid key={index.toString()} item md={3}>
+              <Grid key={index.toString()} item md={3} sx={{width: '100%'}}>
                 <DaoCard
                   daoId={column.address}
                   name={column.content.name}
