@@ -8,7 +8,7 @@ import {
   NftDetailType,
   TokenDetailType,
 } from '../utils/types';
-import {TOKEN_TYPES} from '../utils/enums';
+import {DAO_STEPS, TOKEN_TYPES} from '../utils/enums';
 import {TokenDetail} from '../components/TokenDetail';
 import {DaoInfo} from '../components/DaoInfo';
 import {Steps} from '../components/Steps';
@@ -72,7 +72,7 @@ export const CreateDao: React.FC = () => {
         minWidth: '21rem',
         padding: '1rem',
       }}>
-      <Steps activeStep={activeStep} />
+      <Steps activeStep={activeStep} allSteps={Object.values(DAO_STEPS)}/>
       <div className={classes.cardDiv}>
         {activeStep === 1 && (
           <>
