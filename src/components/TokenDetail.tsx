@@ -88,6 +88,7 @@ export const TokenDetail: React.FC<Props> = ({ activeStepOnChange, tokenDetailOn
         description: currentToken.metadata.description,
         symbol: currentToken.metadata.symbol,
         offchainUri: "",
+        image: currentToken.metadata.image,
       });
     }
   };

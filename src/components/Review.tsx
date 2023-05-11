@@ -178,17 +178,16 @@ export const Review: React.FC<Props> = ({ selectedCategory, daoInfo, tokenDetail
                     {tokenDetail.isStackable.toString()}
                   </div>
                 </Typography>
-              </Grid>
-              {tokenDetail.image && (
+
                 <Grid container className={classes.buttonContainer}>
                   <Grid item justifyContent={"flex-start"}>
-                    <label>Token Image : </label>
+                    <label>Token Image: </label>
                   </Grid>
                   <Grid item justifyContent={"flex-end"}>
-                    <div id="token-image"></div>
+                    <img id="token-image" alt="alt" src={tokenDetail.image || "/images/logo.jpeg"}></img>
                   </Grid>
                 </Grid>
-              )}
+              </Grid>
             </Stack>
 
             {/* <Stack direction="column" spacing={2}>
