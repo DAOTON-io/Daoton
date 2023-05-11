@@ -2,6 +2,7 @@
 import { TonClient, Cell } from "ton";
 import { beginCell, Address, comment, Contract, ContractProvider, ContractState, openContract, storeMessage, toNano } from "ton-core";
 import { Maybe } from "ton-core/dist/utils/maybe";
+import BN from "bn.js";
 
 export const open = <T extends Contract>(src: T, client: TonClient) => {
   return openContract(src, (args) => {
