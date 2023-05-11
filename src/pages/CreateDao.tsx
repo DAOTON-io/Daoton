@@ -13,8 +13,11 @@ import { contractAddress, Address, beginCell } from "ton";
 import { Cell } from "ton";
 import daoContract from "../lib/dao/contracts/dao.compiled.json";
 import daotonContract from "../lib/dao/contracts/daoton.contract.json";
-import { toNano } from "ton";
+import { toNano, beginDict } from "ton";
 import { useTonConnectUI } from "@tonconnect/ui-react";
+import toastr from "toastr";
+import { sha256 } from "../lib/token-minter/deployer";
+import { daoMetadata } from "../lib/dao/lib/make-get-call";
 
 const useStyles = makeStyles((theme: Theme) => ({
   cardDiv: {
@@ -37,11 +40,13 @@ export const CreateDao: React.FC = () => {
     label: "",
     icon: undefined,
   });
+
   const [daoInfo, setDaoInfo] = useState<InfoType>({
     name: "",
-    desc: "",
+    description: "",
     image: "",
   });
+
   const [tokenDetail, setTokenDetail] = useState<TokenDetailType>({
     type: TOKEN_TYPES.NEW_TOKEN,
     name: "",
@@ -53,6 +58,7 @@ export const CreateDao: React.FC = () => {
     stackableContract: false,
     image: "",
   });
+
   const [nftDetail, setNftDetail] = useState<NftDetailType>({
     type: TOKEN_TYPES.NEW_NFT,
     name: "",
@@ -65,18 +71,50 @@ export const CreateDao: React.FC = () => {
   const classes = useStyles();
   const [tonConnectUi] = useTonConnectUI();
 
+  function buildDaoOnchainMetadata(data: any) {
+    const KEYLEN = 256;
+    const dict = beginDict(KEYLEN);
+
+    Object.entries(data).forEach(([k, v]: any) => {
+      if (!daoMetadata[k]) throw new Error(`Unsupported onchain key: ${k}`);
+      if (v === undefined || v === "") return;
+
+      let bufferToStore = Buffer.from(v, daoMetadata[k]);
+
+      const CELL_MAX_SIZE_BYTES = Math.floor((1023 - 8) / 8);
+
+      const rootCell = new Cell();
+      rootCell.bits.writeUint8(0x00);
+      let currentCell = rootCell;
+
+      while (bufferToStore.length > 0) {
+        currentCell.bits.writeBuffer(bufferToStore.slice(0, CELL_MAX_SIZE_BYTES));
+        bufferToStore = bufferToStore.slice(CELL_MAX_SIZE_BYTES);
+        if (bufferToStore.length > 0) {
+          let newCell = new Cell();
+          currentCell.refs.push(newCell);
+          currentCell = newCell;
+        }
+      }
+
+      dict.storeRef(sha256(k), rootCell);
+    });
+
+    return beginCell().storeInt(0x00, 8).storeDict(dict.endDict()).endCell();
+  }
+
   const createDao = () => {
+    console.log(daoInfo);
+
     const code = Cell.fromBoc(daoContract.hex)[0];
+
+    const metadata = buildDaoOnchainMetadata(daoInfo);
 
     const data = beginCell()
       .storeUint(selectedCategory.id, 16)
       .storeAddress(Address.parse("kQBV7AsAYm791A-1YtnhtatnE6B93Oxt6hgLLK12I7QF2OhO"))
       .storeAddress(Address.parse("kQBV7AsAYm791A-1YtnhtatnE6B93Oxt6hgLLK12I7QF2OhO"))
-      .storeRef(
-        beginCell()
-          .storeBuffer(Buffer.from(JSON.stringify(daoInfo)))
-          .endCell()
-      )
+      .storeRef(metadata)
       .storeUint(0, 32) // initial proposal count
       .storeDict(null) // proposals
       .endCell();

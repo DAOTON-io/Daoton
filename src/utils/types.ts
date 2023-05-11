@@ -3,7 +3,7 @@ import { Address } from "ton";
 
 export type InfoType = {
   name: string;
-  desc: string;
+  description: string;
   image: any;
 };
 
@@ -76,5 +76,5 @@ export type Dao = {
   daoTypeId: number;
   tokenContract: Address;
   nftContract: Address;
-  content: Buffer;
+  content: { name: string; description: string; image?: string };
 };

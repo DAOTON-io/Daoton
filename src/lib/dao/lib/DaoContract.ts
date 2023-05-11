@@ -1,7 +1,7 @@
 import { Contract, ContractProvider, Sender, Address, Cell, contractAddress, beginCell } from "ton-core";
 import { DaoContent } from "./models/DaoContent";
 import daoton from "../contracts/daoton.contract.json";
-import { _parseGetMethodCall, cellToAddress, cellToContent } from "./make-get-call";
+import { _parseGetMethodCall, cellToAddress, cellToContent, readDaoMetadata } from "./make-get-call";
 import { Dao } from "../../../utils/types";
 
 export default class DaoContract implements Contract {
@@ -46,7 +46,9 @@ export default class DaoContract implements Contract {
     const daoTypeId: number = data[0].toNumber();
     const tokenContract = cellToAddress(data[1]);
     const nftContract = cellToAddress(data[2]);
-    const content = cellToContent(data[3]);
+    const readContent = readDaoMetadata(data[3]);
+
+    const content = (await readContent).metadata as any;
 
     return { address: this.address.toString(), daoTypeId, tokenContract, nftContract, content };
   };

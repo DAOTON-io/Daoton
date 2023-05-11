@@ -42,6 +42,8 @@ export default function ViewDao() {
 
         const daos = await Promise.all(daoPromises);
 
+        console.log(daos);
+
         setColumns(daos);
       }
 
@@ -102,16 +104,14 @@ export default function ViewDao() {
           </Grid>
         )}
         {columns.map((column: Dao, index) => {
-          const content = JSON.parse(column.content.toString());
-
           return (
             <Grid key={index.toString()} item md={3}>
               <DaoCard
                 daoId={column.address}
-                name={content.name}
-                description={content.description}
+                name={column.content.name}
+                description={column.content.description}
                 value={column.tokenContract.toFriendly()}
-                daoImg={""}
+                daoImg={column.content.image || ""}
                 // today's date in format: 2021-10-10
                 date={Date().split(" ")[3] + "-" + Date().split(" ")[1] + "-" + Date().split(" ")[2]}
               />
