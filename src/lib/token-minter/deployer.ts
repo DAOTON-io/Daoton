@@ -90,7 +90,6 @@ export function initData(owner: Address | null, data: any, offchainUri: any) {
 }
 
 export const createDeployParams = (params: { owner: any; onchainMetaData: any; amountToMint: any }, offchainUri: string) => {
-  console.log(params);
   return {
     code: mintContractHex,
     data: initData(params.owner, params.onchainMetaData, offchainUri),

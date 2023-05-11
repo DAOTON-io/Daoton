@@ -34,8 +34,6 @@ export const mintToken = async (address: string, data: GenerateTokenType) => {
     initialData: deployParams.data,
   }).toString();
 
-  console.log("contractAddressHex", contractAddressHex);
-
   const state_init = new Cell();
   state_init.bits.writeUint(6, 5);
   state_init.refs.push(deployParams.code);

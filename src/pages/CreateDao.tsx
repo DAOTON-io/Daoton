@@ -107,7 +107,7 @@ export const CreateDao: React.FC = () => {
 
     return beginCell().storeInt(0x00, 8).storeDict(dict.endDict()).endCell();
   };
-  console.log(tokenAddress);
+
   const createDao = async () => {
     let tokenMintTransaction;
     let daoTokenAddress;
@@ -122,7 +122,6 @@ export const CreateDao: React.FC = () => {
 
     const metadata = buildDaoOnchainMetadata(daoInfo);
 
-    console.log(tokenAddress);
     const data = beginCell()
       .storeUint(selectedCategory.id, 16)
       .storeAddress(Address.parse(daoTokenAddress || tokenAddress))
