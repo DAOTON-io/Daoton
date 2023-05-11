@@ -5,10 +5,10 @@ import { CategoryType, CollectionDataType, GenerateNftType } from '../utils/type
 import { NFTCategories } from '../components/2NftCategories';
 import NftForm from '../components/2NftForm';
 import CollectionForm from '../components/2CollectionForm';
-import { NewSteps } from '../components/2Steps';
 import { NftReview } from '../components/2NftReview';
 import { CollectionReview } from '../components/2CollectionReview';
 import { COLLECTION_STEPS, MAIN_STEPS, NFT_STEPS } from '../utils/enums';
+import { Steps } from '../components/Steps';
 
 const useStyles = makeStyles((theme: Theme) => ({
     cardDiv: {
@@ -74,7 +74,7 @@ export const MainNFT: React.FC = () => {
                 minWidth: '21rem',
                 padding: '1rem',
             }}>
-            <NewSteps allSteps={step} activeStep={activeStep} />
+            <Steps allSteps={step} activeStep={activeStep} />
             <div className={classes.cardDiv}>
                 {activeStep === 1 && (
                     <>
