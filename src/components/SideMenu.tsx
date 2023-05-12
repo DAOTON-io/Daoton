@@ -47,7 +47,8 @@ const useStyles = makeStyles((theme: Theme) => ({
     paddingTop: "0.25rem !important",
     paddingBottom: "0.25rem !important",
     "&:hover": {
-      backgroundColor: "#A2C5E3",
+      backgroundColor: "#91b1cc",
+
       cursor: "pointer",
     },
   },
