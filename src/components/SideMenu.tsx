@@ -215,6 +215,22 @@ const SideMenu: React.FC = () => {
             </Grid>
             <Typography textAlign="center">{PAGES_NAME.MY_NFTS}</Typography>
           </ListItemButton>
+          <ListItemButton
+            className={
+              activePage.startsWith('/main-nft')
+                ? classes.selectedItem
+                : classes.item
+            }
+            key={PAGES_NAME.MAIN_NFT}
+            onClick={() => {
+              navigate('/main-nft');
+              setActivePage('/main-nft');
+            }}>
+            <Grid item>
+              <PlaylistAddCircleIcon className={classes.icon} />
+            </Grid>
+            <Typography textAlign="center">{PAGES_NAME.MAIN_NFT}</Typography>
+          </ListItemButton>
           {/* <ListItemButton
             className={activePage === "/generate-nft-collection" ? classes.selectedItem : classes.item}
             key={PAGES_NAME.GENERATE_COLLECTION}
@@ -229,7 +245,7 @@ const SideMenu: React.FC = () => {
             </Grid>
             <Typography textAlign="center">{PAGES_NAME.GENERATE_COLLECTION}</Typography>
           </ListItemButton> */}
-          <ListItemButton
+          {/* <ListItemButton
             className={
               activePage.startsWith('/generate-nft')
                 ? classes.selectedItem
@@ -246,7 +262,7 @@ const SideMenu: React.FC = () => {
             <Typography textAlign="center">
               {PAGES_NAME.GENERATE_NFT}
             </Typography>
-          </ListItemButton>
+          </ListItemButton> */}
           <Divider className={classes.divider}></Divider>
           <Stack className={classes.title}>
             <Typography> {PAGES_NAME.DOCS} </Typography>
