@@ -11,9 +11,10 @@ const jettonOnChainMetadataSpec: any = {
   description: "utf8",
   symbol: "utf8",
   decimals: "utf8",
+  image: "utf8",
 };
 
-const sha256 = (str: string) => {
+export const sha256 = (str: string) => {
   const sha = new Sha256();
   sha.update(str);
   return Buffer.from(sha.digestSync());
@@ -89,7 +90,6 @@ export function initData(owner: Address | null, data: any, offchainUri: any) {
 }
 
 export const createDeployParams = (params: { owner: any; onchainMetaData: any; amountToMint: any }, offchainUri: string) => {
-  console.log(params);
   return {
     code: mintContractHex,
     data: initData(params.owner, params.onchainMetaData, offchainUri),

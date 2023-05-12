@@ -1,75 +1,74 @@
-import React, {useState} from 'react';
-import {useNavigate} from 'react-router-dom';
-import {Grid, Stack, Theme} from '@mui/material';
-import {makeStyles} from '@mui/styles';
-import {useTonConnectUI, useTonAddress} from '@tonconnect/ui-react';
-import {Address, toNano, contractAddress, Cell} from 'ton';
-import toastr from 'toastr';
-import {createDeployParams} from '../lib/token-minter/deployer';
-import {ImageUpload} from '../components/ImageUpload';
-import {fetchDecimalsOffchain, toDecimalsBN} from '../utils/utils';
-import {GenerateTokenType} from '../utils/types';
-import {CustomInput} from '../components/CustomInput';
-import {CustomSwitch} from '../components/CustomSwitch';
-import {CustomButton} from '../components/CustomButton';
+import React, { useState, useEffect } from "react";
+import { useNavigate } from "react-router-dom";
+import { Grid, Stack, Theme } from "@mui/material";
+import { makeStyles } from "@mui/styles";
+import { useTonConnectUI, useTonAddress } from "@tonconnect/ui-react";
+import toastr from "toastr";
+import { ImageUpload } from "../components/ImageUpload";
+import { GenerateTokenType } from "../utils/types";
+import { CustomInput } from "../components/CustomInput";
+import { CustomSwitch } from "../components/CustomSwitch";
+import { CustomButton } from "../components/CustomButton";
+import { mintToken } from "../lib/token-minter/utils";
+import { base64ToImage } from "../utils/utils";
 
 const useStyles = makeStyles((theme: Theme) => ({
   title: {
-    fontFamily: 'Raleway',
+    fontFamily: "Raleway",
     fontWeight: 700,
-    fontSize: '26px',
-    color: '#0F2233',
-    paddingBottom: '2rem',
-    position: 'relative',
-    top: '1rem',
+    fontSize: "26px",
+    color: "#0F2233",
+    paddingBottom: "2rem",
+    position: "relative",
+    top: "1rem",
   },
   center: {
-    display: 'flex',
-    alignItems: 'center',
-    justifyContent: 'center',
-    textAlign: 'center',
-    [theme.breakpoints.down('sm')]: {
-      display: 'flex',
-      alignItems: 'center',
-      justifyContent: 'center',
-      textAlign: 'center',
+    display: "flex",
+    alignItems: "center",
+    justifyContent: "center",
+    textAlign: "center",
+    [theme.breakpoints.down("sm")]: {
+      display: "flex",
+      alignItems: "center",
+      justifyContent: "center",
+      textAlign: "center",
     },
   },
   container: {
-    display: 'flex',
-    justifyContent: 'center',
-    [theme.breakpoints.down('sm')]: {
+    display: "flex",
+    justifyContent: "center",
+    [theme.breakpoints.down("sm")]: {
       marginBottom: 2,
       marginTop: 2,
-      padding: '24px',
+      padding: "24px",
     },
   },
   buttonContainer: {
-    paddingRight: '2rem',
-    paddingLeft: '2rem',
-    textAlign: 'start',
-    justifyContent: 'space-between',
-    alignItems: 'center',
-    marginTop: '0.5rem',
-    [theme.breakpoints.down('sm')]: {
-      paddingRight: '1rem',
-      paddingLeft: '1rem',
+    paddingRight: "2rem",
+    paddingLeft: "2rem",
+    textAlign: "start",
+    justifyContent: "space-between",
+    alignItems: "center",
+    marginTop: "0.5rem",
+    [theme.breakpoints.down("sm")]: {
+      paddingRight: "1rem",
+      paddingLeft: "1rem",
     },
   },
   stackContainer: {
-    minWidth: '25rem',
-    marginTop: '0 !important',
-    [theme.breakpoints.down('sm')]: {
-      minWidth: '10rem',
+    minWidth: "25rem",
+    marginTop: "0 !important",
+    [theme.breakpoints.down("sm")]: {
+      minWidth: "10rem",
     },
   },
   gridContainer: {
-    display: 'flex',
-    justifyContent: 'center',
-    height: '65vh',
-    overflow: 'auto',
-    padding: '1rem',
-    [theme.breakpoints.down('sm')]: {
+    display: "flex",
+    justifyContent: "center",
+    height: "65vh",
+    overflow: "auto",
+    padding: "1rem",
+    [theme.breakpoints.down("sm")]: {
       //height: '25rem',
     },
   },
@@ -77,14 +76,14 @@ const useStyles = makeStyles((theme: Theme) => ({
 
 const GenerateToken: React.FC = () => {
   const [data, setData] = useState<GenerateTokenType>({
-    name: '',
-    symbol: '',
+    name: "",
+    symbol: "",
     decimal: 9,
     amount: 0,
-    description: '',
+    description: "",
     isPausable: false,
     isStackable: false,
-    offchainUri: '',
+    offchainUri: "",
   });
 
   const classes = useStyles();
@@ -93,94 +92,38 @@ const GenerateToken: React.FC = () => {
   const navigate = useNavigate();
 
   const generateToken = async () => {
-    const editedAddress = Address.parse(address);
+    const transaction = await mintToken(address, data);
 
-    let dc = data.decimal;
-    if (data.offchainUri) {
-      let res = await fetchDecimalsOffchain(
-        data.offchainUri.replace('ipfs://', 'https://ipfs.io/ipfs/'),
-      );
-      dc = res.decimals;
-    }
-
-    const params = {
-      owner: editedAddress,
-      onchainMetaData: {
-        name: data.name,
-        symbol: data.symbol,
-        description: data.description,
-        decimals: dc.toFixed(0),
-        // isPausable: data.isPausable,
-      },
-      // offchainUri: data.offchainUri,
-      amountToMint: toDecimalsBN(data.amount, dc),
-    };
-
-    const deployParams = createDeployParams(params, data.offchainUri);
-
-    const contractAddressHex = contractAddress({
-      workchain: 0,
-      initialCode: deployParams.code,
-      initialData: deployParams.data,
-    }).toString();
-
-    console.log('contractAddressHex', contractAddressHex);
-
-    const state_init = new Cell();
-    state_init.bits.writeUint(6, 5);
-    state_init.refs.push(deployParams.code);
-    state_init.refs.push(deployParams.data);
-
-    const aa = await state_init.toBoc();
-    const bb = aa.toString('base64');
-
-    const py = await deployParams.message.toBoc();
-
-    const defaultTx2 = {
-      validUntil: Date.now() + 1000000,
-      messages: [
-        {
-          address: contractAddressHex,
-          amount: toNano(0.25).toNumber().toString(),
-          stateInit: bb,
-          payload: py.toString('base64'),
-        },
-      ],
-    };
-
-    tonConnectUi.sendTransaction(defaultTx2).then(() => {
-      navigate('/view-tokens');
-      toastr.success(contractAddressHex, 'Jetton deployed successfully.');
+    tonConnectUi.sendTransaction(transaction).then(() => {
+      navigate("/view-tokens");
+      toastr.success("Jetton deployed successfully.");
     });
   };
 
+  useEffect(() => {
+    base64ToImage(data.image, (img) => {
+      document.getElementById("image")?.appendChild(img);
+    });
+  }, [data.image]);
+
   const disable = (): boolean => {
-    return !(
-      data.name &&
-      data.symbol &&
-      data.amount &&
-      data.decimal &&
-      data.description
-    );
+    return !(data.name && data.symbol && data.amount && data.decimal && data.description);
   };
 
   return (
     <div
       style={{
-        height: '80vh',
-        minWidth: '21rem',
-        padding: '1rem',
-      }}>
+        height: "80vh",
+        minWidth: "21rem",
+        padding: "1rem",
+      }}
+    >
       <Grid container className={classes.container}>
         <Grid container className={classes.center}>
           <h5 className={classes.title}>Generate Token</h5>
 
           <Grid container className={classes.gridContainer}>
-            <Stack
-              spacing={2}
-              direction={'column'}
-              marginTop={4}
-              className={classes.stackContainer}>
+            <Stack spacing={2} direction={"column"} marginTop={4} className={classes.stackContainer}>
               <CustomInput
                 placeholder="Name"
                 label="Name"
@@ -246,7 +189,7 @@ const GenerateToken: React.FC = () => {
                   })
                 }
               />
-              <Grid direction={'column'} container justifyContent={'center'}>
+              <Grid direction={"column"} container justifyContent={"center"}>
                 <Grid container className={classes.buttonContainer}>
                   <Grid item>
                     <label>Pausable Contract : </label>
@@ -280,22 +223,23 @@ const GenerateToken: React.FC = () => {
                   </Grid>
                 </Grid>
                 <Grid container className={classes.buttonContainer}>
-                  <Grid item justifyContent={'flex-start'}>
-                    <label>Collection Image : </label>
+                  <Grid item justifyContent={"flex-start"}>
+                    <label>Token Image : </label>
                   </Grid>
-                  <Grid item justifyContent={'flex-end'}>
+                  <Grid item justifyContent={"flex-end"}>
                     <ImageUpload
-                      onChange={() => {}}
-                      onClear={() => {}}></ImageUpload>
+                      onChange={(value: any) => {
+                        setData({ ...data, image: value });
+                      }}
+                      onClear={() => {
+                        setData({ ...data, image: undefined });
+                      }}
+                    ></ImageUpload>
                   </Grid>
                 </Grid>
               </Grid>
-              <Grid paddingTop={2} container justifyContent={'center'}>
-                <CustomButton
-                  onClick={generateToken}
-                  disabled={disable()}
-                  label="Mint Token"
-                />
+              <Grid paddingTop={2} container justifyContent={"center"}>
+                <CustomButton onClick={generateToken} disabled={disable()} label="Mint Token" />
               </Grid>
             </Stack>
           </Grid>

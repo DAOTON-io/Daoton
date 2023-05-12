@@ -1,21 +1,14 @@
 import {TOKEN_TYPES} from './enums';
+import {Address} from 'ton';
 
-export type InfoType = {
-  name: string;
-  desc: string;
-  image: any;
-};
-
-export type TokenDetailType = {
-  type: TOKEN_TYPES;
+export type DaoInfoData = {
   name: string;
   description: string;
-  symbol: string;
-  amount: string;
-  decimal: string;
-  pausableContract: boolean;
-  stackableContract: boolean;
-  image: any;
+  image: string;
+};
+
+export type TokenDetailType = GenerateTokenType & {
+  type: TOKEN_TYPES;
 };
 
 export type NftDetailType = {
@@ -37,6 +30,8 @@ export type TokensType = {
     decimals: number;
     name: string;
     symbol: string;
+    image?: string;
+    description: string;
   };
   verification: string;
   wallet_address: {
@@ -54,6 +49,7 @@ export type GenerateTokenType = {
   isPausable: boolean;
   isStackable: boolean;
   offchainUri: string;
+  image?: string;
 };
 
 export type CollectionDataType = {
@@ -76,4 +72,12 @@ export type ProposalType = {
   failThreshold: number;
   isRelatedWithNft: boolean;
   content: string;
+};
+
+export type Dao = {
+  address: string;
+  daoTypeId: number;
+  tokenContract: Address;
+  nftContract: Address;
+  content: {name: string; description: string; image?: string};
 };
