@@ -57,6 +57,8 @@ const useStyles = makeStyles((theme: Theme) => ({
     fontFamily: "Signika Negative",
     paddingLeft: "0.5rem !important",
     backgroundColor: "#A2C5E3",
+    paddingTop: "0.25rem !important",
+    paddingBottom: "0.25rem !important",
     "&:hover": {
       cursor: "pointer",
     },
