@@ -104,6 +104,11 @@ export const TokenDetail: React.FC<Props> = ({ activeStepOnChange, tokenDetailOn
 
   const selectType = (e: any) => {
     setTokenType(e.target.value as TOKEN_TYPES);
+
+    tokenDetailOnChange({
+      ...tokenDetail,
+      type: e.target.value,
+    });
   };
 
   const createDao = () => {
