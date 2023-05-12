@@ -1,5 +1,8 @@
 import { Contract, ContractProvider, Sender, Address, Cell, contractAddress, beginCell } from "ton-core";
 import { DaoContent } from "./models/DaoContent";
+import daoton from "../contracts/daoton.contract.json";
+import { _parseGetMethodCall, cellToAddress, readDaoMetadata } from "./make-get-call";
+import { Dao } from "../../../utils/types";
 
 export default class DaoContract implements Contract {
   static createForDeploy(code: Cell, daoTypeId: number, tokenContract: Address, nftCollection: Address, daoContent: DaoContent): DaoContract {
@@ -24,31 +27,30 @@ export default class DaoContract implements Contract {
   constructor(readonly address: Address, readonly init?: { code: Cell; data: Cell }) {}
 
   async sendDeploy(provider: ContractProvider, via: Sender) {
-    // const messageBody = beginCell()
-    //   .storeUint(1, 32) // op (op #1 = create proposal)
-    //   .storeUint(Date.now(), 64) // timestamp
-    //   .storeUint(100, 32) // success threshold
-    //   .storeUint(1, 32) // fail threshold
-    //   .endCell();
+    const daotonAddress = Address.parse(daoton.address);
+
+    const body = beginCell().storeUint(0, 32).storeAddress(this.address).storeAddress(daotonAddress).endCell();
+
     await provider.internal(via, {
-      value: "0.01", // send 0.01 TON to contract for rent
+      value: "0.02", // send 0.01 TON to contract for rent
       bounce: false,
-      // body: messageBody,
+      body,
     });
   }
 
-  getDaoData = async (provider: ContractProvider) => {
-    try {
-      const { stack } = await provider.get("get_current_data", []);
+  getDaoData = async (provider: ContractProvider): Promise<Dao> => {
+    const { stack }: any = await provider.get("get_dao_data", []);
 
-      // console.log("dao type id: ",);
-      // console.log("token address: ", stack.readAddress().toString());
-      // console.log("nft address : ", stack.readAddress().toString());
-      // console.log("content :", stack.readBuffer().toString());
-      // console.log("last proposal id :", stack.readBigNumber().toString());
+    // dao_type_id , token_contract , nft_contract , content , proposal seq
+    const data: any = _parseGetMethodCall(stack);
+    const daoTypeId: number = data[0].toNumber();
+    const tokenContract = cellToAddress(data[1]);
+    const nftContract = cellToAddress(data[2]);
+    const readContent = readDaoMetadata(data[3]);
 
-      return stack;
-    } catch {}
+    const content = (await readContent).metadata as any;
+
+    return { address: this.address.toString(), daoTypeId, tokenContract, nftContract, content };
   };
 
   // async sendProposal(provider: ContractProvider, via: Sender) {
