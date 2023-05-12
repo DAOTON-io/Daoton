@@ -1,6 +1,6 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
-import { Card, Divider, Grid, ListItem, Stack, Theme, Typography } from "@mui/material";
+import { Card, Divider, Grid, ListItemButton, Stack, Theme, Typography } from "@mui/material";
 import GoogleFontLoader from "react-google-font-loader";
 import ViewHeadlineIcon from "@mui/icons-material/ViewHeadline";
 import AddCircleIcon from "@mui/icons-material/AddCircle";
@@ -34,7 +34,7 @@ const useStyles = makeStyles((theme: Theme) => ({
     margin: "0.5rem !important",
   },
   title: {
-    color: "white",
+    color: "white ",
     marginBottom: "0.5rem",
     marginLeft: "0.5rem",
     fontSize: "14px",
@@ -47,8 +47,7 @@ const useStyles = makeStyles((theme: Theme) => ({
     paddingTop: "0.25rem !important",
     paddingBottom: "0.25rem !important",
     "&:hover": {
-      backgroundColor: "#91b1cc",
-
+      backgroundColor: "#91b1cc !important",
       cursor: "pointer",
     },
   },
@@ -57,7 +56,7 @@ const useStyles = makeStyles((theme: Theme) => ({
     textDecoration: "none",
     fontFamily: "Signika Negative",
     paddingLeft: "0.5rem !important",
-    backgroundColor: "#A2C5E3",
+    backgroundColor: "#A2C5E3 !important",
     paddingTop: "0.25rem !important",
     paddingBottom: "0.25rem !important",
     "&:hover": {
@@ -81,13 +80,20 @@ const useStyles = makeStyles((theme: Theme) => ({
   },
   link: {
     textDecoration: "none",
+    color: "white",
   },
 }));
 
 const SideMenu: React.FC = () => {
   const classes = useStyles();
+  const [activePage, setActivePage] = useState<string>("");
+
   const navigate = useNavigate();
-  const [activePage, setActivePage] = useState("");
+
+  useEffect(() => {
+    const pathname = window.location.pathname;
+    setActivePage(pathname);
+  }, []);
 
   return (
     <Card className={classes.card}>
@@ -108,10 +114,9 @@ const SideMenu: React.FC = () => {
       </Stack>
       <Stack className={classes.menuStack}>
         <List>
-          <ListItem
-            className={activePage === "/view-dao" ? classes.selectedItem : classes.item}
+          <ListItemButton
+            className={activePage.startsWith("/view-dao") || activePage === "/" ? classes.selectedItem : classes.item}
             key={PAGES_NAME.VIEW_DAOS}
-            selected={window.location.pathname === PAGES_NAME.VIEW_DAOS}
             onClick={() => {
               navigate("/view-dao");
               setActivePage("/view-dao");
@@ -121,11 +126,10 @@ const SideMenu: React.FC = () => {
               <ViewHeadlineIcon className={classes.icon} />
             </Grid>
             <Typography textAlign="center">{PAGES_NAME.VIEW_DAOS}</Typography>
-          </ListItem>
-          <ListItem
-            className={activePage === "/create-dao" ? classes.selectedItem : classes.item}
+          </ListItemButton>
+          <ListItemButton
+            className={activePage.startsWith("/create-dao") ? classes.selectedItem : classes.item}
             key={PAGES_NAME.CREATE_DAO}
-            selected={window.location.pathname === PAGES_NAME.CREATE_DAO}
             onClick={() => {
               navigate("/create-dao");
               setActivePage("/create-dao");
@@ -135,15 +139,14 @@ const SideMenu: React.FC = () => {
               <AddCircleIcon className={classes.icon} />
             </Grid>
             <Typography textAlign="center">{PAGES_NAME.CREATE_DAO}</Typography>
-          </ListItem>
+          </ListItemButton>
           <Divider className={classes.divider}></Divider>
           <Stack className={classes.title}>
             <Typography> {PAGES_NAME.TOKEN} </Typography>
           </Stack>
-          <ListItem
-            className={activePage === "/view-tokens" ? classes.selectedItem : classes.item}
+          <ListItemButton
+            className={activePage.startsWith("/view-tokens") ? classes.selectedItem : classes.item}
             key={PAGES_NAME.MY_TOKENS}
-            selected={window.location.pathname === PAGES_NAME.MY_TOKENS}
             onClick={() => {
               navigate("/view-tokens");
               setActivePage("/view-tokens");
@@ -153,11 +156,10 @@ const SideMenu: React.FC = () => {
               <TokenIcon className={classes.icon} />
             </Grid>
             <Typography textAlign="center">{PAGES_NAME.MY_TOKENS}</Typography>
-          </ListItem>
-          <ListItem
-            className={activePage === "/generate-token" ? classes.selectedItem : classes.item}
+          </ListItemButton>
+          <ListItemButton
+            className={activePage.startsWith("/generate-token") ? classes.selectedItem : classes.item}
             key={PAGES_NAME.GENERATE_TOKEN}
-            selected={window.location.pathname === PAGES_NAME.GENERATE_TOKEN}
             onClick={() => {
               navigate("/generate-token");
               setActivePage("/generate-token");
@@ -167,15 +169,14 @@ const SideMenu: React.FC = () => {
               <AddCircleOutlineIcon className={classes.icon} />
             </Grid>
             <Typography textAlign="center">{PAGES_NAME.GENERATE_TOKEN}</Typography>
-          </ListItem>
+          </ListItemButton>
           <Divider className={classes.divider}></Divider>
           <Stack className={classes.title}>
             <Typography> {PAGES_NAME.NFT} </Typography>
           </Stack>
-          <ListItem
-            className={activePage === "/view-nfts" ? classes.selectedItem : classes.item}
+          <ListItemButton
+            className={activePage.startsWith("/view-nfts") ? classes.selectedItem : classes.item}
             key={PAGES_NAME.MY_NFTS}
-            selected={window.location.pathname === PAGES_NAME.MY_NFTS}
             onClick={() => {
               navigate("/view-nfts");
               setActivePage("/view-nfts");
@@ -185,8 +186,8 @@ const SideMenu: React.FC = () => {
               <FitbitIcon className={classes.icon} />
             </Grid>
             <Typography textAlign="center">{PAGES_NAME.MY_NFTS}</Typography>
-          </ListItem>
-          {/* <ListItem
+          </ListItemButton>
+          {/* <ListItemButton
             className={activePage === "/generate-nft-collection" ? classes.selectedItem : classes.item}
             key={PAGES_NAME.GENERATE_COLLECTION}
             selected={window.location.pathname === PAGES_NAME.GENERATE_COLLECTION}
@@ -199,11 +200,10 @@ const SideMenu: React.FC = () => {
               <PlaylistAddCircleIcon className={classes.icon} />
             </Grid>
             <Typography textAlign="center">{PAGES_NAME.GENERATE_COLLECTION}</Typography>
-          </ListItem> */}
-          <ListItem
-            className={activePage === "/generate-nft" ? classes.selectedItem : classes.item}
+          </ListItemButton> */}
+          <ListItemButton
+            className={activePage.startsWith("/generate-nft") ? classes.selectedItem : classes.item}
             key={PAGES_NAME.GENERATE_NFT}
-            selected={window.location.pathname === PAGES_NAME.GENERATE_NFT}
             onClick={() => {
               navigate("/generate-nft");
               setActivePage("/generate-nft");
@@ -213,16 +213,15 @@ const SideMenu: React.FC = () => {
               <PlaylistAddCircleIcon className={classes.icon} />
             </Grid>
             <Typography textAlign="center">{PAGES_NAME.GENERATE_NFT}</Typography>
-          </ListItem>
+          </ListItemButton>
           <Divider className={classes.divider}></Divider>
           <Stack className={classes.title}>
             <Typography> {PAGES_NAME.DOCS} </Typography>
           </Stack>
           <Link className={classes.link} to="https://docs.daoton.io" target="_blank" rel="noreferrer">
-            <ListItem
+            <ListItemButton
               className={classes.item}
               key={PAGES_NAME.DOCUMENTATION}
-              selected={window.location.pathname === PAGES_NAME.DOCUMENTATION}
               onClick={() => {
                 navigate("");
               }}
@@ -231,13 +230,12 @@ const SideMenu: React.FC = () => {
                 <SummarizeIcon className={classes.icon} />
               </Grid>
               <Typography textAlign="center">{PAGES_NAME.DOCUMENTATION}</Typography>
-            </ListItem>
+            </ListItemButton>
           </Link>
           <Link className={classes.link} to={"https://drive.google.com/file/d/1BhY6hriK72TEqH2ytaNl2ny_8Tgwna1g/view?usp=sharing"} target="_blank" rel="noreferrer">
-            <ListItem
+            <ListItemButton
               className={classes.item}
               key={PAGES_NAME.LITEPAPER}
-              selected={window.location.pathname === PAGES_NAME.LITEPAPER}
               onClick={() => {
                 navigate("");
               }}
@@ -246,7 +244,7 @@ const SideMenu: React.FC = () => {
                 <SummarizeIcon className={classes.icon} />
               </Grid>
               <Typography textAlign="center">{PAGES_NAME.LITEPAPER}</Typography>
-            </ListItem>
+            </ListItemButton>
           </Link>
         </List>
         <Stack sx={{ margin: "0.5rem" }}>
