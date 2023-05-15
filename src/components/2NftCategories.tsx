@@ -36,8 +36,8 @@ const categories: CategoryType[] = [
 ];
 
 type Props = {
-  selectedCategoryOnChange: (selectedCategory: CategoryType) => void;
   selectedCategory: CategoryType;
+  selectedCategoryOnChange: (selectedCategory: CategoryType) => void;
 };
 
 export const NFTCategories: React.FC<Props> = ({ selectedCategoryOnChange, selectedCategory }) => {
