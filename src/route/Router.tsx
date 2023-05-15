@@ -47,7 +47,11 @@ const Router: React.FC = () => {
               element={<GenerateCollection />}
             />
             <Route path="/view-nfts" index element={<ViewNft />} />
-            <Route path="/create-proposal" index element={<CreateProposal />} />
+            <Route
+              path="/view-dao/:daoId/create-proposal"
+              index
+              element={<CreateProposal />}
+            />
             <Route path="/view-dao/:daoId" index element={<DaoDetail />} />
           </Route>
           <Route path="/login" index element={<Login />} />
