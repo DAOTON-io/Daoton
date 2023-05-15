@@ -44,7 +44,7 @@ const useStyles = makeStyles((theme) => ({
   },
   stackContainer: {
     minWidth: "25rem",
-    marginTop: "0 !important",
+    marginTop: "2",
     [theme.breakpoints.down("sm")]: {
       minWidth: "10rem",
     },
@@ -71,8 +71,6 @@ const NftForm: React.FC<Props> = ({ nftInfoOnChange, nftInfo }) => {
 
   return (
     <Grid container className={classes.container}>
-      <Grid container className={classes.center}>
-        <Grid container className={classes.gridContainer}>
           <Stack spacing={2} marginTop={4} className={classes.stackContainer} direction={"column"}>
             <CustomInput
               placeholder="Name"
@@ -149,8 +147,6 @@ const NftForm: React.FC<Props> = ({ nftInfoOnChange, nftInfo }) => {
               </Grid>
             </Grid>
           </Stack>
-        </Grid>
-      </Grid>
     </Grid>
   );
 };
