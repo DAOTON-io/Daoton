@@ -1,16 +1,17 @@
 import React, {useState} from 'react';
 import {Grid, Stack, Theme} from '@mui/material';
 import {makeStyles} from '@mui/styles';
-import {ProposalFormType} from '../utils/types';
 import moment, {Moment} from 'moment';
+import {Address, beginCell, toNano, beginDict, Cell} from 'ton';
+import {useTonConnectUI} from '@tonconnect/ui-react';
+import toastr from 'toastr';
+import {useParams} from 'react-router-dom';
+import {sha256} from '../lib/token-minter/deployer';
+import {ProposalFormType} from '../utils/types';
 import {CustomButton} from '../components/CustomButton';
 import {CustomInput} from '../components/CustomInput';
 import {CustomSwitch} from '../components/CustomSwitch';
 import {CustomDateTime} from '../components/CustomDateTime';
-import {Address, beginCell, toNano, beginDict, Cell} from 'ton';
-import {useTonConnectUI} from '@tonconnect/ui-react';
-import {sha256} from '../lib/token-minter/deployer';
-import toastr from 'toastr';
 
 const useStyles = makeStyles((theme: Theme) => ({
   container: {
@@ -55,9 +56,10 @@ export const CreateProposal: React.FC = () => {
     isRelatedWithNft: false,
     content: '',
   });
-  const [tonConnectUi] = useTonConnectUI();
 
+  const [tonConnectUi] = useTonConnectUI();
   const classes = useStyles();
+  const {daoId} = useParams();
 
   const disable: boolean = !(
     data.successThreshold > data.failThreshold &&
@@ -107,11 +109,9 @@ export const CreateProposal: React.FC = () => {
   };
 
   const createProposal = async () => {
-    const daoContract = Address.parse(
-      'EQB1ouj_qUkt4bx8NYvSmiXeMQNLsIyB5QSTwONmeg55V5ls',
-    );
+    let daoContract = {};
+    if (daoId) daoContract = Address.parse(daoId);
     const metadata = buildDaoOnchainMetadata({text: data.content});
-
     const message = beginCell()
       .storeUint(1, 32) // op (op #1 = create proposal)
       .storeCoins(10000000)
