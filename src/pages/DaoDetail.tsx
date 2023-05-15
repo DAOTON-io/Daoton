@@ -1,6 +1,6 @@
 import React, {useEffect, useState} from 'react';
 import {Address} from 'ton-core';
-import {useParams} from 'react-router-dom';
+import {useNavigate, useParams} from 'react-router-dom';
 import {TonClient} from 'ton';
 import {getHttpEndpoint} from '@orbs-network/ton-access';
 import DaoContract from '../lib/dao/lib/DaoContract';
@@ -21,6 +21,7 @@ import {
   Typography,
 } from '@mui/material';
 import {makeStyles} from '@mui/styles';
+import {CustomButton} from '../components/CustomButton';
 
 const useStyles = makeStyles((theme: Theme) => ({
   cardContainer: {
@@ -36,7 +37,7 @@ const useStyles = makeStyles((theme: Theme) => ({
   tableContainer: {
     display: 'flex',
     justifyContent: 'center',
-    margin: '1rem !important',
+    padding: '1rem !important',
     [theme.breakpoints.down('sm')]: {
       marginBottom: 2,
       marginTop: 2,
@@ -47,12 +48,24 @@ const useStyles = makeStyles((theme: Theme) => ({
     display: 'flex',
     justifyContent: 'center',
     alignItems: 'center',
-    padding: '0',
-    margin: '0',
+    padding: '0 !important',
+    margin: '0 !important',
   },
   card: {
     width: '100%',
     marginBottom: '0.8rem',
+    border: '1px solid #2C6495',
+  },
+  buttonItem: {
+    display: 'flex',
+    width: '100%',
+    justifyContent: 'flex-end',
+    marginBottom: '1rem !important',
+  },
+  tableItem: {
+    width: '100%',
+    display: 'flex',
+    justifyContent: 'flex-end',
   },
 }));
 
@@ -72,6 +85,7 @@ const DaoDetail: React.FC = () => {
 
   const {daoId} = useParams();
   const classes = useStyles();
+  const navigate = useNavigate();
 
   useEffect(() => {
     const init = async () => {
@@ -115,9 +129,12 @@ const DaoDetail: React.FC = () => {
         style={{
           height: 'calc(100vh - 8.5rem)',
           width: '100%',
-          overflow: 'auto', // Kaydırma çubuğu eklemek için
+          overflow: 'auto',
+          display: 'flex',
+          flexDirection: 'column',
+          alignItems: 'center',
         }}>
-        <Grid container className={classes.cardContainer} spacing={2}>
+        <Grid container className={classes.cardContainer}>
           <Grid
             item
             justifyContent={'center'}
@@ -139,10 +156,18 @@ const DaoDetail: React.FC = () => {
           </Grid>
         </Grid>
         <Grid container className={classes.tableContainer}>
+          <Grid item className={classes.buttonItem}>
+            <CustomButton
+              label="Create Proposal"
+              onClick={() =>
+                navigate(`/view-dao/${daoValues.daoAddress}/create-proposal`)
+              }
+            />
+          </Grid>
           <Grid
             item
             justifyContent={'center'}
-            className={classes.item}
+            className={classes.tableItem}
             sx={{flexDirection: 'column !important'}}>
             <TableContainer component={Paper}>
               <Table sx={{minWidth: 650}} aria-label="simple table">
