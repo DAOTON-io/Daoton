@@ -1,59 +1,59 @@
-import React, { useState } from "react";
-import { Grid, Stack, Theme } from "@mui/material";
-import { makeStyles } from "@mui/styles";
-import { ProposalType } from "../utils/types";
-import moment, { Moment } from "moment";
-import { CustomButton } from "../components/CustomButton";
-import { CustomInput } from "../components/CustomInput";
-import { CustomSwitch } from "../components/CustomSwitch";
-import { CustomDateTime } from "../components/CustomDateTime";
-import { Address, beginCell, toNano, beginDict, Cell } from "ton";
-import { useTonConnectUI } from "@tonconnect/ui-react";
-import { sha256 } from "../lib/token-minter/deployer";
-import toastr from "toastr";
+import React, {useState} from 'react';
+import {Grid, Stack, Theme} from '@mui/material';
+import {makeStyles} from '@mui/styles';
+import {ProposalFormType} from '../utils/types';
+import moment, {Moment} from 'moment';
+import {CustomButton} from '../components/CustomButton';
+import {CustomInput} from '../components/CustomInput';
+import {CustomSwitch} from '../components/CustomSwitch';
+import {CustomDateTime} from '../components/CustomDateTime';
+import {Address, beginCell, toNano, beginDict, Cell} from 'ton';
+import {useTonConnectUI} from '@tonconnect/ui-react';
+import {sha256} from '../lib/token-minter/deployer';
+import toastr from 'toastr';
 
 const useStyles = makeStyles((theme: Theme) => ({
   container: {
     marginBottom: 6,
     marginTop: 6,
-    [theme.breakpoints.down("sm")]: {
+    [theme.breakpoints.down('sm')]: {
       marginBottom: 2,
       marginTop: 2,
-      padding: "24px",
+      padding: '24px',
     },
-    display: "flex",
-    justifyContent: "center",
-    overflow: "auto",
+    display: 'flex',
+    justifyContent: 'center',
+    overflow: 'auto',
   },
   stackContainer: {
-    minWidth: "25rem",
-    [theme.breakpoints.down("sm")]: {
-      minWidth: "10rem",
-      width: "100%",
+    minWidth: '25rem',
+    [theme.breakpoints.down('sm')]: {
+      minWidth: '10rem',
+      width: '100%',
     },
-    marginBottom: "3.5rem",
+    marginBottom: '3.5rem',
   },
   buttonContainer: {
-    textAlign: "start",
-    justifyContent: "space-between",
-    alignItems: "center",
-    marginTop: "8px",
+    textAlign: 'start',
+    justifyContent: 'space-between',
+    alignItems: 'center',
+    marginTop: '8px',
   },
   center: {
-    display: "flex",
-    alignItems: "center",
-    justifyContent: "center",
-    textAlign: "center",
+    display: 'flex',
+    alignItems: 'center',
+    justifyContent: 'center',
+    textAlign: 'center',
   },
 }));
 
 export const CreateProposal: React.FC = () => {
-  const [data, setData] = useState<ProposalType>({
+  const [data, setData] = useState<ProposalFormType>({
     timestamp: moment().unix(),
     successThreshold: 100,
     failThreshold: 0,
     isRelatedWithNft: false,
-    content: "",
+    content: '',
   });
   const [tonConnectUi] = useTonConnectUI();
 
@@ -68,7 +68,7 @@ export const CreateProposal: React.FC = () => {
   );
 
   const proposalMetadata: any = {
-    text: "utf8",
+    text: 'utf8',
   };
 
   const buildDaoOnchainMetadata = (data: any) => {
@@ -76,8 +76,9 @@ export const CreateProposal: React.FC = () => {
     const dict = beginDict(KEYLEN);
 
     Object.entries(data).forEach(([k, v]: any) => {
-      if (!proposalMetadata[k]) throw new Error(`Unsupported onchain key: ${k}`);
-      if (v === undefined || v === "") return;
+      if (!proposalMetadata[k])
+        throw new Error(`Unsupported onchain key: ${k}`);
+      if (v === undefined || v === '') return;
 
       let bufferToStore = Buffer.from(v, proposalMetadata[k]);
 
@@ -88,7 +89,9 @@ export const CreateProposal: React.FC = () => {
       let currentCell = rootCell;
 
       while (bufferToStore.length > 0) {
-        currentCell.bits.writeBuffer(bufferToStore.slice(0, CELL_MAX_SIZE_BYTES));
+        currentCell.bits.writeBuffer(
+          bufferToStore.slice(0, CELL_MAX_SIZE_BYTES),
+        );
         bufferToStore = bufferToStore.slice(CELL_MAX_SIZE_BYTES);
         if (bufferToStore.length > 0) {
           let newCell = new Cell();
@@ -104,8 +107,10 @@ export const CreateProposal: React.FC = () => {
   };
 
   const createProposal = async () => {
-    const daoContract = Address.parse("EQB1ouj_qUkt4bx8NYvSmiXeMQNLsIyB5QSTwONmeg55V5ls");
-    const metadata = buildDaoOnchainMetadata({ text: data.content });
+    const daoContract = Address.parse(
+      'EQB1ouj_qUkt4bx8NYvSmiXeMQNLsIyB5QSTwONmeg55V5ls',
+    );
+    const metadata = buildDaoOnchainMetadata({text: data.content});
 
     const message = beginCell()
       .storeUint(1, 32) // op (op #1 = create proposal)
@@ -125,30 +130,39 @@ export const CreateProposal: React.FC = () => {
         {
           address: daoContract.toString(),
           amount: toNano(0.01).toNumber().toString(),
-          payload: messageBody.toString("base64"),
+          payload: messageBody.toString('base64'),
         },
       ],
     };
 
-    tonConnectUi.sendTransaction(tx).then((data) => {
+    tonConnectUi.sendTransaction(tx).then(data => {
       // navigate("/view-dao");
-      toastr.success("Proposal was created successfully.");
+      toastr.success('Proposal was created successfully.');
     });
   };
 
   return (
     <div
       style={{
-        height: "calc(100vh - 9rem)",
-        width: "100%",
-        overflow: "auto",
-      }}
-    >
+        height: 'calc(100vh - 9rem)',
+        width: '100%',
+        overflow: 'auto',
+      }}>
       <Grid container className={classes.container}>
-        <Grid container className={classes.center} justifyContent={"center"}>
-          <Stack direction="column" spacing={4} marginTop={4} className={classes.stackContainer}>
-            <div style={{ marginTop: "1.5rem" }}>
-              <CustomDateTime label="Timestamp" value={data.timestamp} onChange={(value: Moment) => setData({ ...data, timestamp: value.unix() })} />
+        <Grid container className={classes.center} justifyContent={'center'}>
+          <Stack
+            direction="column"
+            spacing={4}
+            marginTop={4}
+            className={classes.stackContainer}>
+            <div style={{marginTop: '1.5rem'}}>
+              <CustomDateTime
+                label="Timestamp"
+                value={data.timestamp}
+                onChange={(value: Moment) =>
+                  setData({...data, timestamp: value.unix()})
+                }
+              />
             </div>
             <CustomInput
               placeholder="SuccessTreshold"
@@ -156,7 +170,9 @@ export const CreateProposal: React.FC = () => {
               id="successTreshold"
               name="successTreshold"
               value={data.successThreshold}
-              onChange={(e: any) => setData({ ...data, successThreshold: Number(e.target.value) })}
+              onChange={(e: any) =>
+                setData({...data, successThreshold: Number(e.target.value)})
+              }
             />
             <CustomInput
               placeholder="FailTreshold"
@@ -164,7 +180,9 @@ export const CreateProposal: React.FC = () => {
               id="failTreshold"
               name="failTreshold"
               value={data.failThreshold}
-              onChange={(e: any) => setData({ ...data, failThreshold: Number(e.target.value) })}
+              onChange={(e: any) =>
+                setData({...data, failThreshold: Number(e.target.value)})
+              }
             />
             <CustomInput
               placeholder="Type your proposal"
@@ -172,10 +190,10 @@ export const CreateProposal: React.FC = () => {
               id="content"
               name="content"
               value={data.content}
-              onChange={(e: any) => setData({ ...data, content: e.target.value })}
+              onChange={(e: any) => setData({...data, content: e.target.value})}
             />
             <Grid item>
-              <span style={{ marginTop: "1rem" }}>Is Related With Nft:</span>
+              <span style={{marginTop: '1rem'}}>Is Related With Nft:</span>
               <CustomSwitch
                 checked={data.isRelatedWithNft}
                 onChange={(e: any) =>
@@ -186,8 +204,12 @@ export const CreateProposal: React.FC = () => {
                 }
               />
             </Grid>
-            <Grid paddingTop={2} container justifyContent={"center"}>
-              <CustomButton onClick={createProposal} disabled={disable} label="CREATE PROPOSAL" />
+            <Grid paddingTop={2} container justifyContent={'center'}>
+              <CustomButton
+                onClick={createProposal}
+                disabled={disable}
+                label="CREATE PROPOSAL"
+              />
             </Grid>
           </Stack>
         </Grid>
