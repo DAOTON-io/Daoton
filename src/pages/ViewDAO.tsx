@@ -51,8 +51,6 @@ export default function ViewDao() {
 
         setColumns(daos);
         setLoading(false);
-
-        console.log('daos', daos);
       }
     };
 
