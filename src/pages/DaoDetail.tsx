@@ -22,6 +22,8 @@ import {
 } from '@mui/material';
 import {makeStyles} from '@mui/styles';
 import {CustomButton} from '../components/CustomButton';
+import {Dao} from '../utils/types';
+import {categories} from '../components/DaoCategories';
 
 const useStyles = makeStyles((theme: Theme) => ({
   cardContainer: {
@@ -69,18 +71,8 @@ const useStyles = makeStyles((theme: Theme) => ({
   },
 }));
 
-type ProposalType = {
-  daoName: string;
-  daoDescription: string;
-  daoAddress: string;
-};
-
 const DaoDetail: React.FC = () => {
-  const [daoValues, setDaoValues] = useState<ProposalType>({
-    daoName: '',
-    daoDescription: '',
-    daoAddress: '',
-  });
+  const [daoValues, setDaoValues] = useState<Dao>();
   const [loading, setLoading] = useState<boolean>(true);
 
   const {daoId} = useParams();
@@ -97,12 +89,8 @@ const DaoDetail: React.FC = () => {
         const client = new TonClient({endpoint});
         const daoContract = open(daoMasterContract, client);
         const daoData = await daoContract.getDaoData();
-        setDaoValues({
-          daoName: daoData.content.name,
-          daoDescription: daoData.content.description,
-          daoAddress: daoData.address,
-        });
 
+        setDaoValues(daoData);
         setLoading(false);
       }
     };
@@ -142,14 +130,32 @@ const DaoDetail: React.FC = () => {
             sx={{flexDirection: 'column !important'}}>
             <Card className={classes.card}>
               <CardContent>
-                <Typography sx={{mb: 1.5}} color="text.secondary">
-                  <b>DAO Name:</b> {daoValues.daoName}
+                <Typography sx={{mb: 1.5}} color="#2C6495">
+                  <b>DAO Name:</b> {daoValues?.content.name}
                 </Typography>
-                <Typography sx={{mb: 1.5}} color="text.secondary">
-                  <b>DAO Description:</b> {daoValues.daoDescription}
+                <Typography sx={{mb: 1.5}} color="#2C6495">
+                  <b>DAO Address:</b> {daoValues?.address}
                 </Typography>
-                <Typography sx={{mb: 1.5}} color="text.secondary">
-                  <b>DAO Address:</b> {daoValues.daoAddress}
+                <Typography sx={{mb: 1.5}} color="#2C6495">
+                  <b>DAO Token Address:</b>{' '}
+                  {daoValues?.tokenContract.toFriendly()}
+                </Typography>
+                {daoValues?.nftContract ? (
+                  <Typography sx={{mb: 1.5}} color="#2C6495">
+                    <b>DAO NFT Address:</b>{' '}
+                    {daoValues?.nftContract.toFriendly()}
+                  </Typography>
+                ) : undefined}
+                <Typography sx={{mb: 1.5}} color="#2C6495">
+                  It is a{' '}
+                  <b>
+                    {
+                      categories.find(
+                        category => category.id === daoValues?.daoTypeId,
+                      )?.label
+                    }
+                  </b>{' '}
+                  category. {daoValues?.content.description}
                 </Typography>
               </CardContent>
             </Card>
@@ -160,7 +166,7 @@ const DaoDetail: React.FC = () => {
             <CustomButton
               label="Create Proposal"
               onClick={() =>
-                navigate(`/view-dao/${daoValues.daoAddress}/create-proposal`)
+                navigate(`/view-dao/${daoValues?.address}/create-proposal`)
               }
             />
           </Grid>
