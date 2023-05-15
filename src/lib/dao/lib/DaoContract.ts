@@ -2,7 +2,7 @@ import { Contract, ContractProvider, Sender, Address, Cell, contractAddress, beg
 import { DaoContent } from "./models/DaoContent";
 import daoton from "../contracts/daoton.contract.json";
 import { _parseGetMethodCall, cellToAddress, makeGetCallWithData, readDaoMetadata, readProposalMetadata } from "./make-get-call";
-import { Dao } from "../../../utils/types";
+import { Dao, ProposalType } from "../../../utils/types";
 import { TonClient } from "ton";
 import BN from "bn.js";
 
@@ -56,7 +56,7 @@ export default class DaoContract implements Contract {
     return { address: this.address.toString(), daoTypeId, tokenContract, nftContract, content, sequence };
   };
 
-  private getProposalById = async (id: number, client: TonClient) => {
+  getProposalById = async (provider: ContractProvider, id: number, client: TonClient): Promise<ProposalType> => {
     const proposal: any = await makeGetCallWithData(
       this.address as any,
       "get_proposal",
@@ -90,7 +90,7 @@ export default class DaoContract implements Contract {
       const proposalPromises = [];
 
       for (let i = 0; i < seq; i++) {
-        proposalPromises.push(this.getProposalById(i, client));
+        proposalPromises.push(this.getProposalById(provider, i, client));
       }
 
       const proposalList = await Promise.all(proposalPromises);

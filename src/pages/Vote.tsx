@@ -1,14 +1,17 @@
 import React, { useEffect, useState } from "react";
-import { Grid } from "@mui/material";
+import { CircularProgress, Grid } from "@mui/material";
 import { makeStyles } from "@mui/styles";
 import { useTonConnectUI } from "@tonconnect/ui-react";
-import axios from "axios";
 import GoogleFontLoader from "react-google-font-loader";
 import { useParams } from "react-router-dom";
 import { Button, Card } from "reactstrap";
-import TonWeb from "tonweb";
-import DrawerAppBar from "../components/MobilMenu";
-import SideMenu from "../components/SideMenu";
+import { Address } from "ton-core";
+import DaoContract from "../lib/dao/lib/DaoContract";
+import { getHttpEndpoint } from "@orbs-network/ton-access";
+import { TonClient, beginCell, toNano } from "ton";
+import { open } from "../utils/index";
+import { ProposalType } from "../utils/types";
+import toastr from "toastr";
 
 const useStyles = makeStyles({
   title: {
@@ -43,6 +46,7 @@ const useStyles = makeStyles({
     marginTop: "1rem",
     minWidth: "100px",
     marginBottom: "1rem",
+    cursor: "pointer",
   },
   card: {
     backgroundColor: "#ffffff",
@@ -64,63 +68,78 @@ const useStyles = makeStyles({
 export default function Vote() {
   const classes = useStyles();
   const [tonConnectUi] = useTonConnectUI();
-  const { proposalId } = useParams();
-  const [proposal, setProposal] = useState<any>();
-  const [votes, setVotes] = useState([]);
+  const [proposal, setProposal] = useState<ProposalType>();
+  const [loading, setLoading] = useState<boolean>(true);
+
+  const { daoId, proposalId } = useParams();
+
   useEffect(() => {
-    //get proposals from API and save to rows. Api is 188.132.128.77:1423/getContracts/:id
-    axios.get(`https://0xfb5f6301747772afa27c55100b95eb29f07dbeb5.diode.link/getContractDetails/${proposalId}`).then((res) => {
-      console.log(res.data);
-      const proposal = res.data[0];
-      setProposal(proposal);
-    });
+    const init = async () => {
+      if (daoId) {
+        const daoContractAddress = Address.parse(daoId);
+        const daoMasterContract = new DaoContract(daoContractAddress);
 
-    // getCurrentValue(proposalId as any).then((votes: any) => {
-    //   setVotes(votes);
-    //   console.log(Date.now() - votes[4]);
-    //   console.log(votes);
-    // });
-  }, [proposalId]);
+        const endpoint = await getHttpEndpoint({ network: "testnet" });
+        const client = new TonClient({ endpoint });
+        const daoContract = open(daoMasterContract, client);
 
-  const voteYes = async () => {
-    let a = new TonWeb.boc.Cell();
-    a.bits.writeUint(0, 32);
-    let payload = TonWeb.utils.bytesToBase64(await a.toBoc());
+        const proposal = await daoContract.getProposalById(Number(proposalId), client);
 
-    let contractAddressHex = proposalId;
-    const defaultTx2 = {
-      validUntil: Date.now() + 1000000,
-      messages: [
-        {
-          address: contractAddressHex || "",
-          amount: "6900000",
-          payload: payload,
-        },
-      ],
+        setProposal(proposal);
+
+        setLoading(false);
+      }
     };
 
-    tonConnectUi.sendTransaction(defaultTx2);
+    init();
+  }, [daoId, proposalId]);
+
+  const voteProposal = async (decision: number) => {
+    if (daoId && proposalId) {
+      const daoContract = Address.parse(daoId);
+
+      const message = beginCell()
+        .storeUint(2, 32) // op (op #2 = vote)
+        .storeUint(Number(proposalId), 32) // propsal_id
+        .storeUint(decision, 2) // vote
+        .endCell();
+
+      const messageBody = message.toBoc();
+
+      const transaction = {
+        validUntil: Date.now() + 1000000,
+        messages: [
+          {
+            address: daoContract.toString(),
+            amount: toNano(0.01).toNumber().toString(),
+            payload: messageBody.toString("base64"),
+          },
+        ],
+      };
+
+      tonConnectUi.sendTransaction(transaction).then(() => {
+        toastr.success("Voting created successfully");
+      });
+    } else {
+      toastr.error("Something went wrong check your url");
+    }
   };
 
-  const voteNo = async () => {
-    let a = new TonWeb.boc.Cell();
-    a.bits.writeUint(1, 32);
-
-    let payload = TonWeb.utils.bytesToBase64(await a.toBoc());
-
-    let contractAddressHex = proposalId;
-    const defaultTx2 = {
-      validUntil: Date.now() + 1000000,
-      messages: [
-        {
-          address: contractAddressHex || "",
-          amount: "6900000",
-          payload: payload,
-        },
-      ],
-    };
-    tonConnectUi.sendTransaction(defaultTx2);
-  };
+  if (loading || !proposal) {
+    return (
+      <div
+        style={{
+          height: "calc(100vh - 8rem)",
+          width: "100%",
+          display: "flex",
+          justifyContent: "center",
+          alignItems: "center",
+        }}
+      >
+        <CircularProgress />
+      </div>
+    );
+  }
 
   return (
     <div>
@@ -138,200 +157,106 @@ export default function Vote() {
           backgroundColor: "#E7EBF1",
         }}
       >
-        <Grid container spacing={2}>
-          <Grid item md={2}>
-            <SideMenu />
-          </Grid>
-          <Grid item md={10}>
-            <DrawerAppBar />
-            <div>
-              <Card className={classes.cardName}>
-                <Grid
-                  container
-                  style={{
-                    justifyContent: "center",
-                    display: "flex",
-                    alignItems: "center",
-                  }}
-                >
-                  {" "}
-                  <p className={classes.title}>{proposal ? proposal.contract_description : ""}</p>
+        <Grid item md={12}>
+          <div>
+            <Card className={classes.card}>
+              <Grid
+                container
+                alignItems={"center"}
+                style={{
+                  justifyContent: "center",
+                  display: "flex",
+                }}
+                spacing={2}
+              >
+                <Grid item>
+                  <Button onClick={() => voteProposal(1)} className={classes.Button}>
+                    Yes
+                  </Button>
                 </Grid>
-              </Card>
-              <p className={classes.title}>Vote</p>
-              <Card className={classes.card}>
-                <Grid
-                  container
-                  alignItems={"center"}
-                  style={{
-                    justifyContent: "center",
-                    display: "flex",
-                  }}
-                  spacing={2}
-                >
-                  <Grid item>
-                    <Button onClick={voteYes} className={classes.Button}>
+                <Grid item>
+                  <Button onClick={() => voteProposal(2)} className={classes.Button}>
+                    No
+                  </Button>
+                </Grid>
+                <Grid item>
+                  <Button onClick={() => voteProposal(0)} className={classes.Button}>
+                    Abstain
+                  </Button>
+                </Grid>
+              </Grid>
+              {/* Display time left to vote ending. Display ended if already ended. */}
+
+              <Grid
+                container
+                alignItems={"center"}
+                style={{
+                  justifyContent: "center",
+                  display: "flex",
+                }}
+                spacing={2}
+              ></Grid>
+
+              <Grid
+                container
+                style={{
+                  backgroundColor: "#F5F5F5",
+                  marginTop: "3rem",
+                  width: "100%",
+                  padding: "5vh",
+                  alignItems: "center",
+                  justifyContent: "center",
+                  display: "flex",
+                }}
+              >
+                <Grid item md={4}>
+                  <Grid container className={classes.center}>
+                    <p
+                      className={classes.info}
+                      style={{
+                        fontWeight: "bold",
+                      }}
+                    >
                       Yes
-                    </Button>
+                    </p>
                   </Grid>
-                  <Grid item>
-                    <Button onClick={voteNo} className={classes.Button}>
+                  <Grid container className={classes.center}>
+                    <p className={classes.info}>{proposal.yes}</p>
+                  </Grid>
+                </Grid>
+                <Grid item md={4}>
+                  <Grid container className={classes.center}>
+                    <p
+                      className={classes.info}
+                      style={{
+                        fontWeight: "bold",
+                      }}
+                    >
                       No
-                    </Button>
+                    </p>
+                  </Grid>
+                  <Grid container className={classes.center}>
+                    <p className={classes.info}>{proposal.no}</p>
                   </Grid>
                 </Grid>
-                {/* Display time left to vote ending. Display ended if already ended. */}
-
-                <Grid
-                  container
-                  alignItems={"center"}
-                  style={{
-                    justifyContent: "center",
-                    display: "flex",
-                  }}
-                  spacing={2}
-                >
-                  <Grid item>
+                <Grid item md={4}>
+                  <Grid container className={classes.center}>
                     <p
                       className={classes.info}
                       style={{
                         fontWeight: "bold",
                       }}
                     >
-                      Time left to vote:{" "}
+                      Abstain
                     </p>
                   </Grid>
-                  <Grid item>
-                    <p
-                      className={classes.info}
-                      style={{
-                        fontWeight: "bold",
-                        //Check if bigger than 10 minutes
-                      }}
-                    >
-                      {Date.now() - votes[4] < 600000
-                        ? new Date(600000 - (Date.now() - votes[4])).getHours() + " minutes"
-                        : "Vote is done!! Result is: " + (votes[5] / 2 < votes[1] ? "Yes" : "No")}
-                    </p>
+                  <Grid container className={classes.center}>
+                    <p className={classes.info}>{proposal.no}</p>
                   </Grid>
                 </Grid>
-
-                <Grid
-                  container
-                  style={{
-                    backgroundColor: "#F5F5F5",
-                    marginTop: "3rem",
-                    width: "100%",
-                    padding: "5vh",
-                    alignItems: "center",
-                    justifyContent: "center",
-                    display: "flex",
-                  }}
-                >
-                  <Grid item md={4}>
-                    <div
-                      style={{
-                        justifyContent: "center",
-                        display: "flex",
-                        alignItems: "center",
-                        flexDirection: "column",
-                      }}
-                    >
-                      {" "}
-                      <Grid container className={classes.center}>
-                        <p
-                          className={classes.info}
-                          style={{
-                            fontWeight: "bold",
-                          }}
-                        >
-                          Vote
-                        </p>
-                      </Grid>
-                      <Grid container className={classes.center}>
-                        <p className={classes.info}>{votes[5]}</p>
-                      </Grid>
-                      <Grid container className={classes.center}>
-                        <p className={classes.info}>Quorum 33%</p>
-                      </Grid>
-                    </div>
-                  </Grid>
-                  <Grid item md={4}>
-                    <Grid container className={classes.center}>
-                      <p
-                        className={classes.info}
-                        style={{
-                          fontWeight: "bold",
-                        }}
-                      >
-                        Yes
-                      </p>
-                    </Grid>
-                    <Grid container className={classes.center}>
-                      <p className={classes.info}>{votes[1]}</p>
-                    </Grid>
-                    <Grid container className={classes.center}>
-                      <p className={classes.info}>Quorum: 33%</p>
-                    </Grid>
-                  </Grid>
-                  <Grid item md={4}>
-                    <Grid container className={classes.center}>
-                      <p
-                        className={classes.info}
-                        style={{
-                          fontWeight: "bold",
-                        }}
-                      >
-                        No
-                      </p>
-                    </Grid>
-                    <Grid container className={classes.center}>
-                      <p className={classes.info}>{votes[0]}</p>
-                    </Grid>
-                    <Grid container className={classes.center}>
-                      <p className={classes.info}>Quorum: 33%</p>
-                    </Grid>
-                  </Grid>
-                  <Grid item md={4}>
-                    <Grid container className={classes.center}>
-                      <p
-                        className={classes.info}
-                        style={{
-                          fontWeight: "bold",
-                        }}
-                      >
-                        No with Veto
-                      </p>
-                    </Grid>
-                    <Grid container className={classes.center}>
-                      <p className={classes.info}>{votes[2]}</p>
-                    </Grid>
-                    <Grid container className={classes.center}>
-                      <p className={classes.info}>Quorum: 33%</p>
-                    </Grid>
-                  </Grid>
-                  <Grid item md={4}>
-                    <Grid container className={classes.center}>
-                      <p
-                        className={classes.info}
-                        style={{
-                          fontWeight: "bold",
-                        }}
-                      >
-                        Abstain
-                      </p>
-                    </Grid>
-                    <Grid container className={classes.center}>
-                      <p className={classes.info}>{votes[3]}</p>
-                    </Grid>
-                    <Grid container className={classes.center}>
-                      <p className={classes.info}>Quorum: 33%</p>
-                    </Grid>
-                  </Grid>
-                </Grid>
-              </Card>
-            </div>
-          </Grid>
+              </Grid>
+            </Card>
+          </div>
         </Grid>
       </div>
     </div>
