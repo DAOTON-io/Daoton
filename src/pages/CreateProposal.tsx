@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import { Grid, Stack, Theme } from "@mui/material";
 import { makeStyles } from "@mui/styles";
 import { ProposalType } from "../utils/types";
@@ -7,10 +7,14 @@ import { CustomButton } from "../components/CustomButton";
 import { CustomInput } from "../components/CustomInput";
 import { CustomSwitch } from "../components/CustomSwitch";
 import { CustomDateTime } from "../components/CustomDateTime";
-import { Address, beginCell, toNano, beginDict, Cell } from "ton";
+import { Address, beginCell, toNano, beginDict, Cell, TonClient } from "ton";
 import { useTonConnectUI } from "@tonconnect/ui-react";
 import { sha256 } from "../lib/token-minter/deployer";
 import toastr from "toastr";
+import DaoContract from "../lib/dao/lib/DaoContract";
+import { Address as TAddress } from "ton-core";
+import { getHttpEndpoint } from "@orbs-network/ton-access";
+import { open } from "../utils/index";
 
 const useStyles = makeStyles((theme: Theme) => ({
   container: {
@@ -67,6 +71,22 @@ export const CreateProposal: React.FC = () => {
     data.timestamp > moment().unix()
   );
 
+  useEffect(() => {
+    const init = async () => {
+      const endpoint = await getHttpEndpoint({ network: "testnet" });
+      const client = new TonClient({ endpoint });
+      const daoContractAddress = TAddress.parse("EQB1ouj_qUkt4bx8NYvSmiXeMQNLsIyB5QSTwONmeg55V5ls");
+      const daoMasterContract = new DaoContract(daoContractAddress);
+      const daoContract = open(daoMasterContract, client);
+
+      const dao = await daoContract.getDaoData();
+
+      const proposals = await daoContract.getProposalList(client, dao.sequence);
+    };
+
+    init();
+  }, []);
+
   const proposalMetadata: any = {
     text: "utf8",
   };
@@ -104,12 +124,12 @@ export const CreateProposal: React.FC = () => {
   };
 
   const createProposal = async () => {
-    const daoContract = Address.parse("EQAhtyCKZingnPTEfaGz88WSclHMORoJjw5F7EBzeWu5SSGP");
+    const daoContract = Address.parse("EQB1ouj_qUkt4bx8NYvSmiXeMQNLsIyB5QSTwONmeg55V5ls");
     const metadata = buildDaoOnchainMetadata({ text: data.content });
-    console.log(data);
+
     const message = beginCell()
-      .storeCoins(10000000)
       .storeUint(1, 32) // op (op #1 = create proposal)
+      .storeCoins(10000000)
       .storeUint(data.timestamp, 64) // timestamp
       .storeCoins(data.successThreshold) // success threshold
       .storeCoins(data.failThreshold) // fail threshold
