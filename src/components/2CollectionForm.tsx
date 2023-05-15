@@ -60,38 +60,20 @@ const useStyles = makeStyles(theme => ({
     gridContainer: {
         display: 'flex',
         justifyContent: 'center',
-        height: '65vh',
         overflow: 'auto',
         padding: '1rem',
     },
 }));
 
 type Props = {
-    activeStepOnChange: (activeStep: number) => void;
-    collectionInfoOnChange: (collectionInfo: CollectionDataType) => void;
     collectionInfo: CollectionDataType;
+    collectionInfoOnChange: (collectionInfo: CollectionDataType) => void;
 };
 
-const CollectionForm: React.FC<Props> = ({ activeStepOnChange, collectionInfoOnChange, collectionInfo }) => {
-    const [collectionData, setCollectionData] = useState<CollectionDataType>({
-        collectionName: '',
-        collectionDescription: '',
-        collectionImage: '',
-    });
+const CollectionForm: React.FC<Props> = ({ collectionInfoOnChange, collectionInfo }) => {
 
     const classes = useStyles();
-
-    const backStep = () => {
-        activeStepOnChange(1);
-        collectionInfoOnChange(collectionData);
-    };
-
-    const nextStep = () => {
-        activeStepOnChange(3);
-        collectionInfoOnChange(collectionData);
-    }
-
-
+    
     return (
         <Grid container className={classes.container}>
             <Grid container className={classes.center}>
@@ -106,10 +88,10 @@ const CollectionForm: React.FC<Props> = ({ activeStepOnChange, collectionInfoOnC
                             label="Name"
                             id="name"
                             name="name"
-                            value={collectionData.collectionName}
+                            value={collectionInfo.collectionName}
                             onChange={(event: any) => {
-                                setCollectionData({
-                                    ...collectionData,
+                                collectionInfoOnChange({
+                                    ...collectionInfo,
                                     collectionName: event.target.value,
                                 });
                             }}
@@ -119,10 +101,10 @@ const CollectionForm: React.FC<Props> = ({ activeStepOnChange, collectionInfoOnC
                             label="Description"
                             id="description"
                             name="description"
-                            value={collectionData.collectionDescription}
+                            value={collectionInfo.collectionDescription}
                             onChange={(event: any) => {
-                                setCollectionData({
-                                    ...collectionData,
+                                collectionInfoOnChange({
+                                    ...collectionInfo,
                                     collectionDescription: event.target.value,
                                 });
                             }}
@@ -140,29 +122,14 @@ const CollectionForm: React.FC<Props> = ({ activeStepOnChange, collectionInfoOnC
                                 <Grid item justifyContent={'flex-end'}>
                                     <ImageUpload
                                         onChange={(value: any) => {
-                                            setCollectionData({
-                                                ...collectionData,
+                                            collectionInfoOnChange({
+                                                ...collectionInfo,
                                                 collectionImage: value,
                                             })
                                         }}
                                         onClear={() => { }}></ImageUpload>
                                 </Grid>
                             </Grid>
-                        </Grid>
-
-                        <Grid paddingTop={2} container justifyContent={'space-between'}>
-                            <CustomButton onClick={backStep} label="BACK"></CustomButton>
-                            <CustomButton onClick={nextStep} label="NEXT" />
-                            {/* <CustomButton
-                                onClick={generateCollection}
-                                disabled={
-                                    !(
-                                        collectionData.collectionName &&
-                                        collectionData.collectionDescription
-                                    )
-                                }
-                                label="Generate"
-                            /> */}
                         </Grid>
                     </Stack>
                 </Grid>
