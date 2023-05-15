@@ -1,0 +1,217 @@
+import React, { useState, useEffect } from "react";
+import { Grid, Stack, Theme } from "@mui/material";
+import { makeStyles } from "@mui/styles";
+import { ProposalType } from "../utils/types";
+import moment, { Moment } from "moment";
+import { CustomButton } from "../components/CustomButton";
+import { CustomInput } from "../components/CustomInput";
+import { CustomSwitch } from "../components/CustomSwitch";
+import { CustomDateTime } from "../components/CustomDateTime";
+import { Address, beginCell, toNano, beginDict, Cell, TonClient } from "ton";
+import { useTonConnectUI } from "@tonconnect/ui-react";
+import { sha256 } from "../lib/token-minter/deployer";
+import toastr from "toastr";
+import DaoContract from "../lib/dao/lib/DaoContract";
+import { Address as TAddress } from "ton-core";
+import { getHttpEndpoint } from "@orbs-network/ton-access";
+import { open } from "../utils/index";
+
+const useStyles = makeStyles((theme: Theme) => ({
+  container: {
+    marginBottom: 6,
+    marginTop: 6,
+    [theme.breakpoints.down("sm")]: {
+      marginBottom: 2,
+      marginTop: 2,
+      padding: "24px",
+    },
+    display: "flex",
+    justifyContent: "center",
+    overflow: "auto",
+  },
+  stackContainer: {
+    minWidth: "25rem",
+    [theme.breakpoints.down("sm")]: {
+      minWidth: "10rem",
+      width: "100%",
+    },
+    marginBottom: "3.5rem",
+  },
+  buttonContainer: {
+    textAlign: "start",
+    justifyContent: "space-between",
+    alignItems: "center",
+    marginTop: "8px",
+  },
+  center: {
+    display: "flex",
+    alignItems: "center",
+    justifyContent: "center",
+    textAlign: "center",
+  },
+}));
+
+export const CreateProposal: React.FC = () => {
+  const [data, setData] = useState<ProposalType>({
+    timestamp: moment().unix(),
+    successThreshold: 100,
+    failThreshold: 0,
+    isRelatedWithNft: false,
+    content: "",
+  });
+  const [tonConnectUi] = useTonConnectUI();
+
+  const classes = useStyles();
+
+  const disable: boolean = !(
+    data.successThreshold > data.failThreshold &&
+    data.successThreshold &&
+    data.successThreshold !== 0 &&
+    data.content &&
+    data.timestamp > moment().unix()
+  );
+
+  useEffect(() => {
+    const init = async () => {
+      const endpoint = await getHttpEndpoint({ network: "testnet" });
+      const client = new TonClient({ endpoint });
+      const daoContractAddress = TAddress.parse("EQB1ouj_qUkt4bx8NYvSmiXeMQNLsIyB5QSTwONmeg55V5ls");
+      const daoMasterContract = new DaoContract(daoContractAddress);
+      const daoContract = open(daoMasterContract, client);
+
+      const dao = await daoContract.getDaoData();
+
+      const proposals = await daoContract.getProposalList(client, dao.sequence);
+    };
+
+    init();
+  }, []);
+
+  const proposalMetadata: any = {
+    text: "utf8",
+  };
+
+  const buildDaoOnchainMetadata = (data: any) => {
+    const KEYLEN = 256;
+    const dict = beginDict(KEYLEN);
+
+    Object.entries(data).forEach(([k, v]: any) => {
+      if (!proposalMetadata[k]) throw new Error(`Unsupported onchain key: ${k}`);
+      if (v === undefined || v === "") return;
+
+      let bufferToStore = Buffer.from(v, proposalMetadata[k]);
+
+      const CELL_MAX_SIZE_BYTES = Math.floor((1023 - 8) / 8);
+
+      const rootCell = new Cell();
+      rootCell.bits.writeUint8(0x00);
+      let currentCell = rootCell;
+
+      while (bufferToStore.length > 0) {
+        currentCell.bits.writeBuffer(bufferToStore.slice(0, CELL_MAX_SIZE_BYTES));
+        bufferToStore = bufferToStore.slice(CELL_MAX_SIZE_BYTES);
+        if (bufferToStore.length > 0) {
+          let newCell = new Cell();
+          currentCell.refs.push(newCell);
+          currentCell = newCell;
+        }
+      }
+
+      dict.storeRef(sha256(k), rootCell);
+    });
+
+    return beginCell().storeInt(0x00, 8).storeDict(dict.endDict()).endCell();
+  };
+
+  const createProposal = async () => {
+    const daoContract = Address.parse("EQB1ouj_qUkt4bx8NYvSmiXeMQNLsIyB5QSTwONmeg55V5ls");
+    const metadata = buildDaoOnchainMetadata({ text: data.content });
+
+    const message = beginCell()
+      .storeUint(1, 32) // op (op #1 = create proposal)
+      .storeCoins(10000000)
+      .storeUint(data.timestamp, 64) // timestamp
+      .storeCoins(data.successThreshold) // success threshold
+      .storeCoins(data.failThreshold) // fail threshold
+      .storeUint(data.isRelatedWithNft ? 1 : 0, 2)
+      .storeRef(metadata)
+      .endCell();
+
+    const messageBody = message.toBoc();
+
+    let tx = {
+      validUntil: Date.now() + 1000000,
+      messages: [
+        {
+          address: daoContract.toString(),
+          amount: toNano(0.01).toNumber().toString(),
+          payload: messageBody.toString("base64"),
+        },
+      ],
+    };
+
+    tonConnectUi.sendTransaction(tx).then((data) => {
+      // navigate("/view-dao");
+      toastr.success("Proposal was created successfully.");
+    });
+  };
+
+  return (
+    <div
+      style={{
+        height: "calc(100vh - 9rem)",
+        width: "100%",
+        overflow: "auto",
+      }}
+    >
+      <Grid container className={classes.container}>
+        <Grid container className={classes.center} justifyContent={"center"}>
+          <Stack direction="column" spacing={4} marginTop={4} className={classes.stackContainer}>
+            <div style={{ marginTop: "1.5rem" }}>
+              <CustomDateTime label="Timestamp" value={data.timestamp} onChange={(value: Moment) => setData({ ...data, timestamp: value.unix() })} />
+            </div>
+            <CustomInput
+              placeholder="SuccessTreshold"
+              label="SuccessTreshold"
+              id="successTreshold"
+              name="successTreshold"
+              value={data.successThreshold}
+              onChange={(e: any) => setData({ ...data, successThreshold: Number(e.target.value) })}
+            />
+            <CustomInput
+              placeholder="FailTreshold"
+              label="FailTreshold"
+              id="failTreshold"
+              name="failTreshold"
+              value={data.failThreshold}
+              onChange={(e: any) => setData({ ...data, failThreshold: Number(e.target.value) })}
+            />
+            <CustomInput
+              placeholder="Type your proposal"
+              label="Proposal Text"
+              id="content"
+              name="content"
+              value={data.content}
+              onChange={(e: any) => setData({ ...data, content: e.target.value })}
+            />
+            <Grid item>
+              <span style={{ marginTop: "1rem" }}>Is Related With Nft:</span>
+              <CustomSwitch
+                checked={data.isRelatedWithNft}
+                onChange={(e: any) =>
+                  setData({
+                    ...data,
+                    isRelatedWithNft: e.target.checked,
+                  })
+                }
+              />
+            </Grid>
+            <Grid paddingTop={2} container justifyContent={"center"}>
+              <CustomButton onClick={createProposal} disabled={disable} label="CREATE PROPOSAL" />
+            </Grid>
+          </Stack>
+        </Grid>
+      </Grid>
+    </div>
+  );
+};

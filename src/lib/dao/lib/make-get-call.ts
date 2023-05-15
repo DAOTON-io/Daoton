@@ -114,6 +114,13 @@ export function _parseGetMethodCall(stack: [["num" | "cell" | "list", any]]): Ge
 
 export async function makeGetCall<T>(address: Address | undefined, name: string, params: any[], parser: (stack: GetResponseValue[]) => T, tonClient: TonClient) {
   const { stack } = await tonClient.callGetMethod(address!, name, _prepareParams(params));
+  console.log("117", _parseGetMethodCall(stack as [["num" | "cell", any]]));
 
   return parser(_parseGetMethodCall(stack as [["num" | "cell", any]]));
+}
+
+export async function makeGetCallWithData<T>(address: Address | undefined, name: string, params: any[], parser: (stack: GetResponseValue[]) => T, tonClient: TonClient) {
+  const { stack } = await tonClient.callGetMethod(address!, name, _prepareParams(params));
+
+  return _parseGetMethodCall(stack as [["num" | "cell", any]]);
 }
