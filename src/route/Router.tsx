@@ -12,7 +12,7 @@ import GenerateNft from "../pages/GenerateNft";
 import { CreateDao } from "../pages/CreateDao";
 import ContractList from "../pages/ContractList";
 import CreateContract from "../pages/CreateContract";
-import { CreateProposal } from "../components/CreateProposal";
+import { CreateProposal } from "../pages/CreateProposal";
 import DaoDetail from "../pages/DaoDetail";
 
 const Router: React.FC = () => {
