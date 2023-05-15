@@ -1,7 +1,7 @@
 import { Contract, ContractProvider, Sender, Address, Cell, contractAddress, beginCell } from "ton-core";
 import { DaoContent } from "./models/DaoContent";
 import daoton from "../contracts/daoton.contract.json";
-import { _parseGetMethodCall, cellToAddress, makeGetCall, makeGetCallWithData, readDaoMetadata } from "./make-get-call";
+import { _parseGetMethodCall, cellToAddress, makeGetCall, makeGetCallWithData, readDaoMetadata, readProposalMetadata } from "./make-get-call";
 import { Dao } from "../../../utils/types";
 import { TonClient } from "ton";
 import BN from "bn.js";
@@ -57,7 +57,7 @@ export default class DaoContract implements Contract {
   };
 
   private getProposalById = async (id: number, client: TonClient) => {
-    const proposal = await makeGetCallWithData(
+    const proposal: any = await makeGetCallWithData(
       this.address as any,
       "get_proposal",
       [new BN(id)],
@@ -67,7 +67,22 @@ export default class DaoContract implements Contract {
       client
     );
 
-    return proposal;
+    const owner = "0:" + proposal[0]?.toString("hex");
+    const balance: number = proposal[1]?.toNumber();
+    const yes = proposal[2]?.toNumber();
+    const no = proposal[3]?.toNumber();
+    const abstain = proposal[4]?.toNumber();
+    const timestamp = proposal[5]?.toNumber();
+    const successThreshold = proposal[6]?.toNumber();
+    const failThreshold = proposal[7]?.toNumber();
+    const vote = proposal[8];
+    const isRelatedWithNft = proposal[9]?.toNumber();
+
+    const readContent = readProposalMetadata(proposal[10]);
+
+    const content = (await readContent).metadata as any;
+
+    return { owner, balance, yes, no, abstain, timestamp, successThreshold, failThreshold, vote, isRelatedWithNft, content };
   };
 
   getProposalList = async (provider: ContractProvider, client: TonClient, seq: number) => {

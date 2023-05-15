@@ -74,9 +74,12 @@ const DaoDetail: React.FC = () => {
         const endpoint = await getHttpEndpoint({ network: "testnet" });
         const client = new TonClient({ endpoint });
         const daoContract = open(daoMasterContract, client);
-        const daoData = await daoContract.getDaoData();
+        const dao = await daoContract.getDaoData();
+        const proposals = await daoContract.getProposalList(client, dao.sequence);
 
-        setDaoValues(daoData);
+        setDaoValues(dao);
+        console.log(proposals);
+
         setLoading(false);
       }
     };

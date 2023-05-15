@@ -81,6 +81,59 @@ function parseDaoOnchainMetadata(contentSlice: Slice): {
   };
 }
 
+function parseProposalOnchainMetadata(contentSlice: Slice): {
+  metadata: { [s in any]?: string };
+  isJettonDeployerFaultyOnChainData: boolean;
+} {
+  // Note that this relies on what is (perhaps) an internal implementation detail:
+  // "ton" library dict parser converts: key (provided as buffer) => BN(base10)
+  // and upon parsing, it reads it back to a BN(base10)
+  // tl;dr if we want to read the map back to a JSON with string keys, we have to convert BN(10) back to hex
+  const toKey = (str: string) => new BN(str, "hex").toString(10);
+  const KEYLEN = 256;
+
+  let isJettonDeployerFaultyOnChainData = false;
+
+  const dict = contentSlice.readDict(KEYLEN, (s) => {
+    let buffer = Buffer.from("");
+
+    const sliceToVal = (s: Slice, v: Buffer, isFirst: boolean) => {
+      s.toCell().beginParse();
+      if (isFirst && s.readUint(8).toNumber() !== 0x00) throw new Error("Only snake format is supported");
+
+      v = Buffer.concat([v, s.readRemainingBytes()]);
+      if (s.remainingRefs === 1) {
+        v = sliceToVal(s.readRef(), v, false);
+      }
+
+      return v;
+    };
+
+    if (s.remainingRefs === 0) {
+      isJettonDeployerFaultyOnChainData = true;
+      return sliceToVal(s, buffer, true);
+    }
+
+    return sliceToVal(s.readRef(), buffer, true);
+  });
+
+  const res: { [s in any]?: string } = {};
+
+  const proposalMetadata: any = {
+    text: "utf8",
+  };
+
+  Object.keys(proposalMetadata).forEach((k) => {
+    const val = dict.get(toKey(sha256(k).toString("hex")))?.toString(daoMetadata[k as any]);
+    if (val) res[k as any] = val;
+  });
+
+  return {
+    metadata: res,
+    isJettonDeployerFaultyOnChainData,
+  };
+}
+
 export async function readDaoMetadata(contentCell: Cell): Promise<{
   persistenceType: any;
   metadata: { [s in any]?: string };
@@ -90,6 +143,20 @@ export async function readDaoMetadata(contentCell: Cell): Promise<{
   return {
     persistenceType: "onchain",
     ...parseDaoOnchainMetadata(contentSlice),
+  };
+}
+
+// @to-do remove and refactor
+
+export async function readProposalMetadata(contentCell: Cell): Promise<{
+  persistenceType: any;
+  metadata: { [s in any]?: string };
+}> {
+  const contentSlice = contentCell.beginParse();
+
+  return {
+    persistenceType: "onchain",
+    ...parseProposalOnchainMetadata(contentSlice),
   };
 }
 
