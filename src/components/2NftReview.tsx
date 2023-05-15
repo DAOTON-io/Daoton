@@ -3,12 +3,6 @@ import { GenerateNftType } from "../utils/types";
 import { CustomButton } from "./CustomButton";
 import { Card, CardContent, CardMedia, Grid, Theme, Typography } from "@mui/material";
 import { makeStyles } from "@mui/styles";
-import { Address } from "ton";
-import NftMinter from "../lib/nft-minter";
-import { useTonAddress, useTonConnectUI } from "@tonconnect/ui-react";
-import { collectionPreview } from "../lib/api";
-import { create } from "ipfs";
-import { useNavigate } from "react-router-dom";
 
 const useStyles = makeStyles((theme: Theme) => ({
   container: {
@@ -54,46 +48,13 @@ const useStyles = makeStyles((theme: Theme) => ({
 }));
 
 type Props = {
+  nftInfo: GenerateNftType;
   nftInfoOnChange: (nftInfo: GenerateNftType) => void;
-  activeStepOnChange: (activeStep: number) => void;
-  nftDetail: GenerateNftType;
   generateNftButtonClick: () => void;
 };
 
-export const NftReview: React.FC<Props> = ({ activeStepOnChange, nftInfoOnChange, nftDetail, generateNftButtonClick }) => {
+export const NftReview: React.FC<Props> = ({ nftInfoOnChange, nftInfo, generateNftButtonClick }) => {
   const classes = useStyles();
-  let address = useTonAddress(false);
-  const [tonConnectUi] = useTonConnectUI();
-  const navigate = useNavigate();
-
-  // const generateNFT = async () => {
-  //   console.log("generate", nftDetail);
-  //   if (address) {
-  //     const node = await create();
-  //     const itemContent = await node.add(
-  //       JSON.stringify({
-  //         attributes: [
-  //           {
-  //             trait_type: "level",
-  //             value: nftDetail.level,
-  //           },
-  //         ],
-  //         description: nftDetail.nftDescription,
-  //         external_url: "example.com",
-  //         image: nftDetail.nftImage,
-  //         name: nftDetail.nftName,
-  //       })
-  //     );
-
-  //     const content = await collectionPreview(nftDetail.collectionAddress);
-
-  //     const minter = new NftMinter(Address.parse(content.owner_address).toString(), tonConnectUi, content.collection_content.data);
-
-  //     minter.deployNftItem(itemContent.path, content.next_item_index, address).then(() => {
-  //       navigate("/view-nfts");
-  //     });
-  //   }
-  // };
 
   useEffect(() => {
     // base64ToImage(nftDetail.nftImage, img => {
@@ -101,25 +62,25 @@ export const NftReview: React.FC<Props> = ({ activeStepOnChange, nftInfoOnChange
     //     document.getElementById('nft-image')!.style.height = '200px';
     //     (document.getElementById('nft-image') as HTMLInputElement)!.src = nftDetail.nftImage;
     // })
-  }, [nftDetail.nftImage]);
+  }, [nftInfo.nftImage]);
 
   return (
     <Grid container className={classes.container} spacing={2}>
       <Grid item justifyContent={"center"} className={classes.item} sx={{ flexDirection: "column !important" }}>
         <Card className={classes.card}>
-          <CardMedia sx={{ height: 180 }} image={nftDetail.nftImage} title={nftDetail.nftName}></CardMedia>
+          <CardMedia sx={{ height: 180 }} image={nftInfo.nftImage} title={nftInfo.nftName}></CardMedia>
           <CardContent>
             <Typography variant="h5" gutterBottom component="div">
-              Name: {nftDetail.nftName}
+              Name: {nftInfo.nftName}
             </Typography>
             <Typography variant="body2" color="text.secondary">
-              Description: {nftDetail.nftDescription}
+              Description: {nftInfo.nftDescription}
             </Typography>
             <Typography variant="body2" color="text.secondary">
-              Collection address: {nftDetail.collectionAddress.slice(0, 5) + "..." + nftDetail.collectionAddress.slice(-5)}
+              Collection address: {nftInfo.collectionAddress.slice(0, 5) + "..." + nftInfo.collectionAddress.slice(-5)}
             </Typography>
             <Typography variant="body2" color="text.secondary">
-              Level: {nftDetail.level}
+              Level: {nftInfo.level}
             </Typography>
           </CardContent>
         </Card>
