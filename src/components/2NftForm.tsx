@@ -49,12 +49,6 @@ const useStyles = makeStyles((theme) => ({
       minWidth: "10rem",
     },
   },
-  gridContainer: {
-    display: "flex",
-    justifyContent: "center",
-    overflow: "auto",
-    padding: "2rem",
-  },
 }));
 
 type Props = {
@@ -71,82 +65,82 @@ const NftForm: React.FC<Props> = ({ nftInfoOnChange, nftInfo }) => {
 
   return (
     <Grid container className={classes.container}>
-          <Stack spacing={2} marginTop={4} className={classes.stackContainer} direction={"column"}>
-            <CustomInput
-              placeholder="Name"
-              label="Name"
-              id="name"
-              name="name"
-              value={nftInfo.nftName}
-              onChange={(event: any) => {
-                nftInfoOnChange({
-                  ...nftInfo,
-                  nftName: event.target.value,
-                });
-              }}
-            />
-            <CustomInput
-              placeholder="Description"
-              label="Description"
-              id="description"
-              name="description"
-              value={nftInfo.nftDescription}
-              onChange={(event: any) => {
-                nftInfoOnChange({
-                  ...nftInfo,
-                  nftDescription: event.target.value,
-                });
-              }}
-            />
-            <CustomInput
-              placeholder="Level"
-              label="Level"
-              id="level"
-              name="level"
-              value={nftInfo.level}
-              onChange={(event: any) => {
-                nftInfoOnChange({
-                  ...nftInfo,
-                  level: event.target.value,
-                });
-              }}
-            />
-            <CustomInput
-              placeholder="Collection Address"
-              label="Collection Address"
-              id="collectionAddress"
-              name="collectionAddress"
-              value={nftInfo.collectionAddress}
-              onChange={(event: any) => {
-                nftInfoOnChange({
-                  ...nftInfo,
-                  collectionAddress: event.target.value,
-                });
-              }}
-            />
+      <Stack spacing={2} marginTop={4} className={classes.stackContainer} direction={"column"}>
+        <CustomInput
+          placeholder="Name"
+          label="Name"
+          id="name"
+          name="name"
+          value={nftInfo.nftName}
+          onChange={(event: any) => {
+            nftInfoOnChange({
+              ...nftInfo,
+              nftName: event.target.value,
+            });
+          }}
+        />
+        <CustomInput
+          placeholder="Description"
+          label="Description"
+          id="description"
+          name="description"
+          value={nftInfo.nftDescription}
+          onChange={(event: any) => {
+            nftInfoOnChange({
+              ...nftInfo,
+              nftDescription: event.target.value,
+            });
+          }}
+        />
+        <CustomInput
+          placeholder="Level"
+          label="Level"
+          id="level"
+          name="level"
+          value={nftInfo.level}
+          onChange={(event: any) => {
+            nftInfoOnChange({
+              ...nftInfo,
+              level: event.target.value,
+            });
+          }}
+        />
+        <CustomInput
+          placeholder="Collection Address"
+          label="Collection Address"
+          id="collectionAddress"
+          name="collectionAddress"
+          value={nftInfo.collectionAddress}
+          onChange={(event: any) => {
+            nftInfoOnChange({
+              ...nftInfo,
+              collectionAddress: event.target.value,
+            });
+          }}
+        />
 
-            {/* <input className={classes.inputImage} placeholder="Image*"
+        {/* <input className={classes.inputImage} placeholder="Image*"
                         onChange={(event) => {
                           setNftData({ ...nftData, nftImage: event.target.value });
                         }}></input> */}
 
-            <Grid container className={classes.buttonContainer}>
-              <Grid item justifyContent={"flex-start"} style={{ marginRight: "1rem" }}>
-                <label>NFT Image : </label>
-              </Grid>
-              <Grid item justifyContent={"flex-end"}>
-                <ImageUpload
-                  onChange={(value: string) => {
-                    nftInfoOnChange({
-                      ...nftInfo,
-                      nftImage: value,
-                    });
-                  }}
-                  onClear={() => {}}
-                ></ImageUpload>
-              </Grid>
-            </Grid>
-          </Stack>
+        <Grid container className={classes.buttonContainer}>
+          <Grid item justifyContent={"flex-start"} style={{ marginRight: "1rem" }}>
+            <label>NFT Image : </label>
+          </Grid>
+          <Grid item justifyContent={"flex-end"}>
+            <ImageUpload
+              onChange={(value: string) => {
+                nftInfoOnChange({
+                  ...nftInfo,
+                  nftImage: value,
+                });
+              }}
+              onClear={() => { }}
+            ></ImageUpload>
+          </Grid>
+        </Grid>
+      </Stack>
     </Grid>
   );
 };

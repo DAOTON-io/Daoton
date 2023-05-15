@@ -17,25 +17,14 @@ const useStyles = makeStyles(theme => ({
         position: 'relative',
         top: '1rem',
     },
-    center: {
-        display: 'flex',
-        alignItems: 'center',
-        justifyContent: 'center',
-        textAlign: 'center',
-        [theme.breakpoints.down('sm')]: {
-            display: 'flex',
-            alignItems: 'center',
-            justifyContent: 'center',
-            textAlign: 'center',
-        },
-    },
     container: {
-        display: 'flex',
-        justifyContent: 'center',
-        [theme.breakpoints.down('sm')]: {
+        display: "flex",
+        justifyContent: "center",
+        overflow: "auto",
+        [theme.breakpoints.down("sm")]: {
             marginBottom: 2,
             marginTop: 2,
-            padding: '24px',
+            padding: "24px",
         },
     },
     buttonContainer: {
@@ -57,12 +46,6 @@ const useStyles = makeStyles(theme => ({
             minWidth: '10rem',
         },
     },
-    gridContainer: {
-        display: 'flex',
-        justifyContent: 'center',
-        overflow: 'auto',
-        padding: '1rem',
-    },
 }));
 
 type Props = {
@@ -73,67 +56,63 @@ type Props = {
 const CollectionForm: React.FC<Props> = ({ collectionInfoOnChange, collectionInfo }) => {
 
     const classes = useStyles();
-    
+
     return (
         <Grid container className={classes.container}>
-            <Grid container className={classes.center}>
-                <Grid container className={classes.gridContainer}>
-                    <Stack
-                        spacing={2}
-                        marginTop={4}
-                        className={classes.stackContainer}
-                        direction={'column'}>
-                        <CustomInput
-                            placeholder="Name"
-                            label="Name"
-                            id="name"
-                            name="name"
-                            value={collectionInfo.collectionName}
-                            onChange={(event: any) => {
-                                collectionInfoOnChange({
-                                    ...collectionInfo,
-                                    collectionName: event.target.value,
-                                });
-                            }}
-                        />
-                        <CustomInput
-                            placeholder="Description"
-                            label="Description"
-                            id="description"
-                            name="description"
-                            value={collectionInfo.collectionDescription}
-                            onChange={(event: any) => {
-                                collectionInfoOnChange({
-                                    ...collectionInfo,
-                                    collectionDescription: event.target.value,
-                                });
-                            }}
-                        />
-                        {/* <input className={classes.inputImage} placeholder="Image*"
+            <Stack
+                spacing={2}
+                marginTop={4}
+                className={classes.stackContainer}
+                direction={'column'}>
+                <CustomInput
+                    placeholder="Name"
+                    label="Name"
+                    id="name"
+                    name="name"
+                    value={collectionInfo.collectionName}
+                    onChange={(event: any) => {
+                        collectionInfoOnChange({
+                            ...collectionInfo,
+                            collectionName: event.target.value,
+                        });
+                    }}
+                />
+                <CustomInput
+                    placeholder="Description"
+                    label="Description"
+                    id="description"
+                    name="description"
+                    value={collectionInfo.collectionDescription}
+                    onChange={(event: any) => {
+                        collectionInfoOnChange({
+                            ...collectionInfo,
+                            collectionDescription: event.target.value,
+                        });
+                    }}
+                />
+                {/* <input className={classes.inputImage} placeholder="Image*"
                         onChange={(event) => {
                           setCollectionData({ ...collectionData, collectionImage: event.target.value });
                         }}></input> */}
 
-                        <Grid direction={'column'} container justifyContent={'center'}>
-                            <Grid container className={classes.buttonContainer}>
-                                <Grid item justifyContent={'flex-start'}>
-                                    <label>Collection Image : </label>
-                                </Grid>
-                                <Grid item justifyContent={'flex-end'}>
-                                    <ImageUpload
-                                        onChange={(value: any) => {
-                                            collectionInfoOnChange({
-                                                ...collectionInfo,
-                                                collectionImage: value,
-                                            })
-                                        }}
-                                        onClear={() => { }}></ImageUpload>
-                                </Grid>
-                            </Grid>
+                <Grid direction={'column'} container justifyContent={'center'}>
+                    <Grid container className={classes.buttonContainer}>
+                        <Grid item justifyContent={'flex-start'}>
+                            <label>Collection Image : </label>
                         </Grid>
-                    </Stack>
+                        <Grid item justifyContent={'flex-end'}>
+                            <ImageUpload
+                                onChange={(value: any) => {
+                                    collectionInfoOnChange({
+                                        ...collectionInfo,
+                                        collectionImage: value,
+                                    })
+                                }}
+                                onClear={() => { }}></ImageUpload>
+                        </Grid>
+                    </Grid>
                 </Grid>
-            </Grid>
+            </Stack>
         </Grid>
     );
 }
