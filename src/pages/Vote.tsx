@@ -160,6 +160,9 @@ export default function Vote() {
         <Grid item md={12}>
           <div>
             <Card className={classes.card}>
+              <Grid item>
+                <h3 style={{ textAlign: "center", color: "black" }}> {proposal.content.text}</h3>
+              </Grid>
               <Grid
                 container
                 alignItems={"center"}
