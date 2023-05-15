@@ -77,7 +77,7 @@ export type ProposalType = {
   failThreshold: any;
   vote: any[];
   isRelatedWithNft: any;
-  content: any;
+  content: {text: string};
 };
 
 export type Dao = {
