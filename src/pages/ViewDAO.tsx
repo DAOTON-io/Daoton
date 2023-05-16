@@ -11,11 +11,14 @@ import DaoTonContract from "../lib/dao/lib/DaotonContract";
 import { open } from "../utils/index";
 import DaoContract from "../lib/dao/lib/DaoContract";
 import { Dao } from "../utils/types";
+import { fetchTokens } from "../lib/api";
+import { useTonAddress } from "@tonconnect/ui-react";
 
 export default function ViewDao() {
   const [columns, setColumns] = useState<Dao[]>([]);
   const [loading, setLoading] = useState<boolean>(true);
   const [timer, setTimer] = useState(Date.now());
+  let address = useTonAddress();
 
   useEffect(() => {
     const interval = setInterval(() => setTimer(Date.now()), 15000);
@@ -49,13 +52,21 @@ export default function ViewDao() {
 
         const daos = await Promise.all(daoPromises);
 
-        setColumns(daos);
+        const jettons = await fetchTokens(address);
+        const jettonlist = jettons.balances;
+        const myJettons: string[] = jettonlist.map((jt: any) => jt.jetton_address);
+
+        const filteredDaos = daos.filter((dao) => {
+          return myJettons.includes(dao.tokenContract.toString());
+        });
+
+        setColumns(filteredDaos);
         setLoading(false);
       }
     };
 
     init();
-  }, [timer]);
+  }, [address, timer]);
 
   if (loading) {
     return (
