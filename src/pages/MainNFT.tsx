@@ -16,6 +16,7 @@ import NftMinter from "../lib/nft-minter";
 import { collectionPreview } from "../lib/api";
 import { create } from "ipfs";
 import { CustomButton } from "../components/CustomButton";
+import { Padding } from "@mui/icons-material";
 
 const useStyles = makeStyles((theme: Theme) => ({
   cardDiv: {
@@ -29,6 +30,19 @@ const useStyles = makeStyles((theme: Theme) => ({
       overflow: "auto",
     },
   },
+  container: {
+    display: "flex",
+    alignItems: "center",
+    justifyContent: "center",
+    justifyItems: "center",
+    textAlign: "center",
+    overflow: "auto",
+  },
+  buttonContainer: {
+    width: "45vw !important",
+    marginTop: "2rem !important",
+    justifyContent: "space-around !important",
+  }
 }));
 
 export const MainNFT: React.FC = () => {
@@ -128,13 +142,15 @@ export const MainNFT: React.FC = () => {
     }
   };
 
+  function disableNftButton(): (boolean | undefined) { return !(nftInfo.nftName && nftInfo.nftDescription && nftInfo.collectionAddress && nftInfo.level && nftInfo.nftImage) };
+  function disableCollectionButton(): (boolean | undefined) { return !(collectionInfo.collectionName && collectionInfo.collectionDescription && collectionInfo.collectionImage) };
+
   return (
     <div
       style={{
         justifyContent: "center",
         display: "flex",
         height: "calc(100vh - 8.5rem)",
-
         minWidth: "21rem",
         padding: "1rem",
       }}
@@ -142,7 +158,7 @@ export const MainNFT: React.FC = () => {
       <Steps allSteps={step} activeStep={activeStep} />
       {/* <div className={classes.cardDiv}> */}
       <Grid container direction={'column'} paddingTop={16}>
-        <Grid item>
+        <Grid item overflow={'auto'}>
           {activeStep === 1 && (
             <NFTCategories
               selectedCategoryOnChange={(selectedCategory: CategoryType) => {
@@ -153,25 +169,43 @@ export const MainNFT: React.FC = () => {
             />
           )}
           {selectedCategory.id === 1 && activeStep === 2 &&
-            <NftForm nftInfoOnChange={setNftInfo} nftInfo={nftInfo} />
+            <Grid container className={classes.container}>
+              <NftForm nftInfoOnChange={setNftInfo} nftInfo={nftInfo} />
+              <Grid container className={classes.buttonContainer} paddingX={16}>
+                <CustomButton onClick={backStep} label="BACK"></CustomButton>
+                <CustomButton disabled={disableNftButton()} onClick={nextStep} label="NEXT"></CustomButton>
+              </Grid>
+            </Grid>
           }
           {selectedCategory.id === 1 && activeStep === 3 && (
-            <NftReview nftInfoOnChange={setNftInfo} nftInfo={nftInfo} generateNftButtonClick={generateNFT} />
+            <Grid container className={classes.container}>
+              <NftReview nftInfoOnChange={setNftInfo} nftInfo={nftInfo} />
+              <Grid container className={classes.buttonContainer} paddingX={16}>
+                <CustomButton onClick={backStep} label="BACK"></CustomButton>
+                <CustomButton onClick={generateNFT} label="GENERATE NFT"></CustomButton>
+              </Grid>
+            </Grid>
+
           )}
           {selectedCategory.id === 2 && activeStep === 2 && (
-            <CollectionForm collectionInfoOnChange={setCollectionInfo} collectionInfo={collectionInfo} />
+            <Grid container className={classes.container}>
+              <CollectionForm collectionInfoOnChange={setCollectionInfo} collectionInfo={collectionInfo} />
+              <Grid container className={classes.buttonContainer} paddingX={16}>
+                <CustomButton onClick={backStep} label="BACK"></CustomButton>
+                <CustomButton disabled={disableCollectionButton()} onClick={nextStep} label="NEXT"></CustomButton>
+              </Grid>
+            </Grid>
           )}
           {selectedCategory.id === 2 && activeStep === 3 && (
-            <CollectionReview collectionInfoOnChange={setCollectionInfo} collectionDetail={collectionInfo} generateCollectionButtonFunc={generateCollection} />
+            <Grid container className={classes.container}>
+              <CollectionReview collectionInfoOnChange={setCollectionInfo} collectionInfo={collectionInfo} />
+              <Grid container className={classes.buttonContainer} paddingX={16}>
+                <CustomButton onClick={backStep} label="BACK"></CustomButton>
+                <CustomButton onClick={generateCollection} label="GENERATE COLLECTION"></CustomButton>
+              </Grid>
+            </Grid>
           )}
         </Grid>
-        {activeStep !== 1 && activeStep !== 4 && (
-          <Grid container justifyContent={'space-evenly'} paddingX={24}>
-            <CustomButton onClick={backStep} label="BACK"></CustomButton>
-            <CustomButton onClick={nextStep} label="NEXT"></CustomButton>
-          </Grid>
-        )
-        }
       </Grid>
     </div>
   );
