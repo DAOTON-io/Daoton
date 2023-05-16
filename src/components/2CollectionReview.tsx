@@ -38,6 +38,13 @@ const useStyles = makeStyles((theme: Theme) => ({
             paddingLeft: '1rem',
         },
     },
+    item: {
+        display: "flex",
+        justifyContent: "center",
+        alignItems: "center",
+        padding: "0",
+        margin: "0",
+    },
 }));
 
 
@@ -65,41 +72,44 @@ export const CollectionReview: React.FC<Props> = ({ collectionInfoOnChange, coll
 
 
     return (
-        <Grid container className={classes.container}>
-            <Stack direction="column" spacing={2} margin={4}>
-                <Grid item>
-                    <Stack direction="column"
-                        spacing={2}
-                        style={{
-                            display: 'flex',
-                            justifyContent: 'center',
-                        }}>
-                        <Card sx={{ minWidth: 600 }}>
-                            <CardContent>
-                                <Typography variant="body1">
-                                    <div>
-                                        <b>Name: </b>
-                                        {collectionDetail.collectionName}
-                                    </div>
-                                </Typography>
-                                <Typography variant="body1">
-                                    <div>
-                                        <b> Description: </b>
-                                        {collectionDetail.collectionDescription}
-                                    </div>
-                                </Typography>
-                                <Typography variant="body1">
-                                    <div>
-                                        <b>Image: </b>
-                                        <img id="col-image" alt="alt" />
-                                    </div>
-                                </Typography>
-                            </CardContent>
-                        </Card>
-                        <CustomButton onClick={generateCollectionButtonFunc} label="GENERATE" ></CustomButton>
-                    </Stack>
-                </Grid>
-            </Stack>
+        <Grid container className={classes.container} spacing={2}>
+            <Grid item justifyContent={"center"} className={classes.item} sx={{ flexDirection: "column !important" }}>
+
+                <Stack direction="column" spacing={2} margin={4}>
+                    <Grid item>
+                        <Stack direction="column"
+                            spacing={2}
+                            style={{
+                                display: 'flex',
+                                justifyContent: 'center',
+                            }}>
+                            <Card sx={{ minWidth: 600 }}>
+                                <CardContent>
+                                    <Typography variant="body1">
+                                        <div>
+                                            <b>Name: </b>
+                                            {collectionDetail.collectionName}
+                                        </div>
+                                    </Typography>
+                                    <Typography variant="body1">
+                                        <div>
+                                            <b> Description: </b>
+                                            {collectionDetail.collectionDescription}
+                                        </div>
+                                    </Typography>
+                                    <Typography variant="body1">
+                                        <div>
+                                            <b>Image: </b>
+                                            <img id="col-image" alt="alt" />
+                                        </div>
+                                    </Typography>
+                                </CardContent>
+                            </Card>
+                            <CustomButton onClick={generateCollectionButtonFunc} label="GENERATE" ></CustomButton>
+                        </Stack>
+                    </Grid>
+                </Stack>
+            </Grid>
         </Grid>
 
     )
