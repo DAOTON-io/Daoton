@@ -200,146 +200,152 @@ const DaoDetail: React.FC = () => {
             justifyContent={'center'}
             className={classes.tableItem}
             sx={{flexDirection: 'column !important'}}>
-            <TableContainer component={Paper} className={classes.table}>
-              <Table
-                aria-label="proposal table"
-                stickyHeader
-                style={{minWidth: '800px'}}>
-                <TableHead>
-                  <TableRow>
-                    <TableCell
-                      align="right"
-                      style={{
-                        paddingRight: '8px',
-                        borderBottom: '1px solid #2C6495',
-                      }}>
-                      <Typography
-                        className={classes.tableHeader}
-                        variant="subtitle1">
-                        Content
-                      </Typography>
-                    </TableCell>
-                    <TableCell
-                      align="right"
-                      style={{
-                        paddingRight: '8px',
-                        borderBottom: '1px solid #2C6495',
-                      }}>
-                      <Typography
-                        className={classes.tableHeader}
-                        variant="subtitle1">
-                        Owner
-                      </Typography>
-                    </TableCell>
-                    <TableCell
-                      align="right"
-                      style={{
-                        paddingRight: '8px',
-                        borderBottom: '1px solid #2C6495',
-                      }}>
-                      <Typography
-                        className={classes.tableHeader}
-                        variant="subtitle1">
-                        Timestamp
-                      </Typography>
-                    </TableCell>
-                    <TableCell
-                      align="right"
-                      style={{
-                        paddingRight: '8px',
-                        borderBottom: '1px solid #2C6495',
-                      }}>
-                      <Typography
-                        className={classes.tableHeader}
-                        variant="subtitle1">
-                        Balance
-                      </Typography>
-                    </TableCell>
-                    <TableCell align="right" style={{paddingRight: '8px'}}>
-                      <Typography
-                        className={classes.tableHeader}
-                        variant="subtitle1">
-                        Vote Count
-                      </Typography>
-                    </TableCell>
-                    <TableCell
-                      align="right"
-                      style={{
-                        paddingRight: '8px',
-                        borderBottom: '1px solid #2C6495',
-                      }}>
-                      <Typography
-                        variant="subtitle1"
-                        className={classes.tableHeader}>
-                        Yes Count
-                      </Typography>
-                    </TableCell>
-                    <TableCell
-                      align="right"
-                      style={{
-                        paddingRight: '8px',
-                        borderBottom: '1px solid #2C6495',
-                      }}>
-                      <Typography
-                        className={classes.tableHeader}
-                        variant="subtitle1">
-                        No Count
-                      </Typography>
-                    </TableCell>
-                    <TableCell
-                      align="right"
-                      style={{
-                        paddingRight: '8px',
-                        borderBottom: '1px solid #2C6495',
-                      }}>
-                      <Typography
-                        className={classes.tableHeader}
-                        variant="subtitle1">
-                        Abstain Count
-                      </Typography>
-                    </TableCell>
-                    <TableCell
-                      align="right"
-                      style={{
-                        paddingRight: '8px',
-                        borderBottom: '1px solid #2C6495',
-                      }}>
-                      <Typography
-                        className={classes.tableHeader}
-                        variant="subtitle1">
-                        Success Threshold
-                      </Typography>
-                    </TableCell>
-                    <TableCell
-                      align="right"
-                      style={{
-                        paddingRight: '8px',
-                        borderBottom: '1px solid #2C6495',
-                      }}>
-                      <Typography
-                        className={classes.tableHeader}
-                        variant="subtitle1">
-                        Fail Threshold
-                      </Typography>
-                    </TableCell>
-                    <TableCell
-                      align="right"
-                      style={{
-                        paddingRight: '8px',
-                        borderBottom: '1px solid #2C6495',
-                      }}>
-                      <Typography
-                        className={classes.tableHeader}
-                        variant="subtitle1">
-                        Is Related With NFT?
-                      </Typography>
-                    </TableCell>
-                  </TableRow>
-                </TableHead>
-                <TableBody>
-                  {proposals
-                    ? proposals
-                        .slice(
+            {proposals?.length !== 0 ? (
+              <div>
+                <TableContainer component={Paper} className={classes.table}>
+                  <Table
+                    aria-label="proposal table"
+                    stickyHeader
+                    style={{minWidth: '800px'}}>
+                    <TableHead>
+                      <TableRow>
+                        <TableCell
+                          align="right"
+                          style={{
+                            paddingRight: '8px',
+                            borderBottom: '1px solid #2C6495',
+                          }}>
+                          <Typography
+                            className={classes.tableHeader}
+                            variant="subtitle1">
+                            Content
+                          </Typography>
+                        </TableCell>
+                        <TableCell
+                          align="right"
+                          style={{
+                            paddingRight: '8px',
+                            borderBottom: '1px solid #2C6495',
+                          }}>
+                          <Typography
+                            className={classes.tableHeader}
+                            variant="subtitle1">
+                            Owner
+                          </Typography>
+                        </TableCell>
+                        <TableCell
+                          align="right"
+                          style={{
+                            paddingRight: '8px',
+                            borderBottom: '1px solid #2C6495',
+                          }}>
+                          <Typography
+                            className={classes.tableHeader}
+                            variant="subtitle1">
+                            Timestamp
+                          </Typography>
+                        </TableCell>
+                        <TableCell
+                          align="right"
+                          style={{
+                            paddingRight: '8px',
+                            borderBottom: '1px solid #2C6495',
+                          }}>
+                          <Typography
+                            className={classes.tableHeader}
+                            variant="subtitle1">
+                            Balance
+                          </Typography>
+                        </TableCell>
+                        <TableCell
+                          align="right"
+                          style={{
+                            paddingRight: '8px',
+                            borderBottom: '1px solid #2C6495',
+                          }}>
+                          <Typography
+                            className={classes.tableHeader}
+                            variant="subtitle1">
+                            Vote Count
+                          </Typography>
+                        </TableCell>
+                        <TableCell
+                          align="right"
+                          style={{
+                            paddingRight: '8px',
+                            borderBottom: '1px solid #2C6495',
+                          }}>
+                          <Typography
+                            variant="subtitle1"
+                            className={classes.tableHeader}>
+                            Yes Count
+                          </Typography>
+                        </TableCell>
+                        <TableCell
+                          align="right"
+                          style={{
+                            paddingRight: '8px',
+                            borderBottom: '1px solid #2C6495',
+                          }}>
+                          <Typography
+                            className={classes.tableHeader}
+                            variant="subtitle1">
+                            No Count
+                          </Typography>
+                        </TableCell>
+                        <TableCell
+                          align="right"
+                          style={{
+                            paddingRight: '8px',
+                            borderBottom: '1px solid #2C6495',
+                          }}>
+                          <Typography
+                            className={classes.tableHeader}
+                            variant="subtitle1">
+                            Abstain Count
+                          </Typography>
+                        </TableCell>
+                        <TableCell
+                          align="right"
+                          style={{
+                            paddingRight: '8px',
+                            borderBottom: '1px solid #2C6495',
+                          }}>
+                          <Typography
+                            className={classes.tableHeader}
+                            variant="subtitle1">
+                            Success Threshold
+                          </Typography>
+                        </TableCell>
+                        <TableCell
+                          align="right"
+                          style={{
+                            paddingRight: '8px',
+                            borderBottom: '1px solid #2C6495',
+                          }}>
+                          <Typography
+                            className={classes.tableHeader}
+                            variant="subtitle1">
+                            Fail Threshold
+                          </Typography>
+                        </TableCell>
+                        <TableCell
+                          align="right"
+                          style={{
+                            paddingRight: '8px',
+                            borderBottom: '1px solid #2C6495',
+                          }}>
+                          <Typography
+                            className={classes.tableHeader}
+                            variant="subtitle1">
+                            Is Related With NFT?
+                          </Typography>
+                        </TableCell>
+                      </TableRow>
+                    </TableHead>
+                    <TableBody>
+                      {proposals
+                        ?.slice(
                           page * rowsPerPage,
                           page * rowsPerPage + rowsPerPage,
                         )
@@ -380,20 +386,54 @@ const DaoDetail: React.FC = () => {
                               {proposal.isRelatedWithNft}
                             </TableCell>
                           </TableRow>
-                        ))
-                    : undefined}
-                </TableBody>
-              </Table>
-            </TableContainer>
-            <TablePagination
-              rowsPerPageOptions={[10, 25, 100]}
-              component="div"
-              count={proposals!.length}
-              rowsPerPage={rowsPerPage}
-              page={page}
-              onPageChange={handleChangePage}
-              onRowsPerPageChange={handleChangeRowsPerPage}
-            />
+                        ))}
+                    </TableBody>
+                  </Table>
+                </TableContainer>
+                <TablePagination
+                  rowsPerPageOptions={[10, 25, 100]}
+                  component="div"
+                  count={proposals!.length}
+                  rowsPerPage={rowsPerPage}
+                  page={page}
+                  onPageChange={handleChangePage}
+                  onRowsPerPageChange={handleChangeRowsPerPage}
+                />
+              </div>
+            ) : (
+              <Grid
+                item
+                md={12}
+                style={{
+                  justifyContent: 'center',
+                  alignItems: 'center',
+                  display: 'flex',
+                }}>
+                <Card
+                  style={{
+                    backgroundColor: 'white',
+                    borderRadius: '1rem',
+                    padding: '5rem 2.5rem',
+                    margin: '2rem',
+                    boxShadow: '0 0 10px 0 rgba(0,0,0,0.1)',
+                    justifyContent: 'center',
+                    alignItems: 'center',
+                    display: 'flex',
+                  }}>
+                  <Typography
+                    style={{
+                      color: '#1689c5',
+                      fontSize: '30px',
+                      fontWeight: 'bold',
+                      justifyContent: 'center',
+                      alignItems: 'center',
+                      display: 'flex',
+                    }}>
+                    There are no proposal
+                  </Typography>
+                </Card>
+              </Grid>
+            )}
           </Grid>
         </Grid>
       </div>
