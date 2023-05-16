@@ -1,15 +1,26 @@
 import React, { useState, useEffect } from "react";
-import { Grid, Card, Typography, Box, CircularProgress } from "@mui/material";
+import { Grid, Card, Typography, Box, CircularProgress, Theme, CardMedia, CardContent } from "@mui/material";
 import { fetchNfts } from "../lib/api";
 import { NftCard } from "../components/NftItem";
 import { useTonAddress } from "@tonconnect/ui-react";
+import { makeStyles } from "@mui/styles";
+
+
+const useStyles = makeStyles((theme: Theme) => ({
+  container: {
+    widht: "100%",
+    overflow: "auto",
+    marginTop: "0.1rem",
+  }
+}))
 
 const ViewNft = () => {
   const [nfts, setNfts] = useState([]);
   // eslint-disable-next-line no-unused-vars
   const [loading, setLoading] = useState(true);
+  const classes = useStyles();
 
-  const address = useTonAddress();
+  const address = 'EQDyNhhx8N1Uy_jF4b1cT_CUFLsHKP6IwP6CwpsqBSM1tfn_'
 
   useEffect(() => {
     const fetchData = async () => {
@@ -26,14 +37,7 @@ const ViewNft = () => {
   }, [address]);
 
   return (
-    <div
-      style={{
-        height: "100vh",
-        width: "100%",
-        overflow: "auto", // Kaydırma çubuğu eklemek için
-        marginTop: "0.5em",
-      }}
-    >
+    <Grid container className={classes.container}>
       {/* //TODO cozemedigim bir hata */}
       {/* {loading && (
                                 <Box sx={{ display: "flex", justifyContent: "center", alignItems: "center", height: "60vh", width: "80vw" }}>
@@ -112,7 +116,7 @@ const ViewNft = () => {
           </>
         )}
       </Grid>
-    </div>
+    </Grid>
   );
 };
 
