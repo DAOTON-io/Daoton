@@ -14,6 +14,7 @@ const useStyles = makeStyles((theme: Theme) => ({
     padding: theme.spacing(2),
     borderRadius: theme.spacing(1),
     overflow: "auto",
+    margin: "0 !important",
     [theme.breakpoints.down("sm")]: {
       marginBottom: 2,
       marginTop: 2,
@@ -42,7 +43,7 @@ const useStyles = makeStyles((theme: Theme) => ({
     display: "flex",
     justifyContent: "center",
     alignItems: "center",
-    padding: "0",
+    padding: "0 !important",
     margin: "0",
   },
 }));
@@ -50,10 +51,9 @@ const useStyles = makeStyles((theme: Theme) => ({
 type Props = {
   nftInfo: GenerateNftType;
   nftInfoOnChange: (nftInfo: GenerateNftType) => void;
-  generateNftButtonClick: () => void;
 };
 
-export const NftReview: React.FC<Props> = ({ nftInfoOnChange, nftInfo, generateNftButtonClick }) => {
+export const NftReview: React.FC<Props> = ({ nftInfoOnChange, nftInfo }) => {
   const classes = useStyles();
 
   useEffect(() => {
@@ -84,56 +84,7 @@ export const NftReview: React.FC<Props> = ({ nftInfoOnChange, nftInfo, generateN
             </Typography>
           </CardContent>
         </Card>
-        <CustomButton onClick={generateNftButtonClick} label="GENERATE NFT"></CustomButton>
       </Grid>
     </Grid>
-    // <Grid container className={classes.container}>
-    //     <Stack direction="column" spacing={2} margin={4}>
-    //         <Grid item>
-    //             <Stack direction="column"
-    //                 spacing={2}
-    //                 style={{
-    //                     display: 'flex',
-    //                     justifyContent: 'center',
-    //                 }}>
-    //                 <Card sx={{ minWidth: 600 }}>
-    //                     <CardContent>
-    //                         <Typography variant="body1">
-    //                             <div>
-    //                                 <b>Name: </b>
-    //                                 {nftDetail.nftName}
-    //                             </div>
-    //                         </Typography>
-    //                         <Typography variant="body1">
-    //                             <div>
-    //                                 <b> Description: </b>
-    //                                 {nftDetail.nftDescription}
-    //                             </div>
-    //                         </Typography>
-    //                         <Typography variant="body1">
-    //                             <div>
-    //                                 <b> Level: </b>
-    //                                 {nftDetail.level}
-    //                             </div>
-    //                         </Typography>
-    //                         <Typography variant="body1">
-    //                             <div>
-    //                                 <b> Collection address: </b>
-    //                                 {nftDetail.collectionAddress}
-    //                             </div>
-    //                         </Typography>
-    //                         <Typography variant="body1">
-    //                             <div>
-    //                                 <b>Image: </b>
-    //                                 <img id="nft-image" alt="alt" />
-    //                             </div>
-    //                         </Typography>
-    //                     </CardContent>
-    //                 </Card>
-    //                 <CustomButton onClick={generateNFT} label="GENERATE" ></CustomButton>
-    //             </Stack>
-    //         </Grid>
-    //     </Stack>
-    // </Grid>
   );
 };
