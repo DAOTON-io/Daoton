@@ -23,15 +23,21 @@ type Props = {
   onClick: any;
   disabled?: boolean;
   label: string;
+  className?: string;
 };
 
-export const CustomButton: React.FC<Props> = ({onClick, disabled, label}) => {
+export const CustomButton: React.FC<Props> = ({
+  onClick,
+  disabled,
+  label,
+  className,
+}) => {
   const classes = useStyles();
 
   return (
     <Button
       variant="contained"
-      className={classes.button}
+      className={className ? className : classes.button}
       onClick={onClick}
       disabled={disabled}>
       {label}
