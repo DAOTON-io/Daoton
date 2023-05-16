@@ -1,18 +1,19 @@
 import React, {useEffect, useState} from 'react';
-import {CircularProgress, Grid} from '@mui/material';
+import {Card, CircularProgress, Grid, Theme} from '@mui/material';
 import {makeStyles} from '@mui/styles';
 import {useTonConnectUI} from '@tonconnect/ui-react';
 import {useParams} from 'react-router-dom';
 import {Address} from 'ton-core';
-import DaoContract from '../lib/dao/lib/DaoContract';
 import {getHttpEndpoint} from '@orbs-network/ton-access';
 import {TonClient, beginCell, toNano} from 'ton';
-import {open} from '../utils/index';
-import {ProposalType} from '../utils/types';
 import toastr from 'toastr';
+import moment from 'moment';
+import DaoContract from '../lib/dao/lib/DaoContract';
 import {CustomButton} from '../components/CustomButton';
+import {ProposalType} from '../utils/types';
+import {open} from '../utils/index';
 
-const useStyles = makeStyles({
+const useStyles = makeStyles((theme: Theme) => ({
   info: {
     color: 'black',
     fontSize: '16px',
@@ -38,7 +39,19 @@ const useStyles = makeStyles({
     marginBottom: '1rem !important',
     cursor: 'pointer !important',
   },
-});
+  timestamp: {
+    display: 'flex',
+    justifyContent: 'flex-end',
+    position: 'absolute',
+    top: '10rem',
+    right: '3rem',
+    [theme.breakpoints.down('sm')]: {
+      position: 'absolute',
+      top: '9rem',
+      right: '2rem',
+    },
+  },
+}));
 
 export default function Vote() {
   const classes = useStyles();
@@ -64,7 +77,6 @@ export default function Vote() {
         );
 
         setProposal(proposal);
-
         setLoading(false);
       }
     };
@@ -129,6 +141,14 @@ export default function Vote() {
         padding: '1rem',
       }}>
       <Grid item md={12}>
+        <Grid item className={classes.timestamp}>
+          <Card>
+            <b>Due Date </b>
+            <p>
+              {moment.unix(proposal.timestamp).format('MM/DD/YYYY h:mm:ss a')}
+            </p>
+          </Card>
+        </Grid>
         <Grid item>
           <h3 style={{textAlign: 'center', color: 'black'}}>
             <b>Content:</b>{' '}
@@ -203,6 +223,7 @@ export default function Vote() {
           </Grid>
           <Grid item md={4}>
             <Grid container className={classes.center}>
+              &nbsp;&nbsp;
               <p
                 className={classes.info}
                 style={{
@@ -217,6 +238,7 @@ export default function Vote() {
           </Grid>
           <Grid item md={4}>
             <Grid container className={classes.center}>
+              &nbsp;&nbsp;
               <p
                 className={classes.info}
                 style={{
