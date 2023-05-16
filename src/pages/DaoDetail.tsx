@@ -3,8 +3,6 @@ import {Address} from 'ton-core';
 import {useNavigate, useParams} from 'react-router-dom';
 import {TonClient} from 'ton';
 import {getHttpEndpoint} from '@orbs-network/ton-access';
-import DaoContract from '../lib/dao/lib/DaoContract';
-import {open} from '../utils/index';
 import {
   Card,
   CardContent,
@@ -22,6 +20,8 @@ import {
   Typography,
 } from '@mui/material';
 import {makeStyles} from '@mui/styles';
+import DaoContract from '../lib/dao/lib/DaoContract';
+import {open} from '../utils/index';
 import {CustomButton} from '../components/CustomButton';
 import {Dao, ProposalType} from '../utils/types';
 import {categories} from '../components/DaoCategories';
@@ -31,18 +31,14 @@ const useStyles = makeStyles((theme: Theme) => ({
     justifyContent: 'center',
     margin: '1rem !important',
     [theme.breakpoints.down('sm')]: {
-      marginBottom: 2,
-      marginTop: 2,
-      padding: '24px',
+      padding: '1rem',
     },
   },
   tableContainer: {
     justifyContent: 'center',
     padding: '0 1rem 2rem 1rem;',
     [theme.breakpoints.down('sm')]: {
-      marginBottom: 2,
-      marginTop: 2,
-      padding: '24px',
+      padding: '1rem',
     },
   },
   item: {
@@ -51,11 +47,13 @@ const useStyles = makeStyles((theme: Theme) => ({
     alignItems: 'center',
     padding: '0 !important',
     margin: '0 !important',
+    width: '100%',
   },
   card: {
     width: '100%',
     marginBottom: '0.8rem',
     border: '1px solid #2C6495',
+    overflow: 'auto !important',
   },
   buttonItem: {
     display: 'flex',
