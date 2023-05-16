@@ -30,6 +30,7 @@ const useStyles = makeStyles((theme: Theme) => ({
   cardContainer: {
     justifyContent: 'center',
     margin: '1rem !important',
+    padding: '1rem !important',
     [theme.breakpoints.down('sm')]: {
       padding: '1rem',
     },
