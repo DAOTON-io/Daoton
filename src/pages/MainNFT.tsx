@@ -16,7 +16,6 @@ import NftMinter from "../lib/nft-minter";
 import { collectionPreview } from "../lib/api";
 import { create } from "ipfs";
 import { CustomButton } from "../components/CustomButton";
-import { Padding } from "@mui/icons-material";
 
 const useStyles = makeStyles((theme: Theme) => ({
   cardDiv: {
@@ -42,7 +41,7 @@ const useStyles = makeStyles((theme: Theme) => ({
     width: "45vw !important",
     marginTop: "2rem !important",
     justifyContent: "space-around !important",
-  }
+  },
 }));
 
 export const MainNFT: React.FC = () => {
@@ -73,8 +72,12 @@ export const MainNFT: React.FC = () => {
     collectionImage: "",
   });
 
-  const backStep = () => { setActiveStep(activeStep - 1); };
-  const nextStep = () => { setActiveStep(activeStep + 1); };
+  const backStep = () => {
+    setActiveStep(activeStep - 1);
+  };
+  const nextStep = () => {
+    setActiveStep(activeStep + 1);
+  };
 
   const classes = useStyles();
 
@@ -89,7 +92,6 @@ export const MainNFT: React.FC = () => {
   }, [activeStep, selectedCategory.id]);
 
   const generateNFT = async () => {
-    console.log("generate", nftInfo);
     if (address) {
       const node = await create();
       const itemContent = await node.add(
@@ -125,25 +127,25 @@ export const MainNFT: React.FC = () => {
           name: collectionInfo.collectionName,
           description: collectionInfo.collectionDescription,
           image: collectionInfo.collectionImage,
-          external_link: 'example.com',
+          external_link: "example.com",
           seller_fee_basis_points: 100,
-          fee_recipient: '0xA97F337c39cccE66adfeCB2BF99C1DdC54C2D721',
-        }),
+          fee_recipient: "0xA97F337c39cccE66adfeCB2BF99C1DdC54C2D721",
+        })
       );
 
-      const minter = new NftMinter(
-        address,
-        tonConnectUi,
-        'https://ipfs.io/ipfs/' + nftCollectionUri.path,
-      );
+      const minter = new NftMinter(address, tonConnectUi, "https://ipfs.io/ipfs/" + nftCollectionUri.path);
       minter.deployNftCollection().then(() => {
-        navigate('/generate-nft');
+        navigate("/generate-nft");
       });
     }
   };
 
-  function disableNftButton(): (boolean | undefined) { return !(nftInfo.nftName && nftInfo.nftDescription && nftInfo.collectionAddress && nftInfo.level && nftInfo.nftImage) };
-  function disableCollectionButton(): (boolean | undefined) { return !(collectionInfo.collectionName && collectionInfo.collectionDescription && collectionInfo.collectionImage) };
+  function disableNftButton(): boolean | undefined {
+    return !(nftInfo.nftName && nftInfo.nftDescription && nftInfo.collectionAddress && nftInfo.level && nftInfo.nftImage);
+  }
+  function disableCollectionButton(): boolean | undefined {
+    return !(collectionInfo.collectionName && collectionInfo.collectionDescription && collectionInfo.collectionImage);
+  }
 
   return (
     <div
@@ -157,8 +159,8 @@ export const MainNFT: React.FC = () => {
     >
       <Steps allSteps={step} activeStep={activeStep} />
       {/* <div className={classes.cardDiv}> */}
-      <Grid container direction={'column'} paddingTop={16}>
-        <Grid item overflow={'auto'}>
+      <Grid container direction={"column"} paddingTop={16}>
+        <Grid item overflow={"auto"}>
           {activeStep === 1 && (
             <NFTCategories
               selectedCategoryOnChange={(selectedCategory: CategoryType) => {
@@ -168,7 +170,7 @@ export const MainNFT: React.FC = () => {
               selectedCategory={selectedCategory}
             />
           )}
-          {selectedCategory.id === 1 && activeStep === 2 &&
+          {selectedCategory.id === 1 && activeStep === 2 && (
             <Grid container className={classes.container}>
               <NftForm nftInfoOnChange={setNftInfo} nftInfo={nftInfo} />
               <Grid container className={classes.buttonContainer} paddingX={16}>
@@ -176,7 +178,7 @@ export const MainNFT: React.FC = () => {
                 <CustomButton disabled={disableNftButton()} onClick={nextStep} label="NEXT"></CustomButton>
               </Grid>
             </Grid>
-          }
+          )}
           {selectedCategory.id === 1 && activeStep === 3 && (
             <Grid container className={classes.container}>
               <NftReview nftInfoOnChange={setNftInfo} nftInfo={nftInfo} />
@@ -185,7 +187,6 @@ export const MainNFT: React.FC = () => {
                 <CustomButton onClick={generateNFT} label="GENERATE NFT"></CustomButton>
               </Grid>
             </Grid>
-
           )}
           {selectedCategory.id === 2 && activeStep === 2 && (
             <Grid container className={classes.container}>
