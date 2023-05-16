@@ -3,7 +3,6 @@ import {CircularProgress, Grid} from '@mui/material';
 import {makeStyles} from '@mui/styles';
 import {useTonConnectUI} from '@tonconnect/ui-react';
 import {useParams} from 'react-router-dom';
-import {Button} from 'reactstrap';
 import {Address} from 'ton-core';
 import DaoContract from '../lib/dao/lib/DaoContract';
 import {getHttpEndpoint} from '@orbs-network/ton-access';
@@ -11,6 +10,7 @@ import {TonClient, beginCell, toNano} from 'ton';
 import {open} from '../utils/index';
 import {ProposalType} from '../utils/types';
 import toastr from 'toastr';
+import {CustomButton} from '../components/CustomButton';
 
 const useStyles = makeStyles({
   info: {
@@ -28,16 +28,15 @@ const useStyles = makeStyles({
     display: 'flex',
   },
   button: {
-    fontFamily: 'Signika Negative',
-    padding: '10px',
-    backgroundColor: '#ff761c',
-    color: 'white',
-    border: 'none',
-    borderRadius: '0.5rem',
-    marginTop: '1rem',
-    minWidth: '100px',
-    marginBottom: '1rem',
-    cursor: 'pointer',
+    padding: '10px !important',
+    backgroundColor: '#ff761c !important',
+    color: 'white !important',
+    border: 'none !important',
+    borderRadius: '0.5rem !important',
+    marginTop: '1rem !important',
+    minWidth: '100px !important',
+    marginBottom: '1rem !important',
+    cursor: 'pointer !important',
   },
 });
 
@@ -145,19 +144,25 @@ export default function Vote() {
           }}
           spacing={2}>
           <Grid item>
-            <Button onClick={() => voteProposal(1)} className={classes.button}>
-              Yes
-            </Button>
+            <CustomButton
+              onClick={() => voteProposal(1)}
+              label="Yes"
+              className={classes.button}
+            />
           </Grid>
           <Grid item>
-            <Button onClick={() => voteProposal(2)} className={classes.button}>
-              No
-            </Button>
+            <CustomButton
+              onClick={() => voteProposal(2)}
+              label="No"
+              className={classes.button}
+            />
           </Grid>
           <Grid item>
-            <Button onClick={() => voteProposal(0)} className={classes.button}>
-              Abstain
-            </Button>
+            <CustomButton
+              onClick={() => voteProposal(0)}
+              label="Abstain"
+              className={classes.button}
+            />
           </Grid>
         </Grid>
         {/* Display time left to vote ending. Display ended if already ended. */}
