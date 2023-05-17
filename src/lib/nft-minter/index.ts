@@ -10,7 +10,11 @@ export default class NftMinter {
   tonConnectUi;
   walletAddress;
 
-  constructor(walletAddressParam: AddressType, tonConnectUi: TonConnectUI, collectionContentUri: string) {
+  constructor(
+    walletAddressParam: AddressType,
+    tonConnectUi: TonConnectUI,
+    collectionContentUri: string
+  ) {
     this.walletAddress = new TonWeb.utils.Address(walletAddressParam);
     this.tonConnectUi = tonConnectUi;
 
@@ -42,11 +46,19 @@ export default class NftMinter {
     };
 
     this.tonConnectUi.sendTransaction(defaultTx2).then((data: any) => {
-      toastr.success(nftCollectionAddress.toString(true, true, true), "Contract deployed successfully.");
+      toastr.success(
+        nftCollectionAddress.toString(true, true, true),
+        "Contract deployed successfully.",
+        { timeOut: 5000 }
+      );
     });
   };
 
-  deployNftItem = async (itemContentUri: string, itemIndex: any, ownerAddress: AddressType) => {
+  deployNftItem = async (
+    itemContentUri: string,
+    itemIndex: any,
+    ownerAddress: AddressType
+  ) => {
     const nftCollectionAddress = await this.nftCollection.getAddress();
     const amount = toNano(0.05);
 
@@ -71,8 +83,10 @@ export default class NftMinter {
       ],
     };
 
-    this.tonConnectUi.sendTransaction(defaultTx2).then(() => {
-      toastr.success("Nft item created successfully.");
+    this.tonConnectUi.sendTransaction(defaultTx2).then((data:any) => {
+      toastr.success('',
+      "Nft item created successfully.", 
+      { timeOut: 5000 });
     });
   };
 }

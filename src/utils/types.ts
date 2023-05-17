@@ -17,7 +17,7 @@ export type NftDetailType = {
   description: string;
   level: string;
   collectionAddress: string;
-  image: any;
+  image: string;
 };
 
 export type CategoryType = { id: number; label: string; icon: any };
@@ -55,7 +55,7 @@ export type GenerateTokenType = {
 export type CollectionDataType = {
   collectionName: string;
   collectionDescription: string;
-  collectionImage: any;
+  collectionImage: string;
 };
 
 export type GenerateNftType = {
@@ -63,7 +63,7 @@ export type GenerateNftType = {
   nftDescription: string;
   level: string;
   collectionAddress: string;
-  nftImage: any;
+  nftImage: string;
 };
 
 export type ProposalType = {
