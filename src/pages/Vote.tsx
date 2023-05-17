@@ -145,7 +145,7 @@ export default function Vote() {
           <Card>
             <b>Due Date </b>
             <p>
-              {moment.unix(proposal.timestamp).format('MM/DD/YYYY h:mm:ss a')}
+              {moment.unix(proposal.timestamp).format('MM/DD/YYYY h:mm:ss A')}
             </p>
           </Card>
         </Grid>
