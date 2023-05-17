@@ -1,7 +1,6 @@
 import React, { useState, useEffect } from "react";
 import { Grid, Card, Typography, Box, CircularProgress, Theme, CardMedia, CardContent } from "@mui/material";
 import { fetchNfts } from "../lib/api";
-import { NftCard } from "../components/NftItem";
 import { useTonAddress } from "@tonconnect/ui-react";
 import { makeStyles } from "@mui/styles";
 import { useNavigate } from "react-router-dom";
@@ -32,7 +31,9 @@ const ViewNft = () => {
   const classes = useStyles();
   const navigate = useNavigate();
 
+  // const address = useTonAddress()
   const address = 'EQDyNhhx8N1Uy_jF4b1cT_CUFLsHKP6IwP6CwpsqBSM1tfn_'
+
 
   useEffect(() => {
     const fetchData = async () => {
@@ -42,19 +43,19 @@ const ViewNft = () => {
 
         setNfts(nftData);
 
-        let newGame: Collection[] = []
+        let collectionArray: Collection[] = []
         nftData.forEach((element: any) => {
           let yeniOyun: Collection = {
-            collectionName: element.collection.name,
-            collectionAddress: element.collection_address,
+            collectionName: element.collection?.name,
+            collectionAddress: element?.collection_address,
           }
-          newGame = [...newGame, yeniOyun]
+          collectionArray = [...collectionArray, yeniOyun]
         });
 
-        const unique = newGame.filter((element: any) => {
-          const isDuplicate = newGame.includes(element.collectionAddress);
+        const unique = collectionArray.filter((element: any) => {
+          const isDuplicate = collectionArray.includes(element.collectionAddress);
           if (!isDuplicate) {
-            newGame.push(element.collectionAddress);
+            collectionArray.push(element.collectionAddress);
             return true;
           }
           return false;
@@ -82,7 +83,7 @@ const ViewNft = () => {
         </Box>
       ) : (
         <>
-          {nfts.length === 0 && (
+          {collections.length === 0 && (
             <Grid
               item
               md={12}
@@ -92,43 +93,28 @@ const ViewNft = () => {
                 display: "flex",
               }}
             >
-              <Card
-                style={{
-                  backgroundColor: "white",
-                  borderRadius: "1rem",
-                  padding: "5rem 2.5rem",
-                  marginTop: "2rem",
-                  boxShadow: "0 0 10px 0 rgba(0,0,0,0.1)",
-                  justifyContent: "center",
-                  alignItems: "center",
-                  display: "flex",
-                }}
+              <Typography style={{
+                color: "#1689c5",
+                fontSize: "30px",
+                fontWeight: "bold",
+              }}
               >
-                <Typography
-                  style={{
-                    color: "#1689c5",
-                    fontSize: "30px",
-                    fontWeight: "bold",
-                  }}
-                >
-                  There are no Nft's
-                </Typography>
-              </Card>
+                There are no Collection's
+              </Typography>
             </Grid>
           )}
           {
             collections.map((item: any) => (
               <Card className={classes.card} sx={{ width: 280, height: 280, }} onClick={() => {
-                console.log(item.collectionAddress);
                 navigate("/view-nfts/" + item.collectionAddress);
               }}>
-                <CardMedia image="https://www.webtekno.com/images/editor/default/0003/96/db58cdce487ce8c8c8d890916ef7cd5f6853c272.jpeg" sx={{ height: 120,}}></CardMedia>
+                <CardMedia image="https://www.webtekno.com/images/editor/default/0003/96/db58cdce487ce8c8c8d890916ef7cd5f6853c272.jpeg" sx={{ height: 120, }}></CardMedia>
                 <CardContent>
                   <Typography variant="h6" gutterBottom component="div">
                     {item.collectionName}
                   </Typography>
                   <Typography variant="body2" color="text.secondary">
-                    Collection address: {item.collectionAddress.slice(0, 5) + '...' + item.collectionAddress.slice(-5)}
+                    Collection address: {item.collectionAddress}
                   </Typography>
                 </CardContent>
               </Card>
