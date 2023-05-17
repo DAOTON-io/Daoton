@@ -41,7 +41,7 @@ const useStyles = makeStyles(theme => ({
     },
     stackContainer: {
         minWidth: '25rem',
-        marginTop: '0 !important',
+        marginTop: "2",
         [theme.breakpoints.down('sm')]: {
             minWidth: '10rem',
         },
