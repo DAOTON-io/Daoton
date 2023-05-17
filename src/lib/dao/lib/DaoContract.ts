@@ -1,8 +1,10 @@
 import { Contract, ContractProvider, Sender, Address, Cell, contractAddress, beginCell } from "ton-core";
 import { DaoContent } from "./models/DaoContent";
 import daoton from "../contracts/daoton.contract.json";
-import { _parseGetMethodCall, cellToAddress, readDaoMetadata } from "./make-get-call";
-import { Dao } from "../../../utils/types";
+import { _parseGetMethodCall, cellToAddress, makeGetCallWithData, readDaoMetadata, readProposalMetadata } from "./make-get-call";
+import { Dao, ProposalType } from "../../../utils/types";
+import { TonClient } from "ton";
+import BN from "bn.js";
 
 export default class DaoContract implements Contract {
   static createForDeploy(code: Cell, daoTypeId: number, tokenContract: Address, nftCollection: Address, daoContent: DaoContent): DaoContract {
@@ -47,76 +49,55 @@ export default class DaoContract implements Contract {
     const tokenContract = cellToAddress(data[1]);
     const nftContract = cellToAddress(data[2]);
     const readContent = readDaoMetadata(data[3]);
+    const sequence: number = data[4].toNumber();
 
     const content = (await readContent).metadata as any;
 
-    return { address: this.address.toString(), daoTypeId, tokenContract, nftContract, content };
+    return { address: this.address.toString(), daoTypeId, tokenContract, nftContract, content, sequence };
   };
 
-  // async sendProposal(provider: ContractProvider, via: Sender) {
-  //   const daoContract = Address.parse("EQCeq1eEbTzsc1BWdgyPH_Q_vEk8miKjDVXKk6ZwCAdHVxj9");
+  getProposalById = async (provider: ContractProvider, id: number, client: TonClient): Promise<ProposalType> => {
+    const proposal: any = await makeGetCallWithData(
+      this.address as any,
+      "get_proposal",
+      [new BN(id)],
+      ([data]) => {
+        return data;
+      },
+      client
+    );
 
-  //   // create proposal
-  //   const messageBody = beginCell()
-  //     .storeUint(1, 32) // op (op #1 = create proposal)
-  //     .storeCoins(toNano("0.01")) // balance
-  //     .storeUint(Date.now(), 64) // timestamp
-  //     .storeCoins(100) // success threshold
-  //     .storeCoins(20) // fail threshold
-  //     .storeUint(0, 2)
-  //     .storeRef(
-  //       beginCell()
-  //         .storeBuffer(Buffer.from(JSON.stringify({ name: "xxxx" })))
-  //         .endCell()
-  //     )
-  //     .storeAddress(daoContract)
-  //     .endCell();
+    const owner = "0:" + proposal[0]?.toString("hex");
+    const balance: number = proposal[1]?.toNumber();
+    const yes = proposal[2]?.toNumber();
+    const no = proposal[3]?.toNumber();
+    const abstain = proposal[4]?.toNumber();
+    const timestamp = proposal[5]?.toNumber();
+    const successThreshold = proposal[6]?.toNumber();
+    const failThreshold = proposal[7]?.toNumber();
+    const vote = proposal[8];
+    const isRelatedWithNft = proposal[9]?.toNumber();
 
-  //   // // vote;
-  //   // const messageBody = beginCell()
-  //   //   .storeUint(1, 32) // op (op #2 = vote)
-  //   //   .storeUint(1, 256) // propsal_id
-  //   //   .endCell();
+    const readContent = readProposalMetadata(proposal[10]);
 
-  //   // // execute
-  //   // const messageBody = beginCell()
-  //   //   .storeUint(3, 32) // op (op #3 = execute)
-  //   //   .storeUint(0, 32) // proposal_id
-  //   //   .storeAddress(Address.parse("kQDauKVUskEVeMtynOZpO0s7ae8cKza8abvvfOB1QQOtJHXH"))
-  //   //   .endCell();
+    const content = (await readContent).metadata as any;
 
-  //   await provider.internal(via, {
-  //     value: "0.02", // send 0.002 TON for gas
-  //     body: messageBody,
-  //   });
-  // }
+    return { owner, balance, yes, no, abstain, timestamp, successThreshold, failThreshold, vote, isRelatedWithNft, content };
+  };
 
-  // async vote(provider: ContractProvider, via: Sender) {
-  //   const messageBody = beginCell()
-  //     .storeUint(2, 32) // op (op #2 = vote)
-  //     .storeUint(0, 32) // propsal_id
-  //     .storeUint(1, 2) // vote
-  //     .endCell();
+  getProposalList = async (provider: ContractProvider, client: TonClient, seq: number) => {
+    try {
+      const proposalPromises = [];
 
-  //   await provider.internal(via, {
-  //     value: "0.01", // send 0.002 TON for gas
-  //     body: messageBody,
-  //   });
-  // }
+      for (let i = 0; i < seq; i++) {
+        proposalPromises.push(this.getProposalById(provider, i, client));
+      }
 
-  // getProposal = async (provider: ContractProvider, id: number) => {
-  //   const { stack } = await provider.get("get_proposal", [
-  //     {
-  //       type: "int",
-  //       value: BigInt(id),
-  //     },
-  //   ]);
+      const proposalList = await Promise.all(proposalPromises);
 
-  //   // const { stack } = await provider.get("get_proposal", []);
-
-  //   console.log(stack);
-
-  //   // console.log("PROPS:", stack.readCell());
-  //   return stack;
-  // };
+      return proposalList;
+    } catch (err) {
+      console.log("err", err);
+    }
+  };
 }

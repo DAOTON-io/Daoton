@@ -67,11 +67,17 @@ export type GenerateNftType = {
 };
 
 export type ProposalType = {
+  owner: string;
+  balance: number;
+  yes: number;
+  no: number;
+  abstain: number;
   timestamp: number;
   successThreshold: number;
   failThreshold: number;
+  vote: any[];
   isRelatedWithNft: boolean;
-  content: string;
+  content: { text: string };
 };
 
 export type Dao = {
@@ -80,4 +86,13 @@ export type Dao = {
   tokenContract: Address;
   nftContract: Address;
   content: { name: string; description: string; image?: string };
+  sequence: number;
+};
+
+export type ProposalFormType = {
+  timestamp: number;
+  successThreshold: number;
+  failThreshold: number;
+  isRelatedWithNft: boolean;
+  content: string;
 };

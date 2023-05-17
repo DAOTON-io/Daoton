@@ -1,24 +1,19 @@
 import React, { useEffect, useState } from "react";
-import { Grid } from "@mui/material";
+import { CircularProgress, Grid, Theme } from "@mui/material";
 import { makeStyles } from "@mui/styles";
 import { useTonConnectUI } from "@tonconnect/ui-react";
-import axios from "axios";
-import GoogleFontLoader from "react-google-font-loader";
 import { useParams } from "react-router-dom";
-import { Button, Card } from "reactstrap";
-import TonWeb from "tonweb";
-import DrawerAppBar from "../components/MobilMenu";
-import SideMenu from "../components/SideMenu";
+import { Address } from "ton-core";
+import { getHttpEndpoint } from "@orbs-network/ton-access";
+import { TonClient, beginCell, toNano } from "ton";
+import toastr from "toastr";
+import DaoContract from "../lib/dao/lib/DaoContract";
+import { CustomButton } from "../components/CustomButton";
+import { ProposalType } from "../utils/types";
+import { open } from "../utils/index";
+import { useNavigate } from "react-router-dom";
 
-const useStyles = makeStyles({
-  title: {
-    fontWeight: "bold",
-    fontSize: "28px",
-    marginTop: "1rem",
-    marginBottom: "1rem",
-    fontFamily: "Signika Negative",
-    color: "black",
-  },
+const useStyles = makeStyles((theme: Theme) => ({
   info: {
     color: "black",
     fontSize: "16px",
@@ -33,307 +28,224 @@ const useStyles = makeStyles({
     alignItems: "center !important",
     display: "flex",
   },
-  Button: {
-    fontFamily: "Signika Negative",
-    padding: "10px",
-    backgroundColor: "#ff761c",
-    color: "white",
-    border: "none",
-    borderRadius: "0.5rem",
-    marginTop: "1rem",
-    minWidth: "100px",
-    marginBottom: "1rem",
+  button: {
+    padding: "10px !important",
+    backgroundColor: "#ff761c !important",
+    color: "white !important",
+    border: "none !important",
+    borderRadius: "0.5rem !important",
+    marginTop: "1rem !important",
+    minWidth: "100px !important",
+    marginBottom: "1rem !important",
+    cursor: "pointer !important",
   },
-  card: {
-    backgroundColor: "#ffffff",
-    boxShadow: "0 0 10px 0 rgba(0,0,0,0.1)",
-    color: "white",
-    padding: "20px",
-    borderRadius: "0.5rem",
-    height: "55vh",
+  timestamp: {
+    display: "flex",
+    justifyContent: "flex-end",
+    position: "absolute",
+    top: "10rem",
+    right: "3rem",
+    [theme.breakpoints.down("sm")]: {
+      position: "absolute",
+      top: "9rem",
+      right: "2rem",
+    },
   },
-  cardName: {
-    backgroundColor: "#ffffff",
-    boxShadow: "0 0 10px 0 rgba(0,0,0,0.1)",
-    color: "white",
-    padding: "20px",
-    borderRadius: "0.5rem",
-  },
-});
+}));
 
 export default function Vote() {
   const classes = useStyles();
   const [tonConnectUi] = useTonConnectUI();
-  const { proposalId } = useParams();
-  const [proposal, setProposal] = useState<any>();
-  const [votes, setVotes] = useState([]);
+  const [proposal, setProposal] = useState<ProposalType>();
+  const [loading, setLoading] = useState<boolean>(true);
+
+  const navigate = useNavigate();
+  const { daoId, proposalId } = useParams();
+
   useEffect(() => {
-    //get proposals from API and save to rows. Api is 188.132.128.77:1423/getContracts/:id
-    axios.get(`https://0xfb5f6301747772afa27c55100b95eb29f07dbeb5.diode.link/getContractDetails/${proposalId}`).then((res) => {
-      console.log(res.data);
-      const proposal = res.data[0];
-      setProposal(proposal);
-    });
+    const init = async () => {
+      if (daoId) {
+        const daoContractAddress = Address.parse(daoId);
+        const daoMasterContract = new DaoContract(daoContractAddress);
 
-    // getCurrentValue(proposalId as any).then((votes: any) => {
-    //   setVotes(votes);
-    //   console.log(Date.now() - votes[4]);
-    //   console.log(votes);
-    // });
-  }, [proposalId]);
+        const endpoint = await getHttpEndpoint({ network: "testnet" });
+        const client = new TonClient({ endpoint });
+        const daoContract = open(daoMasterContract, client);
 
-  const voteYes = async () => {
-    let a = new TonWeb.boc.Cell();
-    a.bits.writeUint(0, 32);
-    let payload = TonWeb.utils.bytesToBase64(await a.toBoc());
+        const proposal = await daoContract.getProposalById(Number(proposalId), client);
 
-    let contractAddressHex = proposalId;
-    const defaultTx2 = {
-      validUntil: Date.now() + 1000000,
-      messages: [
-        {
-          address: contractAddressHex || "",
-          amount: "6900000",
-          payload: payload,
-        },
-      ],
+        setProposal(proposal);
+        setLoading(false);
+      }
     };
 
-    tonConnectUi.sendTransaction(defaultTx2);
-  };
+    init();
+  }, [daoId, proposalId]);
 
-  const voteNo = async () => {
-    let a = new TonWeb.boc.Cell();
-    a.bits.writeUint(1, 32);
+  const voteProposal = async (decision: number) => {
+    if (daoId && proposalId) {
+      const daoContract = Address.parse(daoId);
 
-    let payload = TonWeb.utils.bytesToBase64(await a.toBoc());
+      const message = beginCell()
+        .storeUint(2, 32) // op (op #2 = vote)
+        .storeUint(Number(proposalId), 32) // propsal_id
+        .storeUint(decision, 2) // vote
+        .endCell();
 
-    let contractAddressHex = proposalId;
-    const defaultTx2 = {
-      validUntil: Date.now() + 1000000,
-      messages: [
-        {
-          address: contractAddressHex || "",
-          amount: "6900000",
-          payload: payload,
-        },
-      ],
-    };
-    tonConnectUi.sendTransaction(defaultTx2);
-  };
+      const messageBody = message.toBoc();
 
-  return (
-    <div>
-      <GoogleFontLoader
-        fonts={[
+      const transaction = {
+        validUntil: Date.now() + 1000000,
+        messages: [
           {
-            font: "Signika Negative",
-            weights: [400, "400i"],
+            address: daoContract.toString(),
+            amount: toNano(0.01).toNumber().toString(),
+            payload: messageBody.toString("base64"),
           },
-        ]}
-        subsets={["cyrillic-ext", "greek"]}
-      />
+        ],
+      };
+
+      tonConnectUi.sendTransaction(transaction).then(() => {
+        toastr.success("Voting created successfully");
+        navigate("/view-dao/" + daoId);
+      });
+    } else {
+      toastr.error("Something went wrong check your url");
+    }
+  };
+
+  if (loading || !proposal) {
+    return (
       <div
         style={{
-          backgroundColor: "#E7EBF1",
+          height: "calc(100vh - 8rem)",
+          width: "100%",
+          display: "flex",
+          justifyContent: "center",
+          alignItems: "center",
         }}
       >
-        <Grid container spacing={2}>
-          <Grid item md={2}>
-            <SideMenu />
+        <CircularProgress />
+      </div>
+    );
+  }
+
+  return (
+    <div
+      style={{
+        height: "calc(100vh - 8rem)",
+        width: "100%",
+        display: "flex",
+        justifyContent: "center",
+        alignItems: "center",
+        padding: "1rem",
+      }}
+    >
+      <Grid item md={12}>
+        <Grid item className={classes.timestamp}>
+          {/* <Card>
+            <b>Due Date </b>
+            <p>{moment.unix(proposal.timestamp).format("MM/DD/YYYY h:mm:ss a")}</p>
+          </Card> */}
+        </Grid>
+        <Grid item>
+          <h3 style={{ textAlign: "center", color: "black" }}>
+            <b>Content:</b>
+            <span style={{ fontWeight: "normal" }}>{proposal.content.text}</span>
+          </h3>
+        </Grid>
+        <Grid
+          container
+          alignItems={"center"}
+          style={{
+            justifyContent: "center",
+            display: "flex",
+          }}
+          spacing={2}
+        >
+          <Grid item>
+            <CustomButton onClick={() => voteProposal(1)} label="Yes" className={classes.button} />
           </Grid>
-          <Grid item md={10}>
-            <DrawerAppBar />
-            <div>
-              <Card className={classes.cardName}>
-                <Grid
-                  container
-                  style={{
-                    justifyContent: "center",
-                    display: "flex",
-                    alignItems: "center",
-                  }}
-                >
-                  {" "}
-                  <p className={classes.title}>{proposal ? proposal.contract_description : ""}</p>
-                </Grid>
-              </Card>
-              <p className={classes.title}>Vote</p>
-              <Card className={classes.card}>
-                <Grid
-                  container
-                  alignItems={"center"}
-                  style={{
-                    justifyContent: "center",
-                    display: "flex",
-                  }}
-                  spacing={2}
-                >
-                  <Grid item>
-                    <Button onClick={voteYes} className={classes.Button}>
-                      Yes
-                    </Button>
-                  </Grid>
-                  <Grid item>
-                    <Button onClick={voteNo} className={classes.Button}>
-                      No
-                    </Button>
-                  </Grid>
-                </Grid>
-                {/* Display time left to vote ending. Display ended if already ended. */}
-
-                <Grid
-                  container
-                  alignItems={"center"}
-                  style={{
-                    justifyContent: "center",
-                    display: "flex",
-                  }}
-                  spacing={2}
-                >
-                  <Grid item>
-                    <p
-                      className={classes.info}
-                      style={{
-                        fontWeight: "bold",
-                      }}
-                    >
-                      Time left to vote:{" "}
-                    </p>
-                  </Grid>
-                  <Grid item>
-                    <p
-                      className={classes.info}
-                      style={{
-                        fontWeight: "bold",
-                        //Check if bigger than 10 minutes
-                      }}
-                    >
-                      {Date.now() - votes[4] < 600000
-                        ? new Date(600000 - (Date.now() - votes[4])).getHours() + " minutes"
-                        : "Vote is done!! Result is: " + (votes[5] / 2 < votes[1] ? "Yes" : "No")}
-                    </p>
-                  </Grid>
-                </Grid>
-
-                <Grid
-                  container
-                  style={{
-                    backgroundColor: "#F5F5F5",
-                    marginTop: "3rem",
-                    width: "100%",
-                    padding: "5vh",
-                    alignItems: "center",
-                    justifyContent: "center",
-                    display: "flex",
-                  }}
-                >
-                  <Grid item md={4}>
-                    <div
-                      style={{
-                        justifyContent: "center",
-                        display: "flex",
-                        alignItems: "center",
-                        flexDirection: "column",
-                      }}
-                    >
-                      {" "}
-                      <Grid container className={classes.center}>
-                        <p
-                          className={classes.info}
-                          style={{
-                            fontWeight: "bold",
-                          }}
-                        >
-                          Vote
-                        </p>
-                      </Grid>
-                      <Grid container className={classes.center}>
-                        <p className={classes.info}>{votes[5]}</p>
-                      </Grid>
-                      <Grid container className={classes.center}>
-                        <p className={classes.info}>Quorum 33%</p>
-                      </Grid>
-                    </div>
-                  </Grid>
-                  <Grid item md={4}>
-                    <Grid container className={classes.center}>
-                      <p
-                        className={classes.info}
-                        style={{
-                          fontWeight: "bold",
-                        }}
-                      >
-                        Yes
-                      </p>
-                    </Grid>
-                    <Grid container className={classes.center}>
-                      <p className={classes.info}>{votes[1]}</p>
-                    </Grid>
-                    <Grid container className={classes.center}>
-                      <p className={classes.info}>Quorum: 33%</p>
-                    </Grid>
-                  </Grid>
-                  <Grid item md={4}>
-                    <Grid container className={classes.center}>
-                      <p
-                        className={classes.info}
-                        style={{
-                          fontWeight: "bold",
-                        }}
-                      >
-                        No
-                      </p>
-                    </Grid>
-                    <Grid container className={classes.center}>
-                      <p className={classes.info}>{votes[0]}</p>
-                    </Grid>
-                    <Grid container className={classes.center}>
-                      <p className={classes.info}>Quorum: 33%</p>
-                    </Grid>
-                  </Grid>
-                  <Grid item md={4}>
-                    <Grid container className={classes.center}>
-                      <p
-                        className={classes.info}
-                        style={{
-                          fontWeight: "bold",
-                        }}
-                      >
-                        No with Veto
-                      </p>
-                    </Grid>
-                    <Grid container className={classes.center}>
-                      <p className={classes.info}>{votes[2]}</p>
-                    </Grid>
-                    <Grid container className={classes.center}>
-                      <p className={classes.info}>Quorum: 33%</p>
-                    </Grid>
-                  </Grid>
-                  <Grid item md={4}>
-                    <Grid container className={classes.center}>
-                      <p
-                        className={classes.info}
-                        style={{
-                          fontWeight: "bold",
-                        }}
-                      >
-                        Abstain
-                      </p>
-                    </Grid>
-                    <Grid container className={classes.center}>
-                      <p className={classes.info}>{votes[3]}</p>
-                    </Grid>
-                    <Grid container className={classes.center}>
-                      <p className={classes.info}>Quorum: 33%</p>
-                    </Grid>
-                  </Grid>
-                </Grid>
-              </Card>
-            </div>
+          <Grid item>
+            <CustomButton onClick={() => voteProposal(2)} label="No" className={classes.button} />
+          </Grid>
+          <Grid item>
+            <CustomButton onClick={() => voteProposal(0)} label="Abstain" className={classes.button} />
           </Grid>
         </Grid>
-      </div>
+        {/* Display time left to vote ending. Display ended if already ended. */}
+
+        <Grid
+          container
+          alignItems={"center"}
+          style={{
+            justifyContent: "center",
+            display: "flex",
+          }}
+          spacing={2}
+        ></Grid>
+
+        <Grid
+          container
+          style={{
+            backgroundColor: "#F5F5F5",
+            marginTop: "3rem",
+            width: "100%",
+            padding: "5vh",
+            alignItems: "center",
+            justifyContent: "center",
+            display: "flex",
+          }}
+        >
+          <Grid item md={4}>
+            <Grid container className={classes.center}>
+              <p
+                className={classes.info}
+                style={{
+                  fontWeight: "bold",
+                }}
+              >
+                Yes
+              </p>
+            </Grid>
+            <Grid container className={classes.center}>
+              <p className={classes.info}>{proposal.yes}</p>
+            </Grid>
+          </Grid>
+          <Grid item md={4}>
+            <Grid container className={classes.center}>
+              &nbsp;&nbsp;
+              <p
+                className={classes.info}
+                style={{
+                  fontWeight: "bold",
+                }}
+              >
+                No
+              </p>
+            </Grid>
+            <Grid container className={classes.center}>
+              <p className={classes.info}>{proposal.no}</p>
+            </Grid>
+          </Grid>
+          <Grid item md={4}>
+            <Grid container className={classes.center}>
+              &nbsp;&nbsp;
+              <p
+                className={classes.info}
+                style={{
+                  fontWeight: "bold",
+                }}
+              >
+                Abstain
+              </p>
+            </Grid>
+            <Grid container className={classes.center}>
+              <p className={classes.info}>{proposal.abstain}</p>
+            </Grid>
+          </Grid>
+        </Grid>
+      </Grid>
     </div>
   );
 }
