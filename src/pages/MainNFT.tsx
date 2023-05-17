@@ -135,7 +135,7 @@ export const MainNFT: React.FC = () => {
 
       const minter = new NftMinter(address, tonConnectUi, "https://ipfs.io/ipfs/" + nftCollectionUri.path);
       minter.deployNftCollection().then(() => {
-        navigate("/generate-nft");
+        navigate("/main-nft");
       });
     }
   };

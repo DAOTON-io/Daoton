@@ -25,14 +25,14 @@ interface Collection {
 
 const ViewNft = () => {
   const [nfts, setNfts] = useState([]);
-  const [collections, setCollections] = useState<Collection[]>([])
+  const [collections, setCollections] = useState<Collection[]>([]);
   // eslint-disable-next-line no-unused-vars
   const [loading, setLoading] = useState(true);
   const classes = useStyles();
   const navigate = useNavigate();
 
-  // const address = useTonAddress()
-  const address = 'EQDyNhhx8N1Uy_jF4b1cT_CUFLsHKP6IwP6CwpsqBSM1tfn_'
+  const address = useTonAddress();
+  // const address = 'EQDyNhhx8N1Uy_jF4b1cT_CUFLsHKP6IwP6CwpsqBSM1tfn_'
 
 
   useEffect(() => {
@@ -43,13 +43,13 @@ const ViewNft = () => {
 
         setNfts(nftData);
 
-        let collectionArray: Collection[] = []
+        let collectionArray: Collection[] = [];
         nftData.forEach((element: any) => {
-          let yeniOyun: Collection = {
+          let newCollection: Collection = {
             collectionName: element.collection?.name,
             collectionAddress: element?.collection_address,
           }
-          collectionArray = [...collectionArray, yeniOyun]
+          collectionArray = [...collectionArray, newCollection];
         });
 
         const unique = collectionArray.filter((element: any) => {
@@ -60,7 +60,7 @@ const ViewNft = () => {
           }
           return false;
         });
-        setCollections(unique)
+        setCollections(unique);
       }
       setLoading(false);
     };
@@ -114,7 +114,7 @@ const ViewNft = () => {
                     {item.collectionName}
                   </Typography>
                   <Typography variant="body2" color="text.secondary">
-                    Collection address: {item.collectionAddress}
+                    Collection address: {item?.collectionAddress}
                   </Typography>
                 </CardContent>
               </Card>
