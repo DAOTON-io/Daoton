@@ -1,7 +1,7 @@
 import React, { ChangeEvent, useEffect, useState } from "react";
 import { Address } from "ton-core";
 import { useNavigate, useParams } from "react-router-dom";
-import { TonClient } from "ton";
+import { TonClient, beginCell, Address as TAddress, toNano } from "ton";
 import { getHttpEndpoint } from "@orbs-network/ton-access";
 import {
   Button,
@@ -9,6 +9,7 @@ import {
   CardContent,
   CircularProgress,
   Grid,
+  Modal,
   Paper,
   Table,
   TableBody,
@@ -17,6 +18,7 @@ import {
   TableHead,
   TablePagination,
   TableRow,
+  TextField,
   Theme,
   Typography,
 } from "@mui/material";
@@ -26,7 +28,10 @@ import { open } from "../utils/index";
 import { CustomButton } from "../components/CustomButton";
 import { Dao, ProposalType } from "../utils/types";
 import { categories } from "../components/DaoCategories";
+import { useTonConnectUI } from "@tonconnect/ui-react";
 import moment from "moment";
+import toastr from "toastr";
+import { CustomInput } from "../components/CustomInput";
 
 const useStyles = makeStyles((theme: Theme) => ({
   cardContainer: {
@@ -88,9 +93,11 @@ const DaoDetail: React.FC = () => {
   const [proposals, setProposals] = useState<ProposalType[]>();
   const [page, setPage] = useState<number>(0);
   const [rowsPerPage, setRowsPerPage] = useState<number>(10);
+  const [execModal, setExecModal] = useState<{ show: boolean; targetAddress?: string; proposalId?: number }>({ show: false });
 
   const classes = useStyles();
   const { daoId } = useParams();
+  const [tonConnectUi] = useTonConnectUI();
   const navigate = useNavigate();
 
   useEffect(() => {
@@ -121,6 +128,31 @@ const DaoDetail: React.FC = () => {
   const handleChangeRowsPerPage = (event: ChangeEvent<HTMLInputElement>) => {
     setRowsPerPage(+event.target.value);
     setPage(0);
+  };
+
+  const execute = () => {
+    console.log(execModal);
+    if (execModal.proposalId !== undefined && execModal.targetAddress) {
+      const message = beginCell().storeUint(3, 32).storeUint(execModal.proposalId, 32).storeAddress(TAddress.parse(execModal.targetAddress)).endCell();
+      const messageBody = message.toBoc();
+
+      const transaction = {
+        validUntil: Date.now() + 1000000,
+        messages: [
+          {
+            address: daoId || "",
+            amount: toNano(0.01).toNumber().toString(),
+            payload: messageBody.toString("base64"),
+          },
+        ],
+      };
+
+      tonConnectUi.sendTransaction(transaction).then(() => {
+        toastr.success("Execution created successfully");
+        // navigate("/view-dao/" + daoId);
+        setExecModal({ show: false });
+      });
+    }
   };
 
   if (loading) {
@@ -363,7 +395,7 @@ const DaoDetail: React.FC = () => {
                               >
                                 Vote
                               </Button>
-                              <Button variant="contained" color="secondary" size="small">
+                              <Button variant="contained" color="secondary" size="small" onClick={() => setExecModal({ show: true, proposalId: index })}>
                                 Exec
                               </Button>
                             </div>
@@ -422,6 +454,44 @@ const DaoDetail: React.FC = () => {
             )}
           </Grid>
         </Grid>
+        <Modal
+          open={execModal.show}
+          onClose={() => {
+            setExecModal({ show: false });
+          }}
+        >
+          <div
+            style={{
+              position: "absolute",
+              top: "50%",
+              left: "50%",
+              transform: "translate(-50%, -50%)",
+              backgroundColor: "white",
+              padding: "3rem",
+              borderRadius: "5px",
+              display: "flex",
+              alignItems: "center",
+              justifyContent: "center",
+              flexDirection: "column",
+              gap: 16,
+            }}
+          >
+            <CustomInput
+              label="Target Address"
+              value={execModal.targetAddress || ""}
+              fullWidth
+              onChange={(event: { target: { value: any } }) => {
+                setExecModal({ ...execModal, targetAddress: event.target.value });
+              }}
+              placeholder={"Target Address"}
+              id={"taddress"}
+              name={"taddress"}
+              style={{ minWidth: "20rem" }}
+            />
+
+            <CustomButton onClick={execute} label="Execute" />
+          </div>
+        </Modal>
       </div>
     );
   }
