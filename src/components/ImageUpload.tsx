@@ -45,13 +45,9 @@ export const ImageUpload: React.FC<Props> = ({onChange, onClear}) => {
   const handleFileInputChange = (event: ChangeEvent<HTMLInputElement>) => {
     if (event.target.files) {
       const file = event.target.files[0];
-
-      // console.log(Buffer.from(JSON.stringify(file)).toString('base64'));
-      // console.log(window.btoa(JSON.stringify(file)));
-
       let fileReader = new FileReader();
-      fileReader.readAsDataURL(file);
 
+      fileReader.readAsDataURL(file);
       fileReader.onload = event => {
         if (event.target?.result) {
           onChange(event.target.result);
@@ -59,7 +55,6 @@ export const ImageUpload: React.FC<Props> = ({onChange, onClear}) => {
       };
 
       setFile(file);
-      //onChange(Buffer.from(JSON.stringify(file)).toString('base64'));
     }
   };
 

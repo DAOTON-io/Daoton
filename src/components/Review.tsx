@@ -1,44 +1,44 @@
-import React, { useEffect } from "react";
-import { Grid, Theme, Typography } from "@mui/material";
-import { makeStyles } from "@mui/styles";
-import { CategoryType, DaoInfoData, TokenDetailType } from "../utils/types";
-import { CustomButton } from "./CustomButton";
-import { base64ToImage } from "../utils/utils";
-import { TOKEN_TYPES } from "../utils/enums";
+import React, {useEffect} from 'react';
+import {Grid, Theme, Typography} from '@mui/material';
+import {makeStyles} from '@mui/styles';
+import {CategoryType, DaoInfoData, TokenDetailType} from '../utils/types';
+import {CustomButton} from './CustomButton';
+import {base64ToImage} from '../utils/utils';
+import {TOKEN_TYPES} from '../utils/enums';
 
 const useStyles = makeStyles((theme: Theme) => ({
   container: {
-    [theme.breakpoints.down("sm")]: {
+    [theme.breakpoints.down('sm')]: {
       marginBottom: 2,
       marginTop: 2,
-      padding: "24px",
+      padding: '24px',
     },
-    display: "flex",
-    justifyContent: "space-around",
-    width: "100% !important",
+    display: 'flex',
+    justifyContent: 'space-around',
+    width: '100% !important',
     padding: theme.spacing(2),
     borderRadius: theme.spacing(1),
-    overflow: "auto",
+    overflow: 'auto',
   },
   buttonContainer: {
-    paddingRight: "2rem",
-    paddingLeft: "2rem",
-    textAlign: "start",
-    justifyContent: "space-between",
-    alignItems: "center",
-    marginTop: "1rem",
-    [theme.breakpoints.down("sm")]: {
-      paddingRight: "1rem",
-      paddingLeft: "1rem",
+    paddingRight: '2rem',
+    paddingLeft: '2rem',
+    textAlign: 'start',
+    justifyContent: 'space-between',
+    alignItems: 'center',
+    marginTop: '1rem',
+    [theme.breakpoints.down('sm')]: {
+      paddingRight: '1rem',
+      paddingLeft: '1rem',
     },
   },
   gridPart: {
-    padding: "1rem",
-    backgroundColor: "#2C6495",
-    borderRadius: "1rem",
-    color: "beige",
-    [theme.breakpoints.down("sm")]: {
-      marginBottom: "2rem !important",
+    padding: '1rem',
+    backgroundColor: '#2C6495',
+    borderRadius: '1rem',
+    color: 'beige',
+    [theme.breakpoints.down('sm')]: {
+      marginBottom: '2rem !important',
     },
   },
 }));
@@ -52,18 +52,26 @@ type Props = {
   generate: () => void;
 };
 
-export const Review: React.FC<Props> = ({ selectedCategory, daoInfo, tokenDetail, activeStepOnChange, generate }) => {
+export const Review: React.FC<Props> = ({
+  selectedCategory,
+  daoInfo,
+  tokenDetail,
+  activeStepOnChange,
+  generate,
+}) => {
   const classes = useStyles();
 
   useEffect(() => {
-    base64ToImage(daoInfo.image, (img) => {
-      (document.getElementById("dao-image") as HTMLInputElement)!.src = daoInfo.image;
+    base64ToImage(daoInfo.image, img => {
+      (document.getElementById('dao-image') as HTMLInputElement)!.src =
+        daoInfo.image;
     });
   }, [daoInfo.image]);
 
   useEffect(() => {
-    base64ToImage(tokenDetail.image, (img) => {
-      (document.getElementById("token-image") as HTMLInputElement)!.src = tokenDetail.image || "";
+    base64ToImage(tokenDetail.image, img => {
+      (document.getElementById('token-image') as HTMLInputElement)!.src =
+        tokenDetail.image || '';
     });
   }, [tokenDetail.image]);
 
@@ -101,8 +109,13 @@ export const Review: React.FC<Props> = ({ selectedCategory, daoInfo, tokenDetail
           </div>
         </Typography>
         <Grid container className={classes.buttonContainer}>
-          <Grid item justifyContent={"flex-end"}>
-            <img id="dao-image" alt="alt" width={200} height={100} src={daoInfo.image || "/images/logo.jpeg"}></img>
+          <Grid item justifyContent={'flex-end'}>
+            <img
+              id="dao-image"
+              alt="alt"
+              width={200}
+              height={100}
+              src={daoInfo.image || '/images/logo.jpeg'}></img>
           </Grid>
         </Grid>
       </Grid>
@@ -110,14 +123,13 @@ export const Review: React.FC<Props> = ({ selectedCategory, daoInfo, tokenDetail
       <Grid
         item
         style={{
-          padding: "1rem",
-          backgroundColor: "#2C6495",
-          borderRadius: "1rem",
-          color: "beige",
+          padding: '1rem',
+          backgroundColor: '#2C6495',
+          borderRadius: '1rem',
+          color: 'beige',
         }}
         xs={12}
-        sm={4}
-      >
+        sm={4}>
         <Typography variant="body1">
           <div>
             <b>Token Name: </b>
@@ -162,8 +174,13 @@ export const Review: React.FC<Props> = ({ selectedCategory, daoInfo, tokenDetail
         </Typography>
 
         <Grid container className={classes.buttonContainer}>
-          <Grid item justifyContent={"flex-end"}>
-            <img id="token-image" alt="alt" width={200} height={100} src={tokenDetail.image || "/images/logo.jpeg"}></img>
+          <Grid item justifyContent={'flex-end'}>
+            <img
+              id="token-image"
+              alt="alt"
+              width={200}
+              height={100}
+              src={tokenDetail.image || '/images/logo.jpeg'}></img>
           </Grid>
         </Grid>
 
@@ -194,9 +211,21 @@ export const Review: React.FC<Props> = ({ selectedCategory, daoInfo, tokenDetail
       </Grid>
 
       {/* buttons */}
-      <Grid paddingTop={2} container justifyContent={"space-between"} width={"60%"}>
+      <Grid
+        paddingTop={2}
+        container
+        justifyContent={'space-between'}
+        width={'60%'}>
         <CustomButton onClick={backStep} disabled={false} label="BACK" />
-        <CustomButton onClick={generate} disabled={false} label={tokenDetail.type === TOKEN_TYPES.NEW_TOKEN ? "GENERATE TOKEN & SAVE" : "SAVE"} />
+        <CustomButton
+          onClick={generate}
+          disabled={false}
+          label={
+            tokenDetail.type === TOKEN_TYPES.NEW_TOKEN
+              ? 'GENERATE TOKEN & SAVE'
+              : 'SAVE'
+          }
+        />
       </Grid>
     </Grid>
   );
