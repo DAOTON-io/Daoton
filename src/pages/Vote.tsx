@@ -1,54 +1,54 @@
-import React, {useEffect, useState} from 'react';
-import {Card, CircularProgress, Grid, Theme} from '@mui/material';
-import {makeStyles} from '@mui/styles';
-import {useTonConnectUI} from '@tonconnect/ui-react';
-import {useParams} from 'react-router-dom';
-import {Address} from 'ton-core';
-import {getHttpEndpoint} from '@orbs-network/ton-access';
-import {TonClient, beginCell, toNano} from 'ton';
-import toastr from 'toastr';
-import moment from 'moment';
-import DaoContract from '../lib/dao/lib/DaoContract';
-import {CustomButton} from '../components/CustomButton';
-import {ProposalType} from '../utils/types';
-import {open} from '../utils/index';
+import React, { useEffect, useState } from "react";
+import { CircularProgress, Grid, Theme } from "@mui/material";
+import { makeStyles } from "@mui/styles";
+import { useTonConnectUI } from "@tonconnect/ui-react";
+import { useParams } from "react-router-dom";
+import { Address } from "ton-core";
+import { getHttpEndpoint } from "@orbs-network/ton-access";
+import { TonClient, beginCell, toNano } from "ton";
+import toastr from "toastr";
+import DaoContract from "../lib/dao/lib/DaoContract";
+import { CustomButton } from "../components/CustomButton";
+import { ProposalType } from "../utils/types";
+import { open } from "../utils/index";
+import { useNavigate } from "react-router-dom";
 
 const useStyles = makeStyles((theme: Theme) => ({
   info: {
-    color: 'black',
-    fontSize: '16px',
-    marginBottom: '0.33rem',
-    justifyContent: 'center !important',
-    alignItems: 'center !important',
-    display: 'flex',
-    fontFamily: 'Signika Negative',
+    color: "black",
+    fontSize: "16px",
+    marginBottom: "0.33rem",
+    justifyContent: "center !important",
+    alignItems: "center !important",
+    display: "flex",
+    fontFamily: "Signika Negative",
   },
   center: {
-    justifyContent: 'center !important',
-    alignItems: 'center !important',
-    display: 'flex',
+    justifyContent: "center !important",
+    alignItems: "center !important",
+    display: "flex",
   },
   button: {
-    padding: '10px !important',
-    backgroundColor: '#ff761c !important',
-    color: 'white !important',
-    border: 'none !important',
-    borderRadius: '0.5rem !important',
-    marginTop: '1rem !important',
-    minWidth: '100px !important',
-    marginBottom: '1rem !important',
-    cursor: 'pointer !important',
+    padding: "10px !important",
+    backgroundColor: "#ff761c !important",
+    color: "white !important",
+    border: "none !important",
+    borderRadius: "0.5rem !important",
+    marginTop: "1rem !important",
+    minWidth: "100px !important",
+    marginBottom: "1rem !important",
+    cursor: "pointer !important",
   },
   timestamp: {
-    display: 'flex',
-    justifyContent: 'flex-end',
-    position: 'absolute',
-    top: '10rem',
-    right: '3rem',
-    [theme.breakpoints.down('sm')]: {
-      position: 'absolute',
-      top: '9rem',
-      right: '2rem',
+    display: "flex",
+    justifyContent: "flex-end",
+    position: "absolute",
+    top: "10rem",
+    right: "3rem",
+    [theme.breakpoints.down("sm")]: {
+      position: "absolute",
+      top: "9rem",
+      right: "2rem",
     },
   },
 }));
@@ -59,7 +59,8 @@ export default function Vote() {
   const [proposal, setProposal] = useState<ProposalType>();
   const [loading, setLoading] = useState<boolean>(true);
 
-  const {daoId, proposalId} = useParams();
+  const navigate = useNavigate();
+  const { daoId, proposalId } = useParams();
 
   useEffect(() => {
     const init = async () => {
@@ -67,14 +68,11 @@ export default function Vote() {
         const daoContractAddress = Address.parse(daoId);
         const daoMasterContract = new DaoContract(daoContractAddress);
 
-        const endpoint = await getHttpEndpoint({network: 'testnet'});
-        const client = new TonClient({endpoint});
+        const endpoint = await getHttpEndpoint({ network: "testnet" });
+        const client = new TonClient({ endpoint });
         const daoContract = open(daoMasterContract, client);
 
-        const proposal = await daoContract.getProposalById(
-          Number(proposalId),
-          client,
-        );
+        const proposal = await daoContract.getProposalById(Number(proposalId), client);
 
         setProposal(proposal);
         setLoading(false);
@@ -102,16 +100,17 @@ export default function Vote() {
           {
             address: daoContract.toString(),
             amount: toNano(0.01).toNumber().toString(),
-            payload: messageBody.toString('base64'),
+            payload: messageBody.toString("base64"),
           },
         ],
       };
 
       tonConnectUi.sendTransaction(transaction).then(() => {
-        toastr.success('Voting created successfully');
+        toastr.success("Voting created successfully");
+        navigate("/view-dao/" + daoId);
       });
     } else {
-      toastr.error('Something went wrong check your url');
+      toastr.error("Something went wrong check your url");
     }
   };
 
@@ -119,12 +118,13 @@ export default function Vote() {
     return (
       <div
         style={{
-          height: 'calc(100vh - 8rem)',
-          width: '100%',
-          display: 'flex',
-          justifyContent: 'center',
-          alignItems: 'center',
-        }}>
+          height: "calc(100vh - 8rem)",
+          width: "100%",
+          display: "flex",
+          justifyContent: "center",
+          alignItems: "center",
+        }}
+      >
         <CircularProgress />
       </div>
     );
@@ -133,87 +133,78 @@ export default function Vote() {
   return (
     <div
       style={{
-        height: 'calc(100vh - 8rem)',
-        width: '100%',
-        display: 'flex',
-        justifyContent: 'center',
-        alignItems: 'center',
-        padding: '1rem',
-      }}>
+        height: "calc(100vh - 8rem)",
+        width: "100%",
+        display: "flex",
+        justifyContent: "center",
+        alignItems: "center",
+        padding: "1rem",
+      }}
+    >
       <Grid item md={12}>
         <Grid item className={classes.timestamp}>
-          <Card>
+          {/* <Card>
             <b>Due Date </b>
-            <p>
-              {moment.unix(proposal.timestamp).format('MM/DD/YYYY h:mm:ss A')}
-            </p>
-          </Card>
+            <p>{moment.unix(proposal.timestamp).format("MM/DD/YYYY h:mm:ss a")}</p>
+          </Card> */}
         </Grid>
         <Grid item>
-          <h3 style={{textAlign: 'center', color: 'black'}}>
-            <b>Content:</b>{' '}
-            <span style={{fontWeight: 'normal'}}>{proposal.content.text}</span>
+          <h3 style={{ textAlign: "center", color: "black" }}>
+            <b>Content:</b>
+            <span style={{ fontWeight: "normal" }}>{proposal.content.text}</span>
           </h3>
         </Grid>
         <Grid
           container
-          alignItems={'center'}
+          alignItems={"center"}
           style={{
-            justifyContent: 'center',
-            display: 'flex',
+            justifyContent: "center",
+            display: "flex",
           }}
-          spacing={2}>
+          spacing={2}
+        >
           <Grid item>
-            <CustomButton
-              onClick={() => voteProposal(1)}
-              label="Yes"
-              className={classes.button}
-            />
+            <CustomButton onClick={() => voteProposal(1)} label="Yes" className={classes.button} />
           </Grid>
           <Grid item>
-            <CustomButton
-              onClick={() => voteProposal(2)}
-              label="No"
-              className={classes.button}
-            />
+            <CustomButton onClick={() => voteProposal(2)} label="No" className={classes.button} />
           </Grid>
           <Grid item>
-            <CustomButton
-              onClick={() => voteProposal(0)}
-              label="Abstain"
-              className={classes.button}
-            />
+            <CustomButton onClick={() => voteProposal(0)} label="Abstain" className={classes.button} />
           </Grid>
         </Grid>
         {/* Display time left to vote ending. Display ended if already ended. */}
 
         <Grid
           container
-          alignItems={'center'}
+          alignItems={"center"}
           style={{
-            justifyContent: 'center',
-            display: 'flex',
+            justifyContent: "center",
+            display: "flex",
           }}
-          spacing={2}></Grid>
+          spacing={2}
+        ></Grid>
 
         <Grid
           container
           style={{
-            backgroundColor: '#F5F5F5',
-            marginTop: '3rem',
-            width: '100%',
-            padding: '5vh',
-            alignItems: 'center',
-            justifyContent: 'center',
-            display: 'flex',
-          }}>
+            backgroundColor: "#F5F5F5",
+            marginTop: "3rem",
+            width: "100%",
+            padding: "5vh",
+            alignItems: "center",
+            justifyContent: "center",
+            display: "flex",
+          }}
+        >
           <Grid item md={4}>
             <Grid container className={classes.center}>
               <p
                 className={classes.info}
                 style={{
-                  fontWeight: 'bold',
-                }}>
+                  fontWeight: "bold",
+                }}
+              >
                 Yes
               </p>
             </Grid>
@@ -227,8 +218,9 @@ export default function Vote() {
               <p
                 className={classes.info}
                 style={{
-                  fontWeight: 'bold',
-                }}>
+                  fontWeight: "bold",
+                }}
+              >
                 No
               </p>
             </Grid>
@@ -242,8 +234,9 @@ export default function Vote() {
               <p
                 className={classes.info}
                 style={{
-                  fontWeight: 'bold',
-                }}>
+                  fontWeight: "bold",
+                }}
+              >
                 Abstain
               </p>
             </Grid>
