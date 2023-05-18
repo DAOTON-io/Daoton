@@ -93,7 +93,7 @@ export const MainNFT: React.FC = () => {
 
   const generateNFT = async () => {
     if (address) {
-      const node = await create();
+      const node = await create({repo: 'ok' + Math.random()});
       const itemContent = await node.add(
         JSON.stringify({
           attributes: [
@@ -126,7 +126,7 @@ export const MainNFT: React.FC = () => {
         JSON.stringify({
           name: collectionInfo.collectionName,
           description: collectionInfo.collectionDescription,
-          image: collectionInfo.collectionImage,
+          // image: collectionInfo.collectionImage,
           external_link: "example.com",
           seller_fee_basis_points: 100,
           fee_recipient: "0xA97F337c39cccE66adfeCB2BF99C1DdC54C2D721",
