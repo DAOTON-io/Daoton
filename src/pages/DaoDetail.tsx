@@ -18,7 +18,6 @@ import {
   TableHead,
   TablePagination,
   TableRow,
-  TextField,
   Theme,
   Typography,
 } from "@mui/material";
@@ -28,7 +27,7 @@ import { open } from "../utils/index";
 import { CustomButton } from "../components/CustomButton";
 import { Dao, ProposalType } from "../utils/types";
 import { categories } from "../components/DaoCategories";
-import { useTonConnectUI } from "@tonconnect/ui-react";
+import { useTonAddress, useTonConnectUI } from "@tonconnect/ui-react";
 import moment from "moment";
 import toastr from "toastr";
 import { CustomInput } from "../components/CustomInput";
@@ -36,7 +35,6 @@ import { CustomInput } from "../components/CustomInput";
 const useStyles = makeStyles((theme: Theme) => ({
   cardContainer: {
     justifyContent: "center",
-    // margin: "1rem !important",
     marginTop: "1rem",
     padding: "1rem !important",
     [theme.breakpoints.down("sm")]: {
@@ -98,6 +96,7 @@ const DaoDetail: React.FC = () => {
   const classes = useStyles();
   const { daoId } = useParams();
   const [tonConnectUi] = useTonConnectUI();
+  const address = useTonAddress(false);
   const navigate = useNavigate();
 
   useEffect(() => {
@@ -131,7 +130,6 @@ const DaoDetail: React.FC = () => {
   };
 
   const execute = () => {
-    console.log(execModal);
     if (execModal.proposalId !== undefined && execModal.targetAddress) {
       const message = beginCell().storeUint(3, 32).storeUint(execModal.proposalId, 32).storeAddress(TAddress.parse(execModal.targetAddress)).endCell();
       const messageBody = message.toBoc();
@@ -384,7 +382,7 @@ const DaoDetail: React.FC = () => {
                           <TableCell align="right">{proposal.failThreshold}</TableCell>
                           <TableCell align="right">{proposal.isRelatedWithNft}</TableCell>
                           <TableCell>
-                            <div style={{ display: "flex", gap: "0.5rem" }}>
+                            <div style={{ display: "flex", gap: "0.5rem", justifyContent: "center" }}>
                               <Button
                                 variant="contained"
                                 color="primary"
@@ -395,9 +393,11 @@ const DaoDetail: React.FC = () => {
                               >
                                 Vote
                               </Button>
-                              <Button variant="contained" color="secondary" size="small" onClick={() => setExecModal({ show: true, proposalId: index })}>
-                                Exec
-                              </Button>
+                              {address === proposal.owner ? (
+                                <Button variant="contained" color="secondary" size="small" onClick={() => setExecModal({ show: true, proposalId: index })}>
+                                  Exec
+                                </Button>
+                              ) : undefined}
                             </div>
                           </TableCell>
                         </TableRow>
