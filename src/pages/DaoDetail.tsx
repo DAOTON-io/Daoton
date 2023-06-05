@@ -1,4 +1,4 @@
-import React, { ChangeEvent, useEffect, useState } from "react";
+import React, { ChangeEvent, useEffect, useRef, useState } from "react";
 import { Address } from "ton-core";
 import { useNavigate, useParams } from "react-router-dom";
 import { TonClient, beginCell, Address as TAddress, toNano } from "ton";
@@ -30,6 +30,8 @@ import { categories } from "../components/DaoCategories";
 import { useTonAddress, useTonConnectUI } from "@tonconnect/ui-react";
 import moment from "moment";
 import toastr from "toastr";
+import CheckIcon from "@mui/icons-material/Check";
+import CloseIcon from "@mui/icons-material/Close";
 import { CustomInput } from "../components/CustomInput";
 
 const useStyles = makeStyles((theme: Theme) => ({
@@ -380,7 +382,9 @@ const DaoDetail: React.FC = () => {
                           <TableCell align="right">{proposal.abstain}</TableCell>
                           <TableCell align="right">{proposal.successThreshold}</TableCell>
                           <TableCell align="right">{proposal.failThreshold}</TableCell>
-                          <TableCell align="right">{proposal.isRelatedWithNft}</TableCell>
+                          <TableCell align="right">
+                            <Typography color="#2C6495">{proposal.isRelatedWithNft == true ? <CheckIcon /> : <CloseIcon />}</Typography>
+                          </TableCell>
                           <TableCell>
                             <div style={{ display: "flex", gap: "0.5rem", justifyContent: "center" }}>
                               <Button
