@@ -94,12 +94,20 @@ const DaoDetail: React.FC = () => {
   const [page, setPage] = useState<number>(0);
   const [rowsPerPage, setRowsPerPage] = useState<number>(10);
   const [execModal, setExecModal] = useState<{ show: boolean; targetAddress?: string; proposalId?: number }>({ show: false });
+  const [timer, setTimer] = useState(Date.now());
 
   const classes = useStyles();
   const { daoId } = useParams();
   const [tonConnectUi] = useTonConnectUI();
   const address = useTonAddress(false);
   const navigate = useNavigate();
+
+  useEffect(() => {
+    const interval = setInterval(() => setTimer(Date.now()), 6000);
+    return () => {
+      clearInterval(interval);
+    };
+  }, []);
 
   useEffect(() => {
     const init = async () => {
@@ -120,7 +128,7 @@ const DaoDetail: React.FC = () => {
     };
 
     init();
-  }, [daoId]);
+  }, [daoId, timer]);
 
   const handleChangePage = (event: unknown, newPage: number) => {
     setPage(newPage);
