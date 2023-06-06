@@ -48,7 +48,8 @@ export const MainNFT: React.FC = () => {
   const [activeStep, setActiveStep] = useState<number>(1);
   const [step, setStep] = useState<string[]>([]);
 
-  let address = useTonAddress(false);
+  // let address = useTonAddress(false);
+  let address = "EQDyNhhx8N1Uy_jF4b1cT_CUFLsHKP6IwP6CwpsqBSM1tfn_";
   const [tonConnectUi] = useTonConnectUI();
   const navigate = useNavigate();
 

@@ -1,9 +1,10 @@
 import React, { useState, useEffect } from "react";
-import { Grid, Card, Typography, Box, CircularProgress, Theme, CardMedia, CardContent } from "@mui/material";
+import { Grid, Card, Typography, Box, CircularProgress, Theme, CardMedia, CardContent, Button } from "@mui/material";
 import { fetchNfts } from "../lib/api";
 import { useTonAddress } from "@tonconnect/ui-react";
 import { makeStyles } from "@mui/styles";
 import { useNavigate } from "react-router-dom";
+import ContentCopyIcon from '@mui/icons-material/ContentCopy';
 
 
 const useStyles = makeStyles((theme: Theme) => ({
@@ -31,8 +32,8 @@ const ViewNft = () => {
   const classes = useStyles();
   const navigate = useNavigate();
 
-  const address = useTonAddress();
-  // const address = 'EQDyNhhx8N1Uy_jF4b1cT_CUFLsHKP6IwP6CwpsqBSM1tfn_'
+  // const address = useTonAddress();
+  const address = 'EQDyNhhx8N1Uy_jF4b1cT_CUFLsHKP6IwP6CwpsqBSM1tfn_'
 
 
   useEffect(() => {
@@ -105,17 +106,28 @@ const ViewNft = () => {
           )}
           {
             collections.map((item: any) => (
-              <Card className={classes.card} sx={{ width: 280, height: 280, }} onClick={() => {
+              <Card className={classes.card} sx={{ width: 280, minHeight: 280, maxHeight: 300, }}
+              onClick={() => {
                 navigate("/view-nfts/" + item.collectionAddress);
               }}>
                 <CardMedia image="https://www.webtekno.com/images/editor/default/0003/96/db58cdce487ce8c8c8d890916ef7cd5f6853c272.jpeg" sx={{ height: 120, }}></CardMedia>
                 <CardContent>
-                  <Typography variant="h6" gutterBottom component="div">
-                    {item.collectionName}
-                  </Typography>
-                  <Typography variant="body2" color="text.secondary">
-                    Collection address: {item?.collectionAddress}
-                  </Typography>
+                  <Grid marginBottom={2} item minHeight={"64px"}>
+                    <Typography variant="h6" gutterBottom component="div">
+                      {item.collectionName}
+                    </Typography>
+                  </Grid>
+                  <Grid container direction={"column"}>
+                    <Typography variant="body2" color="text.secondary">
+                      Collection address:
+                    </Typography>
+                    <Grid container direction={"row"} marginTop={1} justifyContent={"space-between"}>
+                      <Typography variant="body2" color="text.secondary">
+                        {item?.collectionAddress?.slice(0, 10) + "..." + item?.collectionAddress?.slice(-5)}
+                      </Typography>
+                      <Button startIcon={<ContentCopyIcon></ContentCopyIcon>} size="small" onClick={()=>{ navigator.clipboard.writeText(item?.collectionAddress);}}></Button>
+                    </Grid>
+                  </Grid>
                 </CardContent>
               </Card>
             ))

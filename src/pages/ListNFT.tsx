@@ -1,8 +1,9 @@
-import { Box, Card, CardContent, CardMedia, CircularProgress, Grid, Theme, Typography } from "@mui/material";
+import { Box, Button, Card, CardContent, CardMedia, CircularProgress, Grid, Theme, Typography } from "@mui/material";
 import { makeStyles } from "@mui/styles";
 import React, { useEffect, useState } from "react";
 import { fetchNfts } from "../lib/api";
 import { useParams } from "react-router-dom";
+import ContentCopyIcon from '@mui/icons-material/ContentCopy';
 
 
 const useStyles = makeStyles((theme: Theme) => ({
@@ -14,6 +15,7 @@ const useStyles = makeStyles((theme: Theme) => ({
     },
     card: {
         margin: "1rem",
+        alignContent: "space-around",
     },
 }))
 
@@ -99,21 +101,36 @@ const ListNFT = () => {
                             nfts.map((item: any) => (
                                 id == item.collection_address &&
                                 (
-                                    <Card className={classes.card} sx={{ width: 280, height: 280, }}>
+                                    <Card className={classes.card} sx={{ width: 280, minHeight: 280, maxHeight: 300, }}>
                                         <CardMedia image={'https://www.webtekno.com/images/editor/default/0003/96/db58cdce487ce8c8c8d890916ef7cd5f6853c272.jpeg'} sx={{ height: 120, }}></CardMedia>
+
                                         <CardContent>
-                                            <Typography variant="h6" gutterBottom component="div">
-                                                {item.metadata.name}
-                                            </Typography>
-                                            <Typography variant="body2" color="text.secondary">
-                                                {item.metadata.description}
-                                            </Typography>
-                                            <Typography variant="body2" color="text.secondary">
-                                                Level:
-                                            </Typography>
-                                            <Typography variant="body2" color="text.secondary">
-                                                NFT address: {item.address.slice(0, 5) + '...' + item.address.slice(-5)}
-                                            </Typography>
+                                            <Grid item minWidth={"32px"}>
+                                                <Typography variant="h6" gutterBottom component="div">
+                                                    {item.metadata.name}
+                                                </Typography>
+                                            </Grid>
+                                            <Grid container direction={"column"}>
+                                                <Typography variant="body2" color="text.secondary" marginBottom={2}>
+                                                    {
+                                                        (item?.metadata?.description?.length) < 30
+                                                            ? item?.metadata?.description
+                                                            : item?.metadata?.description?.slice(0, 80) + ' ...'
+                                                    }
+                                                </Typography>
+                                                <Typography variant="body2" color="text.secondary">
+                                                    Level:
+                                                </Typography>
+                                                <Typography variant="body2" color="text.secondary">
+                                                    Collection address:
+                                                </Typography>
+                                                <Grid container direction={"row"} justifyContent={"space-between"}>
+                                                    <Typography variant="body2" color="text.secondary">
+                                                        {item?.address?.slice(0, 10) + '...' + item?.address?.slice(-5)}
+                                                    </Typography>
+                                                    <Button startIcon={<ContentCopyIcon></ContentCopyIcon>} size="small" onClick={() => { navigator.clipboard.writeText(item?.collectionAddress); }}></Button>
+                                                </Grid>
+                                            </Grid>
                                         </CardContent>
                                     </Card>
                                 )))
@@ -124,7 +141,7 @@ const ListNFT = () => {
                     </>
                 )
             }
-        </Grid>
+        </Grid >
     )
 }
 
