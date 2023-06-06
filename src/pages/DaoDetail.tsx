@@ -1,4 +1,4 @@
-import React, { ChangeEvent, useEffect, useRef, useState } from "react";
+import React, { ChangeEvent, useEffect, useState } from "react";
 import { Address } from "ton-core";
 import { useNavigate, useParams } from "react-router-dom";
 import { TonClient, beginCell, Address as TAddress, toNano } from "ton";
@@ -227,7 +227,18 @@ const DaoDetail: React.FC = () => {
                     <TableHead>
                       <TableRow>
                         <TableCell
-                          align="right"
+                          align="center"
+                          style={{
+                            paddingRight: "8px",
+                            borderBottom: "1px solid #2C6495",
+                          }}
+                        >
+                          <Typography noWrap className={classes.tableHeader} variant="subtitle1">
+                            Actions
+                          </Typography>
+                        </TableCell>
+                        <TableCell
+                          align="left"
                           style={{
                             paddingRight: "8px",
                             borderBottom: "1px solid #2C6495",
@@ -347,17 +358,6 @@ const DaoDetail: React.FC = () => {
                             NFT?
                           </Typography>
                         </TableCell>
-                        <TableCell
-                          align="center"
-                          style={{
-                            paddingRight: "8px",
-                            borderBottom: "1px solid #2C6495",
-                          }}
-                        >
-                          <Typography noWrap className={classes.tableHeader} variant="subtitle1">
-                            Actions
-                          </Typography>
-                        </TableCell>
                       </TableRow>
                     </TableHead>
                     <TableBody>
@@ -368,7 +368,26 @@ const DaoDetail: React.FC = () => {
                             "&:last-child td, &:last-child th": { border: 0 },
                           }}
                         >
-                          <TableCell align="right">
+                          <TableCell>
+                            <div style={{ display: "flex", gap: "0.5rem", justifyContent: "center" }}>
+                              <Button
+                                variant="contained"
+                                color="primary"
+                                size="small"
+                                onClick={() => {
+                                  navigate("/vote/" + daoId + "/" + index);
+                                }}
+                              >
+                                Vote
+                              </Button>
+                              {address === proposal.owner ? (
+                                <Button variant="contained" color="secondary" size="small" onClick={() => setExecModal({ show: true, proposalId: index })}>
+                                  Exec
+                                </Button>
+                              ) : undefined}
+                            </div>
+                          </TableCell>
+                          <TableCell align="left">
                             <Typography sx={{ fontSize: "0.875rem" }} noWrap>
                               {proposal.content.text}
                             </Typography>
@@ -392,25 +411,6 @@ const DaoDetail: React.FC = () => {
                           <TableCell align="right">{proposal.failThreshold}</TableCell>
                           <TableCell align="right">
                             <Typography color="#2C6495">{proposal.isRelatedWithNft == true ? <CheckIcon /> : <CloseIcon />}</Typography>
-                          </TableCell>
-                          <TableCell>
-                            <div style={{ display: "flex", gap: "0.5rem", justifyContent: "center" }}>
-                              <Button
-                                variant="contained"
-                                color="primary"
-                                size="small"
-                                onClick={() => {
-                                  navigate("/vote/" + daoId + "/" + index);
-                                }}
-                              >
-                                Vote
-                              </Button>
-                              {address === proposal.owner ? (
-                                <Button variant="contained" color="secondary" size="small" onClick={() => setExecModal({ show: true, proposalId: index })}>
-                                  Exec
-                                </Button>
-                              ) : undefined}
-                            </div>
                           </TableCell>
                         </TableRow>
                       ))}
