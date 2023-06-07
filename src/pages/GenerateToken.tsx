@@ -5,7 +5,7 @@ import { makeStyles } from "@mui/styles";
 import { useTonConnectUI, useTonAddress } from "@tonconnect/ui-react";
 import toastr from "toastr";
 import { ImageUpload } from "../components/ImageUpload";
-import { GenerateTokenType } from "../utils/types";
+import { Token } from "../utils/types";
 import { CustomInput } from "../components/CustomInput";
 import { CustomSwitch } from "../components/CustomSwitch";
 import { CustomButton } from "../components/CustomButton";
@@ -75,7 +75,7 @@ const useStyles = makeStyles((theme: Theme) => ({
 }));
 
 const GenerateToken: React.FC = () => {
-  const [data, setData] = useState<GenerateTokenType>({
+  const [data, setData] = useState<Token>({
     name: "",
     symbol: "",
     decimal: 9,

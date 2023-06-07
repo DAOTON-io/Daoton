@@ -1,7 +1,7 @@
 import React, { useEffect } from "react";
 import { Grid, Theme, Typography } from "@mui/material";
 import { makeStyles } from "@mui/styles";
-import { CategoryType, DaoInfoData, TokenDetailType } from "../utils/types";
+import { Category, DaoInfoData, TokenWithType } from "../utils/types";
 import { base64ToImage } from "../utils/utils";
 
 const useStyles = makeStyles((theme: Theme) => ({
@@ -42,9 +42,9 @@ const useStyles = makeStyles((theme: Theme) => ({
 }));
 
 type Props = {
-  selectedCategory: CategoryType;
+  selectedCategory: Category;
   daoInfo: DaoInfoData;
-  tokenDetail: TokenDetailType;
+  tokenDetail: TokenWithType;
   // nftDetail?: NftDetailType;
 };
 

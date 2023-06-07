@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from "react";
 import { Grid, Theme } from "@mui/material";
 import { makeStyles } from "@mui/styles";
-import { CategoryType, CollectionDataType, GenerateNftType } from "../utils/types";
+import { Category, CollectionData, Nft } from "../utils/types";
 import { NFTCategories } from "../components/2NftCategories";
 import NftForm from "../components/2NftForm";
 import CollectionForm from "../components/2CollectionForm";
@@ -47,30 +47,27 @@ const useStyles = makeStyles((theme: Theme) => ({
 export const MainNFT: React.FC = () => {
   const [activeStep, setActiveStep] = useState<number>(1);
   const [step, setStep] = useState<string[]>([]);
-
-  let address = useTonAddress(false);
-  const [tonConnectUi] = useTonConnectUI();
-  const navigate = useNavigate();
-
-  const [selectedCategory, setSelectedCategory] = useState<CategoryType>({
+  const [selectedCategory, setSelectedCategory] = useState<Category>({
     id: 0,
     label: "",
     icon: undefined,
   });
-
-  const [nftInfo, setNftInfo] = useState<GenerateNftType>({
+  const [nftInfo, setNftInfo] = useState<Nft>({
     nftName: "",
     nftDescription: "",
     level: "",
     collectionAddress: "",
     nftImage: "",
   });
-
-  const [collectionInfo, setCollectionInfo] = useState<CollectionDataType>({
+  const [collectionInfo, setCollectionInfo] = useState<CollectionData>({
     collectionName: "",
     collectionDescription: "",
     collectionImage: "",
   });
+
+  let address = useTonAddress(false);
+  const [tonConnectUi] = useTonConnectUI();
+  const navigate = useNavigate();
 
   const backStep = () => {
     setActiveStep(activeStep - 1);
@@ -163,7 +160,7 @@ export const MainNFT: React.FC = () => {
         <Grid item overflow={"auto"}>
           {activeStep === 1 && (
             <NFTCategories
-              selectedCategoryOnChange={(selectedCategory: CategoryType) => {
+              selectedCategoryOnChange={(selectedCategory: Category) => {
                 setSelectedCategory(selectedCategory);
                 setActiveStep(2);
               }}

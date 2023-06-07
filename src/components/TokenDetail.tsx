@@ -4,7 +4,7 @@ import { makeStyles } from "@mui/styles";
 import { useTonAddress } from "@tonconnect/ui-react";
 import { fetchTokens } from "../lib/api";
 import { TOKEN_TYPES } from "../utils/enums";
-import { TokenDetailType, TokensType } from "../utils/types";
+import { TokenWithType, Tokens } from "../utils/types";
 import { CustomInput } from "./CustomInput";
 import { CustomSelect } from "./CustomSelect";
 import { CustomSwitch } from "./CustomSwitch";
@@ -34,8 +34,8 @@ const useStyles = makeStyles((theme: Theme) => ({
 }));
 
 type Props = {
-  tokenDetailOnChange: (tokenDetail: TokenDetailType) => void;
-  tokenDetail: TokenDetailType;
+  tokenDetailOnChange: (tokenDetail: TokenWithType) => void;
+  tokenDetail: TokenWithType;
   changeTokenAddress: (address: string) => void;
   tokenAddress: string;
   // nftDetailOnChange: (nftDetail: NftDetailType) => void;
@@ -45,7 +45,7 @@ type Props = {
 
 export const TokenDetail: React.FC<Props> = ({ tokenDetailOnChange, tokenDetail, changeTokenAddress, tokenAddress, buttonDisableOnChange }) => {
   const [tokenType, setTokenType] = useState<TOKEN_TYPES>(tokenDetail.type);
-  const [tokens, setTokens] = useState<TokensType[]>([]);
+  const [tokens, setTokens] = useState<Tokens[]>([]);
   // const [nfts, setNfts] = useState<any[]>([]);
 
   const address = useTonAddress();
@@ -236,7 +236,7 @@ export const TokenDetail: React.FC<Props> = ({ tokenDetailOnChange, tokenDetail,
 
           {tokenType === TOKEN_TYPES.TOKEN_FROM_WALLET && (
             <CustomSelect id={"select-token"} onChange={selectToken} value={tokenAddress} label="Choose a token">
-              {tokens.map((tk: TokensType) => {
+              {tokens.map((tk: Tokens) => {
                 return (
                   <MenuItem key={tk.jetton_address} value={tk.jetton_address}>
                     {tk.metadata.name + "(" + tk.metadata.symbol + ")"}

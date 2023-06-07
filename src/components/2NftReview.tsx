@@ -1,6 +1,5 @@
 import React, { useEffect } from "react";
-import { GenerateNftType } from "../utils/types";
-import { CustomButton } from "./CustomButton";
+import { Nft } from "../utils/types";
 import { Card, CardContent, CardMedia, Grid, Theme, Typography } from "@mui/material";
 import { makeStyles } from "@mui/styles";
 
@@ -49,8 +48,8 @@ const useStyles = makeStyles((theme: Theme) => ({
 }));
 
 type Props = {
-  nftInfo: GenerateNftType;
-  nftInfoOnChange: (nftInfo: GenerateNftType) => void;
+  nftInfo: Nft;
+  nftInfoOnChange: (nftInfo: Nft) => void;
 };
 
 export const NftReview: React.FC<Props> = ({ nftInfoOnChange, nftInfo }) => {

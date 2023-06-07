@@ -10,7 +10,7 @@ import { collectionPreview } from "../lib/api/index";
 import { ImageUpload } from "../components/ImageUpload";
 import { CustomInput } from "../components/CustomInput";
 import { CustomButton } from "../components/CustomButton";
-import { GenerateNftType } from "../utils/types";
+import { Nft } from "../utils/types";
 
 const useStyles = makeStyles((theme) => ({
   title: {
@@ -72,7 +72,7 @@ const useStyles = makeStyles((theme) => ({
 }));
 
 const GenerateNft = () => {
-  const [nftData, setNftData] = useState<GenerateNftType>({
+  const [nftData, setNftData] = useState<Nft>({
     nftName: "",
     nftDescription: "",
     nftImage: "",

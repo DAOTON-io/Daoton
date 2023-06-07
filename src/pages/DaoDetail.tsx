@@ -25,7 +25,7 @@ import { makeStyles } from "@mui/styles";
 import DaoContract from "../lib/dao/lib/DaoContract";
 import { open } from "../utils/index";
 import { CustomButton } from "../components/CustomButton";
-import { Dao, ProposalType } from "../utils/types";
+import { Dao, Proposal } from "../utils/types";
 import { categories } from "../components/DaoCategories";
 import { useTonAddress, useTonConnectUI } from "@tonconnect/ui-react";
 import moment from "moment";
@@ -90,7 +90,7 @@ const useStyles = makeStyles((theme: Theme) => ({
 const DaoDetail: React.FC = () => {
   const [loading, setLoading] = useState<boolean>(true);
   const [daoValues, setDaoValues] = useState<Dao>();
-  const [proposals, setProposals] = useState<ProposalType[]>();
+  const [proposals, setProposals] = useState<Proposal[]>();
   const [page, setPage] = useState<number>(0);
   const [rowsPerPage, setRowsPerPage] = useState<number>(10);
   const [execModal, setExecModal] = useState<{ show: boolean; targetAddress?: string; proposalId?: number }>({ show: false });
@@ -361,7 +361,7 @@ const DaoDetail: React.FC = () => {
                       </TableRow>
                     </TableHead>
                     <TableBody>
-                      {proposals?.slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage).map((proposal: ProposalType, index: number) => (
+                      {proposals?.slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage).map((proposal: Proposal, index: number) => (
                         <TableRow
                           key={index}
                           sx={{

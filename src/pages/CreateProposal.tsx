@@ -7,7 +7,7 @@ import { useTonConnectUI } from "@tonconnect/ui-react";
 import toastr from "toastr";
 import { useParams } from "react-router-dom";
 import { sha256 } from "../lib/token-minter/deployer";
-import { ProposalFormType } from "../utils/types";
+import { ProposalForm } from "../utils/types";
 import { CustomButton } from "../components/CustomButton";
 import { CustomInput } from "../components/CustomInput";
 import { CustomSwitch } from "../components/CustomSwitch";
@@ -50,7 +50,7 @@ const useStyles = makeStyles((theme: Theme) => ({
 }));
 
 export const CreateProposal: React.FC = () => {
-  const [data, setData] = useState<ProposalFormType>({
+  const [data, setData] = useState<ProposalForm>({
     timestamp: moment().unix(),
     successThreshold: 100,
     failThreshold: 0,

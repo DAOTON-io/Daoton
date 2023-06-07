@@ -2,7 +2,7 @@ import React, { useState } from "react";
 import { Grid, Theme } from "@mui/material";
 import { makeStyles } from "@mui/styles";
 import { DaoCategories } from "../components/DaoCategories";
-import { CategoryType, DaoInfoData, TokenDetailType } from "../utils/types";
+import { Category, DaoInfoData, TokenWithType } from "../utils/types";
 import { DAO_STEPS, TOKEN_TYPES } from "../utils/enums";
 import { TokenDetail } from "../components/TokenDetail";
 import { DaoInfo } from "../components/DaoInfo";
@@ -43,7 +43,7 @@ const useStyles = makeStyles((theme: Theme) => ({
 export const CreateDao: React.FC = () => {
   const [activeStep, setActiveStep] = useState<number>(1);
   const [buttonDisable, setButtonDisable] = useState<boolean>(false);
-  const [selectedCategory, setSelectedCategory] = useState<CategoryType>({
+  const [selectedCategory, setSelectedCategory] = useState<Category>({
     id: 0,
     label: "",
     icon: undefined,
@@ -53,7 +53,7 @@ export const CreateDao: React.FC = () => {
     description: "",
     image: "",
   });
-  const [tokenDetail, setTokenDetail] = useState<TokenDetailType>({
+  const [tokenDetail, setTokenDetail] = useState<TokenWithType>({
     type: TOKEN_TYPES.NEW_TOKEN,
     name: "",
     description: "",
