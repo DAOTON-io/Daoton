@@ -1,9 +1,9 @@
 import { fetchDecimalsOffchain, toDecimalsBN } from "../../utils/utils";
 import { Address, toNano, contractAddress, Cell } from "ton";
 import { createDeployParams } from "./deployer";
-import { GenerateTokenType } from "../../utils/types";
+import { Token } from "../../utils/types";
 
-export const mintToken = async (address: string, data: GenerateTokenType) => {
+export const mintToken = async (address: string, data: Token) => {
   const editedAddress = Address.parse(address);
 
   let dc = data.decimal;

@@ -1,16 +1,15 @@
 import React, { useEffect } from "react";
 import { makeStyles } from "@mui/styles";
 import { Grid, Stack, Theme } from "@mui/material";
-import { CustomButton } from "./CustomButton";
 import { CustomInput } from "./CustomInput";
 import { ImageUpload } from "./ImageUpload";
 import { base64ToImage } from "../utils/utils";
 import { DaoInfoData } from "../utils/types";
 
 type Props = {
-  activeStepOnChange: (activeStep: number) => void;
   daoInfoOnChange: (daoInfo: DaoInfoData) => void;
   daoInfo: DaoInfoData;
+  buttonDisableOnChange: (value: boolean) => void;
 };
 
 const useStyles = makeStyles((theme: Theme) => ({
@@ -40,22 +39,18 @@ const useStyles = makeStyles((theme: Theme) => ({
   },
 }));
 
-export const DaoInfo: React.FC<Props> = ({ activeStepOnChange, daoInfoOnChange, daoInfo }) => {
+export const DaoInfo: React.FC<Props> = ({ daoInfoOnChange, daoInfo, buttonDisableOnChange }) => {
   const classes = useStyles();
-
-  const createDao = () => {
-    activeStepOnChange(3);
-  };
-
-  const backStep = () => {
-    activeStepOnChange(1);
-  };
 
   useEffect(() => {
     base64ToImage(daoInfo.image, (img) => {
       document.getElementById("image")?.appendChild(img);
     });
   }, [daoInfo.image]);
+
+  useEffect(() => {
+    buttonDisableOnChange(!(daoInfo.name && daoInfo.description));
+  }, [buttonDisableOnChange, daoInfo.description, daoInfo.name]);
 
   return (
     <Grid container className={classes.container}>
@@ -88,10 +83,6 @@ export const DaoInfo: React.FC<Props> = ({ activeStepOnChange, daoInfoOnChange, 
               onClear={() => {}}
             ></ImageUpload>
           </Grid>
-        </Grid>
-        <Grid paddingTop={2} container justifyContent={"space-between"} width={"100%"}>
-          <CustomButton onClick={backStep} disabled={false} label="BACK" />
-          <CustomButton onClick={createDao} disabled={!(daoInfo.name && daoInfo.description)} label="NEXT" />
         </Grid>
       </Stack>
     </Grid>

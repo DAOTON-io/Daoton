@@ -9,7 +9,7 @@ import { TonClient, beginCell, toNano } from "ton";
 import toastr from "toastr";
 import DaoContract from "../lib/dao/lib/DaoContract";
 import { CustomButton } from "../components/CustomButton";
-import { ProposalType } from "../utils/types";
+import { Proposal } from "../utils/types";
 import { open } from "../utils/index";
 import { useNavigate } from "react-router-dom";
 
@@ -56,7 +56,7 @@ const useStyles = makeStyles((theme: Theme) => ({
 export default function Vote() {
   const classes = useStyles();
   const [tonConnectUi] = useTonConnectUI();
-  const [proposal, setProposal] = useState<ProposalType>();
+  const [proposal, setProposal] = useState<Proposal>();
   const [loading, setLoading] = useState<boolean>(true);
 
   const navigate = useNavigate();

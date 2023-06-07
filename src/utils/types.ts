@@ -7,11 +7,11 @@ export type DaoInfoData = {
   image: string;
 };
 
-export type TokenDetailType = GenerateTokenType & {
+export type TokenWithType = Token & {
   type: TOKEN_TYPES;
 };
 
-export type NftDetailType = {
+export type NftDetail = {
   type: TOKEN_TYPES;
   name: string;
   description: string;
@@ -20,9 +20,9 @@ export type NftDetailType = {
   image: string;
 };
 
-export type CategoryType = { id: number; label: string; icon: any };
+export type Category = { id: number; label: string; icon: any };
 
-export type TokensType = {
+export type Tokens = {
   balance: string;
   jetton_address: string;
   metadata: {
@@ -40,7 +40,7 @@ export type TokensType = {
   };
 };
 
-export type GenerateTokenType = {
+export type Token = {
   name: string;
   symbol: string;
   decimal: number;
@@ -52,13 +52,13 @@ export type GenerateTokenType = {
   image?: string;
 };
 
-export type CollectionDataType = {
+export type CollectionData = {
   collectionName: string;
   collectionDescription: string;
   collectionImage: string;
 };
 
-export type GenerateNftType = {
+export type Nft = {
   nftName: string;
   nftDescription: string;
   level: string;
@@ -66,7 +66,7 @@ export type GenerateNftType = {
   nftImage: string;
 };
 
-export type ProposalType = {
+export type Proposal = {
   owner: string;
   balance: number;
   yes: number;
@@ -89,7 +89,7 @@ export type Dao = {
   sequence: number;
 };
 
-export type ProposalFormType = {
+export type ProposalForm = {
   timestamp: number;
   successThreshold: number;
   failThreshold: number;

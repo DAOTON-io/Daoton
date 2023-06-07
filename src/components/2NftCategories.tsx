@@ -3,7 +3,7 @@ import DashboardIcon from "@mui/icons-material/Dashboard";
 import LibraryBooksIcon from "@mui/icons-material/LibraryBooks";
 import { makeStyles } from "@mui/styles";
 import { Box, Card, CardActionArea, CardContent, Grid, Theme, Typography } from "@mui/material";
-import { CategoryType } from "../utils/types";
+import { Category } from "../utils/types";
 
 const useStyles = makeStyles((theme: Theme) => ({
   card: {
@@ -22,7 +22,7 @@ const useStyles = makeStyles((theme: Theme) => ({
   },
 }));
 
-const categories: CategoryType[] = [
+const categories: Category[] = [
   {
     id: 1,
     label: "Generate Your NFT",
@@ -36,8 +36,8 @@ const categories: CategoryType[] = [
 ];
 
 type Props = {
-  selectedCategory: CategoryType;
-  selectedCategoryOnChange: (selectedCategory: CategoryType) => void;
+  selectedCategory: Category;
+  selectedCategoryOnChange: (selectedCategory: Category) => void;
 };
 
 export const NFTCategories: React.FC<Props> = ({ selectedCategoryOnChange, selectedCategory }) => {

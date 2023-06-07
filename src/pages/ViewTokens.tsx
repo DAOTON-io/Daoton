@@ -36,9 +36,9 @@ const ViewTokens = () => {
   return (
     <div
       style={{
-        height: "100vh",
+        height: "calc(100vh - 8.5rem)",
         width: "100%",
-        overflow: "auto", // Kaydırma çubuğu eklemek için
+        overflow: "auto",
       }}
     >
       {loading ? (
