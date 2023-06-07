@@ -410,7 +410,7 @@ const DaoDetail: React.FC = () => {
                           <TableCell align="right">{proposal.successThreshold}</TableCell>
                           <TableCell align="right">{proposal.failThreshold}</TableCell>
                           <TableCell align="right">
-                            <Typography color="#2C6495">{proposal.isRelatedWithNft == true ? <CheckIcon /> : <CloseIcon />}</Typography>
+                            <Typography color="#2C6495">{proposal.isRelatedWithNft === true ? <CheckIcon /> : <CloseIcon />}</Typography>
                           </TableCell>
                         </TableRow>
                       ))}
