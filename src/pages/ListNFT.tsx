@@ -1,14 +1,15 @@
-import { Box, Button, Card, CardContent, CardMedia, CircularProgress, Divider, Grid, Theme, Typography } from "@mui/material";
+import { Box, Button, Card, CardContent, CardMedia, CircularProgress, Divider, Grid, Theme, Tooltip, Typography } from "@mui/material";
 import { makeStyles } from "@mui/styles";
 import React, { useEffect, useState } from "react";
 import { fetchNfts } from "../lib/api";
 import { useParams } from "react-router-dom";
 import ContentCopyIcon from '@mui/icons-material/ContentCopy';
+import Zoom from '@mui/material/Zoom';
 
 
 const useStyles = makeStyles((theme: Theme) => ({
     container: {
-        height: "80vh",
+        height: 'calc(100vh - 10rem)',
         widht: "100%",
         overflow: "auto",
         padding: "1rem"
@@ -68,7 +69,7 @@ const ListNFT = () => {
             setTitle(currentTitle);
         }
     }, [nfts])
-    
+
     return (
         <Grid container className={classes.container}>
             <Grid container direction={"column"}>
@@ -141,13 +142,16 @@ const ListNFT = () => {
                                                     </Typography>
                                                 </Grid>
                                                 <Grid container direction={"column"}>
-                                                    <Typography variant="body2" color="text.secondary" marginBottom={2}>
-                                                        {
-                                                            (item?.metadata?.description?.length) < 30
-                                                                ? item?.metadata?.description
-                                                                : item?.metadata?.description?.slice(0, 80) + ' ...'
-                                                        }
-                                                    </Typography>
+                                                    <Tooltip title={item?.metadata?.description} placement="top" TransitionComponent={Zoom} arrow sx={{background:"white !important", color:"black",borderColor:"black"}}>
+
+                                                        <Typography variant="body2" color="text.secondary" marginBottom={2}>
+                                                            {
+                                                                (item?.metadata?.description?.length) < 30
+                                                                    ? item?.metadata?.description
+                                                                    : item?.metadata?.description?.slice(0, 30) + ' ...'
+                                                            }
+                                                        </Typography>
+                                                    </Tooltip>
                                                     <Typography variant="body2" color="text.secondary">
                                                         Level:
                                                     </Typography>
