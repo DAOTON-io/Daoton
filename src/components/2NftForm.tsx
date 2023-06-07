@@ -1,6 +1,6 @@
 import React from "react";
 import { makeStyles } from "@mui/styles";
-import { GenerateNftType } from "../utils/types";
+import { Nft } from "../utils/types";
 import { Grid, Stack } from "@mui/material";
 import { CustomInput } from "./CustomInput";
 import { ImageUpload } from "./ImageUpload";
@@ -52,8 +52,8 @@ const useStyles = makeStyles((theme) => ({
 }));
 
 type Props = {
-  nftInfo: GenerateNftType;
-  nftInfoOnChange: (nftInfo: GenerateNftType) => void;
+  nftInfo: Nft;
+  nftInfoOnChange: (nftInfo: Nft) => void;
 };
 
 const NftForm: React.FC<Props> = ({ nftInfoOnChange, nftInfo }) => {
@@ -136,7 +136,7 @@ const NftForm: React.FC<Props> = ({ nftInfoOnChange, nftInfo }) => {
                   nftImage: value,
                 });
               }}
-              onClear={() => { }}
+              onClear={() => {}}
             ></ImageUpload>
           </Grid>
         </Grid>

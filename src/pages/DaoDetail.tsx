@@ -18,7 +18,6 @@ import {
   TableHead,
   TablePagination,
   TableRow,
-  TextField,
   Theme,
   Typography,
 } from "@mui/material";
@@ -26,17 +25,18 @@ import { makeStyles } from "@mui/styles";
 import DaoContract from "../lib/dao/lib/DaoContract";
 import { open } from "../utils/index";
 import { CustomButton } from "../components/CustomButton";
-import { Dao, ProposalType } from "../utils/types";
+import { Dao, Proposal } from "../utils/types";
 import { categories } from "../components/DaoCategories";
-import { useTonConnectUI } from "@tonconnect/ui-react";
+import { useTonAddress, useTonConnectUI } from "@tonconnect/ui-react";
 import moment from "moment";
 import toastr from "toastr";
+import CheckIcon from "@mui/icons-material/Check";
+import CloseIcon from "@mui/icons-material/Close";
 import { CustomInput } from "../components/CustomInput";
 
 const useStyles = makeStyles((theme: Theme) => ({
   cardContainer: {
     justifyContent: "center",
-    // margin: "1rem !important",
     marginTop: "1rem",
     padding: "1rem !important",
     [theme.breakpoints.down("sm")]: {
@@ -90,15 +90,24 @@ const useStyles = makeStyles((theme: Theme) => ({
 const DaoDetail: React.FC = () => {
   const [loading, setLoading] = useState<boolean>(true);
   const [daoValues, setDaoValues] = useState<Dao>();
-  const [proposals, setProposals] = useState<ProposalType[]>();
+  const [proposals, setProposals] = useState<Proposal[]>();
   const [page, setPage] = useState<number>(0);
   const [rowsPerPage, setRowsPerPage] = useState<number>(10);
   const [execModal, setExecModal] = useState<{ show: boolean; targetAddress?: string; proposalId?: number }>({ show: false });
+  const [timer, setTimer] = useState(Date.now());
 
   const classes = useStyles();
   const { daoId } = useParams();
   const [tonConnectUi] = useTonConnectUI();
+  const address = useTonAddress(false);
   const navigate = useNavigate();
+
+  useEffect(() => {
+    const interval = setInterval(() => setTimer(Date.now()), 6000);
+    return () => {
+      clearInterval(interval);
+    };
+  }, []);
 
   useEffect(() => {
     const init = async () => {
@@ -119,7 +128,7 @@ const DaoDetail: React.FC = () => {
     };
 
     init();
-  }, [daoId]);
+  }, [daoId, timer]);
 
   const handleChangePage = (event: unknown, newPage: number) => {
     setPage(newPage);
@@ -131,7 +140,6 @@ const DaoDetail: React.FC = () => {
   };
 
   const execute = () => {
-    console.log(execModal);
     if (execModal.proposalId !== undefined && execModal.targetAddress) {
       const message = beginCell().storeUint(3, 32).storeUint(execModal.proposalId, 32).storeAddress(TAddress.parse(execModal.targetAddress)).endCell();
       const messageBody = message.toBoc();
@@ -219,7 +227,18 @@ const DaoDetail: React.FC = () => {
                     <TableHead>
                       <TableRow>
                         <TableCell
-                          align="right"
+                          align="center"
+                          style={{
+                            paddingRight: "8px",
+                            borderBottom: "1px solid #2C6495",
+                          }}
+                        >
+                          <Typography noWrap className={classes.tableHeader} variant="subtitle1">
+                            Actions
+                          </Typography>
+                        </TableCell>
+                        <TableCell
+                          align="left"
                           style={{
                             paddingRight: "8px",
                             borderBottom: "1px solid #2C6495",
@@ -339,28 +358,36 @@ const DaoDetail: React.FC = () => {
                             NFT?
                           </Typography>
                         </TableCell>
-                        <TableCell
-                          align="center"
-                          style={{
-                            paddingRight: "8px",
-                            borderBottom: "1px solid #2C6495",
-                          }}
-                        >
-                          <Typography noWrap className={classes.tableHeader} variant="subtitle1">
-                            Actions
-                          </Typography>
-                        </TableCell>
                       </TableRow>
                     </TableHead>
                     <TableBody>
-                      {proposals?.slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage).map((proposal: ProposalType, index: number) => (
+                      {proposals?.slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage).map((proposal: Proposal, index: number) => (
                         <TableRow
                           key={index}
                           sx={{
                             "&:last-child td, &:last-child th": { border: 0 },
                           }}
                         >
-                          <TableCell align="right">
+                          <TableCell>
+                            <div style={{ display: "flex", gap: "0.5rem", justifyContent: "center" }}>
+                              <Button
+                                variant="contained"
+                                color="primary"
+                                size="small"
+                                onClick={() => {
+                                  navigate("/vote/" + daoId + "/" + index);
+                                }}
+                              >
+                                Vote
+                              </Button>
+                              {address === proposal.owner ? (
+                                <Button variant="contained" color="secondary" size="small" onClick={() => setExecModal({ show: true, proposalId: index })}>
+                                  Exec
+                                </Button>
+                              ) : undefined}
+                            </div>
+                          </TableCell>
+                          <TableCell align="left">
                             <Typography sx={{ fontSize: "0.875rem" }} noWrap>
                               {proposal.content.text}
                             </Typography>
@@ -382,23 +409,8 @@ const DaoDetail: React.FC = () => {
                           <TableCell align="right">{proposal.abstain}</TableCell>
                           <TableCell align="right">{proposal.successThreshold}</TableCell>
                           <TableCell align="right">{proposal.failThreshold}</TableCell>
-                          <TableCell align="right">{proposal.isRelatedWithNft}</TableCell>
-                          <TableCell>
-                            <div style={{ display: "flex", gap: "0.5rem" }}>
-                              <Button
-                                variant="contained"
-                                color="primary"
-                                size="small"
-                                onClick={() => {
-                                  navigate("/vote/" + daoId + "/" + index);
-                                }}
-                              >
-                                Vote
-                              </Button>
-                              <Button variant="contained" color="secondary" size="small" onClick={() => setExecModal({ show: true, proposalId: index })}>
-                                Exec
-                              </Button>
-                            </div>
+                          <TableCell align="right">
+                            <Typography color="#2C6495">{proposal.isRelatedWithNft === true ? <CheckIcon /> : <CloseIcon />}</Typography>
                           </TableCell>
                         </TableRow>
                       ))}

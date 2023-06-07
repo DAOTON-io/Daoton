@@ -24,7 +24,6 @@ const FileUploder: React.FC<Props> = ({ jsonFile }) => {
     })
       .then((res) => res.json())
       .then((data) => {
-        console.log(JSON.parse(data.data));
         jsonFile(JSON.parse(data.data));
       });
   };

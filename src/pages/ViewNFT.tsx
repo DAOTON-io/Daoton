@@ -1,3 +1,4 @@
+/* eslint-disable jsx-a11y/anchor-is-valid */
 import React, { useState, useEffect } from "react";
 import { Grid, Card, Typography, Box, CircularProgress, Theme, CardMedia, CardContent, Button, Stack, Container, Divider } from "@mui/material";
 import { fetchNfts } from "../lib/api";

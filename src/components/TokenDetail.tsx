@@ -4,8 +4,7 @@ import { makeStyles } from "@mui/styles";
 import { useTonAddress } from "@tonconnect/ui-react";
 import { fetchTokens } from "../lib/api";
 import { TOKEN_TYPES } from "../utils/enums";
-import { TokenDetailType, TokensType } from "../utils/types";
-import { CustomButton } from "./CustomButton";
+import { TokenWithType, Tokens } from "../utils/types";
 import { CustomInput } from "./CustomInput";
 import { CustomSelect } from "./CustomSelect";
 import { CustomSwitch } from "./CustomSwitch";
@@ -35,18 +34,18 @@ const useStyles = makeStyles((theme: Theme) => ({
 }));
 
 type Props = {
-  activeStepOnChange: (activeStep: number) => void;
-  tokenDetailOnChange: (tokenDetail: TokenDetailType) => void;
-  tokenDetail: TokenDetailType;
+  tokenDetailOnChange: (tokenDetail: TokenWithType) => void;
+  tokenDetail: TokenWithType;
   changeTokenAddress: (address: string) => void;
   tokenAddress: string;
   // nftDetailOnChange: (nftDetail: NftDetailType) => void;
   // nftDetail: NftDetailType;
+  buttonDisableOnChange: (value: boolean) => void;
 };
 
-export const TokenDetail: React.FC<Props> = ({ activeStepOnChange, tokenDetailOnChange, tokenDetail, changeTokenAddress, tokenAddress }) => {
+export const TokenDetail: React.FC<Props> = ({ tokenDetailOnChange, tokenDetail, changeTokenAddress, tokenAddress, buttonDisableOnChange }) => {
   const [tokenType, setTokenType] = useState<TOKEN_TYPES>(tokenDetail.type);
-  const [tokens, setTokens] = useState<TokensType[]>([]);
+  const [tokens, setTokens] = useState<Tokens[]>([]);
   // const [nfts, setNfts] = useState<any[]>([]);
 
   const address = useTonAddress();
@@ -70,6 +69,18 @@ export const TokenDetail: React.FC<Props> = ({ activeStepOnChange, tokenDetailOn
       fetchInitData();
     }
   }, [address]);
+
+  useEffect(() => {
+    const disable = (): boolean => {
+      if (tokenType === TOKEN_TYPES.NEW_TOKEN) {
+        return !(tokenDetail.name && tokenDetail.description && tokenDetail.symbol && tokenDetail.amount && tokenDetail.decimal);
+      } else if (tokenType === TOKEN_TYPES.TOKEN_FROM_WALLET) {
+        return !tokenAddress;
+      } else return false;
+    };
+
+    buttonDisableOnChange(disable());
+  }, [buttonDisableOnChange, tokenAddress, tokenDetail.amount, tokenDetail.decimal, tokenDetail.description, tokenDetail.name, tokenDetail.symbol, tokenType]);
 
   const selectToken = (e: SelectChangeEvent) => {
     e.preventDefault();
@@ -109,22 +120,6 @@ export const TokenDetail: React.FC<Props> = ({ activeStepOnChange, tokenDetailOn
       ...tokenDetail,
       type: e.target.value,
     });
-  };
-
-  const createDao = () => {
-    activeStepOnChange(4);
-  };
-
-  const backStep = () => {
-    activeStepOnChange(2);
-  };
-
-  const disable = (): boolean => {
-    if (tokenType === TOKEN_TYPES.NEW_TOKEN) {
-      return !(tokenDetail.name && tokenDetail.description && tokenDetail.symbol && tokenDetail.amount && tokenDetail.decimal);
-    } else if (tokenType === TOKEN_TYPES.TOKEN_FROM_WALLET) {
-      return !tokenAddress;
-    } else return false;
   };
 
   return (
@@ -241,7 +236,7 @@ export const TokenDetail: React.FC<Props> = ({ activeStepOnChange, tokenDetailOn
 
           {tokenType === TOKEN_TYPES.TOKEN_FROM_WALLET && (
             <CustomSelect id={"select-token"} onChange={selectToken} value={tokenAddress} label="Choose a token">
-              {tokens.map((tk: TokensType) => {
+              {tokens.map((tk: Tokens) => {
                 return (
                   <MenuItem key={tk.jetton_address} value={tk.jetton_address}>
                     {tk.metadata.name + "(" + tk.metadata.symbol + ")"}
@@ -328,10 +323,6 @@ export const TokenDetail: React.FC<Props> = ({ activeStepOnChange, tokenDetailOn
               <p>You do not have any nft</p>
             )
           ) : undefined} */}
-        </Grid>
-        <Grid paddingTop={2} container justifyContent={"space-between"} width={"100%"}>
-          <CustomButton onClick={backStep} disabled={false} label="BACK" />
-          <CustomButton onClick={createDao} disabled={disable()} label="NEXT" />
         </Grid>
       </Stack>
     </Grid>
