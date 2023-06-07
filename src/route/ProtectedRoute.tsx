@@ -60,7 +60,7 @@ export const ProtectedRoute = () => {
             <Grid item>
               <DrawerAppBar />
             </Grid>
-            <Grid item>
+            <Grid item sx={{width: '100%'}}>
               <Card
                 sx={{
                   borderRadius: '40px',
