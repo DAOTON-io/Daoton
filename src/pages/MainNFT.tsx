@@ -47,6 +47,12 @@ const useStyles = makeStyles((theme: Theme) => ({
 export const MainNFT: React.FC = () => {
   const [activeStep, setActiveStep] = useState<number>(1);
   const [step, setStep] = useState<string[]>([]);
+
+  let address = useTonAddress(false);
+  // let address = "EQDyNhhx8N1Uy_jF4b1cT_CUFLsHKP6IwP6CwpsqBSM1tfn_";
+  const [tonConnectUi] = useTonConnectUI();
+  const navigate = useNavigate();
+
   const [selectedCategory, setSelectedCategory] = useState<Category>({
     id: 0,
     label: "",
@@ -64,10 +70,6 @@ export const MainNFT: React.FC = () => {
     collectionDescription: "",
     collectionImage: "",
   });
-
-  let address = useTonAddress(false);
-  const [tonConnectUi] = useTonConnectUI();
-  const navigate = useNavigate();
 
   const backStep = () => {
     setActiveStep(activeStep - 1);
@@ -90,7 +92,7 @@ export const MainNFT: React.FC = () => {
 
   const generateNFT = async () => {
     if (address) {
-      const node = await create();
+      const node = await create({repo: 'ok' + Math.random()});
       const itemContent = await node.add(
         JSON.stringify({
           attributes: [
@@ -123,7 +125,7 @@ export const MainNFT: React.FC = () => {
         JSON.stringify({
           name: collectionInfo.collectionName,
           description: collectionInfo.collectionDescription,
-          image: collectionInfo.collectionImage,
+          // image: collectionInfo.collectionImage,
           external_link: "example.com",
           seller_fee_basis_points: 100,
           fee_recipient: "0xA97F337c39cccE66adfeCB2BF99C1DdC54C2D721",
@@ -132,7 +134,7 @@ export const MainNFT: React.FC = () => {
 
       const minter = new NftMinter(address, tonConnectUi, "https://ipfs.io/ipfs/" + nftCollectionUri.path);
       minter.deployNftCollection().then(() => {
-        navigate("/generate-nft");
+        navigate("/main-nft");
       });
     }
   };

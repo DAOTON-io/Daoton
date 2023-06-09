@@ -12,6 +12,7 @@ import GenerateNft from "../pages/GenerateNft";
 import { CreateDao } from "../pages/CreateDao";
 import CreateContract from "../pages/CreateContract";
 import { MainNFT } from "../pages/MainNFT";
+import ListNFT from "../pages/ListNFT";
 import { CreateProposal } from "../pages/CreateProposal";
 import DaoDetail from "../pages/DaoDetail";
 
@@ -34,6 +35,8 @@ const Router: React.FC = () => {
             <Route path="/generate-nft" index element={<GenerateNft />} />
             <Route path="/generate-nft-collection" index element={<GenerateCollection />} />
             <Route path="/view-nfts" index element={<ViewNft />} />
+            <Route path="/view-nfts/:collectionAddress" index element={<ListNFT />} />
+            <Route path="/create-proposal" index element={<CreateProposal />} />
             <Route path="/view-dao/:daoId/create-proposal" index element={<CreateProposal />} />
             <Route path="/view-dao/:daoId" index element={<DaoDetail />} />
           </Route>

@@ -1,13 +1,24 @@
 import React, { useEffect, useState } from "react";
-import { Grid, Box, CircularProgress, Card, Typography } from "@mui/material";
+import { Grid, Box, CircularProgress, Card, Typography, Theme } from "@mui/material";
 import { useTonAddress } from "@tonconnect/ui-react";
 import { TokenItem } from "../components/TokenItem";
 import { fetchTokens } from "../lib/api/index";
+import { makeStyles } from "@mui/styles";
+
+const useStyles = makeStyles((theme: Theme) => ({
+  container: {
+    height: 'calc(100vh - 9rem)',
+    widht: "100%",
+    overflow: "auto",
+    padding: "1rem"
+  },
+}))
 
 const ViewTokens = () => {
   const [tokens, setTokens] = useState([]);
   const [loading, setLoading] = useState(true);
   const [timer, setTimer] = useState(Date.now());
+  const classes = useStyles();
 
   let address = useTonAddress();
 
@@ -34,13 +45,7 @@ const ViewTokens = () => {
   }, [address, timer]);
 
   return (
-    <div
-      style={{
-        height: "calc(100vh - 8.5rem)",
-        width: "100%",
-        overflow: "auto",
-      }}
-    >
+    <Grid container className={classes.container}>
       {loading ? (
         <Box
           sx={{
@@ -71,28 +76,15 @@ const ViewTokens = () => {
                 display: "flex",
               }}
             >
-              <Card
+              <Typography
                 style={{
-                  backgroundColor: "white",
-                  borderRadius: "1rem",
-                  padding: "5rem 2.5rem",
-                  marginTop: "2rem",
-                  boxShadow: "0 0 10px 0 rgba(0,0,0,0.1)",
-                  justifyContent: "center",
-                  alignItems: "center",
-                  display: "flex",
+                  color: "#1689c5",
+                  fontSize: "30px",
+                  fontWeight: "bold",
                 }}
               >
-                <Typography
-                  style={{
-                    color: "#1689c5",
-                    fontSize: "30px",
-                    fontWeight: "bold",
-                  }}
-                >
-                  There are no Token's
-                </Typography>
-              </Card>
+                There are no Token's
+              </Typography>
             </Grid>
           )}
           {tokens.map((column: any) => (
@@ -107,7 +99,7 @@ const ViewTokens = () => {
           ))}
         </Grid>
       )}
-    </div>
+    </Grid>
   );
 };
 
